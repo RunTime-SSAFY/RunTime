@@ -1,0 +1,11 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri: C:\msaexample\git-local-repo # TODO ? ???? yml ??? ??? git local repo? ??. ?? ???? ??
