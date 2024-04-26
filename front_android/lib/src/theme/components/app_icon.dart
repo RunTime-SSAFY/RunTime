@@ -22,7 +22,7 @@ class AppIcon extends ConsumerWidget {
       width: size,
       height: size,
       colorFilter: ColorFilter.mode(
-        color ?? ref.color.text,
+        color ?? ref.color.appBarText,
         BlendMode.srcIn,
       ),
     );
