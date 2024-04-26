@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/theme/components/png_image.dart';
@@ -44,15 +46,19 @@ class BattleModeButton extends ConsumerWidget {
                   ),
                   Row(
                     children: [
-                      Stack(
+                      const SizedBox(
+                        height: 150,
+                        child: PngImage(
+                          image: 'pro_1',
+                          size: 200,
+                        ),
+                      ),
+                      const Spacer(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          const PngImage(
-                            image: 'pro_1',
-                            size: 150,
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
+                          Padding(
+                            padding: const EdgeInsets.only(right: 60),
                             child: Column(
                               children: [
                                 Text(
@@ -69,27 +75,6 @@ class BattleModeButton extends ConsumerWidget {
                                     color: ref.color.lightText,
                                   ),
                                 )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Column(
-                              children: [
-                                const Placeholder(
-                                  fallbackWidth: 100,
-                                  fallbackHeight: 100,
-                                ),
-                                Text(
-                                  '닉네임',
-                                  style: ref.typo.headline3,
-                                ),
                               ],
                             ),
                           ),

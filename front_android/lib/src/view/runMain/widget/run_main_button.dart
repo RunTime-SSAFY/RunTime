@@ -30,6 +30,7 @@ class RunMainButton extends ConsumerWidget {
           color: color,
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
               modeName,
@@ -39,11 +40,10 @@ class RunMainButton extends ConsumerWidget {
               image: modeRoute,
               size: 70,
             ),
-            Positioned(
-                child: Text(
+            Text(
               '→',
               style: ref.typo.headline1,
-            ))
+            )
           ],
         ),
       ),
