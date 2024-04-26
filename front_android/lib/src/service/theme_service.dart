@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/theme/Basic_theme.dart';
 import 'package:front_android/src/theme/foundation/app_theme.dart';
-import 'package:front_android/src/theme/nomal_theme.dart';
 
 final themeServiceProvider = ChangeNotifierProvider((ref) => ThemeService());
 
 class ThemeService with ChangeNotifier {
   ThemeService({
     AppTheme? theme,
-  }) : theme = theme ?? NormalTheme();
+  }) : theme = theme ?? BasicTheme();
 
   AppTheme theme;
 
