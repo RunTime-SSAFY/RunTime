@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/theme/foundation/app_theme.dart';
 import 'package:front_android/src/theme/nomal_theme.dart';
+
+final themeServiceProvider = ChangeNotifierProvider((ref) => ThemeService());
 
 class ThemeService with ChangeNotifier {
   ThemeService({
@@ -37,4 +40,11 @@ class ThemeService with ChangeNotifier {
       ),
     );
   }
+}
+
+extension ThemeServiceExt on WidgetRef {
+  ThemeService get themeService => watch(themeServiceProvider);
+  AppTheme get theme => themeService.theme;
+  AppColor get color => theme.color;
+  AppTypo get typo => theme.typo;
 }
