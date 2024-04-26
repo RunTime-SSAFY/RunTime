@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/theme/components/app_icon.dart';
 import 'package:front_android/src/view/runMain/widget/battle_mode_button.dart';
+import 'package:front_android/src/view/runMain/widget/run_main_button.dart';
+import 'package:front_android/util/route_path.dart';
 
 class RunMainView extends ConsumerWidget {
   const RunMainView({super.key});
@@ -24,17 +26,29 @@ class RunMainView extends ConsumerWidget {
           ),
         ],
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
           horizontal: 10,
         ),
         child: Column(
           children: [
-            BattleModeButton(),
+            const BattleModeButton(),
             Row(
               children: [
-                // RunMainButton(),
-                // RunMainButton(),
+                Expanded(
+                  child: RunMainButton(
+                    '사용자 모드',
+                    RoutePath.userMode,
+                    ref.color.userMode,
+                  ),
+                ),
+                Expanded(
+                  child: RunMainButton(
+                    '연습 모드',
+                    RoutePath.practiceMode,
+                    ref.color.practiceMode,
+                  ),
+                ),
               ],
             ),
           ],

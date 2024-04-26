@@ -13,7 +13,7 @@ class BattleModeButton extends ConsumerWidget {
       onTap: () => {
         Navigator.pushNamed(
           context,
-          RoutePath.BattleMatching,
+          RoutePath.battleMatching,
         ),
       },
       child: Row(
