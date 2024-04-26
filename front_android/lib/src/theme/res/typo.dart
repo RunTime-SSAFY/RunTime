@@ -14,18 +14,18 @@ interface class Typo {
   final FontWeight bold;
 }
 
-class MyTypo implements Typo {
-  const MyTypo();
+class Pretendard implements Typo {
+  const Pretendard();
 
   @override
-  final String name = 'noto_sans';
+  final String name = 'Pretendard';
 
   @override
-  final FontWeight regular = FontWeight.normal;
+  final FontWeight regular = FontWeight.w400;
 
   @override
   final FontWeight semiBold = FontWeight.w600;
 
   @override
-  final FontWeight bold = FontWeight.bold;
+  final FontWeight bold = FontWeight.w700;
 }
