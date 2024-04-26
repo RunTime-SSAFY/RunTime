@@ -1,0 +1,60 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: auth
+          uri: lb://AUTH
+          predicates:
+            - Path=/auth/**
+        - id: achievement
+          uri: lb://ACHIEVEMENT
+          predicates:
+            - Path=/achievement/**
+        - id: character
+          uri: lb://CHARACTER
+          predicates:
+            - Path=/character/**
+        - id: friends
+          uri: lb://FRIENDS
+          predicates:
+            - Path=/friends/**
+        - id: member
+          uri: lb://MEMBER
+          predicates:
+            - Path=/member/**
+        - id: notification
+          uri: lb://NOTIFICATION
+          predicates:
+            - Path=/notification/**
+        - id: ranking
+          uri: lb://RANKING
+          predicates:
+            - Path=/ranking/**
+        - id: record
+          uri: lb://RECORD
+          predicates:
+            - Path=/record/**
+        - id: room
+          uri: lb://ROOM
+          predicates:
+            - Path=/room/**
+        - id: run
+          uri: lb://RUN
+          predicates:
+            - Path=/run/**
+        - id: tier
+          uri: lb://TIER
+          predicates:
+            - Path=/tier/**
