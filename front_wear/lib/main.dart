@@ -18,7 +18,12 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
           title: const Text('디지털 시계'),
         ),
-        body: const ClockScreen(),
+        body: Column(
+          children: [
+            Image.asset('assets/image/hedgehog.png'),
+            const ClockScreen(),
+          ],
+        ),
       ),
     );
   }
