@@ -119,4 +119,11 @@ class AppTypo {
     fontSize: 16,
     color: fontColor,
   );
+  late final TextStyle body2 = TextStyle(
+    height: 1.3,
+    fontFamily: typo.name,
+    fontWeight: typo.regular,
+    fontSize: 14,
+    color: fontColor,
+  );
 }

@@ -27,10 +27,12 @@ class AppColor {
     required this.list3Sub,
     required this.list4Sub,
     required this.list5Sub,
+    required this.onBackground,
     required this.achievementLevel,
     required this.counterAchievementLevel,
     required this.surface,
     required this.text,
+    required this.lightText,
   });
 
   // Button
@@ -71,6 +73,7 @@ class AppColor {
   final Color list3Sub;
   final Color list4Sub;
   final Color list5Sub;
+  final Color onBackground;
 
   // achievement
   final Color achievementLevel;
@@ -81,4 +84,5 @@ class AppColor {
 
   // BasicText
   final Color text;
+  final Color lightText;
 }
