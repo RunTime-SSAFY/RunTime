@@ -56,6 +56,8 @@ class _ClockScreenState extends State<ClockScreen> {
           Text(
             _currentTime,
             style: const TextStyle(
+              backgroundColor: Colors.yellow,
+              color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
