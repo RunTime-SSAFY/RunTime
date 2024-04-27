@@ -1,1 +1,14 @@
-spring.application.name=back
+server:
+  port: 8000
+
+spring:
+  profiles:
+    group:
+      local: local-secret
+      prod: prod-secret
+    active: local
+
+
+  application:
+    name: back
+
