@@ -1,7 +1,11 @@
 package org.example.back.db.entity;
 
+import org.example.back.common.BaseEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +21,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "member")
-public class Member {
+public class Member extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
@@ -25,7 +29,8 @@ public class Member {
 
 	@Lob
 	@Column(name = "role")
-	private String role;
+	@Enumerated(EnumType.STRING)
+	private RoleType role;
 
 	@Column(name = "nickname", length = 30)
 	private String nickname;
