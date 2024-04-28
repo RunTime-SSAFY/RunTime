@@ -18,7 +18,7 @@ public class KakaoAuthController {
 
 	@GetMapping("/code")
 	public ResponseEntity<?> kakaoAuth(@RequestParam("code") String code) {
-		String token =
+//		String token =
 		return null;
 	}
 }
