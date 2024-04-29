@@ -19,33 +19,50 @@ class RunMainButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void onPressed() {
+      Navigator.pushNamed(context, modeRoute);
+    }
+
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, modeRoute);
-      },
+      onTap: onPressed,
       child: Container(
         margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: color,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              modeName,
-              style: ref.typo.headline2,
-            ),
-            PngImage(
-              modeRoute,
-              size: 60,
-            ),
-            Text(
-              '→',
-              style: ref.typo.headline1,
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    modeName,
+                    style: ref.typo.headline2.copyWith(
+                      color: ref.color.onBackground,
+                    ),
+                  ),
+                ],
+              ),
+              PngImage(
+                modeRoute,
+                size: 70,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    '→',
+                    style: ref.typo.headline1.copyWith(
+                      color: ref.color.onBackground,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -37,13 +37,16 @@ class RunMainView extends ConsumerWidget {
           children: [
             Positioned(
               bottom: 0,
-              child: PngImage(
-                'trackImage',
-                size: MediaQuery.of(context).size.width,
+              child: Transform.scale(
+                scale: 1.5,
+                child: PngImage(
+                  'trackImage',
+                  size: MediaQuery.of(context).size.width,
+                ),
               ),
             ),
             const Positioned(
-              top: 370,
+              top: 400,
               left: 0,
               child: PngImage(
                 'main_run_image',

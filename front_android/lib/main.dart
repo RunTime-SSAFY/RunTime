@@ -4,12 +4,15 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/lang_service.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/util/helper/httpsRequest.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
+
+  api.interceptors.add(interceptors);
 
   // Kakao SDK
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,7 +51,7 @@ class MyApp extends ConsumerWidget {
         );
       },
       theme: ref.themeService.themeDate,
-      initialRoute: RoutePath.login,
+      initialRoute: RoutePath.runMain,
       onGenerateRoute: RoutePath.onGenerateRoute,
       locale: ref.locale,
     );

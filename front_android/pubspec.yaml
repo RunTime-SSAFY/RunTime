@@ -44,6 +44,7 @@ dependencies:
   kakao_flutter_sdk_user: ^1.9.1+2 # 카카오 로그인 API 패키지
   kakao_flutter_sdk_share: ^1.9.1+2 # 카카오톡 공유 API 패키지
   kakao_flutter_sdk_common: ^1.9.1+2
+  dio: ^5.4.3+1
 
 dev_dependencies:
   flutter_test:
