@@ -35,8 +35,8 @@ public class Member extends BaseEntity {
 	@Column(name = "nickname", length = 30)
 	private String nickname;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "character_id", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "character_id")
 	private Character character;
 
 	@Column(name = "email", length = 100)

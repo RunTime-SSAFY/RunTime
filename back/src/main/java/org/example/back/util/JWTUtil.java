@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JWTUtil {
 
+	private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
 	public static String getEmail(String token, String secretKey) {
 		return Jwts.parser()
 			.setSigningKey(secretKey)
@@ -39,8 +40,11 @@ public class JWTUtil {
 			.compact();
 	}
 
-	// public static String createRefreshToken(){
-	// 	Date now = new Date();
-	// 	return Jwts.builder();
-	// }
+	public static String createRefreshToken(String secretKey){
+		long now = (new Date()).getTime();
+		return Jwts.builder()
+			.setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
+			.signWith(SignatureAlgorithm.HS512, secretKey)
+			.compact();
+	}
 }
