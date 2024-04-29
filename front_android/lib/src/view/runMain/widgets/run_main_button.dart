@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,7 +39,7 @@ class RunMainButton extends ConsumerWidget {
             ),
             PngImage(
               image: modeRoute,
-              size: 70,
+              size: 60,
             ),
             Text(
               '→',
