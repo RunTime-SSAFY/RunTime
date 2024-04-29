@@ -1,5 +1,8 @@
 package org.example.back.auth.service;
 
+import org.example.back.auth.dto.JoinResponseDto;
+import org.example.back.auth.dto.TokenResponseDto;
+import org.example.back.db.entity.Member;
 import org.example.back.db.repository.MemberRepository;
 import org.example.back.exception.EmailExistsException;
 import org.example.back.auth.dto.LoginDto;
@@ -21,14 +24,42 @@ public class AuthService {
 	@Value("${jwt.expiration_time}")
 	private Long expiredMs;
 
-	public String login(LoginDto loginDto){
+	public TokenResponseDto login(String email){
 
-		Boolean isExist = memberRepository.existsByEmail(loginDto.getEmail());
+		Boolean isExist = memberRepository.existsByEmail(email);
 
 		if(!isExist){
  			throw new EmailExistsException("없는 유저입니다");
 		}
+		String accessToken = JWTUtil.createJwt(email, secretKey, expiredMs);
+		String refreshToken = JWTUtil.createRefreshToken(secretKey);
+		return TokenResponseDto.builder()
+			.accessToken(accessToken)
+			.refreshToken(refreshToken)
+			.build();
+	}
 
-		return JWTUtil.createJwt(loginDto.getEmail(), secretKey, expiredMs);
+	public JoinResponseDto join(String email) {
+		Member member = new Member();
+		member.setEmail(email);
+		Long id = memberRepository.save(member).getId();
+
+		String accessToken = JWTUtil.createJwt(email, secretKey, expiredMs);
+		String refreshToken = JWTUtil.createRefreshToken(secretKey);
+
+
+		return JoinResponseDto.builder()
+			.id(id)
+			.email(email)
+			.tokenResponseDto(TokenResponseDto.builder()
+				.accessToken(accessToken)
+				.refreshToken(refreshToken)
+				.build())
+			.build();
+
+	}
+
+	public boolean isExistMember(String email) {
+		return memberRepository.existsByEmail(email);
 	}
 }

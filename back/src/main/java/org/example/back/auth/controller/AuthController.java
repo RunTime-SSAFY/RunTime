@@ -1,6 +1,8 @@
 package org.example.back.auth.controller;
 
+import org.example.back.auth.dto.JoinResponseDto;
 import org.example.back.auth.dto.LoginDto;
+import org.example.back.auth.dto.TokenResponseDto;
 import org.example.back.auth.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,14 +18,14 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 	private final AuthService authService;
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
+	public ResponseEntity<TokenResponseDto> login(@RequestBody LoginDto loginDto){
 
-		String token = authService.login(loginDto);
+		TokenResponseDto token = authService.login(loginDto.getEmail());
 		return ResponseEntity.ok(token);
 	}
 
 	@PostMapping("/join")
-	public ResponseEntity<String> join() {
-		return ResponseEntity.ok("dasf");
+	public ResponseEntity<JoinResponseDto> join(@RequestBody LoginDto loginDto) {
+		return ResponseEntity.ok(authService.join(loginDto.getEmail()));
 	}
 }
