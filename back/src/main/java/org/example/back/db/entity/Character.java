@@ -3,6 +3,8 @@ package org.example.back.db.entity;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.example.back.common.BaseEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +20,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "`character`")
-public class Character {
+public class Character extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)

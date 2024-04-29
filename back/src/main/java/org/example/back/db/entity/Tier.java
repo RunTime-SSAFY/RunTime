@@ -1,5 +1,7 @@
 package org.example.back.db.entity;
 
+import org.example.back.common.BaseEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "tier")
-public class Tier {
+public class Tier extends BaseEntity {
 	@Id
 	@Column(name = "id", nullable = false)
 	private Long id;
