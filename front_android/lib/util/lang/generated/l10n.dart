@@ -179,6 +179,26 @@ class S {
       args: [],
     );
   }
+
+  /// `language`
+  String get language {
+    return Intl.message(
+      'language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `English`
+  String get currentLanguage {
+    return Intl.message(
+      'English',
+      name: 'currentLanguage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

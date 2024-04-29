@@ -12,5 +12,7 @@
   "record": "Record",
   "profile": "Profile",
   "kakaoLogin": "Login with Kakao",
-  "semanticsButton": "Button"
+  "semanticsButton": "Button",
+  "language": "language",
+  "currentLanguage": "English"
 }

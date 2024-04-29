@@ -40,6 +40,10 @@ dependencies:
   flutter_svg: ^2.0.10+1
   intl: ^0.18.1
   flutter_secure_storage: ^9.0.0
+  flutter_dotenv: ^5.1.0
+  kakao_flutter_sdk_user: ^1.9.1+2 # 카카오 로그인 API 패키지
+  kakao_flutter_sdk_share: ^1.9.1+2 # 카카오톡 공유 API 패키지
+  kakao_flutter_sdk_common: ^1.9.1+2
 
 dev_dependencies:
   flutter_test:
@@ -100,6 +104,8 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - .env
+
 flutter_intl:
   enabled: true
   arb_dir: lib/util/lang/l10n
