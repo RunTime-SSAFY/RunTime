@@ -1,5 +1,7 @@
 package org.example.back.db.entity;
 
+import org.example.back.common.BaseEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,7 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "notification")
-public class Notification {
+public class Notification extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
