@@ -33,7 +33,6 @@ class AppColor {
     required this.surface,
     required this.text,
     required this.lightText,
-    required this.appBarText,
   });
 
   // Button
@@ -86,6 +85,4 @@ class AppColor {
   // Basic Text
   final Color text;
   final Color lightText;
-
-  final Color appBarText;
 }
