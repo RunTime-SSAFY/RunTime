@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class PngImage extends StatelessWidget {
-  const PngImage({
+  const PngImage(
+    this.image, {
     super.key,
-    required this.image,
     this.size,
     this.height,
     this.width,

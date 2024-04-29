@@ -24,7 +24,7 @@ class RunMainView extends ConsumerWidget {
           Padding(
             padding: EdgeInsets.only(right: 20),
             child: AppIcon(
-              icon: 'bell',
+              'bell',
             ),
           ),
         ],
@@ -38,7 +38,7 @@ class RunMainView extends ConsumerWidget {
             Positioned(
               bottom: 0,
               child: PngImage(
-                image: 'trackImage',
+                'trackImage',
                 size: MediaQuery.of(context).size.width,
               ),
             ),
@@ -46,7 +46,7 @@ class RunMainView extends ConsumerWidget {
               top: 370,
               left: 0,
               child: PngImage(
-                image: 'main_run_image',
+                'main_run_image',
               ),
             ),
             Column(

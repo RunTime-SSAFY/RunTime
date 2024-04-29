@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:front_android/src/service/theme_service.dart';
 
 class AppIcon extends ConsumerWidget {
-  const AppIcon({
-    required this.icon,
+  const AppIcon(
+    this.icon, {
     this.color,
     this.size,
     super.key,

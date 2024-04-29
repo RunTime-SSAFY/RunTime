@@ -38,7 +38,7 @@ class RunMainButton extends ConsumerWidget {
               style: ref.typo.headline2,
             ),
             PngImage(
-              image: modeRoute,
+              modeRoute,
               size: 60,
             ),
             Text(

@@ -57,7 +57,7 @@ class BattleModeButton extends ConsumerWidget {
                               child: Transform.translate(
                                 offset: const Offset(0, 25),
                                 child: const PngImage(
-                                  image: 'pro_1',
+                                  'pro_1',
                                   size: 200,
                                 ),
                               ),

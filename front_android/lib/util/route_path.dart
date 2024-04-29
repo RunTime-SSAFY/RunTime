@@ -16,7 +16,7 @@ interface class RoutePath {
         page = const RunMainView();
         break;
       case RoutePath.battleMatching:
-        page = const BattleMatchingVIew();
+        page = const BattleMatchingView();
         break;
       case RoutePath.userMode:
         break;
