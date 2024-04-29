@@ -12,13 +12,12 @@ class BattleModeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void onPressed() {
+      Navigator.pushNamed(context, RoutePath.battleMatching);
+    }
+
     return GestureDetector(
-      onTap: () => {
-        Navigator.pushNamed(
-          context,
-          RoutePath.battleMatching,
-        ),
-      },
+      onTap: () => onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
