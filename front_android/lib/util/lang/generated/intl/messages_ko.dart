@@ -27,6 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "character": MessageLookupByLibrary.simpleMessage("캐릭터"),
         "enter": MessageLookupByLibrary.simpleMessage("입장"),
         "home": MessageLookupByLibrary.simpleMessage("홈"),
+        "kakaoLogin": MessageLookupByLibrary.simpleMessage("카카오 로그인"),
         "practiceMode": MessageLookupByLibrary.simpleMessage("연습모드"),
         "profile": MessageLookupByLibrary.simpleMessage("프로필"),
         "ranking": MessageLookupByLibrary.simpleMessage("랭킹"),

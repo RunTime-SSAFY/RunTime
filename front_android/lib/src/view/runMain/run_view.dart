@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/theme/components/app_icon.dart';
-import 'package:front_android/src/theme/components/bottom_navigation.dart';
-import 'package:front_android/src/theme/components/png_image.dart';
 import 'package:front_android/src/view/runMain/widgets/battle_mode_button.dart';
 import 'package:front_android/src/view/runMain/widgets/run_main_button.dart';
+import 'package:front_android/theme/components/app_icon.dart';
+import 'package:front_android/theme/components/bottom_navigation.dart';
+import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
 

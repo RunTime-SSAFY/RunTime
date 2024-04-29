@@ -160,6 +160,16 @@ class S {
     );
   }
 
+  /// `Login with Kakao`
+  String get kakaoLogin {
+    return Intl.message(
+      'Login with Kakao',
+      name: 'kakaoLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Button`
   String get semanticsButton {
     return Intl.message(

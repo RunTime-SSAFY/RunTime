@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:front_android/src/theme/res/typo.dart';
+import 'package:front_android/theme/res/typo.dart';
 
 part 'app_color.dart';
 part 'app_typo.dart';

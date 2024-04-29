@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:front_android/src/theme/foundation/app_theme.dart';
-import 'package:front_android/src/theme/res/typo.dart';
+import 'package:front_android/theme/foundation/app_theme.dart';
+import 'package:front_android/theme/res/typo.dart';
 
 class BasicTheme implements AppTheme {
   @override

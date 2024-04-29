@@ -11,5 +11,6 @@
   "character": "Character",
   "record": "Record",
   "profile": "Profile",
+  "kakaoLogin": "Login with Kakao",
   "semanticsButton": "Button"
 }

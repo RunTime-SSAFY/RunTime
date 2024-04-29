@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/theme/components/png_image.dart';
+import 'package:front_android/theme/components/png_image.dart';
 
 class RunMainButton extends ConsumerWidget {
   const RunMainButton(

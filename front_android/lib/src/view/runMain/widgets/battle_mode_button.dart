@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/theme/components/png_image.dart';
+import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
 
@@ -23,7 +23,7 @@ class BattleModeButton extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: ClipRRect(
+            child: ClipRect(
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   vertical: 5,
