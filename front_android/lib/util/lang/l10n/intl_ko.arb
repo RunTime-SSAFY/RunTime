@@ -1,0 +1,15 @@
+{
+  "@@locale": "ko",
+  "battleMode": "배틀모드",
+  "enter": "입장",
+  "running": "달리기",
+  "userMode": "사용자모드",
+  "practiceMode": "연습모드",
+  "ranking": "랭킹",
+  "home": "홈",
+  "achievement": "도전과제",
+  "character": "캐릭터",
+  "record": "기록",
+  "profile": "프로필",
+  "semanticsButton": "버튼"
+}

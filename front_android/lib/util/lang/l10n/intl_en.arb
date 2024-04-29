@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  "battleMode": "Battle Mode",
+  "enter": "Enter",
+  "running": "Running",
+  "userMode": "User Mode",
+  "practiceMode": "Practice Mode",
+  "ranking": "Ranking",
+  "home": "Home",
+  "achievement": "Achievement",
+  "character": "Character",
+  "record": "Record",
+  "profile": "Profile",
+  "semanticsButton": "Button"
+}

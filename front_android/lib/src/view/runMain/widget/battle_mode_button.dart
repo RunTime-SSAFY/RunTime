@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/theme/components/png_image.dart';
+import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
 
 class BattleModeButton extends ConsumerWidget {
@@ -41,7 +42,7 @@ class BattleModeButton extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '대결모드',
+                    S.current.battleMode,
                     style: ref.typo.headline1,
                   ),
                   Row(
@@ -79,7 +80,7 @@ class BattleModeButton extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            '입장 →',
+                            '${S.current.enter} →',
                             style: ref.typo.headline1,
                           ),
                         ],
