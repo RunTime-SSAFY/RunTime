@@ -21,23 +21,23 @@ import lombok.Setter;
 @Entity
 @Table(name = "`character`")
 public class Character extends BaseEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-	@Column(name = "name", length = 30)
-	private String name;
+    @Column(name = "name", length = 30)
+    private String name;
 
-	@Lob
-	@Column(name = "detail")
-	private String detail;
+    @Lob
+    @Column(name = "detail")
+    private String detail;
 
-	@Lob
-	@Column(name = "img_url")
-	private String imgUrl;
+    @Lob
+    @Column(name = "img_url")
+    private String imgUrl;
 
-	@OneToMany(mappedBy = "character")
-	private Set<Achievement> achievements = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "character")
+    private Set<Achievement> achievements = new LinkedHashSet<>();
 
 }
