@@ -17,7 +17,7 @@ class BattleModeButton extends ConsumerWidget {
     }
 
     return GestureDetector(
-      onTap: () => onPressed,
+      onTap: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -45,7 +45,9 @@ class BattleModeButton extends ConsumerWidget {
                     children: [
                       Text(
                         S.current.battleMode,
-                        style: ref.typo.headline1,
+                        style: ref.typo.headline1.copyWith(
+                          color: ref.color.onBackground,
+                        ),
                       ),
                       Row(
                         children: [
@@ -73,11 +75,15 @@ class BattleModeButton extends ConsumerWidget {
                                   children: [
                                     Text(
                                       '등급',
-                                      style: ref.typo.headline2,
+                                      style: ref.typo.headline2.copyWith(
+                                        color: ref.color.onBackground,
+                                      ),
                                     ),
                                     Text(
                                       '점수',
-                                      style: ref.typo.subTitle2,
+                                      style: ref.typo.subTitle2.copyWith(
+                                        color: ref.color.onBackground,
+                                      ),
                                     ),
                                     Text(
                                       '상위 %',
@@ -90,7 +96,9 @@ class BattleModeButton extends ConsumerWidget {
                               ),
                               Text(
                                 '${S.current.enter} →',
-                                style: ref.typo.headline1,
+                                style: ref.typo.headline1.copyWith(
+                                  color: ref.color.onBackground,
+                                ),
                               ),
                             ],
                           ),
