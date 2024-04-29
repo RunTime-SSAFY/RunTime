@@ -14,13 +14,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "member")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,14 +47,8 @@ public class Member extends BaseEntity {
 	@Column(name = "email", length = 100)
 	private String email;
 
-	@Column(name = "age")
-	private Integer age;
-
 	@Column(name = "tier_score")
 	private Integer tierScore;
-
-	@Column(name = "height")
-	private Float height;
 
 	@Column(name = "weight")
 	private Float weight;
@@ -57,4 +56,11 @@ public class Member extends BaseEntity {
 	@Column(name = "is_deleted")
 	private Byte isDeleted;
 
+	public void updateNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public void updateWeight(float weight) {
+		this.weight = weight;
+	}
 }

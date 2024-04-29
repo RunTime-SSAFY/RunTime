@@ -40,8 +40,9 @@ public class AuthService {
 	}
 
 	public JoinResponseDto join(String email) {
-		Member member = new Member();
-		member.setEmail(email);
+		Member member = Member.builder()
+			.email(email)
+			.build();
 		Long id = memberRepository.save(member).getId();
 
 		String accessToken = JWTUtil.createJwt(id, secretKey, expiredMs);

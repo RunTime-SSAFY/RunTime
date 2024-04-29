@@ -1,8 +1,13 @@
 package org.example.back.member.controller;
 
+import org.example.back.member.dto.ProfileResponseDto;
+import org.example.back.member.dto.ProfileUpdateRequestDto;
+import org.example.back.member.service.MemberService;
 import org.example.back.util.SecurityUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,12 +18,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberController {
 
+	private final MemberService memberService;
 
-	private final SecurityUtil securityUtil;
-	@GetMapping("/")
-	public ResponseEntity<?> getProfile(){
-		System.out.println("??");
-		System.out.println("member: "+SecurityUtil.getCurrentMemberId());
-		return null;
+	@GetMapping
+	public ResponseEntity<ProfileResponseDto> getProfile(){
+
+		return ResponseEntity.ok(memberService.findById());
+	}
+
+	@PatchMapping
+	public ResponseEntity<ProfileResponseDto> updateProfile(@RequestBody ProfileUpdateRequestDto profileUpdateRequestDto){
+		System.out.println("?");
+		return ResponseEntity.ok(memberService.updateProfile(profileUpdateRequestDto));
+
 	}
 }
