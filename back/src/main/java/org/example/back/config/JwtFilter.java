@@ -53,15 +53,15 @@ public class JwtFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		String email = JWTUtil.getEmail(token, secretKey);
-		log.info("email: {}", email);
+		String memberId = JWTUtil.getId(token, secretKey);
+		log.info("memberId: {}", memberId);
 
 		UsernamePasswordAuthenticationToken authenticationToken =
-			new UsernamePasswordAuthenticationToken(email, null, List.of(new SimpleGrantedAuthority("USER")));
+			new UsernamePasswordAuthenticationToken(memberId, null, List.of(new SimpleGrantedAuthority("USER")));
 
 		authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 		SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-
+		filterChain.doFilter(request,response);
 	}
 }
