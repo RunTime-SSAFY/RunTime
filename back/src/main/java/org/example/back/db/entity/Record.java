@@ -31,8 +31,8 @@ public class Record {
 	@Column(name = "type")
 	private Integer type;
 
-	@Column(name = "rank")
-	private Integer rank;
+	@Column(name = "ranking")
+	private Integer ranking;
 
 	@Column(name = "distance")
 	private Float distance;
