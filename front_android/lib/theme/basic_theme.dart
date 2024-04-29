@@ -37,15 +37,13 @@ class BasicTheme implements AppTheme {
     achievementLevel: Color(0xFFecc94b),
     counterAchievementLevel: Color(0xFFf8f8f8),
     surface: Color(0xFFf8f8f8),
-    text: Color(0xFFf8f8f8),
+    text: Colors.black,
     lightText: Color(0xFFCFCFCF),
-    appBarText: Colors.black,
   );
 
   @override
   late AppTypo typo = AppTypo(
     typo: const Pretendard(),
     fontColor: color.text,
-    appBarColor: color.appBarText,
   );
 }

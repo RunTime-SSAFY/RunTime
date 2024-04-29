@@ -18,7 +18,6 @@ class PngImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('assets/images/$image.png');
     return Image.asset(
       'assets/images/$image.png',
       fit: fit,

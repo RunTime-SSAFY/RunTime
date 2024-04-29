@@ -4,7 +4,6 @@ class AppTypo {
   AppTypo({
     required Typo typo,
     required this.fontColor,
-    required this.appBarColor,
   }) : _typo = typo;
 
   // typo
@@ -16,7 +15,6 @@ class AppTypo {
   late FontWeight bold = _typo.bold;
 
   final Color fontColor;
-  final Color appBarColor;
 
   late final TextStyle mainTitle = TextStyle(
     height: 1.3,
@@ -31,7 +29,7 @@ class AppTypo {
     fontFamily: _typo.name,
     fontWeight: _typo.bold,
     fontSize: 24,
-    color: appBarColor,
+    color: fontColor,
   );
   late final TextStyle count = TextStyle(
     height: 1.3,
