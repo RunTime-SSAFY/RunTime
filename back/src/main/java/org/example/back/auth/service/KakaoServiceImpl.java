@@ -1,12 +1,11 @@
-package org.example.back.auth.kakao.service;
+package org.example.back.auth.service;
 
-import org.example.back.auth.kakao.dto.KakaoInfoResponse;
-import org.example.back.auth.kakao.dto.KakaoToken;
+import org.example.back.auth.dto.KakaoInfoResponse;
+import org.example.back.auth.dto.KakaoToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
@@ -48,6 +47,10 @@ public class KakaoServiceImpl implements KakaoService{
 		KakaoToken response = restTemplate.postForObject(requestURL, new HttpEntity<>(body, headers), KakaoToken.class);
 
 		Assert.notNull(response, "잘못된 요청입니다.");
+
+		access_token = response.getAccessToken();
+		refresh_token = response.getRefreshToken();
+
 		return access_token;
 	}
 

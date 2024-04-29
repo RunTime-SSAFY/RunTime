@@ -1,7 +1,7 @@
-package org.example.back.member.controller;
+package org.example.back.auth.controller;
 
-import org.example.back.member.dto.request.LoginDto;
-import org.example.back.member.service.MemberService;
+import org.example.back.auth.dto.LoginDto;
+import org.example.back.auth.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,15 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/members")
+@RequestMapping("api/auth")
 @RequiredArgsConstructor
-public class MemberController {
-
-	private final MemberService memberService;
+public class AuthController {
+	private final AuthService authService;
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
 
-		String token = memberService.login(loginDto);
+		String token = authService.login(loginDto);
 		return ResponseEntity.ok(token);
 	}
 

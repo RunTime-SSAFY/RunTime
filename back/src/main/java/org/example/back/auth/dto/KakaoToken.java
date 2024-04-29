@@ -1,4 +1,4 @@
-package org.example.back.auth.kakao.dto;
+package org.example.back.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

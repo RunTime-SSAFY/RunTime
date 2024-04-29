@@ -1,6 +1,6 @@
-package org.example.back.auth.kakao.service;
+package org.example.back.auth.service;
 
-import org.example.back.auth.kakao.dto.KakaoInfoResponse;
+import org.example.back.auth.dto.KakaoInfoResponse;
 
 public interface KakaoService {
 	String getToken(String code);

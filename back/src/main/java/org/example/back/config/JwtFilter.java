@@ -3,9 +3,8 @@ package org.example.back.config;
 import java.io.IOException;
 import java.util.List;
 
-import org.example.back.member.service.MemberService;
+import org.example.back.auth.service.AuthService;
 import org.example.back.util.JWTUtil;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 
-	private final MemberService memberService;
+	private final AuthService memberService;
 
 	private final String secretKey;
 

@@ -1,4 +1,4 @@
-package org.example.back.member.dto.request;
+package org.example.back.auth.dto;
 
 import lombok.Data;
 import lombok.Getter;

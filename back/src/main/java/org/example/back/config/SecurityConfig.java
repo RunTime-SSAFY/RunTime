@@ -1,8 +1,6 @@
 package org.example.back.config;
 
-import static org.springframework.security.config.Customizer.*;
-
-import org.example.back.member.service.MemberService;
+import org.example.back.auth.service.AuthService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +8,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -23,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
 
-	private final MemberService memberService;
+	private final AuthService memberService;
 
 	@Value("${jwt.secret}")
 	private String secretKey;
@@ -34,8 +31,8 @@ public class SecurityConfig {
 			.csrf(AbstractHttpConfigurer::disable) //csrf 사용 안함
 			.cors(AbstractHttpConfigurer::disable) //cors 정책 비활성화
 			.authorizeHttpRequests(request->{
-				request.requestMatchers("/api/members/login", "/api/members/join").permitAll()//login, join은 전부 허용
-					.requestMatchers(HttpMethod.POST,"/api/tests");
+				request.requestMatchers("/api/auth/**").permitAll()//login, join은 전부 허용
+					.requestMatchers(HttpMethod.POST,"/api/tests").authenticated();
 			})
 			.sessionManagement(
 				sessionManagement->sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) //세션 stateless -> 세션 안 쓴다는 뜻

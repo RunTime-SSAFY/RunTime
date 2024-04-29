@@ -31,10 +31,16 @@ public class JWTUtil {
 	public static String createJwt(String email, String secretKey, Long expiredMs){
 
 		return Jwts.builder()
+			// .setSubject(ACCESS_TOKEN_SUBJECT)
 			.claim("email", email) //사용자 정보 저장하는 Claim
-			.setIssuedAt(new Date(System.currentTimeMillis())) //인증 날짜
-			.setExpiration(new Date(System.currentTimeMillis() + expiredMs)) //만료
+			.issuedAt(new Date(System.currentTimeMillis())) //인증 날짜
+			.expiration(new Date(System.currentTimeMillis() + expiredMs)) //만료
 			.signWith(SignatureAlgorithm.HS256, secretKey) // 인증 키 (왜 Deprecated죠 또?)
 			.compact();
 	}
+
+	// public static String createRefreshToken(){
+	// 	Date now = new Date();
+	// 	return Jwts.builder();
+	// }
 }

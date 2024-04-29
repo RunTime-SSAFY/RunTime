@@ -1,9 +1,8 @@
-package org.example.back.member.service;
+package org.example.back.auth.service;
 
-import org.example.back.db.entity.Member;
 import org.example.back.db.repository.MemberRepository;
 import org.example.back.exception.EmailExistsException;
-import org.example.back.member.dto.request.LoginDto;
+import org.example.back.auth.dto.LoginDto;
 import org.example.back.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class AuthService {
 
 	private final MemberRepository memberRepository;
 
@@ -27,7 +26,7 @@ public class MemberService {
 		Boolean isExist = memberRepository.existsByEmail(loginDto.getEmail());
 
 		if(!isExist){
- 			throw new EmailExistsException("이미 가입된 유저입니다.");
+ 			throw new EmailExistsException("없는 유저입니다");
 		}
 
 		return JWTUtil.createJwt(loginDto.getEmail(), secretKey, expiredMs);
