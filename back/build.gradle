@@ -43,6 +43,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis' //redis
+    implementation 'org.springframework.boot:spring-boot-starter-websocket' // websocket
 }
 
 tasks.named('test') {
