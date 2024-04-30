@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/view/battle/battle/widgets/battle_message.dart';
-import 'package:front_android/src/view/battle/battle/widgets/gps_location.dart';
 import 'package:front_android/src/view/battle/widgets/battleLayout.dart';
+import 'package:front_android/src/view/battle/widgets/battle_message.dart';
+import 'package:front_android/src/view/battle/widgets/gps/gps_location.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
