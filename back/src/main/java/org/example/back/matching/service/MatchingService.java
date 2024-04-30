@@ -8,6 +8,7 @@ import org.example.back.enumclass.Status;
 import org.example.back.matching.dto.MatchingResDto;
 import org.example.back.redis.entity.MatchingRoom;
 import org.example.back.redis.repository.MatchingRoomRepository;
+import org.example.back.util.SecurityUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
@@ -26,11 +27,11 @@ public class MatchingService {
     private final MatchingRoomRepository matchingRoomRepository;
     private final SimpMessagingTemplate messagingTemplate;
     private final ObjectMapper objectMapper;
+    private final SecurityUtil securityUtil;
 
     public void match() throws JsonProcessingException { // 매칭 대기열에 나를 추가한다
         // 나의 id 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long myMemberId = Long.parseLong(authentication.getName());
+        Long myMemberId = SecurityUtil.getCurrentMemberId();
 
         redisTemplate.opsForZSet().add("matching", String.valueOf(myMemberId), System.currentTimeMillis());
 
@@ -72,11 +73,11 @@ public class MatchingService {
                     .opponentId(Long.parseLong(usersId[0]))
                     .build();
 
-            String firstMatchingResDtoJson = objectMapper.writeValueAsString(firstMatchingResDto);
-            String secondMatchingResDtoJson = objectMapper.writeValueAsString(secondMatchingResDto);
+//            String firstMatchingResDtoJson = objectMapper.writeValueAsString(firstMatchingResDto);
+//            String secondMatchingResDtoJson = objectMapper.writeValueAsString(secondMatchingResDto);
 
-            messagingTemplate.convertAndSend("/user/private/" + usersId[0], firstMatchingResDtoJson);
-            messagingTemplate.convertAndSend("/user/private/" + usersId[1], secondMatchingResDtoJson);
+            messagingTemplate.convertAndSend("/user/private/" + usersId[0], firstMatchingResDto);
+            messagingTemplate.convertAndSend("/user/private/" + usersId[1], secondMatchingResDto);
 
         }
 
@@ -84,8 +85,7 @@ public class MatchingService {
 
     public void matchCancel() { // 매칭 대기열에서 나를 제외한다
         // 나의 id 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long myMemberId = Long.parseLong(authentication.getName());
+        Long myMemberId = SecurityUtil.getCurrentMemberId();
 
         redisTemplate.opsForZSet().remove("matching", String.valueOf(myMemberId));
 
@@ -93,9 +93,7 @@ public class MatchingService {
 
     public void approve(Long matchingRoomId) {
         // 나의 id 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long myMemberId = Long.parseLong(authentication.getName());
-
+        Long myMemberId = SecurityUtil.getCurrentMemberId();
         // 매칭룸을 redis에서 찾는다
         MatchingRoom matchingRoom = matchingRoomRepository.findById(matchingRoomId).orElseThrow(() -> new RuntimeException("해당 id를 지닌 matchingRoom이 존재하지 않습니다"));
         // approved에서 나의 id를 추가한다
@@ -115,8 +113,10 @@ public class MatchingService {
         if (matchingRoom.getApproved().size() == 2) {
             matchingRoom.setStatus(Status.IN_PROGRESS);
 
-            // TODO matchingRoom의 두 유저들에게 게임이 시작되었음을 알려준다
-
+            // matchingRoom의 두 유저들에게 게임이 시작되었음을 알려준다
+            for (String userId: matchingRoom.getUsers()) {
+                messagingTemplate.convertAndSend("/user/private/" + userId, "매칭된 상대와 게임이 시작되었습니다");
+            }
 
         }
 
@@ -124,8 +124,7 @@ public class MatchingService {
 
     public void approveCancel(Long matchingRoomId) {
         // 나의 id 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long myMemberId = Long.parseLong(authentication.getName());
+        Long myMemberId = SecurityUtil.getCurrentMemberId();
 
         // 매칭룸을 redis에서 찾는다
         MatchingRoom matchingRoom = matchingRoomRepository.findById(matchingRoomId).orElseThrow(() -> new RuntimeException("해당 id를 지닌 matchingRoom이 존재하지 않습니다"));

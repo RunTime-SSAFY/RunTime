@@ -1,6 +1,8 @@
 package org.example.back.config;
 
 import lombok.RequiredArgsConstructor;
+import org.example.back.stomp.StompErrorHandler;
+import org.example.back.stomp.StompHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -12,11 +14,15 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    private final StompHandler stompHandler;
+    private final StompErrorHandler stompErrorHandler;
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .setAllowedOrigins("*") // 특정 출처만 허용
-                .withSockJS();
+                .setAllowedOriginPatterns("*"); // TODO 특정 출처만 허용
+//                .withSockJS(); 이거 있으면 socket 연결이 안 된다: 왜?
+        registry.setErrorHandler(stompErrorHandler);
+
     }
 
     @Override
@@ -25,9 +31,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.setApplicationDestinationPrefixes("/stomp");
     }
 
-//    @Override
-//    public void configureClientInboundChannel(ChannelRegistration registration) {
-//        registration.interceptors(stompHandler);
-//    }
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(stompHandler);
+    }
 }
 
