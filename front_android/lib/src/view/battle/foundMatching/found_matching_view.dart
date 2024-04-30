@@ -6,19 +6,29 @@ import 'package:front_android/theme/components/countdown_progress_bar.dart';
 import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
-class FoundMatching extends ConsumerWidget {
+class FoundMatching extends ConsumerStatefulWidget {
   const FoundMatching({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    void onPressButton(bool button) {
-      if (button) {
-        Navigator.pop(context);
-      } else {
-        Navigator.pop(context);
-      }
-    }
+  ConsumerState<FoundMatching> createState() => _FoundMatchingState();
+}
 
+class _FoundMatchingState extends ConsumerState<FoundMatching> {
+  bool isAccepted = false;
+
+  void onPressButton(bool button) {
+    if (button) {
+      // Accept
+      setState(() {
+        isAccepted = true;
+      });
+    } else {
+      // Deny
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -32,9 +42,12 @@ class FoundMatching extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(),
-              const PngImage(
-                'matching/foundMatching',
-                size: 150,
+              AnimatedSwitcher(
+                duration: const Duration(microseconds: 500),
+                child: PngImage(
+                  'matching/${isAccepted ? 'waitingResponse' : 'foundMatching'}',
+                  size: 150,
+                ),
               ),
               Text(
                 S.current.foundMatching,
@@ -47,7 +60,7 @@ class FoundMatching extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: CountdownProgressBar(
-                  handleTimeOver: () {},
+                  handleTimeOver: () => onPressButton(false),
                   seconds: 5,
                   valueColor: ref.color.accept,
                 ),
@@ -58,24 +71,28 @@ class FoundMatching extends ConsumerWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Button(
-                        onPressed: () {
-                          onPressButton(false);
-                        },
-                        text: S.current.deny,
-                        backGroundColor: ref.color.deny,
-                        fontColor: ref.color.onDeny,
+                      child: AnimatedSwitcher(
+                        duration: const Duration(microseconds: 500),
+                        child: Button(
+                          onPressed: () => onPressButton(false),
+                          text: S.current.deny,
+                          backGroundColor: ref.color.deny,
+                          fontColor: ref.color.onDeny,
+                          isInactive: isAccepted,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 20),
                     Expanded(
-                      child: Button(
-                        onPressed: () {
-                          onPressButton(true);
-                        },
-                        text: S.current.accept,
-                        backGroundColor: ref.color.accept,
-                        fontColor: ref.color.onAccept,
+                      child: AnimatedSwitcher(
+                        duration: const Duration(microseconds: 500),
+                        child: Button(
+                          onPressed: () => onPressButton(true),
+                          text: S.current.accept,
+                          backGroundColor: ref.color.accept,
+                          fontColor: ref.color.onAccept,
+                          isInactive: isAccepted,
+                        ),
                       ),
                     ),
                   ],
@@ -87,7 +104,7 @@ class FoundMatching extends ConsumerWidget {
                   color: ref.color.inactive,
                 ),
               ),
-              const Spacer()
+              const Spacer(),
             ],
           ),
         ),

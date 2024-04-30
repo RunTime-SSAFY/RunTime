@@ -56,7 +56,9 @@ class _CountdownProgressBarState extends State<CountdownProgressBar> {
     double progress = _currentTime / (widget.seconds * 1000);
     if (_currentTime == 0) {
       widget.handleTimeOver();
-      return const SizedBox();
+      return const SizedBox(
+        height: 10,
+      );
     }
     return Transform.scale(
       scale: widget.flipHorizontally ? -1 : 1,
