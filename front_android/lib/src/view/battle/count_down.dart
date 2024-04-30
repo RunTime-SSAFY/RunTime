@@ -38,7 +38,7 @@ class _CountDownViewState extends ConsumerState<CountDownView> {
         });
       } else {
         _timer.cancel();
-        Navigator.pushNamed(context, RoutePath.battle);
+        Navigator.popAndPushNamed(context, RoutePath.battle);
       }
     });
   }
