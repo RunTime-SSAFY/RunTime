@@ -10,7 +10,7 @@ class BasicTheme implements AppTheme {
   AppColor color = const AppColor(
     accept: Color(0xFF4c51bf),
     deny: Color(0xFFc53030),
-    inactive: Color(0xFFd9d9d9),
+    inactive: Color(0xFFa9a9a9),
     neutral: Color(0xFF38a169),
     onAccept: Color(0xFFf8f8f8),
     onDeny: Color(0xFFf8f8f8),

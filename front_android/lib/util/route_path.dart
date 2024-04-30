@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:front_android/src/service/secure_storage_service.dart';
-import 'package:front_android/src/view/battleMatching/battle_matching_view.dart';
+import 'package:front_android/src/view/battle/battleMatching/battle_matching.dart';
+import 'package:front_android/src/view/battle/battle_view.dart';
 import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/runMain/run_view.dart';
 
 interface class RoutePath {
   static const String runMain = 'runMain';
+  static const String battleView = 'battleView';
   static const String battleMatching = 'battleMatching';
   static const String userMode = 'userMode';
   static const String practiceMode = 'practiceMode';
@@ -28,11 +30,14 @@ interface class RoutePath {
       }
     }
 
-    isLogin();
+    // isLogin();
 
     switch (settings.name) {
       case RoutePath.runMain:
         page = const RunMainView();
+        break;
+      case RoutePath.battleView:
+        page = const BattleView();
         break;
       case RoutePath.battleMatching:
         page = const BattleMatchingView();

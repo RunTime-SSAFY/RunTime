@@ -13,7 +13,7 @@ class BattleModeButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void onPressed() {
-      Navigator.pushNamed(context, RoutePath.battleMatching);
+      Navigator.pushNamed(context, RoutePath.battleView);
     }
 
     return GestureDetector(
@@ -58,7 +58,7 @@ class BattleModeButton extends ConsumerWidget {
                               child: Transform.translate(
                                 offset: const Offset(0, 25),
                                 child: const PngImage(
-                                  'pro_1',
+                                  'tier/pro_1',
                                   size: 200,
                                 ),
                               ),

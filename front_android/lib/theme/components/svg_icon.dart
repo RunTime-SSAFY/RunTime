@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:front_android/src/service/theme_service.dart';
 
-class AppIcon extends ConsumerWidget {
-  const AppIcon(
+class SvgIcon extends ConsumerWidget {
+  const SvgIcon(
     this.icon, {
     this.color,
     this.size,

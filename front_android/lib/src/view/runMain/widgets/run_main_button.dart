@@ -6,10 +6,10 @@ import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/theme/components/png_image.dart';
 
 class RunMainButton extends ConsumerWidget {
-  const RunMainButton(
-    this.modeName,
-    this.modeRoute,
-    this.color, {
+  const RunMainButton({
+    required this.modeName,
+    required this.modeRoute,
+    required this.color,
     super.key,
   });
 
