@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
@@ -14,86 +16,83 @@ class RunMainView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          S.current.running,
-          style: ref.typo.appBarTitle,
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 20),
-            child: AppIcon(
-              'bell',
-            ),
+    return Container(
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              fit: BoxFit.fitHeight,
+              image: AssetImage(
+                  'assets/images/background/runMainBackground.png'))),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text(
+            S.current.running,
+            style: ref.typo.appBarTitle,
           ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              bottom: 0,
-              child: Transform.scale(
-                scale: 1.5,
-                child: PngImage(
-                  'trackImage',
-                  size: MediaQuery.of(context).size.width,
-                ),
+          actions: const [
+            Padding(
+              padding: EdgeInsets.only(right: 20),
+              child: AppIcon(
+                'bell',
               ),
-            ),
-            const Positioned(
-              top: 400,
-              left: 0,
-              child: PngImage(
-                'main_run_image',
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const BattleModeButton(),
-                Row(
-                  children: [
-                    Expanded(
-                      child: RunMainButton(
-                        S.current.userMode,
-                        RoutePath.userMode,
-                        ref.color.userMode,
-                      ),
-                    ),
-                    Expanded(
-                      child: RunMainButton(
-                        S.current.practiceMode,
-                        RoutePath.practiceMode,
-                        ref.color.practiceMode,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Spacer(),
-                    Expanded(
-                      child: RunMainButton(
-                        S.current.ranking,
-                        RoutePath.ranking,
-                        ref.color.rankingButton,
-                      ),
-                    )
-                  ],
-                ),
-                const Spacer()
-              ],
             ),
           ],
         ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: min(-MediaQuery.of(context).size.height / 10, -180),
+                child: const PngImage(
+                  'main_run_image',
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const BattleModeButton(),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: RunMainButton(
+                          S.current.userMode,
+                          RoutePath.userMode,
+                          ref.color.userMode,
+                        ),
+                      ),
+                      Expanded(
+                        child: RunMainButton(
+                          S.current.practiceMode,
+                          RoutePath.practiceMode,
+                          ref.color.practiceMode,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Spacer(),
+                      Expanded(
+                        child: RunMainButton(
+                          S.current.ranking,
+                          RoutePath.ranking,
+                          ref.color.rankingButton,
+                        ),
+                      )
+                    ],
+                  ),
+                  const Spacer()
+                ],
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: const BottomNavigationWidget(),
       ),
-      bottomNavigationBar: const BottomNavigationWidget(),
     );
   }
 }

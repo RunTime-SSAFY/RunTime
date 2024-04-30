@@ -22,7 +22,7 @@ class LoginView extends ConsumerWidget {
       decoration: const BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fitHeight,
-          image: AssetImage('assets/images/loginBackground.png'),
+          image: AssetImage('assets/images/background/loginBackground.png'),
         ),
       ),
       child: Scaffold(

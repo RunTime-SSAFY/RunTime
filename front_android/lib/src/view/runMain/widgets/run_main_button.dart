@@ -32,7 +32,8 @@ class RunMainButton extends ConsumerWidget {
           color: color,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(
+              MediaQuery.of(context).size.height > 700 ? 20 : 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [

@@ -105,6 +105,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - assets/images/background/
     - .env
 
 flutter_intl:
