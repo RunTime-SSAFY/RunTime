@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_android/src/service/secure_storage_service.dart';
+import 'package:front_android/src/view/battle/foundMatching/found_matching_view.dart';
 import 'package:front_android/src/view/battle/matching_view.dart';
 import 'package:front_android/src/view/battle/start_matching_view.dart';
 import 'package:front_android/src/view/login/login_view.dart';
@@ -9,6 +10,7 @@ interface class RoutePath {
   static const String runMain = 'runMain';
   static const String startMatching = 'startMatching';
   static const String matching = 'matching';
+  static const String foundMatching = 'foundMatching';
   static const String userMode = 'userMode';
   static const String practiceMode = 'practiceMode';
   static const String ranking = 'ranking';
@@ -41,6 +43,9 @@ interface class RoutePath {
         break;
       case RoutePath.startMatching:
         page = const StartMatchingView();
+        break;
+      case RoutePath.foundMatching:
+        page = const FoundMatching();
         break;
       case RoutePath.userMode:
         break;
