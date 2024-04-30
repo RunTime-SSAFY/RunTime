@@ -51,7 +51,7 @@ class MyApp extends ConsumerWidget {
         );
       },
       theme: ref.themeService.themeDate,
-      initialRoute: RoutePath.foundMatching,
+      initialRoute: RoutePath.countDown,
       onGenerateRoute: RoutePath.onGenerateRoute,
       locale: ref.locale,
     );

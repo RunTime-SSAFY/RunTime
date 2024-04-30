@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_android/src/service/secure_storage_service.dart';
+import 'package:front_android/src/view/battle/battle/battle.dart';
+import 'package:front_android/src/view/battle/count_down.dart';
 import 'package:front_android/src/view/battle/foundMatching/found_matching_view.dart';
 import 'package:front_android/src/view/battle/matching_view.dart';
 import 'package:front_android/src/view/battle/start_matching_view.dart';
@@ -15,6 +17,8 @@ interface class RoutePath {
   static const String practiceMode = 'practiceMode';
   static const String ranking = 'ranking';
   static const String login = 'login';
+  static const String countDown = 'countDown';
+  static const String battle = 'battle';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     late Widget page;
@@ -46,6 +50,12 @@ interface class RoutePath {
         break;
       case RoutePath.foundMatching:
         page = const FoundMatching();
+        break;
+      case RoutePath.countDown:
+        page = const CountDownView();
+        break;
+      case RoutePath.battle:
+        page = const Battle();
         break;
       case RoutePath.userMode:
         break;
