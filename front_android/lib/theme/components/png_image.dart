@@ -11,7 +11,7 @@ class PngImage extends StatelessWidget {
   }) : fit = fit ?? BoxFit.contain;
 
   final String image;
-  final BoxFit? fit;
+  final BoxFit fit;
   final double? size;
   final double? height;
   final double? width;

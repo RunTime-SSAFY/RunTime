@@ -70,7 +70,7 @@ class _ButtonState extends ConsumerState<Button> {
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: backgroundColor,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Center(
             child: Text(

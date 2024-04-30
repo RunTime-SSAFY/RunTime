@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/runMain/widgets/battle_mode_button.dart';
 import 'package:front_android/src/view/runMain/widgets/run_main_button.dart';
-import 'package:front_android/theme/components/app_icon.dart';
 import 'package:front_android/theme/components/bottom_navigation.dart';
 import 'package:front_android/theme/components/png_image.dart';
+import 'package:front_android/theme/components/svg_icon.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
 
@@ -32,7 +32,7 @@ class RunMainView extends ConsumerWidget {
           actions: const [
             Padding(
               padding: EdgeInsets.only(right: 20),
-              child: AppIcon(
+              child: SvgIcon(
                 'bell',
               ),
             ),
@@ -58,16 +58,16 @@ class RunMainView extends ConsumerWidget {
                     children: [
                       Expanded(
                         child: RunMainButton(
-                          S.current.userMode,
-                          RoutePath.userMode,
-                          ref.color.userMode,
+                          modeName: S.current.userMode,
+                          modeRoute: RoutePath.userMode,
+                          color: ref.color.userMode,
                         ),
                       ),
                       Expanded(
                         child: RunMainButton(
-                          S.current.practiceMode,
-                          RoutePath.practiceMode,
-                          ref.color.practiceMode,
+                          modeName: S.current.practiceMode,
+                          modeRoute: RoutePath.practiceMode,
+                          color: ref.color.practiceMode,
                         ),
                       ),
                     ],
@@ -78,9 +78,9 @@ class RunMainView extends ConsumerWidget {
                       const Spacer(),
                       Expanded(
                         child: RunMainButton(
-                          S.current.ranking,
-                          RoutePath.ranking,
-                          ref.color.rankingButton,
+                          modeName: S.current.ranking,
+                          modeRoute: RoutePath.ranking,
+                          color: ref.color.rankingButton,
                         ),
                       )
                     ],

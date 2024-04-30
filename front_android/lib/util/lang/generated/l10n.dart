@@ -199,6 +199,106 @@ class S {
       args: [],
     );
   }
+
+  /// `나와 실력이 비슷한 사람과\n대전해보세요`
+  String get matchingStart {
+    return Intl.message(
+      '나와 실력이 비슷한 사람과\n대전해보세요',
+      name: 'matchingStart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `지금 바로 실시간으로 대결할 상대를 찾습니다`
+  String get matchingStartHint {
+    return Intl.message(
+      '지금 바로 실시간으로 대결할 상대를 찾습니다',
+      name: 'matchingStartHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `대결 상대 찾기`
+  String get matchingStartButton {
+    return Intl.message(
+      '대결 상대 찾기',
+      name: 'matchingStartButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `matching`
+  String get matching {
+    return Intl.message(
+      'matching',
+      name: 'matching',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `상대를 찾았습니다\n게임을 수락해주세요`
+  String get foundMatching {
+    return Intl.message(
+      '상대를 찾았습니다\n게임을 수락해주세요',
+      name: 'foundMatching',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `반복적인 매칭 거절 시 게임이용에 제한을 받으실 수 있습니다`
+  String get foundMatchingHint {
+    return Intl.message(
+      '반복적인 매칭 거절 시 게임이용에 제한을 받으실 수 있습니다',
+      name: 'foundMatchingHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `waiting for others response`
+  String get waitingResponse {
+    return Intl.message(
+      'waiting for others response',
+      name: 'waitingResponse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `cancel`
+  String get cancel {
+    return Intl.message(
+      'cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `deny`
+  String get deny {
+    return Intl.message(
+      'deny',
+      name: 'deny',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `accept`
+  String get accept {
+    return Intl.message(
+      'accept',
+      name: 'accept',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

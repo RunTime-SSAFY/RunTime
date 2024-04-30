@@ -31,8 +31,9 @@ public class SecurityConfig {
 			.csrf(AbstractHttpConfigurer::disable) //csrf 사용 안함
 			.cors(AbstractHttpConfigurer::disable) //cors 정책 비활성화
 			.authorizeHttpRequests(request->{
-				request.requestMatchers("/api/auth/**").permitAll()
+				request.requestMatchers("/api/auth/**", "/ws").permitAll()
 					.anyRequest().authenticated();//login, join은 전부 허용
+					// websocket 허용
 			})
 			.sessionManagement(
 				sessionManagement->sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) //세션 stateless -> 세션 안 쓴다는 뜻
