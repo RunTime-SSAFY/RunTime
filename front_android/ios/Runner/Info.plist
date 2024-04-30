@@ -52,5 +52,14 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+  <!-- location -->
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>앱을 사용하는 동안 위치 정보를 사용합니다.</string>
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>앱이 백그라운드에서도 위치 정보를 사용합니다.</string>
+  <key>UIBackgroundModes</key>
+  <array>
+      <string>location</string>
+  </array>
 </dict>
 </plist>

@@ -1,16 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/src/view/battle/battle/service/location_permission_service.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
 
-class StartMatchingView extends ConsumerWidget {
+class StartMatchingView extends ConsumerStatefulWidget {
   const StartMatchingView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<StartMatchingView> createState() => _StartMatchingViewState();
+}
+
+class _StartMatchingViewState extends ConsumerState<StartMatchingView> {
+  @override
+  void initState() {
+    super.initState();
+    void init() async {
+      bool locationPermission = await LocationPermissionService.getPermission();
+
+      if (!mounted) return;
+
+      if (!locationPermission) {
+        Navigator.pop(context);
+      }
+      if (mounted) {
+        setState(() {});
+      }
+    }
+
+    init();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     void onPressMatchingButton() {
       Navigator.pushNamed(context, RoutePath.matching);
     }
