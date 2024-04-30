@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:front_android/src/view/login/service/kakao_service.dart';
 import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
+import 'package:front_android/util/route_path.dart';
 
 class KakaoLoginButton extends StatelessWidget {
   const KakaoLoginButton(
@@ -12,11 +14,20 @@ class KakaoLoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void onPress() async {
+      var result = await kakaoLogin();
+
+      if (!context.mounted) return;
+      if (result) {
+        Navigator.pushNamed(context, RoutePath.runMain);
+      }
+    }
+
     return Semantics(
       button: true,
       label: S.current.kakaoLogin,
       child: GestureDetector(
-        onTap: () {},
+        onTap: onPress,
         child: PngImage(
           'kakaoLogin_$locale',
         ),
