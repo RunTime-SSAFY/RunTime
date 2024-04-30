@@ -64,7 +64,6 @@ class _LocationState extends ConsumerState<GpsLocation> {
     );
     Overlay.of(context).insert(_countDownOverlay!);
 
-    // Remove the overlay after 3 seconds
     Future.delayed(const Duration(seconds: 4), () {
       _countDownOverlay?.remove();
       _countDownOverlay = null;
@@ -89,6 +88,7 @@ class _LocationState extends ConsumerState<GpsLocation> {
               _lastPosition.longitude, position.latitude, position.longitude);
           _lastPosition = position;
         });
+        // 주석: 소켓으로 서버에 정보 보내기
       }
     });
   }

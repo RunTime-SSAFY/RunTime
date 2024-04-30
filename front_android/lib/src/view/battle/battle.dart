@@ -4,13 +4,15 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/battle/widgets/battleLayout.dart';
-import 'package:front_android/src/view/battle/widgets/battle_message.dart';
 import 'package:front_android/src/view/battle/widgets/gps/gps_location.dart';
+import 'package:front_android/src/view/battle/widgets/running_information/running_impormation.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
 class Battle extends ConsumerWidget {
   const Battle({super.key});
+
+  // 주석: 배틀 시작할 떄 달릴 거리 전역에서 가져오기
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,13 +22,7 @@ class Battle extends ConsumerWidget {
           const GpsLocation(
             distance: 3,
           ),
-          const Expanded(child: Placeholder()),
-          const Row(
-            children: [Text('cd'), Text('fwa')],
-          ),
-          const Expanded(child: Placeholder()),
-          const Text('dwa'),
-          const BattleMessage(),
+          const RunningInformation(),
           Button(
             onPressed: () {},
             text: S.current.giveUp,

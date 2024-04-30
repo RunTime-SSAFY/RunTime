@@ -13,6 +13,8 @@ enum StateType {
   waiting;
 }
 
+// 주석: 대기열 큐에 들어감
+
 class Matching extends ConsumerWidget {
   const Matching({super.key});
 

@@ -13,6 +13,10 @@ class FoundMatching extends ConsumerStatefulWidget {
   ConsumerState<FoundMatching> createState() => _FoundMatchingState();
 }
 
+// 주석: 수락 누르면 소켓 연결 ->
+// 상대도 연결되면 서버에서 달릴 거리 받고 전역에 저장 ->
+// 배틀 화면으로 이동
+
 class _FoundMatchingState extends ConsumerState<FoundMatching> {
   bool isAccepted = false;
 
