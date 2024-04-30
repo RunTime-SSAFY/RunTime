@@ -40,7 +40,7 @@ public class MemberServiceImpl implements MemberService {
 		if (profileUpdateRequestDto.getNickname() != null) {
 			member.updateNickname(profileUpdateRequestDto.getNickname());
 		}
-		
+
 		//  입력받은 몸무게가 있으면 업데이트
 		if (profileUpdateRequestDto.getWeight() != null) {
 			member.updateWeight(profileUpdateRequestDto.getWeight());
