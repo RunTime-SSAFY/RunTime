@@ -1,40 +1,28 @@
-import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 
 interface class LocationPermissionService {
-  static final Location _location = Location();
-
-  static Future<bool> _checkPermission() async {
-    final permissionGrantedResult = await _location.hasPermission();
-    return (permissionGrantedResult == PermissionStatus.granted);
-  }
-
-  static Future<bool> _requestPermission() async {
-    final permissionGrantedResult = await _location.requestPermission();
-    return (permissionGrantedResult == PermissionStatus.granted);
-  }
-
-  static Future<bool> _requestLocationService() async {
-    final serviceRequestedResult = await _location.requestService();
-    return serviceRequestedResult;
-  }
-
   static Future<bool> getPermission() async {
-    bool permissionGranted = await _checkPermission();
+    bool isServiceOn = await Geolocator.isLocationServiceEnabled();
 
-    bool serviceRequested = await _requestLocationService();
-    if (!serviceRequested) {
-      return false;
+    if (!isServiceOn) {
+      isServiceOn = await Geolocator.openLocationSettings();
+      if (!isServiceOn) {
+        return false;
+      }
     }
 
-    if (!permissionGranted) {
-      permissionGranted = await _requestPermission();
-      if (!permissionGranted) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.always) {
       return true;
+    }
+
+    permission = await Geolocator.requestPermission();
+
+    if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

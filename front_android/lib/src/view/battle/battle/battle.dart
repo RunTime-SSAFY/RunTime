@@ -17,7 +17,9 @@ class Battle extends ConsumerWidget {
     return BattleLayout(
       child: Column(
         children: [
-          const GpsLocation(),
+          const GpsLocation(
+            distance: 3,
+          ),
           const Expanded(child: Placeholder()),
           const Row(
             children: [Text('cd'), Text('fwa')],
