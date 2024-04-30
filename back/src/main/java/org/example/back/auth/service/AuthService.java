@@ -26,12 +26,12 @@ public class AuthService {
 
 	public TokenResponseDto login(String email){
 
-		Boolean isExist = memberRepository.existsByEmail(email);
+		Member member = memberRepository.findByEmail(email);
 
-		if(!isExist){
+		if(member==null){
  			throw new EmailExistsException("없는 유저입니다");
 		}
-		String accessToken = JWTUtil.createJwt(email, secretKey, expiredMs);
+		String accessToken = JWTUtil.createJwt(member.getId(), secretKey, expiredMs);
 		String refreshToken = JWTUtil.createRefreshToken(secretKey);
 		return TokenResponseDto.builder()
 			.accessToken(accessToken)
@@ -40,11 +40,12 @@ public class AuthService {
 	}
 
 	public JoinResponseDto join(String email) {
-		Member member = new Member();
-		member.setEmail(email);
+		Member member = Member.builder()
+			.email(email)
+			.build();
 		Long id = memberRepository.save(member).getId();
 
-		String accessToken = JWTUtil.createJwt(email, secretKey, expiredMs);
+		String accessToken = JWTUtil.createJwt(id, secretKey, expiredMs);
 		String refreshToken = JWTUtil.createRefreshToken(secretKey);
 
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/theme/components/png_image.dart';
+import 'package:front_android/theme/components/png_image.dart';
 
 class RunMainButton extends ConsumerWidget {
   const RunMainButton(
@@ -19,33 +19,51 @@ class RunMainButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void onPressed() {
+      Navigator.pushNamed(context, modeRoute);
+    }
+
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, modeRoute);
-      },
+      onTap: onPressed,
       child: Container(
         margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: color,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              modeName,
-              style: ref.typo.headline2,
-            ),
-            PngImage(
-              modeRoute,
-              size: 60,
-            ),
-            Text(
-              '→',
-              style: ref.typo.headline1,
-            )
-          ],
+        child: Padding(
+          padding: EdgeInsets.all(
+              MediaQuery.of(context).size.height > 700 ? 20 : 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    modeName,
+                    style: ref.typo.headline2.copyWith(
+                      color: ref.color.onBackground,
+                    ),
+                  ),
+                ],
+              ),
+              PngImage(
+                modeRoute,
+                size: 70,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    '→',
+                    style: ref.typo.headline1.copyWith(
+                      color: ref.color.onBackground,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/util/helper/l10n_helper.dart';
+
+final langServiceProvider = ChangeNotifierProvider((ref) => LangService());
 
 class LangService with ChangeNotifier {
   LangService({
@@ -14,4 +17,10 @@ class LangService with ChangeNotifier {
     locale = targetLang;
     notifyListeners();
   }
+}
+
+extension LangServiceExt on WidgetRef {
+  LangService get _langService => watch(langServiceProvider);
+  Locale get locale => _langService.locale;
+  set changeLang(Locale targetLang) => _langService.changeLang(targetLang);
 }

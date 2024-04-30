@@ -160,11 +160,41 @@ class S {
     );
   }
 
+  /// `Login with Kakao`
+  String get kakaoLogin {
+    return Intl.message(
+      'Login with Kakao',
+      name: 'kakaoLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Button`
   String get semanticsButton {
     return Intl.message(
       'Button',
       name: 'semanticsButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `language`
+  String get language {
+    return Intl.message(
+      'language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `English`
+  String get currentLanguage {
+    return Intl.message(
+      'English',
+      name: 'currentLanguage',
       desc: '',
       args: [],
     );

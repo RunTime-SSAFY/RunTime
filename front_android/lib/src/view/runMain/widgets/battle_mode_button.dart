@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/theme/components/png_image.dart';
+import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
 
@@ -12,18 +12,17 @@ class BattleModeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void onPressed() {
+      Navigator.pushNamed(context, RoutePath.battleMatching);
+    }
+
     return GestureDetector(
-      onTap: () => {
-        Navigator.pushNamed(
-          context,
-          RoutePath.battleMatching,
-        ),
-      },
+      onTap: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: ClipRRect(
+            child: ClipRect(
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   vertical: 5,
@@ -46,7 +45,9 @@ class BattleModeButton extends ConsumerWidget {
                     children: [
                       Text(
                         S.current.battleMode,
-                        style: ref.typo.headline1,
+                        style: ref.typo.headline1.copyWith(
+                          color: ref.color.onBackground,
+                        ),
                       ),
                       Row(
                         children: [
@@ -74,11 +75,15 @@ class BattleModeButton extends ConsumerWidget {
                                   children: [
                                     Text(
                                       '등급',
-                                      style: ref.typo.headline2,
+                                      style: ref.typo.headline2.copyWith(
+                                        color: ref.color.onBackground,
+                                      ),
                                     ),
                                     Text(
                                       '점수',
-                                      style: ref.typo.subTitle2,
+                                      style: ref.typo.subTitle2.copyWith(
+                                        color: ref.color.onBackground,
+                                      ),
                                     ),
                                     Text(
                                       '상위 %',
@@ -91,7 +96,9 @@ class BattleModeButton extends ConsumerWidget {
                               ),
                               Text(
                                 '${S.current.enter} →',
-                                style: ref.typo.headline1,
+                                style: ref.typo.headline1.copyWith(
+                                  color: ref.color.onBackground,
+                                ),
                               ),
                             ],
                           ),

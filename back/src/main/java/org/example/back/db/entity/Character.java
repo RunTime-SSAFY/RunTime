@@ -10,8 +10,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +39,8 @@ public class Character extends BaseEntity {
     @Column(name = "img_url")
     private String imgUrl;
 
-    @OneToMany(mappedBy = "character")
-    private Set<Achievement> achievements = new LinkedHashSet<>();
+	@OneToOne
+	@JoinColumn(name="acievements_id")
+	private Achievement achievements;
 
 }

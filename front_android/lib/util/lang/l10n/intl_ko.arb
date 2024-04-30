@@ -11,5 +11,8 @@
   "character": "캐릭터",
   "record": "기록",
   "profile": "프로필",
-  "semanticsButton": "버튼"
+  "kakaoLogin": "카카오 로그인",
+  "semanticsButton": "버튼",
+  "language": "언어",
+  "currentLanguage": "한국어"
 }

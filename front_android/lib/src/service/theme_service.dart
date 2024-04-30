@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front_android/src/theme/basic_theme.dart';
-import 'package:front_android/src/theme/foundation/app_theme.dart';
+import 'package:front_android/theme/basic_theme.dart';
+import 'package:front_android/theme/foundation/app_theme.dart';
 
 final themeServiceProvider = ChangeNotifierProvider((ref) => ThemeService());
 
