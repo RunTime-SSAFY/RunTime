@@ -104,8 +104,11 @@ flutter:
           weight: 700
   assets:
     - assets/icons/
+    - assets/icons/matching/
     - assets/images/
     - assets/images/background/
+    - assets/images/matching/
+    - assets/images/tier/
     - .env
 
 flutter_intl:
