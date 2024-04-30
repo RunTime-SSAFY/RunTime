@@ -13,7 +13,7 @@ class BattleModeButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void onPressed() {
-      Navigator.pushNamed(context, RoutePath.battleView);
+      Navigator.pushNamed(context, RoutePath.startMatching);
     }
 
     return GestureDetector(
