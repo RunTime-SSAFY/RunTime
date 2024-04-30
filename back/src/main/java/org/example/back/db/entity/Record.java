@@ -2,6 +2,8 @@ package org.example.back.db.entity;
 
 import java.time.LocalTime;
 
+import org.example.back.common.BaseEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,7 +20,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "record")
-public class Record {
+public class Record extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
@@ -31,8 +33,8 @@ public class Record {
 	@Column(name = "type")
 	private Integer type;
 
-	@Column(name = "rank")
-	private Integer rank;
+	@Column(name = "ranking")
+	private Integer ranking;
 
 	@Column(name = "distance")
 	private Float distance;

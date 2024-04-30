@@ -9,12 +9,14 @@ spring:
       port: 6379
 
 # JPA Configuration
-  spring:
-    jpa:
-      database-platform: org.hibernate.dialect.MySQL8Dialect
-      hibernate.ddl-auto: update
-      hibernate.format_sql: true
-      hibernate.show_sql: true
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
 
 
 logging:

@@ -1,5 +1,7 @@
 package org.example.back.db.entity;
 
+import org.example.back.common.BaseEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,7 +13,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "common_code")
-public class CommonCode {
+public class CommonCode extends BaseEntity {
 	@Id
 	@Column(name = "code", nullable = false)
 	private Integer id;
