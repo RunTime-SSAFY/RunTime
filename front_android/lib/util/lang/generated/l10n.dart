@@ -299,6 +299,16 @@ class S {
       args: [],
     );
   }
+
+  /// `giving up`
+  String get giveUp {
+    return Intl.message(
+      'giving up',
+      name: 'giveUp',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

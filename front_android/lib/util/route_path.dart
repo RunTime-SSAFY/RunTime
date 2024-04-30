@@ -10,7 +10,7 @@ import 'package:front_android/src/view/runMain/run_view.dart';
 
 interface class RoutePath {
   static const String runMain = 'runMain';
-  static const String startMatching = 'startMatching';
+  static const String matchingStart = 'startMatching';
   static const String matching = 'matching';
   static const String foundMatching = 'foundMatching';
   static const String userMode = 'userMode';
@@ -45,7 +45,7 @@ interface class RoutePath {
       case RoutePath.matching:
         page = const Matching();
         break;
-      case RoutePath.startMatching:
+      case RoutePath.matchingStart:
         page = const StartMatchingView();
         break;
       case RoutePath.foundMatching:

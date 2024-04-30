@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("상대를 찾았습니다\n게임을 수락해주세요"),
         "foundMatchingHint": MessageLookupByLibrary.simpleMessage(
             "반복적인 매칭 거절 시 게임이용에 제한을 받으실 수 있습니다"),
+        "giveUp": MessageLookupByLibrary.simpleMessage("giving up"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "kakaoLogin": MessageLookupByLibrary.simpleMessage("Login with Kakao"),
         "language": MessageLookupByLibrary.simpleMessage("language"),

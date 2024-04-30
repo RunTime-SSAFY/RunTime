@@ -24,5 +24,6 @@
   "waitingResponse": "waiting for others response",
   "cancel": "cancel",
   "deny": "deny",
-  "accept": "accept"
+  "accept": "accept",
+  "giveUp": "giving up"
 }

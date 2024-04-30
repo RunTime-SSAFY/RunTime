@@ -24,5 +24,6 @@
   "waitingResponse": "상대방의 응답을 기다리고 있습니다.",
   "cancel": "취소하기",
   "deny": "거절",
-  "accept": "수락"
+  "accept": "수락",
+  "giveUp": "포기하기"
 }

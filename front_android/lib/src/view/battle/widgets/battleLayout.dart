@@ -25,7 +25,9 @@ class BattleLayout extends ConsumerWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: child,
+        body: SafeArea(
+          child: child,
+        ),
       ),
     );
   }
