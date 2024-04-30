@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["cupertino", "dotenv", "Kakao", "Pretendard", "riverpod"]
+  "cSpell.words": [
+    "cupertino",
+    "dotenv",
+    "Geolocator",
+    "Kakao",
+    "Pretendard",
+    "riverpod"
+  ]
 }

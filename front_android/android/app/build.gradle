@@ -28,6 +28,7 @@ android {
     namespace "com.ssafy.front_android"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
+    compileSdkVersion 33
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
