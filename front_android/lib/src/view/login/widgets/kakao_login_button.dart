@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:front_android/src/view/login/service/kakao_service.dart';
+import 'package:front_android/src/service/kakao_service.dart';
 import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
@@ -15,7 +15,7 @@ class KakaoLoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void onPress() async {
-      var result = await kakaoLogin();
+      var result = await KakaoService.kakaoLogin();
 
       if (!context.mounted) return;
       if (result) {
