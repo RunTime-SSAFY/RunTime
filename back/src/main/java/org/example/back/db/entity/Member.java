@@ -44,7 +44,7 @@ public class Member extends BaseEntity {
 	@JoinColumn(name = "character_id")
 	private Character character;
 
-	@Column(name = "email", length = 100)
+	@Column(name = "email", length = 100,unique = true)
 	private String email;
 
 	@Column(name = "tier_score")
