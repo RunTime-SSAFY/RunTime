@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-	private final SecurityUtil securityUtil;
 	private final MemberRepository memberRepository;
 
 	@Override
