@@ -24,13 +24,22 @@ class AppTypo {
     color: fontColor,
   );
 
-  late final TextStyle appBarTitle = TextStyle(
+  late final TextStyle appBarMainTitle = TextStyle(
     height: 1.3,
     fontFamily: _typo.name,
     fontWeight: _typo.bold,
     fontSize: 24,
     color: fontColor,
   );
+
+  late final TextStyle appBarSubTitle = TextStyle(
+    height: 1.3,
+    fontFamily: _typo.name,
+    fontWeight: _typo.bold,
+    fontSize: 24,
+    color: fontColor,
+  );
+
   late final TextStyle count = TextStyle(
     height: 1.3,
     fontFamily: _typo.name,
