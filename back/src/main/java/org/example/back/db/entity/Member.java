@@ -1,6 +1,7 @@
 package org.example.back.db.entity;
 
 import org.example.back.common.BaseEntity;
+import org.example.back.db.entity.enumType.RoleType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +19,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @Entity
@@ -40,7 +40,7 @@ public class Member extends BaseEntity {
 	@Column(name = "nickname", length = 30)
 	private String nickname;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "character_id")
 	private Character character;
 

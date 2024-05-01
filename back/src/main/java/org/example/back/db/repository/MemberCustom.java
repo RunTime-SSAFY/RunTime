@@ -6,5 +6,5 @@ import org.springframework.data.domain.Slice;
 
 public interface MemberCustom {
 
-	Slice<FriendResponseDto> findAll(Pageable pageable, Long id);
+	Slice<FriendResponseDto> findAllFriends(Pageable pageable, Long id, Long lastId);
 }
