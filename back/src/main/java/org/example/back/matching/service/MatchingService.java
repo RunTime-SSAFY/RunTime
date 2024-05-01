@@ -11,8 +11,6 @@ import org.example.back.redis.repository.MatchingRoomRepository;
 import org.example.back.util.SecurityUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -57,7 +55,7 @@ public class MatchingService {
 
             // toMatchUsers들에게 matching이 성사되었다고 알려준다.
             MatchingRoom matchingRoom = MatchingRoom.builder()
-                    .users(range)
+                    .members(range)
                     .status(Status.WAITING)
                     .build();
 
@@ -76,8 +74,8 @@ public class MatchingService {
 //            String firstMatchingResDtoJson = objectMapper.writeValueAsString(firstMatchingResDto);
 //            String secondMatchingResDtoJson = objectMapper.writeValueAsString(secondMatchingResDto);
 
-            messagingTemplate.convertAndSend("/user/private/" + usersId[0], firstMatchingResDto);
-            messagingTemplate.convertAndSend("/user/private/" + usersId[1], secondMatchingResDto);
+            messagingTemplate.convertAndSend("/member/private/" + usersId[0], firstMatchingResDto);
+            messagingTemplate.convertAndSend("/member/private/" + usersId[1], secondMatchingResDto);
 
         }
 
@@ -113,10 +111,31 @@ public class MatchingService {
         if (matchingRoom.getApproved().size() == 2) {
             matchingRoom.setStatus(Status.IN_PROGRESS);
 
-            // matchingRoom의 두 유저들에게 게임이 시작되었음을 알려준다
-            for (String userId: matchingRoom.getUsers()) {
-                messagingTemplate.convertAndSend("/user/private/" + userId, "매칭된 상대와 게임이 시작되었습니다");
+            String[] membersId = new String[2];
+
+            Set<String> membersSet = matchingRoom.getMembers();
+            Iterator<String> iterator = membersSet.iterator();
+
+            int idx = 0;
+            while (iterator.hasNext()) {
+                String next = iterator.next();
+                membersId[idx] = next;
+                idx++;
             }
+
+            MatchingResDto firstMatchingResDto = MatchingResDto.builder()
+                    .matchingRoomId(matchingRoom.getId())
+                    .opponentId(Long.parseLong(membersId[1]))
+                    .build();
+
+            MatchingResDto secondMatchingResDto = MatchingResDto.builder()
+                    .matchingRoomId(matchingRoom.getId())
+                    .opponentId(Long.parseLong(membersId[0]))
+                    .build();
+
+            // matchingRoom의 두 유저들에게 게임이 시작되었음을 알려준다
+            messagingTemplate.convertAndSend("/member/private/" + membersId[0], firstMatchingResDto);
+            messagingTemplate.convertAndSend("/member/private/" + membersId[1], secondMatchingResDto);
 
         }
 
@@ -132,6 +151,24 @@ public class MatchingService {
         if (matchingRoom.getApproved() != null) {
             matchingRoom.getApproved().remove(String.valueOf(myMemberId));
         }
+        matchingRoomRepository.save(matchingRoom);
+
+    }
+
+    public void gameExit(Long matchingRoomId) {
+        // 나의 id 가져오기
+        Long myMemberId = SecurityUtil.getCurrentMemberId();
+
+        // 매칭룸을 redis에서 찾는다
+        MatchingRoom matchingRoom = matchingRoomRepository.findById(matchingRoomId).orElseThrow(() -> new RuntimeException("해당 id를 지닌 matchingRoom이 존재하지 않습니다"));
+
+        // approved 및 members에서 String.valueOf(myMemberId) 제거
+        if (matchingRoom.getApproved() != null) {
+            matchingRoom.getApproved().remove(String.valueOf(myMemberId));
+        }
+        matchingRoom.getMembers().remove(String.valueOf(myMemberId));
+
+        // matchingRoom update
         matchingRoomRepository.save(matchingRoom);
 
     }

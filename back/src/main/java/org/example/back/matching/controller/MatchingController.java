@@ -3,7 +3,9 @@ package org.example.back.matching.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.example.back.matching.dto.ApproveReqDto;
+import org.example.back.matching.dto.GameExitReqDto;
 import org.example.back.matching.service.MatchingService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,20 +15,20 @@ public class MatchingController {
 
     private final MatchingService matchingService;
     @PostMapping("")
-    public String matchingRequest() throws JsonProcessingException {
+    public ResponseEntity<Void> matchingRequest() throws JsonProcessingException {
         matchingService.match();
 
-        return "matching request test";
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/cancel")
-    public String matchingCancel() {
+    public ResponseEntity<Void> matchingCancel() {
         matchingService.matchCancel();
-        return "matching cancel test";
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/approve")
-    public String matchingApprove(@RequestBody ApproveReqDto approveReqDto) {
+    @PatchMapping("/approve")
+    public ResponseEntity<Void> matchingApprove(@RequestBody ApproveReqDto approveReqDto) {
         Long matchingRoomId = approveReqDto.getMatchingRoomId();
         boolean approve = approveReqDto.isApprove();
         if (approve) { // 매칭된 상대와 게임 시작에 동의
@@ -35,6 +37,17 @@ public class MatchingController {
             matchingService.approveCancel(matchingRoomId);
         }
 
-        return "matching approve test";
+        return ResponseEntity.ok().build();
+
+    }
+
+    @PatchMapping("/game-exit")
+    public ResponseEntity<Void> gameExit(@RequestBody GameExitReqDto gameExitReqDto) {
+        Long matchingRoomId = gameExitReqDto.getMatchingRoomId();
+
+        matchingService.gameExit(matchingRoomId);
+
+        return ResponseEntity.ok().build();
+
     }
 }
