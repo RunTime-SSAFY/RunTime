@@ -63,4 +63,6 @@ public class Member extends BaseEntity {
 	public void updateWeight(float weight) {
 		this.weight = weight;
 	}
+
+	public void updateTierScore(int score) { this.tierScore = score; }
 }
