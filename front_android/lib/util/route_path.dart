@@ -6,6 +6,7 @@ import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';
 import 'package:front_android/src/view/matching/wating_matching_view.dart';
 import 'package:front_android/src/view/runMain/run_view.dart';
+import 'package:front_android/src/view/record/record_view.dart';
 
 interface class RoutePath {
   static const String runMain = 'runMain';
@@ -17,6 +18,9 @@ interface class RoutePath {
   static const String ranking = 'ranking';
   static const String login = 'login';
   static const String battle = 'battle';
+
+  // 기록
+  static const String record = 'record';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     late Widget page;
@@ -60,6 +64,9 @@ interface class RoutePath {
         break;
       case RoutePath.login:
         page = const LoginView();
+        break;
+      case RoutePath.record:
+        page = const RecordView();
         break;
     }
     return MaterialPageRoute(

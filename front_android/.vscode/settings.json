@@ -6,5 +6,9 @@
     "Kakao",
     "Pretendard",
     "riverpod"
-  ]
+  ],
+  "editor.tokenColorCustomizations": {
+    "comments": "",
+    "textMateRules": []
+  }
 }
