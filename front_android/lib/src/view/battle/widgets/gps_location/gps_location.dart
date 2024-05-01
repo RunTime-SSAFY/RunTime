@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/view/battle/service/extension.dart';
-import 'package:front_android/src/view/battle/widgets/counter.dart';
+import 'package:front_android/src/view/battle/widgets/count_down.dart';
+import 'package:front_android/util/helper/extension.dart';
 import 'package:geolocator/geolocator.dart';
 
 part 'distance_time.dart';
@@ -75,7 +75,7 @@ class _LocationState extends ConsumerState<GpsLocation> {
     LocationSettings locationSettings = AndroidSettings(
       accuracy: LocationAccuracy.high,
       distanceFilter: 3,
-      intervalDuration: const Duration(microseconds: 500),
+      intervalDuration: const Duration(milliseconds: 300),
       forceLocationManager: true,
     );
     _positionStream =
