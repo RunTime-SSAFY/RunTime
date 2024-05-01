@@ -45,6 +45,8 @@ dependencies:
   kakao_flutter_sdk_share: ^1.9.1+2 # 카카오톡 공유 API 패키지
   kakao_flutter_sdk_common: ^1.9.1+2
   dio: ^5.4.3+1
+  date_picker_timeline: ^1.2.5
+
 
 dev_dependencies:
   flutter_test:
