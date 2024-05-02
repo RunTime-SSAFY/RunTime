@@ -12,7 +12,7 @@ pipeline {
             steps{
                 withCredentials([file(credentialsId: 'application-secret', variable: 'configFile')]){
                     script{
-                        sh "cp $configFile back/src/main/resources/application-secret.yml"
+                        sh "cp $configFile back/src/main/resources/application.yml"
 
                     }
                 }
