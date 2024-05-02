@@ -14,10 +14,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text('디지털 시계'),
-        ),
         body: Column(
           children: [
             Image.asset('assets/image/hedgehog.png'),
@@ -62,8 +58,9 @@ class _ClockScreenState extends State<ClockScreen> {
             _currentTime,
             style: const TextStyle(
               backgroundColor: Colors.yellow,
+              
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 10,
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
