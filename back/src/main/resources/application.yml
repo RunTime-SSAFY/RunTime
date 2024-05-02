@@ -7,5 +7,8 @@ spring:
       local: local-secret
       prod: prod-secret
     active: local
+
+
   application:
     name: back
+
