@@ -36,7 +36,7 @@ pipeline {
             steps{
                 dir("./back"){
                     script{
-                        dockerImage = docker.build("runMate"+":$BUILD_NUMBER")
+                        dockerImage = docker.build("run-mate"+":$BUILD_NUMBER")
                       }
                 }
             }
@@ -55,8 +55,8 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'docker stop runMate'
-                        sh 'docker rm runMate'
+                        sh 'docker stop run-mate'
+                        sh 'docker rm run-mate'
                     } catch (e) {
                         echo 'no prev container'
                     }
@@ -68,13 +68,13 @@ pipeline {
             steps {
                 script {
                     // 이미지를 기반으로 컨테이너 실행
-                    dockerImage.run("-p 8000:8000 --name runMate -d")
+                    dockerImage.run("-p 8000:8000 --name run-mate -d")
                 }
             }
         }
         stage('Cleaning up'){
             steps{
-                sh "docker rmi runMate:$BUILD_NUMBER"
+                sh "docker rmi run-mate:$BUILD_NUMBER"
             }
         }
     }
