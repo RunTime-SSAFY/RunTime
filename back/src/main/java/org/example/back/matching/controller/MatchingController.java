@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.*;
 public class MatchingController {
 
     private final MatchingService matchingService;
-    @PostMapping("")
+    @PatchMapping("")
     public ResponseEntity<Void> matchingRequest() throws JsonProcessingException {
         matchingService.match();
 
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/cancel")
+    @PatchMapping("/cancel")
     public ResponseEntity<Void> matchingCancel() {
         matchingService.matchCancel();
         return ResponseEntity.ok().build();

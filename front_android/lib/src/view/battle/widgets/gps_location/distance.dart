@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
@@ -17,9 +19,8 @@ class DistanceTime extends ConsumerStatefulWidget {
 }
 
 class _DistanceTimeState extends ConsumerState<DistanceTime> {
-  OverlayEntry? _countDownOverlay;
   late DistanceService viewModel;
-
+  OverlayEntry? _countDownOverlay;
   // 초기 GPS 접근 시간 확보
   void _showOverlay() {
     _countDownOverlay = OverlayEntry(
@@ -60,9 +61,15 @@ class _DistanceTimeState extends ConsumerState<DistanceTime> {
   }
 
   @override
+  void dispose() {
+    viewModel.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     viewModel = ref.watch(distanceServiceProvider);
-    if (_countDownOverlay == null) {
+    if (viewModel.isNotListening) {
       viewModel.listenLocation();
     }
 

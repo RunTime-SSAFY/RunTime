@@ -25,5 +25,14 @@
   "cancel": "cancel",
   "deny": "deny",
   "accept": "accept",
-  "giveUp": "giving up"
+  "giveUp": "giving up",
+  "win": "Win",
+  "lose": "Lose",
+  "rankPoint": "Rank Point",
+  "avgPace": "Avg. Pace",
+  "caloryBurn": "Burned Calory",
+  "runningTime": "Time Taken",
+  "bestRecord": "Best Record",
+  "done": "확인",
+  "ReallyCancelQuestion": "정말로 취소하시겠습니까?"
 }

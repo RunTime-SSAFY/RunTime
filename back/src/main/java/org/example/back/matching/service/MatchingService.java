@@ -24,17 +24,16 @@ public class MatchingService {
     private final RedisTemplate<String, String> redisTemplate;
     private final MatchingRoomRepository matchingRoomRepository;
     private final SimpMessagingTemplate messagingTemplate;
-    private final ObjectMapper objectMapper;
-    private final SecurityUtil securityUtil;
+//    private final ObjectMapper objectMapper;
+//    private final SecurityUtil securityUtil;
 
-    public void match() throws JsonProcessingException { // 매칭 대기열에 나를 추가한다
+    public void match() { // 매칭 대기열에 나를 추가한다
         // 나의 id 가져오기
         Long myMemberId = SecurityUtil.getCurrentMemberId();
 
         redisTemplate.opsForZSet().add("matching", String.valueOf(myMemberId), System.currentTimeMillis());
-
-        Long testId= 2L;
-        redisTemplate.opsForZSet().add("matching", String.valueOf(testId), System.currentTimeMillis());
+//        Long testId= 2L;
+//        redisTemplate.opsForZSet().add("matching", String.valueOf(testId), System.currentTimeMillis());
 
         // matching sorted set의 크기가 2이상일 때, 맨 앞 두명을 매칭시킨다
         Long waitingNum = redisTemplate.opsForZSet().zCard("matching");
