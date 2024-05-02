@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/view/matching/matching_view_model.dart';
 import 'package:front_android/theme/components/png_image.dart';
 
 class MatchingLayoutView extends ConsumerWidget {
   const MatchingLayoutView({
     super.key,
     required this.button,
+    required this.image,
+    required this.mainMessage,
     this.middleWidget,
     this.hintMessage,
   });
@@ -15,11 +16,11 @@ class MatchingLayoutView extends ConsumerWidget {
   final Widget button;
   final Widget? middleWidget;
   final Widget? hintMessage;
+  final String image;
+  final String mainMessage;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(matchingViewModelProvider);
-
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -36,14 +37,14 @@ class MatchingLayoutView extends ConsumerWidget {
               AnimatedContainer(
                 duration: const Duration(milliseconds: 500),
                 child: PngImage(
-                  'matching/${viewModel.image}',
+                  'matching/$image',
                   size: 150,
                 ),
               ),
               SizedBox(
                 height: 100,
                 child: Text(
-                  viewModel.mainMessage,
+                  mainMessage,
                   textAlign: TextAlign.center,
                   style: ref.typo.headline1.copyWith(
                     color: ref.color.onBackground,

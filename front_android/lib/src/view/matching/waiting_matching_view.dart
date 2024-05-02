@@ -23,8 +23,6 @@ class WaitingMatching extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var viewModel = ref.watch(matchingViewModelProvider);
 
-    viewModel.matchingState = MatchingState.matching;
-
     return PopScope(
       canPop: false,
       onPopInvoked: (bool didPop) {
@@ -34,6 +32,8 @@ class WaitingMatching extends ConsumerWidget {
         viewModel.onPressCancelDuringMatching(context);
       },
       child: MatchingLayoutView(
+        image: 'matching',
+        mainMessage: S.current.matching,
         button: Button(
           onPressed: () {
             viewModel.onPressCancelDuringMatching(context);

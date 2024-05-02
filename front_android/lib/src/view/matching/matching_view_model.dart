@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
-import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
 
 final matchingViewModelProvider =
@@ -15,54 +14,8 @@ enum MatchingState {
 }
 
 class MatchingViewModel with ChangeNotifier {
-  MatchingState _matchingState = MatchingState.beforeMatching;
-
-  // 화면 이동 등 확실한 빌드 전에 실행! 빌드를 재실행 시키지 않음!
-  set matchingState(MatchingState state) => _matchingState = state;
-
-  bool _isAccepted = false;
-
-  bool get isAccepted => _isAccepted;
-
-  String get image {
-    switch (_matchingState) {
-      case MatchingState.beforeMatching:
-        return 'beforeMatching';
-      case MatchingState.matching:
-        return 'matching';
-      case MatchingState.matched:
-        return 'matched';
-      case MatchingState.waitingOthers:
-        return 'waitingOthers';
-    }
-  }
-
-  String get mainMessage {
-    switch (_matchingState) {
-      case MatchingState.beforeMatching:
-        return S.current.beforeMatching;
-      case MatchingState.matching:
-        return S.current.matching;
-      case MatchingState.matched:
-        return S.current.matched;
-      case MatchingState.waitingOthers:
-        return S.current.waitingOthers;
-    }
-  }
-
-  String get hintMassage {
-    switch (_matchingState) {
-      case MatchingState.beforeMatching:
-        return S.current.beforeMatching;
-      case MatchingState.matched:
-        return S.current.matchedHint;
-      default:
-        return '';
-    }
-  }
-
-  void matchingStart() {
-    _matchingState = MatchingState.matching;
+  void matchingStart(BuildContext context) {
+    Navigator.pushNamed(context, RoutePath.matching);
     notifyListeners();
   }
 
@@ -73,32 +26,31 @@ class MatchingViewModel with ChangeNotifier {
         return CancelDialog(
           onCancel: () {
             Navigator.pop(context);
-            _matchingState = MatchingState.beforeMatching;
           },
         );
       },
     );
   }
 
+  // matched의 수락 상태
+  bool _isAccepted = false;
+  bool get isAccepted => _isAccepted;
   void acceptBattle() {
-    _matchingState = MatchingState.waitingOthers;
     _isAccepted = true;
 
     notifyListeners();
   }
 
+  void onDenyMatching(BuildContext context) {
+    Navigator.pushNamed(context, RoutePath.beforeMatching);
+    notifyListeners();
+  }
+
   void matchedOnPressButton() {
-    _matchingState = MatchingState.matched;
     notifyListeners();
   }
 
   void onAcceptMatching() {
-    _matchingState = MatchingState.waitingOthers;
-    notifyListeners();
-  }
-
-  void onDenyMatching(BuildContext context) {
-    Navigator.pushNamed(context, RoutePath.beforeMatching);
     notifyListeners();
   }
 

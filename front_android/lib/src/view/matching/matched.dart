@@ -20,6 +20,8 @@ class Matched extends ConsumerStatefulWidget {
 
 class _Matched extends ConsumerState<Matched> {
   late MatchingViewModel viewModel;
+  late String image = 'matched';
+  late String mainMessage = S.current.matched;
 
   @override
   void initState() {
@@ -31,12 +33,13 @@ class _Matched extends ConsumerState<Matched> {
     viewModel = ref.watch(matchingViewModelProvider);
 
     if (viewModel.isAccepted) {
-      viewModel.matchingState = MatchingState.waitingOthers;
-    } else {
-      viewModel.matchingState = MatchingState.matched;
+      image = 'waitingOthers';
+      mainMessage = S.current.waitingOthers;
     }
 
     return MatchingLayoutView(
+      image: image,
+      mainMessage: mainMessage,
       button: Row(
         children: [
           Expanded(
