@@ -3,8 +3,10 @@ package org.example.back.result.service;
 import org.example.back.db.entity.Member;
 import org.example.back.db.entity.Record;
 import org.example.back.db.repository.MemberRepository;
+import org.example.back.db.repository.RankerRepository;
 import org.example.back.db.repository.RecordRepository;
 import org.example.back.exception.MemberNotFoundException;
+import org.example.back.ranking.dto.RankerResDto;
 import org.example.back.result.dto.ResultResDto;
 import org.example.back.result.dto.TierResDto;
 import org.example.back.util.SecurityUtil;
@@ -44,21 +46,20 @@ public class ResultService {
 
 	@Transactional
 	public TierResDto updateScore() {
-		int consecutive, beforeScore, afterScore;
+		int consecutive, beforeScore, afterScore, status;
 		Member member = getMember();
 		Record record = recordRepository.findByMemberId(member.getId());
 
 		consecutive = record.getRanking().equals(1) ? member.getConsecutiveGames() + 1 : 0; // 연승 기록 갱신
-		beforeScore = member.getTierScore();
+		beforeScore = member.getTierScore();  // 갱신 전 점수
 		afterScore = Math.min(Math.max(beforeScore + (record.getRanking().equals(1) ? 30 * consecutive : -30), 0), 1100);  // 점수 상한선 제한
 
-		member.updateTierScore(afterScore);
-		member.updateConsecutive(consecutive);
-		memberRepository.save(member);
+		member.updateTierScore(afterScore);  // 갱신 점수 저장
+		member.updateConsecutive(consecutive);  // 갱신 연승 기록 저장
+		memberRepository.save(member);  // db 저장
 
-		TierResDto TierResDto = new TierResDto();
-		TierResDto.setBeforeScore(beforeScore);
-		TierResDto.setAfterScore(afterScore);
-		return TierResDto;
+		status = Integer.compare(afterScore / 100, beforeScore / 100);
+
+		return new TierResDto(beforeScore, afterScore, status, "", "");
 	}
 }
