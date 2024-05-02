@@ -64,7 +64,7 @@ class _ButtonState extends ConsumerState<Button> {
         child: AnimatedContainer(
           height: 48,
           duration: const Duration(
-            microseconds: 250,
+            milliseconds: 500,
           ),
           width: widget.width,
           padding: const EdgeInsets.all(8),

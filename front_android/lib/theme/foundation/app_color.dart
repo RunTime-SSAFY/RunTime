@@ -27,6 +27,8 @@ class AppColor {
     required this.list3Sub,
     required this.list4Sub,
     required this.list5Sub,
+    required this.battleBackground1,
+    required this.battleBackground2,
     required this.onBackground,
     required this.achievementLevel,
     required this.counterAchievementLevel,
@@ -73,6 +75,8 @@ class AppColor {
   final Color list3Sub;
   final Color list4Sub;
   final Color list5Sub;
+  final Color battleBackground1;
+  final Color battleBackground2;
   final Color onBackground;
 
   // achievement

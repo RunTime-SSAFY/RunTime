@@ -201,30 +201,30 @@ class S {
   }
 
   /// `나와 실력이 비슷한 사람과\n대전해보세요`
-  String get matchingStart {
+  String get beforeMatching {
     return Intl.message(
       '나와 실력이 비슷한 사람과\n대전해보세요',
-      name: 'matchingStart',
+      name: 'beforeMatching',
       desc: '',
       args: [],
     );
   }
 
   /// `지금 바로 실시간으로 대결할 상대를 찾습니다`
-  String get matchingStartHint {
+  String get beforeMatchingHint {
     return Intl.message(
       '지금 바로 실시간으로 대결할 상대를 찾습니다',
-      name: 'matchingStartHint',
+      name: 'beforeMatchingHint',
       desc: '',
       args: [],
     );
   }
 
   /// `대결 상대 찾기`
-  String get matchingStartButton {
+  String get beforeMatchingButton {
     return Intl.message(
       '대결 상대 찾기',
-      name: 'matchingStartButton',
+      name: 'beforeMatchingButton',
       desc: '',
       args: [],
     );
@@ -241,30 +241,30 @@ class S {
   }
 
   /// `상대를 찾았습니다\n게임을 수락해주세요`
-  String get foundMatching {
+  String get matched {
     return Intl.message(
       '상대를 찾았습니다\n게임을 수락해주세요',
-      name: 'foundMatching',
+      name: 'matched',
       desc: '',
       args: [],
     );
   }
 
   /// `반복적인 매칭 거절 시 게임이용에 제한을 받으실 수 있습니다`
-  String get foundMatchingHint {
+  String get matchedHint {
     return Intl.message(
       '반복적인 매칭 거절 시 게임이용에 제한을 받으실 수 있습니다',
-      name: 'foundMatchingHint',
+      name: 'matchedHint',
       desc: '',
       args: [],
     );
   }
 
   /// `waiting for others response`
-  String get waitingResponse {
+  String get waitingOthers {
     return Intl.message(
       'waiting for others response',
-      name: 'waitingResponse',
+      name: 'waitingOthers',
       desc: '',
       args: [],
     );
@@ -295,6 +295,16 @@ class S {
     return Intl.message(
       'accept',
       name: 'accept',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `giving up`
+  String get giveUp {
+    return Intl.message(
+      'giving up',
+      name: 'giveUp',
       desc: '',
       args: [],
     );
