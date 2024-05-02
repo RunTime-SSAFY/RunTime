@@ -1,20 +1,25 @@
 package org.example.back.character.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class CharacterRequestDto {
 
-    private Long lastId;
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class list{
+        private Long lastId;
+        private int pageSize;
 
-    private int pageSize;
+        @Builder
+        list(
+                Long lastId,
+                int pageSize
+        ){
+            this.lastId=lastId;
+            this.pageSize=pageSize;
+        }
+    }
 
 }
 
