@@ -10,9 +10,11 @@ pipeline {
     stages {
         stage('secret.yml download'){
             steps{
-                withCredentials([file(credentialsId: 'application-secret', variable: 'configFile')]){
+                withCredentials([file(credentialsId: 'application-secret', variable: 'configFile'), file(credentialsId: 'application-local', variable: 'localConfig')]){
                     script{
                         sh "cp $configFile back/src/main/resources/application-prod-secret.yml"
+                        sh "cp $localConfig back/src/main/resources/application-local-secret.yml"
+
                     }
                 }
                 // withCredentials([file(credentialsId: 'key-store', variable: 'keyFile')]){
