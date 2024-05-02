@@ -27,6 +27,12 @@ class WaitingMatching extends ConsumerWidget {
 
     return PopScope(
       canPop: false,
+      onPopInvoked: (bool didPop) {
+        if (didPop) {
+          return;
+        }
+        viewModel.onPressCancelDuringMatching(context);
+      },
       child: MatchingLayoutView(
         button: Button(
           onPressed: () {
@@ -36,12 +42,11 @@ class WaitingMatching extends ConsumerWidget {
           backGroundColor: ref.color.deny,
           fontColor: ref.color.onDeny,
         ),
-        middleWidget: Expanded(
-            child: SvgIcon(
+        middleWidget: SvgIcon(
           'matching/waitingIcon',
           color: ref.color.onBackground,
           size: 100,
-        )),
+        ),
       ),
     );
   }

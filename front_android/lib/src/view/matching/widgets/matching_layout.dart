@@ -40,14 +40,19 @@ class MatchingLayoutView extends ConsumerWidget {
                   size: 150,
                 ),
               ),
-              Text(
-                viewModel.mainMessage,
-                textAlign: TextAlign.center,
-                style: ref.typo.headline1.copyWith(
-                  color: ref.color.onBackground,
+              SizedBox(
+                height: 100,
+                child: Text(
+                  viewModel.mainMessage,
+                  textAlign: TextAlign.center,
+                  style: ref.typo.headline1.copyWith(
+                    color: ref.color.onBackground,
+                  ),
                 ),
               ),
-              middleWidget ?? const Spacer(),
+              middleWidget != null
+                  ? Expanded(child: middleWidget!)
+                  : const Spacer(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: AnimatedSwitcher(

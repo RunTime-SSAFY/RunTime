@@ -12,16 +12,6 @@ class BattleTime extends ConsumerStatefulWidget {
 
 class _BattleTimeState extends ConsumerState<BattleTime> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     BattleViewModel viewModel = ref.watch(battleViewProvider);
     return Text(

@@ -73,7 +73,6 @@ class MatchingViewModel with ChangeNotifier {
         return CancelDialog(
           onCancel: () {
             Navigator.pop(context);
-            print('뒤로가기');
             _matchingState = MatchingState.beforeMatching;
           },
         );
@@ -81,13 +80,10 @@ class MatchingViewModel with ChangeNotifier {
     );
   }
 
-  void acceptBattle(bool button) {
-    if (button) {
-      // Accept
-      _isAccepted = true;
-    } else {
-      // Deny
-    }
+  void acceptBattle() {
+    _matchingState = MatchingState.waitingOthers;
+    _isAccepted = true;
+
     notifyListeners();
   }
 
@@ -101,8 +97,8 @@ class MatchingViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void onDenyMatching() {
-    _matchingState = MatchingState.beforeMatching;
+  void onDenyMatching(BuildContext context) {
+    Navigator.pushNamed(context, RoutePath.beforeMatching);
     notifyListeners();
   }
 

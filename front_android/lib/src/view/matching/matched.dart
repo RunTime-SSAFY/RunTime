@@ -19,16 +19,29 @@ class Matched extends ConsumerStatefulWidget {
 // 배틀 화면으로 이동
 
 class _Matched extends ConsumerState<Matched> {
+  late MatchingViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final viewModel = ref.watch(matchingViewModelProvider);
+    viewModel = ref.watch(matchingViewModelProvider);
+
+    if (viewModel.isAccepted) {
+      viewModel.matchingState = MatchingState.waitingOthers;
+    } else {
+      viewModel.matchingState = MatchingState.matched;
+    }
 
     return MatchingLayoutView(
       button: Row(
         children: [
           Expanded(
             child: Button(
-              onPressed: () => viewModel.acceptBattle(false),
+              onPressed: () => viewModel.onDenyMatching(context),
               text: S.current.deny,
               backGroundColor: ref.color.deny,
               fontColor: ref.color.onDeny,
@@ -38,7 +51,7 @@ class _Matched extends ConsumerState<Matched> {
           const SizedBox(width: 20),
           Expanded(
             child: Button(
-              onPressed: () => viewModel.acceptBattle(true),
+              onPressed: () => viewModel.acceptBattle(),
               text: S.current.accept,
               backGroundColor: ref.color.accept,
               fontColor: ref.color.onAccept,
@@ -53,17 +66,15 @@ class _Matched extends ConsumerState<Matched> {
           color: ref.color.inactive,
         ),
       ),
-      middleWidget: Expanded(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
-            child: CountdownProgressBar(
-              handleTimeOut: () => viewModel.acceptBattle(false),
-              seconds: 5,
-              valueColor: ref.color.accept,
-              flipHorizontally: true,
-              backgroundColor: Colors.transparent,
-            ),
+      middleWidget: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50),
+          child: CountdownProgressBar(
+            handleTimeOut: () => viewModel.onDenyMatching(context),
+            seconds: 5,
+            valueColor: ref.color.accept,
+            flipHorizontally: true,
+            backgroundColor: Colors.transparent,
           ),
         ),
       ),
