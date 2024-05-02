@@ -7,7 +7,7 @@ class CountdownProgressBar extends StatefulWidget {
     super.key,
     required this.seconds,
     required this.valueColor,
-    required this.handleTimeOver,
+    required this.handleTimeOut,
     this.backgroundColor = Colors.grey,
     this.flipHorizontally = false,
   });
@@ -16,7 +16,7 @@ class CountdownProgressBar extends StatefulWidget {
   final Color valueColor;
   final Color backgroundColor;
   final bool flipHorizontally;
-  final void Function() handleTimeOver;
+  final void Function() handleTimeOut;
 
   @override
   State<CountdownProgressBar> createState() => _CountdownProgressBarState();
@@ -46,6 +46,7 @@ class _CountdownProgressBarState extends State<CountdownProgressBar> {
           _currentTime -= 50;
         } else {
           _timer.cancel();
+          widget.handleTimeOut();
         }
       });
     });
@@ -54,12 +55,6 @@ class _CountdownProgressBarState extends State<CountdownProgressBar> {
   @override
   Widget build(BuildContext context) {
     double progress = _currentTime / (widget.seconds * 1000);
-    if (_currentTime == 0) {
-      widget.handleTimeOver();
-      return const SizedBox(
-        height: 10,
-      );
-    }
     return Transform.scale(
       scale: widget.flipHorizontally ? -1 : 1,
       child: Container(
