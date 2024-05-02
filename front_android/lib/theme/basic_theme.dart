@@ -18,6 +18,8 @@ class BasicTheme implements AppTheme {
     onNeutral: Color(0xFFf8f8f8),
     trace: Color(0xFF48bb78),
     traceBackground: Color(0xFFd9d9d9),
+    battleBox: Color(0xFF2D3748),
+    onBattleBox: Color(0xFFf8f8f8),
     userMode: Color(0xFF7f9cf5),
     practiceMode: Color(0xFFed8936),
     rankingButton: Color(0xFFfc8181),

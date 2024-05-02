@@ -25,24 +25,24 @@ class WaitingMatching extends ConsumerWidget {
 
     viewModel.matchingState = MatchingState.matching;
 
-    void onPressButton() {
-      Navigator.pop(context);
-      viewModel.toBeforeMatching();
-    }
-
-    return MatchingLayoutView(
-      button: Button(
-        onPressed: onPressButton,
-        text: S.current.cancel,
-        backGroundColor: ref.color.deny,
-        fontColor: ref.color.onDeny,
+    return PopScope(
+      canPop: false,
+      child: MatchingLayoutView(
+        button: Button(
+          onPressed: () {
+            viewModel.onPressCancelDuringMatching(context);
+          },
+          text: S.current.cancel,
+          backGroundColor: ref.color.deny,
+          fontColor: ref.color.onDeny,
+        ),
+        middleWidget: Expanded(
+            child: SvgIcon(
+          'matching/waitingIcon',
+          color: ref.color.onBackground,
+          size: 100,
+        )),
       ),
-      middleWidget: Expanded(
-          child: SvgIcon(
-        'matching/waitingIcon',
-        color: ref.color.onBackground,
-        size: 100,
-      )),
     );
   }
 }

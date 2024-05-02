@@ -19,49 +19,30 @@ class Matched extends ConsumerStatefulWidget {
 // 배틀 화면으로 이동
 
 class _Matched extends ConsumerState<Matched> {
-  bool isAccepted = false;
-
-  void onPressButton(bool button) {
-    if (button) {
-      // Accept
-      setState(() {
-        isAccepted = true;
-      });
-    } else {
-      // Deny
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.watch(matchingViewModelProvider);
-
-    if (isAccepted) {
-      viewModel.matchingState = MatchingState.waitingOthers;
-    } else {
-      viewModel.matchingState = MatchingState.matched;
-    }
 
     return MatchingLayoutView(
       button: Row(
         children: [
           Expanded(
             child: Button(
-              onPressed: () => onPressButton(false),
+              onPressed: () => viewModel.acceptBattle(false),
               text: S.current.deny,
               backGroundColor: ref.color.deny,
               fontColor: ref.color.onDeny,
-              isInactive: isAccepted,
+              isInactive: viewModel.isAccepted,
             ),
           ),
           const SizedBox(width: 20),
           Expanded(
             child: Button(
-              onPressed: () => onPressButton(true),
+              onPressed: () => viewModel.acceptBattle(true),
               text: S.current.accept,
               backGroundColor: ref.color.accept,
               fontColor: ref.color.onAccept,
-              isInactive: isAccepted,
+              isInactive: viewModel.isAccepted,
             ),
           ),
         ],
@@ -77,7 +58,7 @@ class _Matched extends ConsumerState<Matched> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50),
             child: CountdownProgressBar(
-              handleTimeOver: () => onPressButton(false),
+              handleTimeOut: () => viewModel.acceptBattle(false),
               seconds: 5,
               valueColor: ref.color.accept,
               flipHorizontally: true,

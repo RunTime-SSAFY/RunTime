@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/src/view/battle/battle_view_model.dart';
+
+class BattleTime extends ConsumerStatefulWidget {
+  const BattleTime({super.key});
+
+  @override
+  ConsumerState<BattleTime> createState() => _BattleTimeState();
+}
+
+class _BattleTimeState extends ConsumerState<BattleTime> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    BattleViewModel viewModel = ref.watch(battleViewProvider);
+    return Text(
+      viewModel.runningTime,
+      style: ref.typo.mainTitle.copyWith(
+        color: ref.color.onBackground,
+        fontSize: 60,
+      ),
+    );
+  }
+}

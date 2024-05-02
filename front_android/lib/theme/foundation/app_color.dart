@@ -12,6 +12,8 @@ class AppColor {
     required this.onNeutral,
     required this.trace,
     required this.traceBackground,
+    required this.battleBox,
+    required this.onBattleBox,
     required this.userMode,
     required this.practiceMode,
     required this.rankingButton,
@@ -52,6 +54,10 @@ class AppColor {
   // Battle Gage
   final Color trace;
   final Color traceBackground;
+
+  // Battle Box
+  final Color battleBox;
+  final Color onBattleBox;
 
   // Font Color
   final Color white = Colors.white;
