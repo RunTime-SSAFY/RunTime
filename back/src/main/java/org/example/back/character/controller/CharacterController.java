@@ -26,8 +26,11 @@ public class CharacterController {
     @GetMapping
     public ResponseEntity<CharacterResponseDto.list> characterList(@PathVariable @Valid Long memberId){
         try{
-            List<CharacterResponseDto.list> list = characterService.findAllList(memberId);
-            return new ResponseEntity(list, HttpStatus.OK);
+            // List<CharacterResponseDto.list> list = characterService.findAllList(memberId);
+            // return new ResponseEntity(list, HttpStatus.OK);
+
+        //     TODO: 바꿔주세욥
+            return null;
         }
         catch (Exception e){
             e.printStackTrace();
