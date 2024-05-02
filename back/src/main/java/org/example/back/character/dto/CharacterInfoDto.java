@@ -14,6 +14,7 @@ public class CharacterInfoDto {
         private Long id;
         private String name;
         private String imgUrl;
+        private String detail;
         private Boolean owned;
         private Boolean check;
 
@@ -22,12 +23,14 @@ public class CharacterInfoDto {
                 Long id,
                 String name,
                 String imgUrl,
+                String detail,
                 Boolean owned,
                 Boolean check
         ) {
             this.id = id;
             this.name = name;
             this.imgUrl = imgUrl;
+            this.detail=detail;
             this.owned = owned;
             this.check = check;
         }
