@@ -25,14 +25,9 @@ class WaitingMatching extends ConsumerWidget {
 
     viewModel.matchingState = MatchingState.matching;
 
-    void onPressButton() {
-      Navigator.pop(context);
-      viewModel.toBeforeMatching();
-    }
-
     return MatchingLayoutView(
       button: Button(
-        onPressed: onPressButton,
+        onPressed: () => viewModel.onPressCancelInBeforeMatching(context),
         text: S.current.cancel,
         backGroundColor: ref.color.deny,
         fontColor: ref.color.onDeny,

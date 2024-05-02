@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
 
-final matchingViewModelProvider = Provider((ref) => MatchingViewModel());
+final matchingViewModelProvider =
+    ChangeNotifierProvider((ref) => MatchingViewModel());
 
 enum MatchingState {
   beforeMatching,
@@ -12,12 +13,15 @@ enum MatchingState {
   waitingOthers;
 }
 
-class MatchingViewModel {
+class MatchingViewModel with ChangeNotifier {
   MatchingState _matchingState = MatchingState.beforeMatching;
 
-  MatchingState get matchingState => _matchingState;
-
+  // 화면 이동 등 확실한 빌드 전에 실행! 빌드를 재실행 시키지 않음!
   set matchingState(MatchingState state) => _matchingState = state;
+
+  bool _isAccepted = false;
+
+  bool get isAccepted => _isAccepted;
 
   String get image {
     switch (_matchingState) {
@@ -58,22 +62,38 @@ class MatchingViewModel {
 
   void matchingStart() {
     _matchingState = MatchingState.matching;
+    notifyListeners();
   }
 
-  void toBeforeMatching() {
+  void onPressCancelInBeforeMatching(BuildContext context) {
+    Navigator.pop(context);
     _matchingState = MatchingState.beforeMatching;
+    notifyListeners();
   }
 
-  void matched() {
+  void acceptBattle(bool button) {
+    if (button) {
+      // Accept
+      _isAccepted = true;
+    } else {
+      // Deny
+    }
+    notifyListeners();
+  }
+
+  void matchedOnPressButton() {
     _matchingState = MatchingState.matched;
+    notifyListeners();
   }
 
   void onAcceptMatching() {
     _matchingState = MatchingState.waitingOthers;
+    notifyListeners();
   }
 
   void onDenyMatching() {
     _matchingState = MatchingState.beforeMatching;
+    notifyListeners();
   }
 
   void startBattle(BuildContext context) {
