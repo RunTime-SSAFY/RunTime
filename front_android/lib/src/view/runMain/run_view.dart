@@ -27,7 +27,7 @@ class RunMainView extends ConsumerWidget {
         appBar: AppBar(
           title: Text(
             S.current.running,
-            style: ref.typo.appBarTitle,
+            style: ref.typo.appBarMainTitle,
           ),
           actions: const [
             Padding(
