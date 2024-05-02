@@ -22,8 +22,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "ReallyCancelQuestion":
+            MessageLookupByLibrary.simpleMessage("정말로 취소하시겠습니까?"),
         "accept": MessageLookupByLibrary.simpleMessage("수락"),
         "achievement": MessageLookupByLibrary.simpleMessage("도전과제"),
+        "avgPace": MessageLookupByLibrary.simpleMessage("평균페이스"),
         "battleMode": MessageLookupByLibrary.simpleMessage("배틀모드"),
         "beforeMatching":
             MessageLookupByLibrary.simpleMessage("나와 실력이 비슷한 사람과\n대전해보세요"),
@@ -31,15 +34,19 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("대결 상대 찾기"),
         "beforeMatchingHint":
             MessageLookupByLibrary.simpleMessage("지금 바로 실시간으로 대결할 상대를 찾습니다"),
+        "bestRecord": MessageLookupByLibrary.simpleMessage("최고 기록"),
+        "caloryBurn": MessageLookupByLibrary.simpleMessage("소모칼로리"),
         "cancel": MessageLookupByLibrary.simpleMessage("취소하기"),
         "character": MessageLookupByLibrary.simpleMessage("캐릭터"),
         "currentLanguage": MessageLookupByLibrary.simpleMessage("한국어"),
         "deny": MessageLookupByLibrary.simpleMessage("거절"),
+        "done": MessageLookupByLibrary.simpleMessage("확인"),
         "enter": MessageLookupByLibrary.simpleMessage("입장"),
         "giveUp": MessageLookupByLibrary.simpleMessage("포기하기"),
         "home": MessageLookupByLibrary.simpleMessage("홈"),
         "kakaoLogin": MessageLookupByLibrary.simpleMessage("카카오 로그인"),
         "language": MessageLookupByLibrary.simpleMessage("언어"),
+        "lose": MessageLookupByLibrary.simpleMessage("패배"),
         "matched":
             MessageLookupByLibrary.simpleMessage("상대를 찾았습니다\n게임을 수락해주세요"),
         "matchedHint": MessageLookupByLibrary.simpleMessage(
@@ -47,12 +54,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "matching": MessageLookupByLibrary.simpleMessage("상대를 찾는 중"),
         "practiceMode": MessageLookupByLibrary.simpleMessage("연습모드"),
         "profile": MessageLookupByLibrary.simpleMessage("프로필"),
+        "rankPoint": MessageLookupByLibrary.simpleMessage("랭크포인트"),
         "ranking": MessageLookupByLibrary.simpleMessage("랭킹"),
         "record": MessageLookupByLibrary.simpleMessage("기록"),
         "running": MessageLookupByLibrary.simpleMessage("달리기"),
+        "runningTime": MessageLookupByLibrary.simpleMessage("달린 시간"),
         "semanticsButton": MessageLookupByLibrary.simpleMessage("버튼"),
         "userMode": MessageLookupByLibrary.simpleMessage("사용자모드"),
         "waitingOthers":
-            MessageLookupByLibrary.simpleMessage("상대방의 응답을 기다리고 있습니다.")
+            MessageLookupByLibrary.simpleMessage("상대방의 응답을 기다리고 있습니다."),
+        "win": MessageLookupByLibrary.simpleMessage("승리")
       };
 }
