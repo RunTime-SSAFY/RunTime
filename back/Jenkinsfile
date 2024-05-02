@@ -74,7 +74,7 @@ pipeline {
         }
         stage('Cleaning up'){
             steps{
-                sh "docker rmi run-mate:$BUILD_NUMBER"
+                sh "docker rmi run-mate:$BUILD_NUMBER-1"
             }
         }
     }
