@@ -22,8 +22,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "ReallyCancelQuestion":
+            MessageLookupByLibrary.simpleMessage("정말로 취소하시겠습니까?"),
         "accept": MessageLookupByLibrary.simpleMessage("accept"),
         "achievement": MessageLookupByLibrary.simpleMessage("Achievement"),
+        "avgPace": MessageLookupByLibrary.simpleMessage("Avg. Pace"),
         "battleMode": MessageLookupByLibrary.simpleMessage("Battle Mode"),
         "beforeMatching":
             MessageLookupByLibrary.simpleMessage("나와 실력이 비슷한 사람과\n대전해보세요"),
@@ -31,15 +34,19 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("대결 상대 찾기"),
         "beforeMatchingHint":
             MessageLookupByLibrary.simpleMessage("지금 바로 실시간으로 대결할 상대를 찾습니다"),
+        "bestRecord": MessageLookupByLibrary.simpleMessage("Best Record"),
+        "caloryBurn": MessageLookupByLibrary.simpleMessage("Burned Calory"),
         "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
         "character": MessageLookupByLibrary.simpleMessage("Character"),
         "currentLanguage": MessageLookupByLibrary.simpleMessage("English"),
         "deny": MessageLookupByLibrary.simpleMessage("deny"),
+        "done": MessageLookupByLibrary.simpleMessage("확인"),
         "enter": MessageLookupByLibrary.simpleMessage("Enter"),
         "giveUp": MessageLookupByLibrary.simpleMessage("giving up"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "kakaoLogin": MessageLookupByLibrary.simpleMessage("Login with Kakao"),
         "language": MessageLookupByLibrary.simpleMessage("language"),
+        "lose": MessageLookupByLibrary.simpleMessage("Lose"),
         "matched":
             MessageLookupByLibrary.simpleMessage("상대를 찾았습니다\n게임을 수락해주세요"),
         "matchedHint": MessageLookupByLibrary.simpleMessage(
@@ -47,12 +54,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "matching": MessageLookupByLibrary.simpleMessage("matching"),
         "practiceMode": MessageLookupByLibrary.simpleMessage("Practice Mode"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "rankPoint": MessageLookupByLibrary.simpleMessage("Rank Point"),
         "ranking": MessageLookupByLibrary.simpleMessage("Ranking"),
         "record": MessageLookupByLibrary.simpleMessage("Record"),
         "running": MessageLookupByLibrary.simpleMessage("Running"),
+        "runningTime": MessageLookupByLibrary.simpleMessage("Time Taken"),
         "semanticsButton": MessageLookupByLibrary.simpleMessage("Button"),
         "userMode": MessageLookupByLibrary.simpleMessage("User Mode"),
         "waitingOthers":
-            MessageLookupByLibrary.simpleMessage("waiting for others response")
+            MessageLookupByLibrary.simpleMessage("waiting for others response"),
+        "win": MessageLookupByLibrary.simpleMessage("Win")
       };
 }

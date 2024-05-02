@@ -15,19 +15,7 @@ class DistanceService with ChangeNotifier {
   late Position _lastPosition;
   double _distanceNow = 0;
   String get distanceNow => _distanceNow.toKilometer();
-
-  final DateTime _startTime = DateTime.now().add(const Duration(seconds: 4));
-  DateTime get startTime => _startTime;
-
-  DateTime _currentTime = DateTime.now();
-
-  DateTime get currentTime => _currentTime;
-
-  void timer() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      _currentTime = DateTime.now();
-    });
-  }
+  bool get isNotListening => _positionStream == null;
 
   Future<void> listenLocation() async {
     _lastPosition = await Geolocator.getCurrentPosition();
@@ -52,7 +40,13 @@ class DistanceService with ChangeNotifier {
     });
   }
 
-  void stopListen() {
+  void cancelListen() {
     _positionStream?.cancel();
+  }
+
+  @override
+  void dispose() {
+    _positionStream?.cancel();
+    super.dispose();
   }
 }
