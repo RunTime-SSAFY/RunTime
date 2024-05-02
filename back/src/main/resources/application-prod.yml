@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://k10e205.p.ssafy.io:3306/test?useSSL=false&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
+    url: jdbc:mysql://k10e205.p.ssafy.io:3306/runmate?useSSL=true&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
   data:
     redis:
       port: 6379
