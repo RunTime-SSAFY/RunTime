@@ -3,9 +3,7 @@ server:
 
 spring:
   profiles:
-    group:
-      local: local-secret
-      prod: prod-secret
-    active: local
+    active: prod
+    include: secret
   application:
     name: back
