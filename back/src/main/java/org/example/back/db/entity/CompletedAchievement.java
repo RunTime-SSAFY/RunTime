@@ -1,5 +1,7 @@
 package org.example.back.db.entity;
 
+import org.example.back.common.BaseEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -15,7 +17,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "completed_achievement")
-public class CompletedAchievement {
+public class CompletedAchievement extends BaseEntity {
 	@EmbeddedId
 	private CompletedAchievementId id;
 

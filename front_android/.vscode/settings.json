@@ -1,0 +1,14 @@
+{
+  "cSpell.words": [
+    "cupertino",
+    "dotenv",
+    "Geolocator",
+    "Kakao",
+    "Pretendard",
+    "riverpod"
+  ],
+  "editor.tokenColorCustomizations": {
+    "comments": "",
+    "textMateRules": []
+  }
+}

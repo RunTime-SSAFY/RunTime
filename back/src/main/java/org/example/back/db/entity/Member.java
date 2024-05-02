@@ -1,5 +1,8 @@
 package org.example.back.db.entity;
 
+import org.example.back.common.BaseEntity;
+import org.example.back.db.entity.enumType.RoleType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,14 +13,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "member")
-public class Member {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Member extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
@@ -30,21 +37,15 @@ public class Member {
 	@Column(name = "nickname", length = 30)
 	private String nickname;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "character_id", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "character_id")
 	private Character character;
 
-	@Column(name = "email", length = 100)
+	@Column(name = "email", length = 100,unique = true)
 	private String email;
-
-	@Column(name = "age")
-	private Integer age;
 
 	@Column(name = "tier_score")
 	private Integer tierScore;
-
-	@Column(name = "height")
-	private Float height;
 
 	@Column(name = "weight")
 	private Float weight;
@@ -52,4 +53,11 @@ public class Member {
 	@Column(name = "is_deleted")
 	private Byte isDeleted;
 
+	public void updateNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public void updateWeight(float weight) {
+		this.weight = weight;
+	}
 }
