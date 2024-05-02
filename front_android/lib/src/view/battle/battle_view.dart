@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/view/battle/widgets/gps_location/gps_location.dart';
+import 'package:front_android/src/view/battle/widgets/battle_time.dart';
+import 'package:front_android/src/view/battle/widgets/gps_location/distance.dart';
 import 'package:front_android/src/view/battle/widgets/running_information/running_information.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
@@ -29,9 +30,10 @@ class Battle extends ConsumerWidget {
         body: SafeArea(
           child: Column(
             children: [
-              const GpsLocation(
+              const DistanceTime(
                 distance: 3,
               ),
+              const BattleTime(),
               const RunningInformation(),
               Button(
                 onPressed: () {},
