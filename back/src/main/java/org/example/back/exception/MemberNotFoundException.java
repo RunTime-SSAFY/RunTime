@@ -1,7 +1,10 @@
 package org.example.back.exception;
 
-public class MemberNotFoundException extends RuntimeException{
+import org.example.back.common.CustomException;
+import org.springframework.http.HttpStatus;
+
+public class MemberNotFoundException extends CustomException{
 	public MemberNotFoundException() {
-		super("회원 정보를 찾을 수 없습니다.");
+		super(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다");
 	}
 }

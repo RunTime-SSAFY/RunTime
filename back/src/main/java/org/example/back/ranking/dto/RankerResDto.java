@@ -7,9 +7,9 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @ToString
-public class RankerDto {
+public class RankerResDto {
 	private String nickname;
-	private int tierScore;
+	private Integer tierScore;
 	private String tierName;
 	private String tierImage;
 }
