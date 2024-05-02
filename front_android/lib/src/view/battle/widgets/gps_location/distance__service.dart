@@ -33,14 +33,14 @@ class DistanceService with ChangeNotifier {
     _lastPosition = await Geolocator.getCurrentPosition();
     LocationSettings locationSettings = AndroidSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 3,
-      intervalDuration: const Duration(milliseconds: 300),
+      intervalDuration: const Duration(milliseconds: 500),
       forceLocationManager: true,
     );
     _positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position? position) {
-      debugPrint('현재까지 달린 거리: $distanceNow');
+      print(position.toString());
+      print('현재까지 달린 거리: $distanceNow');
       notifyListeners();
       if (position != null) {
         _distanceNow += Geolocator.distanceBetween(_lastPosition.latitude,
