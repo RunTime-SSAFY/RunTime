@@ -1,7 +1,6 @@
 package org.example.back.ranking.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.example.back.ranking.dto.RankerResDto;
 import org.example.back.db.repository.RankerRepository;
@@ -14,10 +13,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class RankingService {
-	private final RankerRepository rankerRepository;
+	private final RankerRepository rankRepository;
 
 	public RankingResDto getRanking() {
-		List<Tuple> rankerList =  rankerRepository.getTopMembersWithTierInfo();
+		List<Tuple> rankerList =  rankRepository.getTopMembersWithTierInfo();
 		return new RankingResDto(rankerList.stream().map(
 			ranker -> new RankerResDto(
 			ranker.get("nickname", String.class),
