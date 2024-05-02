@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UnlockedChracter extends BaseEntity {
+public class UnlockedCharacter extends BaseEntity {
 
 	@Id
 	@EmbeddedId
