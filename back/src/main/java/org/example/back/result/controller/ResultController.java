@@ -1,7 +1,7 @@
 package org.example.back.result.controller;
 
-import org.example.back.result.dto.ResultDto;
-import org.example.back.result.dto.ScoreDto;
+import org.example.back.result.dto.ResultResDto;
+import org.example.back.result.dto.TierResDto;
 import org.example.back.result.service.ResultService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +19,12 @@ public class ResultController {
 	private final ResultService resultService;
 
 	@GetMapping
-	public ResultDto getResult() {
+	public ResultResDto getResult() {
 		return resultService.getResult();
 	}
 
 	@PatchMapping("/scores")
-	public ResponseEntity<ScoreDto> updateScore() {
+	public ResponseEntity<TierResDto> updateScore() {
 		return ResponseEntity.ok(resultService.updateScore());
 	}
 }

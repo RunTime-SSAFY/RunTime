@@ -2,6 +2,7 @@ package org.example.back.db.entity;
 
 import org.example.back.common.BaseEntity;
 import org.example.back.db.entity.enumType.RoleType;
+import org.hibernate.annotations.ColumnDefault;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -56,6 +57,10 @@ public class Member extends BaseEntity {
 	@Column(name = "is_deleted")
 	private Byte isDeleted;
 
+	@Column(name = "consecutive_games")
+	@ColumnDefault("0")
+	private Integer consecutiveGames;
+
 	public void updateNickname(String nickname) {
 		this.nickname = nickname;
 	}
@@ -65,4 +70,6 @@ public class Member extends BaseEntity {
 	}
 
 	public void updateTierScore(int score) { this.tierScore = score; }
+
+	public void updateConsecutive(int consecutive) { this.consecutiveGames = consecutive; }
 }

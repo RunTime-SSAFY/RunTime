@@ -2,8 +2,6 @@ package org.example.back.result.dto;
 
 import java.time.LocalTime;
 
-import org.example.back.db.entity.Member;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ResultDto {
+public class ResultResDto {
 	private Long id;
 	private Long memberId;
 	private Integer type;

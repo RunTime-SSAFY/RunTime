@@ -11,7 +11,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ScoreDto {
+public class TierResDto {
 	private Integer beforeScore;
 	private Integer afterScore;
+	private Integer stats;  // 승격 여부: -1, 0, 1
+	private String tierName;
+	private String tierImage;
 }
