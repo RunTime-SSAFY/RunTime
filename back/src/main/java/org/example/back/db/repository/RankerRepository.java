@@ -1,4 +1,4 @@
-package org.example.back.ranking.repository;
+package org.example.back.db.repository;
 
 import java.util.List;
 
