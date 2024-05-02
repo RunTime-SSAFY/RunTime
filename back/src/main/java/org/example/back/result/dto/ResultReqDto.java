@@ -13,7 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ResultResDto {
+public class ResultReqDto {
 	private Long id;
 	private Long memberId;
 	private Integer type;

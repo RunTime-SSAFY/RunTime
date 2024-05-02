@@ -3,11 +3,9 @@ package org.example.back.result.service;
 import org.example.back.db.entity.Member;
 import org.example.back.db.entity.Record;
 import org.example.back.db.repository.MemberRepository;
-import org.example.back.db.repository.RankerRepository;
 import org.example.back.db.repository.RecordRepository;
 import org.example.back.exception.MemberNotFoundException;
-import org.example.back.ranking.dto.RankerResDto;
-import org.example.back.result.dto.ResultResDto;
+import org.example.back.result.dto.ResultReqDto;
 import org.example.back.result.dto.TierResDto;
 import org.example.back.util.SecurityUtil;
 import org.springframework.stereotype.Service;
@@ -27,21 +25,28 @@ public class ResultService {
 		return memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
 	}
 
-	public ResultResDto getResult() {
-		Long memberId = getMember().getId();
-		
-		Record record = recordRepository.findByMemberId(memberId);
-		ResultResDto resultResDto = new ResultResDto();
-		resultResDto.setId(record.getId());
-		resultResDto.setMemberId(memberId);
-		resultResDto.setType(record.getType());
-		resultResDto.setRanking(record.getRanking());
-		resultResDto.setDistance(record.getDistance());
-		resultResDto.setDuration(record.getDuration());
-		resultResDto.setAvgSpeed(record.getAvgSpeed());
-		resultResDto.setPace(record.getPace());
-		resultResDto.setCalorie(record.getCalorie());
-		return resultResDto;
+	@Transactional
+	public ResultReqDto getResult(ResultReqDto record) {
+		Record result = new Record();
+		result.setMember(getMember());
+		result.setType(record.getType());
+		result.setRanking(record.getRanking());
+		result.setDistance(record.getDistance());
+		result.setDuration(record.getDuration());
+		result.setAvgSpeed(record.getAvgSpeed());
+		result.setPace(record.getPace());
+		result.setCalorie(record.getCalorie());
+		recordRepository.save(result);
+
+		return new ResultReqDto(result.getId(),
+			result.getMember().getId(),
+			result.getType(),
+			result.getRanking(),
+			result.getDistance(),
+			result.getDuration(),
+			result.getAvgSpeed(),
+			result.getPace(),
+			result.getCalorie());
 	}
 
 	@Transactional
@@ -60,6 +65,6 @@ public class ResultService {
 
 		status = Integer.compare(afterScore / 100, beforeScore / 100);
 
-		return new TierResDto(beforeScore, afterScore, status, "", "");
+		return new TierResDto(beforeScore, afterScore, status);
 	}
 }

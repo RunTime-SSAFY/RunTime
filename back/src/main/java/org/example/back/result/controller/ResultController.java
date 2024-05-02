@@ -1,11 +1,12 @@
 package org.example.back.result.controller;
 
-import org.example.back.result.dto.ResultResDto;
+import org.example.back.result.dto.ResultReqDto;
 import org.example.back.result.dto.TierResDto;
 import org.example.back.result.service.ResultService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,9 +19,9 @@ public class ResultController {
 
 	private final ResultService resultService;
 
-	@GetMapping
-	public ResultResDto getResult() {
-		return resultService.getResult();
+	@PostMapping
+	public ResultReqDto getResult(@RequestBody ResultReqDto record) {
+		return resultService.getResult(record);
 	}
 
 	@PatchMapping("/scores")
