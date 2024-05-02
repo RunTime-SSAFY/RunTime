@@ -12,19 +12,19 @@ pipeline {
             steps{
                 withCredentials([file(credentialsId: 'application-secret', variable: 'configFile')]){
                     script{
-                        sh "cp $configFile back/src/main/resources/application-prod-secret.yml"
+                        sh "cp $configFile Back/src/main/resources/application-prod-secret.yml"
                     }
                 }
                 // withCredentials([file(credentialsId: 'key-store', variable: 'keyFile')]){
                 //     script{
-                //         sh "cp $keyFile back/keystore.p12"
+                //         sh "cp $keyFile Back/keystore.p12"
                 //     }
                 // }
             }
         }
         stage('Build'){
             steps{
-                dir("./back"){
+                dir("./Back"){
                     sh "chmod +x gradlew"
                     sh "gradle wrapper"
                     sh "./gradlew clean build"
@@ -33,7 +33,7 @@ pipeline {
         }
         stage("Build Image"){
             steps{
-                dir("./back"){
+                dir("./Back"){
                     script{
                         dockerImage = docker.build("runMate"+":$BUILD_NUMBER")
                       }
