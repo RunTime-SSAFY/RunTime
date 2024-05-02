@@ -18,6 +18,7 @@ class RunMainView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: const BoxDecoration(
+          color: Colors.white,
           image: DecorationImage(
               fit: BoxFit.fitHeight,
               image: AssetImage(

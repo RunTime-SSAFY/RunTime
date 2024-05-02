@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_android/src/service/secure_storage_service.dart';
 import 'package:front_android/src/view/battle/battle_view.dart';
+import 'package:front_android/src/view/battle_result/battle_result_view.dart';
 import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';
@@ -18,6 +19,7 @@ interface class RoutePath {
   static const String ranking = 'ranking';
   static const String login = 'login';
   static const String battle = 'battle';
+  static const String battleResult = 'battleResult';
 
   // 기록
   static const String record = 'record';
@@ -55,6 +57,9 @@ interface class RoutePath {
         break;
       case RoutePath.battle:
         page = const Battle();
+        break;
+      case RoutePath.battleResult:
+        page = const BattleResultView();
         break;
       case RoutePath.userMode:
         break;
