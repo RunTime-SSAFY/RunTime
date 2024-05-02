@@ -4,9 +4,9 @@ import 'package:front_android/src/view/battle/battle_view.dart';
 import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';
-import 'package:front_android/src/view/matching/wating_matching_view.dart';
-import 'package:front_android/src/view/runMain/run_view.dart';
+import 'package:front_android/src/view/matching/waiting_matching_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
+import 'package:front_android/src/view/runMain/run_view.dart';
 
 interface class RoutePath {
   static const String runMain = 'runMain';
