@@ -42,8 +42,8 @@ class CancelDialog extends ConsumerWidget {
           Expanded(
             child: Button(
               onPressed: () {
-                onCancel();
                 Navigator.pop(context);
+                onCancel();
               },
               text: S.current.accept,
               backGroundColor: ref.color.accept,

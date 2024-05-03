@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/battle/battle_view_model.dart';
 import 'package:front_android/src/view/battle/widgets/battle_time.dart';
+import 'package:front_android/src/view/battle/widgets/cover_message.dart';
 import 'package:front_android/src/view/battle/widgets/distance.dart';
-import 'package:front_android/src/view/battle/widgets/running_box/running_information.dart';
+import 'package:front_android/src/view/battle/widgets/pace_calory.dart';
+import 'package:front_android/src/view/battle/widgets/unity.dart';
 import 'package:front_android/theme/components/battle_background.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
@@ -23,16 +25,20 @@ class Battle extends ConsumerWidget {
         if (didPop) {
           return;
         }
-        viewModel.onPop(context);
+        viewModel.onGiveUp(context);
       },
       child: BattleBackground(
         child: Column(
           children: [
-            const Distance(
-              distance: 3,
-            ),
+            const Distance(),
             const BattleTime(),
-            const RunningInformation(),
+            const SizedBox(height: 20),
+            const Unity(),
+            const SizedBox(height: 20),
+            const PaceCalory(),
+            const SizedBox(height: 20),
+            const CoverMessage(),
+            const SizedBox(height: 30),
             Button(
               onPressed: () => viewModel.onGiveUp(context),
               text: S.current.giveUp,

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/service/distance_service.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
 import 'package:front_android/util/helper/extension.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
@@ -13,18 +14,25 @@ final battleViewProvider = ChangeNotifierProvider((ref) => BattleViewModel());
 class BattleViewModel with ChangeNotifier {
   BattleViewModel() {
     _startTimer();
+    distanceService = DistanceService();
   }
+  late DistanceService distanceService;
+
+  double get distanceNow => distanceService.distanceNow;
+
   final bool result = true;
 
   final int _point = 30;
   String get point => _point > 0 ? '+$_point' : '$_point';
   final String character = 'mainCharacter';
-  final double _distance = 1;
-  String get distance => _distance.toStringAsFixed(0);
-  final int _avgPace = 630;
-  String get avgPace => _avgPace.toString();
-  final int _calory = 155;
-  String get calory => '${_calory.toString()}Kcal';
+  double haveToRun = 1;
+
+  int _avgPace = 0;
+  int get avgPace => _avgPace;
+
+  double _calory = 0;
+
+  String get calory => _calory.toStringAsFixed(2);
 
   final DateTime _date = DateTime.now();
 
@@ -44,7 +52,12 @@ class BattleViewModel with ChangeNotifier {
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _currentTime = DateTime.now();
-      print('타이머$_currentTime');
+      var seconds = _currentTime.difference(_startTime).inSeconds;
+      _avgPace =
+          (distanceNow * 100 / (((seconds == 0 ? 1 : seconds) / 60) * 100)) ~/
+              100;
+
+      _calory += (333 / 100000 * (70 * avgPace * 1036)) / 10000;
       notifyListeners();
     });
   }
@@ -66,19 +79,9 @@ class BattleViewModel with ChangeNotifier {
   }
 
   void onResultDone(BuildContext context) {
+    _timer.cancel();
     Navigator.popAndPushNamed(context, RoutePath.runMain);
   }
 
   void handlePopInBattle() {}
-
-  void onPop(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return CancelDialog(
-          onCancel: () {},
-        );
-      },
-    );
-  }
 }

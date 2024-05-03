@@ -2,24 +2,21 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front_android/src/service/distance__service.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/src/view/battle/battle_view_model.dart';
 import 'package:front_android/src/view/battle/widgets/count_down.dart';
+import 'package:front_android/util/helper/extension.dart';
 
 class Distance extends ConsumerStatefulWidget {
   const Distance({
-    required this.distance,
     super.key,
   });
-
-  final int distance;
 
   @override
   ConsumerState<Distance> createState() => _DistanceTimeState();
 }
 
 class _DistanceTimeState extends ConsumerState<Distance> {
-  late DistanceService viewModel;
   OverlayEntry? _countDownOverlay;
   // 초기 GPS 접근 시간 확보
   void _showOverlay() {
@@ -61,31 +58,23 @@ class _DistanceTimeState extends ConsumerState<Distance> {
   }
 
   @override
-  void dispose() {
-    viewModel.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    viewModel = ref.watch(distanceServiceProvider);
-    if (viewModel.isNotListening) {
-      viewModel.listenLocation();
-    }
+    BattleViewModel viewModel = ref.watch(battleViewProvider);
+    BattleViewModel battleViewModel = ref.watch(battleViewProvider);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          viewModel.distanceNow,
+          viewModel.distanceNow.toKilometer(),
           style: ref.typo.headline1.copyWith(
             color: ref.color.onBackground,
             fontSize: 60,
           ),
         ),
         Text(
-          ' / ${widget.distance}km',
+          ' / ${battleViewModel.haveToRun}km',
           style: ref.typo.body1.copyWith(
             color: ref.color.onBackground,
             fontSize: 40,

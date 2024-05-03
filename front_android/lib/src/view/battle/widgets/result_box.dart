@@ -25,7 +25,7 @@ class ResultBox extends ConsumerWidget {
               Column(
                 children: [
                   Text(
-                    '${viewModel.distance}Km',
+                    '${viewModel.haveToRun}Km',
                     style: ref.typo.subTitle1.copyWith(
                       color: ref.color.onBattleBox,
                       fontSize: 45,
@@ -49,7 +49,7 @@ class ResultBox extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    viewModel.avgPace,
+                    viewModel.avgPace.toString(),
                     style: ref.typo.subTitle1.copyWith(
                       color: ref.color.onBattleBox,
                       fontSize: 35,
