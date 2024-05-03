@@ -35,7 +35,6 @@ public class ResultService {
 		result.setDistance(record.getDistance());
 		result.setRunStartTime(record.getRunStartTime());
 		result.setRunEndTime(record.getRunEndTime());
-		result.setAvgSpeed(record.getAvgSpeed());
 		result.setPace(record.getPace());
 		result.setCalorie(record.getCalorie());
 		recordRepository.save(result);
@@ -48,7 +47,6 @@ public class ResultService {
 			result.getRunStartTime(),
 			result.getRunEndTime(),
 			result.getDuration(),
-			result.getAvgSpeed(),
 			result.getPace(),
 			result.getCalorie());
 	}

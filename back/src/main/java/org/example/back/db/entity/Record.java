@@ -2,7 +2,6 @@ package org.example.back.db.entity;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,6 +11,7 @@ import org.example.back.db.enums.GameMode;
 import org.example.back.record.dto.RecordDto;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -61,11 +61,13 @@ public class Record extends BaseEntity {
 		return RecordDto.builder()
 				.id(getId())
 				.duration(getDuration())
-				.gameType(getGameMode())
+				.gameMode(getGameMode())
 				.ranking(getRanking())
 				.distance(getDistance())
 				.build();
 	}
+
+
 
 
 

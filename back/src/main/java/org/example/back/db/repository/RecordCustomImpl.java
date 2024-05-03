@@ -3,6 +3,7 @@ package org.example.back.db.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.example.back.db.entity.Member;
 import org.example.back.db.entity.QRecord;
 import org.example.back.db.entity.Record;
 import org.example.back.db.enums.GameMode;
@@ -23,9 +24,10 @@ public class RecordCustomImpl implements RecordCustom {
     private final QRecord record = QRecord.record;
 
     @Override
-    public Slice<RecordDto> findAll(Long lastId, int pageSize, GameMode gameMode) {
+    public Slice<RecordDto> findAll(Long lastId, int pageSize, Member member, GameMode gameMode) {
         Pageable pageable = PageRequest.of(1, pageSize);
         List<Record> records = query.selectFrom(record)
+                .where(record.member.eq(member))
                 .where(record.gameMode.stringValue().contains(gameMode.name()))
                 .where(ltRecordId(lastId))
                 .orderBy(record.id.desc())

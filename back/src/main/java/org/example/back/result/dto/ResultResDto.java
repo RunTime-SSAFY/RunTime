@@ -1,8 +1,6 @@
 package org.example.back.result.dto;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-
 import org.example.back.db.enums.GameMode;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +23,6 @@ public class ResultResDto {
 	private LocalDateTime runStartTime;
 	private LocalDateTime runEndTime;
 	private Long duration;
-	private Float avgSpeed;
 	private Integer pace;
 	private Integer calorie;
 }

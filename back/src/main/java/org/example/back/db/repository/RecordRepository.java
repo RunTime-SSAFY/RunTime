@@ -10,5 +10,4 @@ public interface RecordRepository extends JpaRepository<Record, Long>, RecordCus
 		+ "FROM Record r "
 		+ "WHERE r.id = (SELECT MAX(r2.id) FROM Record r2 WHERE r2.member.id = :memberId)")
 	Record findTopByMemberIdOrderByIdDesc(Long memberId);
-
 }
