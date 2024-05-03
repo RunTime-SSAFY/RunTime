@@ -34,5 +34,6 @@
   "runningTime": "달린 시간",
   "bestRecord": "최고 기록",
   "done": "확인",
-  "ReallyCancelQuestion": "정말로 취소하시겠습니까?"
+  "ReallyCancelQuestion": "정말로 취소하시겠습니까?",
+  "ReallyGiveUpQuestion": "정말로 포기하시겠습니까?\n완료 보상을 획득할 수 없습니다."
 }

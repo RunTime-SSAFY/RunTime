@@ -14,6 +14,7 @@ class _BattleTimeState extends ConsumerState<BattleTime> {
   @override
   Widget build(BuildContext context) {
     BattleViewModel viewModel = ref.watch(battleViewProvider);
+
     return Text(
       viewModel.runningTime,
       style: ref.typo.mainTitle.copyWith(

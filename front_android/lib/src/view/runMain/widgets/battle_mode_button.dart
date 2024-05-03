@@ -6,21 +6,16 @@ import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/runMain/widgets/battle_mode_view_model.dart';
 import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
-import 'package:front_android/util/route_path.dart';
 
 class BattleModeButton extends ConsumerWidget {
   const BattleModeButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void onPressed() {
-      Navigator.pushNamed(context, RoutePath.beforeMatching);
-    }
-
     final BattleModeViewModel viewModel = ref.watch(battleModeProvider);
 
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () => viewModel.onPress(context),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

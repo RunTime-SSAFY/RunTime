@@ -9,8 +9,6 @@ final distanceServiceProvider =
     ChangeNotifierProvider((ref) => DistanceService());
 
 class DistanceService with ChangeNotifier {
-  DistanceService();
-
   StreamSubscription<Position>? _positionStream;
   late Position _lastPosition;
   double _distanceNow = 0;

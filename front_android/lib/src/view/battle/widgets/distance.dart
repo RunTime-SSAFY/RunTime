@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/service/distance__service.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/battle/widgets/count_down.dart';
-import 'package:front_android/src/view/battle/widgets/gps_location/distance__service.dart';
 
-class DistanceTime extends ConsumerStatefulWidget {
-  const DistanceTime({
+class Distance extends ConsumerStatefulWidget {
+  const Distance({
     required this.distance,
     super.key,
   });
@@ -15,10 +15,10 @@ class DistanceTime extends ConsumerStatefulWidget {
   final int distance;
 
   @override
-  ConsumerState<DistanceTime> createState() => _DistanceTimeState();
+  ConsumerState<Distance> createState() => _DistanceTimeState();
 }
 
-class _DistanceTimeState extends ConsumerState<DistanceTime> {
+class _DistanceTimeState extends ConsumerState<Distance> {
   late DistanceService viewModel;
   OverlayEntry? _countDownOverlay;
   // 초기 GPS 접근 시간 확보

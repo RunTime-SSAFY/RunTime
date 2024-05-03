@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/battle/battle_view_model.dart';
 import 'package:front_android/src/view/battle/widgets/battle_time.dart';
-import 'package:front_android/src/view/battle/widgets/gps_location/distance.dart';
-import 'package:front_android/src/view/battle/widgets/running_information/running_information.dart';
+import 'package:front_android/src/view/battle/widgets/distance.dart';
+import 'package:front_android/src/view/battle/widgets/running_box/running_information.dart';
 import 'package:front_android/theme/components/battle_background.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
@@ -18,11 +18,17 @@ class Battle extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     BattleViewModel viewModel = ref.watch(battleViewProvider);
     return PopScope(
-      onPopInvoked: (didPop) {},
+      canPop: false,
+      onPopInvoked: (bool didPop) {
+        if (didPop) {
+          return;
+        }
+        viewModel.onPop(context);
+      },
       child: BattleBackground(
         child: Column(
           children: [
-            const DistanceTime(
+            const Distance(
               distance: 3,
             ),
             const BattleTime(),

@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
 import 'package:front_android/util/helper/extension.dart';
+import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
 import 'package:intl/intl.dart';
 
@@ -42,13 +44,25 @@ class BattleViewModel with ChangeNotifier {
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _currentTime = DateTime.now();
+      print('타이머$_currentTime');
       notifyListeners();
     });
   }
 
   void onGiveUp(BuildContext context) {
-    _timer.cancel();
-    Navigator.popAndPushNamed(context, RoutePath.battleResult);
+    showDialog(
+      context: context,
+      builder: (context) {
+        return CancelDialog(
+          onCancel: () {
+            Navigator.popAndPushNamed(context, RoutePath.battleResult);
+            _timer.cancel();
+          },
+          title: S.current.giveUp,
+          content: S.current.ReallyGiveUpQuestion,
+        );
+      },
+    );
   }
 
   void onResultDone(BuildContext context) {
@@ -56,4 +70,15 @@ class BattleViewModel with ChangeNotifier {
   }
 
   void handlePopInBattle() {}
+
+  void onPop(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return CancelDialog(
+          onCancel: () {},
+        );
+      },
+    );
+  }
 }

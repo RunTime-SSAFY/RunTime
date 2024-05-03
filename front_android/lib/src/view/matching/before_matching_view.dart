@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/service/location_permission_service.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/view/battle/widgets/gps_location/location_permission_service.dart';
 import 'package:front_android/src/view/matching/matching_view_model.dart';
 import 'package:front_android/src/view/matching/widgets/matching_layout.dart';
 import 'package:front_android/theme/components/button.dart';
