@@ -2,7 +2,7 @@ package org.example.back.friend.service;
 
 import org.example.back.db.entity.Friend;
 import org.example.back.db.entity.Member;
-import org.example.back.db.entity.enumType.FriendStatusType;
+import org.example.back.db.enums.FriendStatusType;
 import org.example.back.db.repository.FriendRepository;
 import org.example.back.db.repository.MemberRepository;
 import org.example.back.exception.MemberNotFoundException;

@@ -1,7 +1,7 @@
 package org.example.back.db.entity;
 
 import org.example.back.common.BaseEntity;
-import org.example.back.db.entity.enumType.FriendStatusType;
+import org.example.back.db.enums.FriendStatusType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -16,17 +16,28 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "completed_achievement")
-public class CompletedAchievement extends BaseEntity {
+@Table(name = "current_achievement")
+public class CurrentAchievement extends BaseEntity {
 	@EmbeddedId
-	private CompletedAchievementId id;
+	private CurrentAchievementId id;
+
+	@MapsId("memberId")
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "member_id", nullable = false)
+	private Member member;
 
 	@MapsId("achievementId")
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "achievement_id", nullable = false)
-	private Achievement achievement;
+	@JoinColumn(name = "achievement_type_id", nullable = false)
+	private AchievementType achievementType;
+
+	@Column(name="current_grade")
+	private Integer currentGrade;
+
+	@Column(name="progress")
+	private Float progress;
 
 	@Column(name = "is_received")
-	private Byte isReceived;
+	private Boolean isReceived;
 
 }
