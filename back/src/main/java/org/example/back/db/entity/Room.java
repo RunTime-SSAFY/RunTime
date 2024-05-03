@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.back.common.BaseEntity;
-import org.example.back.enumclass.Status;
+import org.example.back.db.enums.Status;
 import org.example.back.room.dto.PostRoomResDto;
 import org.example.back.room.dto.RoomResDto;
 

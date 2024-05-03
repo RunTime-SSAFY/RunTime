@@ -7,14 +7,13 @@ import org.example.back.db.entity.Member;
 import org.example.back.db.entity.QCharacter;
 import org.example.back.db.entity.QFriend;
 import org.example.back.db.entity.QMember;
-import org.example.back.db.entity.enumType.FriendStatusType;
+import org.example.back.db.enums.FriendStatusType;
 import org.example.back.friend.dto.FriendResponseDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.JPAExpressions;
