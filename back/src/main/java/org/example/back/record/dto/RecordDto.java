@@ -13,7 +13,7 @@ public class RecordDto {
 
     // runEndTime
     private Long duration; // Duration 객체를 milli seconds 로 변환
-    private GameMode gameType;
+    private GameMode gameMode;
     private Integer ranking;
     private Float distance;
 }
