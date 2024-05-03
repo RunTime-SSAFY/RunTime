@@ -1,6 +1,7 @@
 package org.example.back.db.entity;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.example.back.common.BaseEntity;
@@ -16,6 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.back.db.enums.GameMode;
 
 @Getter
 @Setter
@@ -31,8 +33,8 @@ public class Record extends BaseEntity {
 	@JoinColumn(name = "member_id", nullable = false)
 	private Member member;
 
-	@Column(name = "type")
-	private Integer type;
+	@Column(name = "game_mode")
+	private GameMode gameMode;
 
 	@Column(name = "ranking")
 	private Integer ranking;
@@ -40,27 +42,27 @@ public class Record extends BaseEntity {
 	@Column(name = "distance")
 	private Float distance;
 
-	@Column(name = "duration")
-	private LocalTime duration;
+	@Column(name = "run_start_time")
+	private LocalDateTime runStartTime;
+
+	@Column(name = "run_end_time")
+	private LocalDateTime runEndTime;
 
 	@Column(name = "avg_speed")
 	private Float avgSpeed;
 
 	@Column(name = "pace")
-	private LocalTime pace;
+	private Integer pace;
 
 	@Column(name = "calorie")
 	private Integer calorie;
 
-
-
-
-//	public Duration getDuration() {
-//		if (runStartTime != null && runEndTime != null) {
-//			return Duration.between(runStartTime, runEndTime);
-//		} else {
-//			return null;
-//		}
-//	}
+	public Long getDuration() {
+		if (runStartTime != null && runEndTime != null) {
+			return Duration.between(runStartTime, runEndTime).toMillis();
+		} else {
+			return null;
+		}
+	}
 
 }
