@@ -25,7 +25,7 @@ class BattleViewModel with ChangeNotifier {
   final int _point = 30;
   String get point => _point > 0 ? '+$_point' : '$_point';
   final String character = 'mainCharacter';
-  double haveToRun = 1;
+  double targetDistance = 1;
 
   int _avgPace = 0;
   int get avgPace => _avgPace;
@@ -67,7 +67,7 @@ class BattleViewModel with ChangeNotifier {
       context: context,
       builder: (context) {
         return CancelDialog(
-          onCancel: () {
+          onAcceptCancel: () {
             Navigator.popAndPushNamed(context, RoutePath.battleResult);
             _timer.cancel();
           },

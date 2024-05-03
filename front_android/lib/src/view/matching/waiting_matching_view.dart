@@ -22,6 +22,11 @@ class WaitingMatching extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var viewModel = ref.watch(matchingViewModelProvider);
+    viewModel.startTimer();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      viewModel.matched(context);
+    });
 
     return PopScope(
       canPop: false,

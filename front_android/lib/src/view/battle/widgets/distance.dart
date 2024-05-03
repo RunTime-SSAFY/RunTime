@@ -74,7 +74,7 @@ class _DistanceTimeState extends ConsumerState<Distance> {
           ),
         ),
         Text(
-          ' / ${battleViewModel.haveToRun}km',
+          ' / ${battleViewModel.targetDistance}km',
           style: ref.typo.body1.copyWith(
             color: ref.color.onBackground,
             fontSize: 40,

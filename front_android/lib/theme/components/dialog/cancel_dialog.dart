@@ -10,12 +10,12 @@ import 'package:front_android/util/lang/generated/l10n.dart';
 class CancelDialog extends ConsumerWidget {
   const CancelDialog({
     super.key,
-    required this.onCancel,
+    required this.onAcceptCancel,
     this.title,
     this.content,
   });
 
-  final void Function() onCancel;
+  final void Function() onAcceptCancel;
   final String? title, content;
 
   @override
@@ -43,7 +43,7 @@ class CancelDialog extends ConsumerWidget {
             child: Button(
               onPressed: () {
                 Navigator.pop(context);
-                onCancel();
+                onAcceptCancel();
               },
               text: S.current.accept,
               backGroundColor: ref.color.accept,

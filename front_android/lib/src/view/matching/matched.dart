@@ -54,7 +54,7 @@ class _Matched extends ConsumerState<Matched> {
           const SizedBox(width: 20),
           Expanded(
             child: Button(
-              onPressed: () => viewModel.acceptBattle(),
+              onPressed: () => viewModel.onAcceptMatching(),
               text: S.current.accept,
               backGroundColor: ref.color.accept,
               fontColor: ref.color.onAccept,
@@ -73,7 +73,7 @@ class _Matched extends ConsumerState<Matched> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50),
           child: CountdownProgressBar(
-            handleTimeOut: () => viewModel.onDenyMatching(context),
+            handleTimeOut: () => {viewModel.onDenyMatching(context)},
             seconds: 5,
             valueColor: ref.color.accept,
             flipHorizontally: true,

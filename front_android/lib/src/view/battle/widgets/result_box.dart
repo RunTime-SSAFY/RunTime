@@ -25,7 +25,7 @@ class ResultBox extends ConsumerWidget {
               Column(
                 children: [
                   Text(
-                    '${viewModel.haveToRun}Km',
+                    '${viewModel.targetDistance}Km',
                     style: ref.typo.subTitle1.copyWith(
                       color: ref.color.onBattleBox,
                       fontSize: 45,

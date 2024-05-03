@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
@@ -14,9 +16,29 @@ enum MatchingState {
 }
 
 class MatchingViewModel with ChangeNotifier {
+  void startTimer() {
+    if (_hasTimer) return;
+    int count = 0;
+    _hasTimer = true;
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (count > 0) {
+        count--;
+      } else {
+        _isMatched = true;
+        notifyListeners();
+        _timer.cancel();
+        _hasTimer = false;
+      }
+    });
+  }
+
+  late Timer _timer;
+  bool _hasTimer = false;
+
+  int targetDistance = 3;
+
   void matchingStart(BuildContext context) {
     Navigator.pushNamed(context, RoutePath.matching);
-    notifyListeners();
   }
 
   void onPressCancelDuringMatching(BuildContext context) {
@@ -24,7 +46,7 @@ class MatchingViewModel with ChangeNotifier {
       context: context,
       builder: (context) {
         return CancelDialog(
-          onCancel: () {
+          onAcceptCancel: () {
             Navigator.pop(context);
           },
         );
@@ -35,26 +57,44 @@ class MatchingViewModel with ChangeNotifier {
   // matched의 수락 상태
   bool _isAccepted = false;
   bool get isAccepted => _isAccepted;
-  void acceptBattle() {
-    _isAccepted = true;
-
+  void onAcceptMatching() {
+    _timer.cancel();
     notifyListeners();
+    _isAccepted = true;
+  }
+
+  void matched(BuildContext context) {
+    _isAccepted = false;
+    if (_isMatched) {
+      Navigator.pushNamed(context, RoutePath.matched);
+      _timer.cancel();
+      _isMatched = false;
+      _hasTimer = false;
+    }
   }
 
   void onDenyMatching(BuildContext context) {
-    Navigator.pushNamed(context, RoutePath.beforeMatching);
-    notifyListeners();
+    Navigator.popAndPushNamed(context, RoutePath.beforeMatching);
+    _timer.cancel();
+    _isAccepted = false;
+    _isMatched = false;
+    _hasTimer = false;
   }
 
-  void matchedOnPressButton() {
-    notifyListeners();
-  }
-
-  void onAcceptMatching() {
-    notifyListeners();
-  }
+  bool _isMatched = false;
 
   void startBattle(BuildContext context) {
-    Navigator.pushNamed(context, RoutePath.battle);
+    _timer.cancel();
+    _isAccepted = false;
+    _isMatched = false;
+    _hasTimer = false;
+
+    Navigator.popAndPushNamed(
+      context,
+      RoutePath.battle,
+      arguments: {
+        RouteParameter.targetDistance: targetDistance,
+      },
+    );
   }
 }
