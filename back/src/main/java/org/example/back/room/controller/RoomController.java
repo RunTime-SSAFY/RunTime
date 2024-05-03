@@ -27,7 +27,6 @@ public class RoomController {
         RoomScrollResDto roomScrollResDto = roomService.getRooms(lastId, pageSize, searchWord, isSecret);
 
         return ResponseEntity.ok().body(roomScrollResDto);
-
     }
 
     @PatchMapping("/name")
@@ -35,6 +34,41 @@ public class RoomController {
         PatchRoomResDto patchRoomResDto = roomService.patchRoomName(patchRoomNameReqDto);
 
         return ResponseEntity.ok().body(patchRoomResDto);
+    }
+
+    @PatchMapping("/distance")
+    public ResponseEntity<PatchRoomResDto> patchRoomDistance(@RequestBody PatchRoomDistanceReqDto patchRoomDistanceReqDto) {
+        PatchRoomResDto patchRoomResDto = roomService.patchRoomDistance(patchRoomDistanceReqDto);
+
+        return ResponseEntity.ok().body(patchRoomResDto);
+    }
+
+    @PatchMapping("/password")
+    public ResponseEntity<PatchRoomResDto> patchRoomPassword(@RequestBody PatchRoomPasswordReqDto patchRoomPasswordReqDto) {
+        PatchRoomResDto patchRoomResDto = roomService.patchRoomPassword(patchRoomPasswordReqDto);
+
+        return ResponseEntity.ok().body(patchRoomResDto);
+    }
+
+    @PatchMapping("/capacity")
+    public ResponseEntity<PatchRoomResDto> patchRoomCapacity(@RequestBody PatchRoomCapacityReqDto patchRoomCapacityReqDto) {
+        PatchRoomResDto patchRoomResDto = roomService.patchRoomCapacity(patchRoomCapacityReqDto);
+
+        return ResponseEntity.ok().body(patchRoomResDto);
+    }
+
+    @PostMapping("/{roomId}/enter")
+    public ResponseEntity<RoomMemberResDto> enterRoom(@PathVariable Long roomId) {
+        RoomMemberResDto roomMemberResDto = roomService.enterRoom(roomId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(roomMemberResDto);
+    }
+
+    @PatchMapping("/{roomId}/ready")
+    public ResponseEntity<RoomMemberResDto> readyRoom(@PathVariable Long roomId) {
+        RoomMemberResDto roomMemberResDto = roomService.readyRoom(roomId);
+
+        return ResponseEntity.ok().body(roomMemberResDto);
     }
 
 
