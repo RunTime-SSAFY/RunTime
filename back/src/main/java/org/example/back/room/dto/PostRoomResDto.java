@@ -4,12 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.back.enumclass.Status;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.TreeSet;
 
 @Getter
 @NoArgsConstructor

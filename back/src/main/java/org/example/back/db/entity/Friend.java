@@ -1,7 +1,7 @@
 package org.example.back.db.entity;
 
 import org.example.back.common.BaseEntity;
-import org.example.back.db.entity.enumType.FriendStatusType;
+import org.example.back.db.enums.FriendStatusType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,14 +15,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "friend")
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Friend extends BaseEntity {
 	@Id
@@ -42,5 +46,9 @@ public class Friend extends BaseEntity {
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private FriendStatusType status;
+
+	public void updateStatus(FriendStatusType status) {
+		this.status = status;
+	}
 
 }

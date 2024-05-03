@@ -3,7 +3,7 @@ package org.example.back.db.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.back.common.BaseEntity;
-import org.example.back.enumclass.Status;
+import org.example.back.db.enums.Status;
 import org.example.back.room.dto.PostRoomResDto;
 import org.example.back.room.dto.RoomResDto;
 

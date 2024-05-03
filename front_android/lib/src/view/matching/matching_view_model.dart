@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
 
@@ -65,10 +66,19 @@ class MatchingViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void onPressCancelInBeforeMatching(BuildContext context) {
-    Navigator.pop(context);
-    _matchingState = MatchingState.beforeMatching;
-    notifyListeners();
+  void onPressCancelDuringMatching(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return CancelDialog(
+          onCancel: () {
+            Navigator.pop(context);
+            print('뒤로가기');
+            _matchingState = MatchingState.beforeMatching;
+          },
+        );
+      },
+    );
   }
 
   void acceptBattle(bool button) {

@@ -309,6 +309,96 @@ class S {
       args: [],
     );
   }
+
+  /// `Win`
+  String get win {
+    return Intl.message(
+      'Win',
+      name: 'win',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lose`
+  String get lose {
+    return Intl.message(
+      'Lose',
+      name: 'lose',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rank Point`
+  String get rankPoint {
+    return Intl.message(
+      'Rank Point',
+      name: 'rankPoint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Avg. Pace`
+  String get avgPace {
+    return Intl.message(
+      'Avg. Pace',
+      name: 'avgPace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Burned Calory`
+  String get caloryBurn {
+    return Intl.message(
+      'Burned Calory',
+      name: 'caloryBurn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time Taken`
+  String get runningTime {
+    return Intl.message(
+      'Time Taken',
+      name: 'runningTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Best Record`
+  String get bestRecord {
+    return Intl.message(
+      'Best Record',
+      name: 'bestRecord',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `확인`
+  String get done {
+    return Intl.message(
+      '확인',
+      name: 'done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `정말로 취소하시겠습니까?`
+  String get ReallyCancelQuestion {
+    return Intl.message(
+      '정말로 취소하시겠습니까?',
+      name: 'ReallyCancelQuestion',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

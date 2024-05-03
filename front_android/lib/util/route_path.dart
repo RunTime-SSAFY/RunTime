@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_android/src/service/secure_storage_service.dart';
+import 'package:front_android/src/view/battle/battle_result_view.dart';
 import 'package:front_android/src/view/battle/battle_view.dart';
-import 'package:front_android/src/view/battle_result/battle_result_view.dart';
 import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';

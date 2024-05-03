@@ -1,10 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_wear/src/view/wearable/main/main_view.dart';
+import 'package:front_wear/src/view/wearable/run/run_first_view.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,64 +12,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text('디지털 시계'),
-        ),
-        body: Column(
-          children: [
-            Image.asset('assets/image/hedgehog.png'),
-            const ClockScreen(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ClockScreen extends StatefulWidget {
-  const ClockScreen({super.key});
-
-  @override
-  _ClockScreenState createState() => _ClockScreenState();
-}
-
-class _ClockScreenState extends State<ClockScreen> {
-  String _currentTime = '';
-  final String _currentDate = '';
-
-  @override
-  void initState() {
-    super.initState();
-    // 1초 마다 현재 시간을 업데이트
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        _currentTime =
-            DateFormat('yyyy-MM-dd (E)\nHH:mm:ss').format(DateTime.now());
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            _currentTime,
-            style: const TextStyle(
-              backgroundColor: Colors.yellow,
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: RunFirstView(),
     );
   }
 }

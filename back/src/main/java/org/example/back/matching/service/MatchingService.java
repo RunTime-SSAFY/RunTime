@@ -1,10 +1,8 @@
 package org.example.back.matching.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.back.enumclass.Status;
+import org.example.back.db.enums.Status;
 import org.example.back.matching.dto.MatchingResDto;
 import org.example.back.redis.entity.MatchingRoom;
 import org.example.back.redis.repository.MatchingRoomRepository;
