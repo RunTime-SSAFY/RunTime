@@ -16,8 +16,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ResultResDto {
-	private Long id;
+public class ResultReqDto {
 	private Long memberId;
 	private GameMode gameMode;
 	private Integer ranking;

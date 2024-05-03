@@ -14,7 +14,5 @@ import lombok.ToString;
 public class TierResDto {
 	private Integer beforeScore;
 	private Integer afterScore;
-	private Integer stats;  // 승격 여부: -1, 0, 1
-	private String tierName;
-	private String tierImage;
+	private Integer status;  // 승격 여부: -1, 0, 1
 }
