@@ -30,10 +30,11 @@ public class ResultService {
 	public ResultResDto getResult(ResultReqDto record) {
 		Record result = new Record();
 		result.setMember(getMember());
-		result.setType(record.getType());
+		result.setGameMode(record.getGameMode());
 		result.setRanking(record.getRanking());
 		result.setDistance(record.getDistance());
-		result.setDuration(record.getDuration());
+		result.setRunStartTime(record.getRunStartTime());
+		result.setRunEndTime(record.getRunEndTime());
 		result.setAvgSpeed(record.getAvgSpeed());
 		result.setPace(record.getPace());
 		result.setCalorie(record.getCalorie());
@@ -41,9 +42,11 @@ public class ResultService {
 
 		return new ResultResDto(result.getId(),
 			result.getMember().getId(),
-			result.getType(),
+			result.getGameMode(),
 			result.getRanking(),
 			result.getDistance(),
+			result.getRunStartTime(),
+			result.getRunEndTime(),
 			result.getDuration(),
 			result.getAvgSpeed(),
 			result.getPace(),
