@@ -1,5 +1,6 @@
 package org.example.back.db.entity;
 
+import java.time.Duration;
 import java.time.LocalTime;
 
 import org.example.back.common.BaseEntity;
@@ -50,5 +51,16 @@ public class Record extends BaseEntity {
 
 	@Column(name = "calorie")
 	private Integer calorie;
+
+
+
+
+//	public Duration getDuration() {
+//		if (runStartTime != null && runEndTime != null) {
+//			return Duration.between(runStartTime, runEndTime);
+//		} else {
+//			return null;
+//		}
+//	}
 
 }

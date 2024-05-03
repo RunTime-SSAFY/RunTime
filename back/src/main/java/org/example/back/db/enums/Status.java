@@ -1,4 +1,4 @@
-package org.example.back.enumclass;
+package org.example.back.db.enums;
 
 public enum Status {
     WAITING, // 대기 중
