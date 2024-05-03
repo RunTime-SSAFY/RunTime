@@ -1,7 +1,7 @@
 package org.example.back.record.dto;
 
 import lombok.*;
-import org.example.back.db.entity.enumType.GameType;
+import org.example.back.db.enums.GameMode;
 
 @Builder
 @Getter
@@ -10,9 +10,10 @@ import org.example.back.db.entity.enumType.GameType;
 public class RecordDto {
     private Long id;
     // runStartTime
+
     // runEndTime
     private Long duration; // Duration 객체를 milli seconds 로 변환
-    private GameType gameType;
+    private GameMode gameType;
     private Integer ranking;
     private Float distance;
 }
