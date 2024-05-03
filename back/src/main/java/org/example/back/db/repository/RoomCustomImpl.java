@@ -20,6 +20,7 @@ public class RoomCustomImpl implements RoomCustom {
 
     private final JPAQueryFactory query;
     private final QRoom room = QRoom.room;
+
     @Override
     public Slice<RoomResDto> findAll(Long lastId, int pageSize, String searchWord, boolean isSecret) {
         Pageable pageable = PageRequest.of(1, pageSize);
