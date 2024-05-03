@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+
 class MainView extends ConsumerWidget {
   const MainView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+  Widget build(BuildContext context,WidgetRef ref) {
+    return ProviderScope(
+      child: Scaffold(
         body: Column(
           children: [
             Image.asset('assets/image/hedgehog.png'),
@@ -18,18 +19,19 @@ class MainView extends ConsumerWidget {
           ],
         ),
       ),
+
     );
   }
 }
 
-class ClockScreen extends StatefulWidget {
+class ClockScreen extends ConsumerStatefulWidget {
   const ClockScreen({super.key});
 
   @override
   _ClockScreenState createState() => _ClockScreenState();
 }
 
-class _ClockScreenState extends State<ClockScreen> {
+class _ClockScreenState extends ConsumerState<ClockScreen> {
   String _currentTime = '';
 
   @override

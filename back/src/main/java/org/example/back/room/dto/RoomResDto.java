@@ -21,4 +21,5 @@ public class RoomResDto {
 
     private String status; // 방의 상태: 대기 중인지, 게임 진행 중인지
 
+
 }

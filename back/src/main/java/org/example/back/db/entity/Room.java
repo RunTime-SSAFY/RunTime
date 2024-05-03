@@ -1,10 +1,7 @@
 package org.example.back.db.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.back.common.BaseEntity;
 import org.example.back.db.enums.Status;
 import org.example.back.room.dto.PostRoomResDto;
@@ -22,6 +19,7 @@ public class Room extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private Member manager; // 방장 id
@@ -33,7 +31,7 @@ public class Room extends BaseEntity {
     private int capacity; // 방의 정원
     private int headcount; // 방에 참여한 인원의 수
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", cascade = CascadeType.REMOVE)
     private List<RoomMember> roomMembers;
 
     public PostRoomResDto toPostRoomResDto() {
@@ -61,9 +59,6 @@ public class Room extends BaseEntity {
         this.name = name;
     }
 
-    public void patchRoomCapacity(int capacity) {
-        this.capacity = capacity;
-    }
 
     public void patchRoomDistance(double distance) {
         this.distance = distance;
@@ -71,6 +66,14 @@ public class Room extends BaseEntity {
 
     public void patchRoomPassword(String password) {
         this.password = password;
+    }
+
+    public void patchRoomCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public void startGame() {
+        this.status = Status.IN_PROGRESS;
     }
 
 }
