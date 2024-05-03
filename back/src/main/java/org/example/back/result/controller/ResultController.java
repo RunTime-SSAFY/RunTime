@@ -16,7 +16,8 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/results")
-public class ResultController {
+public class
+ResultController {
 
 	private final ResultService resultService;
 
