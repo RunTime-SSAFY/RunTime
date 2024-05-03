@@ -1,7 +1,7 @@
 package org.example.back.redis.entity;
 
 import lombok.*;
-import org.example.back.enumclass.Status;
+import org.example.back.db.enums.Status;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 

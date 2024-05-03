@@ -1,7 +1,7 @@
 package org.example.back.db.entity;
 
 import org.example.back.common.BaseEntity;
-import org.example.back.db.entity.enumType.RoleType;
+import org.example.back.db.enums.RoleType;
 import org.hibernate.annotations.ColumnDefault;
 
 import jakarta.persistence.Column;
