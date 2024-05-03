@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:front_android/src/repository/secure_storage_repository.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 interface class KakaoService {
@@ -58,6 +59,14 @@ interface class KakaoService {
         .issueAccessToken(authCode: authCode, codeVerifier: codeVerifier);
     await TokenManagerProvider.instance.manager.setToken(token);
     return token;
+  }
+
+  static _saveToekn(OAuthToken token) {
+    SecureStorageRepository.setAccessToken(token.accessToken);
+    if (token.refreshToken != null) {
+      SecureStorageRepository.setRefreshToken(
+          token.refreshToken!, DateTime.now().add(const Duration(days: 14)));
+    }
   }
 
   static Future<OAuthToken> kakaoLogin() async {

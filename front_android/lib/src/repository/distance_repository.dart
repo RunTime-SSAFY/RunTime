@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
 
-class DistanceService {
-  DistanceService() {
+class DistanceRepository {
+  DistanceRepository() {
     listenLocation();
   }
 

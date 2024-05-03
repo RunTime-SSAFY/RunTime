@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front_android/src/service/distance_service.dart';
+import 'package:front_android/src/repository/distance_repository.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
 import 'package:front_android/util/helper/extension.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
@@ -14,9 +14,9 @@ final battleViewProvider = ChangeNotifierProvider((ref) => BattleViewModel());
 class BattleViewModel with ChangeNotifier {
   BattleViewModel() {
     _startTimer();
-    distanceService = DistanceService();
+    distanceService = DistanceRepository();
   }
-  late DistanceService distanceService;
+  late DistanceRepository distanceService;
 
   double get distanceNow => distanceService.distanceNow;
 
