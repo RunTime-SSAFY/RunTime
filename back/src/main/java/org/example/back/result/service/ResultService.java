@@ -6,6 +6,7 @@ import org.example.back.db.repository.MemberRepository;
 import org.example.back.db.repository.RecordRepository;
 import org.example.back.exception.MemberNotFoundException;
 import org.example.back.result.dto.ResultReqDto;
+import org.example.back.result.dto.ResultResDto;
 import org.example.back.result.dto.TierResDto;
 import org.example.back.util.SecurityUtil;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class ResultService {
 	}
 
 	@Transactional
-	public ResultReqDto getResult(ResultReqDto record) {
+	public ResultResDto getResult(ResultReqDto record) {
 		Record result = new Record();
 		result.setMember(getMember());
 		result.setType(record.getType());
@@ -38,7 +39,7 @@ public class ResultService {
 		result.setCalorie(record.getCalorie());
 		recordRepository.save(result);
 
-		return new ResultReqDto(result.getId(),
+		return new ResultResDto(result.getId(),
 			result.getMember().getId(),
 			result.getType(),
 			result.getRanking(),
@@ -50,10 +51,10 @@ public class ResultService {
 	}
 
 	@Transactional
-	public TierResDto updateScore() {
+	public TierResDto updateScore() { // 최근 경기 기록을 바탕으로 유저 정보 업데이트
 		int consecutive, beforeScore, afterScore, status;
 		Member member = getMember();
-		Record record = recordRepository.findByMemberId(member.getId());
+		Record record = recordRepository.findTopByMemberIdOrderByIdDesc(member.getId());
 
 		consecutive = record.getRanking().equals(1) ? member.getConsecutiveGames() + 1 : 0; // 연승 기록 갱신
 		beforeScore = member.getTierScore();  // 갱신 전 점수

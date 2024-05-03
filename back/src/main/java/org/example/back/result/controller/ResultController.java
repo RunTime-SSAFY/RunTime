@@ -1,6 +1,7 @@
 package org.example.back.result.controller;
 
 import org.example.back.result.dto.ResultReqDto;
+import org.example.back.result.dto.ResultResDto;
 import org.example.back.result.dto.TierResDto;
 import org.example.back.result.service.ResultService;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class ResultController {
 	private final ResultService resultService;
 
 	@PostMapping
-	public ResultReqDto getResult(@RequestBody ResultReqDto record) {
+	public ResultResDto getResult(@RequestBody ResultReqDto record) {
 		return resultService.getResult(record);
 	}
 
