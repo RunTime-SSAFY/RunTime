@@ -41,6 +41,6 @@ public class Character extends BaseEntity {
 
 	@OneToOne
 	@JoinColumn(name="acievements_id")
-	private Achievement achievements;
+	private Achievement achievement;
 
 }

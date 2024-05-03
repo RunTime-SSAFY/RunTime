@@ -21,7 +21,7 @@ public class KakaoAuthController {
 	private final AuthService authService;
 
 	@GetMapping("/code")
-	public ResponseEntity<?> kakaoAuth(@RequestHeader(name = "Authorization")String authorization, @RequestParam("code") String code) {
+	public ResponseEntity<?> kakaoAuth( @RequestParam("code") String code) {
 		String token = kakaoService.getToken(code);
 		System.out.println("token: "+token);
 		KakaoInfoResponse kakaoInfoResponse = kakaoService.getKakaoInfo(token);

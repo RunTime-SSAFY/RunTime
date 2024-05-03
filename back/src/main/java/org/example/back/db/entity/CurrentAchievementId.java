@@ -13,10 +13,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Embeddable
-public class CompletedAchievementId implements Serializable {
+public class CurrentAchievementId implements Serializable {
 	private static final long serialVersionUID = 4046452830594304344L;
-	@Column(name = "character_id", nullable = false)
-	private Long characterId;
+	@Column(name = "member_id", nullable = false)
+	private Long memberId;
 
 	@Column(name = "achievement_id", nullable = false)
 	private Long achievementId;
@@ -27,14 +27,14 @@ public class CompletedAchievementId implements Serializable {
 			return true;
 		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o))
 			return false;
-		CompletedAchievementId entity = (CompletedAchievementId)o;
+		CurrentAchievementId entity = (CurrentAchievementId)o;
 		return Objects.equals(this.achievementId, entity.achievementId) &&
-			Objects.equals(this.characterId, entity.characterId);
+			Objects.equals(this.memberId, entity.memberId);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(achievementId, characterId);
+		return Objects.hash(achievementId, memberId);
 	}
 
 }

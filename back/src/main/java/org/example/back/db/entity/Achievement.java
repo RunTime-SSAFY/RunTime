@@ -27,8 +27,9 @@ public class Achievement extends BaseEntity {
 	@Column(name = "id", nullable = false)
 	private Long id;
 
-	@Column(name = "class")
-	private Integer classField;
+	@ManyToOne
+	@JoinColumn(name = "achievement_type_id", nullable = false)
+	private AchievementType achievementType;
 
 	@Column(name = "name", length = 50)
 	private String name;
@@ -37,8 +38,6 @@ public class Achievement extends BaseEntity {
 	@Column(name = "detail")
 	private String detail;
 
-	@Column(name = "criteria", length = 50)
-	private String criteria;
 
 	@Column(name = "grade")
 	private Integer grade;
@@ -46,10 +45,7 @@ public class Achievement extends BaseEntity {
 	@Column(name = "goal")
 	private Float goal;
 
-	@OneToOne(mappedBy = "achievements", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	@OneToOne(mappedBy = "achievement", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private Character character;
-
-	@Column(name = "is_final")
-	private Byte isFinal;
 
 }
