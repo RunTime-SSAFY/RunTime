@@ -8,6 +8,7 @@ import org.example.back.exception.MemberNotFoundException;
 import org.example.back.record.dto.RecordDto;
 import org.example.back.record.dto.RecordListResponseDto;
 import org.example.back.record.dto.RecordResponseDto;
+import org.example.back.record.dto.StatisticsResponseDto;
 import org.example.back.util.SecurityUtil;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,16 @@ public class RecordService {
     public RecordResponseDto getRecord(Long recordId) {
         Member member = getMember();
 
-
         return null;
     }
 
     @Transactional //(readOnly = true)
-    public RecordListResponseDto getStatistics(Integer year, Integer month) {
+    public StatisticsResponseDto getStatistics(Integer year, Integer month) {
         Member member = getMember();
-
 
         return null;
     }
+
 
 
 
@@ -52,6 +52,5 @@ public class RecordService {
         return memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(MemberNotFoundException::new);
     }
-
 
 }

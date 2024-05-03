@@ -1,6 +1,7 @@
 package org.example.back.record.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.example.back.record.dto.RecordListResponseDto;
 import org.example.back.record.dto.RecordResponseDto;
 import org.example.back.record.dto.StatisticsResponseDto;
@@ -21,21 +22,25 @@ public class RecordController {
             @RequestParam(value = "lastId",required = false) Long lastId,
             @RequestParam("pageSize") Integer pageSize
     ) {
-        return null;
+        RecordListResponseDto recordListResponseDto = recordService.getAllRecords(lastId, pageSize);
+        return ResponseEntity.ok(recordListResponseDto);
     }
 
     // 기록 상세 조회
     @GetMapping("/{recordId}")
     public ResponseEntity<RecordResponseDto> getRecord(@PathVariable Long recordId) {
-        return null;
+        RecordResponseDto recordResponseDto = recordService.getRecord(recordId);
+        return ResponseEntity.ok(recordResponseDto);
     }
+
     // 통계 조회
     @GetMapping("/statistics/{year}/{month}")
     public ResponseEntity<StatisticsResponseDto> getStatistics(
             @PathVariable int year,
             @PathVariable int month
     ) {
-        return null;
+        StatisticsResponseDto statisticsResponseDto = recordService.getStatistics(year, month);
+        return ResponseEntity.ok(statisticsResponseDto);
     }
 
 }
