@@ -2,26 +2,20 @@ package org.example.back.db.entity;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
+import jakarta.persistence.*;
+import lombok.*;
 import org.example.back.common.BaseEntity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 import org.example.back.db.enums.GameMode;
+import org.example.back.record.dto.RecordDto;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "record")
 public class Record extends BaseEntity {
 	@Id
@@ -33,6 +27,8 @@ public class Record extends BaseEntity {
 	@JoinColumn(name = "member_id", nullable = false)
 	private Member member;
 
+	@Lob
+	@Enumerated(EnumType.STRING)
 	@Column(name = "game_mode")
 	private GameMode gameMode;
 
@@ -48,9 +44,6 @@ public class Record extends BaseEntity {
 	@Column(name = "run_end_time")
 	private LocalDateTime runEndTime;
 
-	@Column(name = "avg_speed")
-	private Float avgSpeed;
-
 	@Column(name = "pace")
 	private Integer pace;
 
@@ -64,5 +57,18 @@ public class Record extends BaseEntity {
 			return null;
 		}
 	}
+	public RecordDto toRecordDto() {
+		return RecordDto.builder()
+				.id(getId())
+				.duration(getDuration())
+				.gameMode(getGameMode())
+				.ranking(getRanking())
+				.distance(getDistance())
+				.build();
+	}
+
+
+
+
 
 }

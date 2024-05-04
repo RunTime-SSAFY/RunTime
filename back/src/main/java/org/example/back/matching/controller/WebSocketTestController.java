@@ -19,7 +19,7 @@ public class WebSocketTestController {
                 .opponentId(id)
                 .build();
 
+        messagingTemplate.convertAndSend("queue/member/private/"+id,  firstMatchingResDto);
 
-        messagingTemplate.convertAndSend("/user/private/"+id,  firstMatchingResDto);
     }
 }

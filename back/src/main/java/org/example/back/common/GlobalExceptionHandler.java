@@ -1,6 +1,9 @@
 package org.example.back.common;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
+import org.example.back.common.mattermost.NotificationManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -8,9 +11,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Enumeration;
+
 @Getter
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    @Autowired
+    private NotificationManager notificationManager;
 
     // CustomException 처리
     @ExceptionHandler(CustomException.class)
@@ -19,11 +26,30 @@ public class GlobalExceptionHandler {
     }
 
     // 위의 모든 경우에 해당하지 않는 exception
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<String> handleGlobalException(Exception e) {
+//        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//    }
+
+
+
+    // 전역 예외 처리
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGlobalException(Exception e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> handleGlobalException(Exception e, HttpServletRequest req) {
+        e.printStackTrace();
+        notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    private String getParams(HttpServletRequest req) {
+        StringBuilder params = new StringBuilder();
+        Enumeration<String> keys = req.getParameterNames();
+        while (keys.hasMoreElements()) {
+            String key = keys.nextElement();
+            params.append("- ").append(key).append(" : ").append(req.getParameter(key)).append('\n');
+        }
+        return params.toString();
+    }
 
 
 }

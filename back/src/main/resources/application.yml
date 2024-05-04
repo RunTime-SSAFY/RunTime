@@ -1,5 +1,5 @@
 server:
-  port: 8000
+  port: 8080
 
 spring:
   profiles:
@@ -7,3 +7,15 @@ spring:
     include: secret
   application:
     name: back
+
+
+notification:
+  mattermost:
+    enabled: false # mmSender를 사용할 지 여부, false면 알림이 오지 않는다
+    webhook-url: "https://meeting.ssafy.com/hooks/i85d5mfd1pgypqyii1izktwj5w" # 위의 Webhook URL을 기입
+#    channel: # 기본 설정한 채널이 아닌 다른 채널로 보내고 싶을 때 기입한다
+    pretext: "ⓘ를 눌러보세요" # attachments의 상단에 나오게 되는 일반 텍스트 문자
+#    color: # attachment에 왼쪽 사이드 컬러. default=red
+    author-name: "SpringBoot" # attachment의 상단에 나오는 이름
+    author-icon: "https://emojis.slackmojis.com/emojis/images/1643515009/10387/spring-boot.png?1643515009" # author-icon 왼쪽에 나올 아이콘의 url링크
+#    footer: # attachment에 하단에 나올 부분. default=현재 시간

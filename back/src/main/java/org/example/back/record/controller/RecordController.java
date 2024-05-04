@@ -1,7 +1,6 @@
 package org.example.back.record.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.example.back.record.dto.RecordListResponseDto;
 import org.example.back.record.dto.RecordResponseDto;
 import org.example.back.record.dto.StatisticsResponseDto;
@@ -20,9 +19,10 @@ public class RecordController {
     @GetMapping("")
     public ResponseEntity<RecordListResponseDto> getAllRecords(
             @RequestParam(value = "lastId",required = false) Long lastId,
-            @RequestParam("pageSize") Integer pageSize
+            @RequestParam("pageSize") Integer pageSize,
+            @RequestParam("gameMode") String gameModeStr
     ) {
-        RecordListResponseDto recordListResponseDto = recordService.getAllRecords(lastId, pageSize);
+        RecordListResponseDto recordListResponseDto = recordService.getAllRecords(lastId, pageSize, gameModeStr);
         return ResponseEntity.ok(recordListResponseDto);
     }
 
