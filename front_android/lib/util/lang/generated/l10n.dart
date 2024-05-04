@@ -399,6 +399,16 @@ class S {
       args: [],
     );
   }
+
+  /// `정말로 포기하시겠습니까?\n완료 보상을 획득할 수 없습니다.`
+  String get ReallyGiveUpQuestion {
+    return Intl.message(
+      '정말로 포기하시겠습니까?\n완료 보상을 획득할 수 없습니다.',
+      name: 'ReallyGiveUpQuestion',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
