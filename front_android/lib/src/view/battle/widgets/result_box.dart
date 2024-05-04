@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/battle/battle_view_model.dart';
+import 'package:front_android/util/helper/extension.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
 class ResultBox extends ConsumerWidget {
@@ -10,7 +11,7 @@ class ResultBox extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    BattleViewModel viewModel = ref.watch(battleViewProvider);
+    BattleViewModel viewModel = ref.watch(battleViewModelProvider);
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -25,7 +26,7 @@ class ResultBox extends ConsumerWidget {
               Column(
                 children: [
                   Text(
-                    '${viewModel.targetDistance}Km',
+                    viewModel.targetDistance.toKilometer(),
                     style: ref.typo.subTitle1.copyWith(
                       color: ref.color.onBattleBox,
                       fontSize: 45,

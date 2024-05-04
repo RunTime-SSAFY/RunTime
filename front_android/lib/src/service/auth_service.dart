@@ -18,11 +18,15 @@ class AuthService with ChangeNotifier {
     const storage = FlutterSecureStorage(
       aOptions: AndroidOptions(encryptedSharedPreferences: true),
     );
-    _accessToken = await storage.read(key: 'accessToken');
-    _refreshToken = await storage.read(key: 'refreshToken');
-    String? expireDateString = await storage.read(key: 'expireDate');
-    _expireDate =
-        expireDateString != null ? DateTime.parse(expireDateString) : null;
+    try {
+      _accessToken = await storage.read(key: 'accessToken');
+      _refreshToken = await storage.read(key: 'refreshToken');
+      String? expireDateString = await storage.read(key: 'expireDate');
+      _expireDate =
+          expireDateString != null ? DateTime.parse(expireDateString) : null;
+    } catch (err) {
+      debugPrint(err.toString());
+    }
     notifyListeners();
   }
 

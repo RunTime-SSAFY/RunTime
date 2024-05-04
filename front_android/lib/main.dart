@@ -44,7 +44,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AuthService authService = ref.watch(authProvider);
-    api.interceptors.add(CustomInterceptor(
+    apiInstance.interceptors.add(CustomInterceptor(
       context: context,
       authService: authService,
     ));

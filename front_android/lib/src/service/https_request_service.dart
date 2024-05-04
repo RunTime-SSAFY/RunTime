@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/util/route_path.dart';
 
-final api = Dio(
+final apiInstance = Dio(
   BaseOptions(
     baseUrl: dotenv.get('BASE_URL'),
   ),

@@ -97,10 +97,10 @@ interface class KakaoService {
       }
     } else {
       try {
-        var a = await AuthCodeClient.instance.authorize(
+        var whatIsThis = await AuthCodeClient.instance.authorize(
           redirectUri: dotenv.get('KAKAO_REDIRECT_URL'),
         );
-        print("결과 $a");
+        print("결과 $whatIsThis");
         var token = _loginWithKakaoAccount();
         print('카카오계정으로 로그인 성공');
         return token;

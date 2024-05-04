@@ -13,7 +13,7 @@ class BattleResultView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    BattleViewModel viewModel = ref.watch(battleViewProvider);
+    BattleViewModel viewModel = ref.watch(battleViewModelProvider);
 
     return BattleBackground(
       child: Column(

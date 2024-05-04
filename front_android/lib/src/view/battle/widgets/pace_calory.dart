@@ -9,7 +9,7 @@ class PaceCalory extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    BattleViewModel viewModel = ref.watch(battleViewProvider);
+    BattleViewModel viewModel = ref.watch(battleViewModelProvider);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -13,7 +13,7 @@ class BattleTime extends ConsumerStatefulWidget {
 class _BattleTimeState extends ConsumerState<BattleTime> {
   @override
   Widget build(BuildContext context) {
-    BattleViewModel viewModel = ref.watch(battleViewProvider);
+    BattleViewModel viewModel = ref.watch(battleViewModelProvider);
 
     return Text(
       viewModel.runningTime,

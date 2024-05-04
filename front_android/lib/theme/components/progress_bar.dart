@@ -10,8 +10,8 @@ class ProgressBar extends StatelessWidget {
     this.flipHorizontally = false,
   });
 
-  final int currentProgress;
-  final int fullProgress;
+  final double currentProgress;
+  final double fullProgress;
   final Color valueColor;
   final Color backgroundColor;
   final bool flipHorizontally;

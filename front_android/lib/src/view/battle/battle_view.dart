@@ -64,7 +64,7 @@ class _BattleState extends ConsumerState<Battle> {
 
   @override
   Widget build(BuildContext context) {
-    BattleViewModel viewModel = ref.watch(battleViewProvider);
+    BattleViewModel viewModel = ref.watch(battleViewModelProvider);
     // final args = ModalRoute.of(context)!.settings.arguments
     //     as Map<RouteParameter, dynamic>;
     // viewModel.targetDistance = args[RouteParameter.targetDistance];
@@ -83,7 +83,7 @@ class _BattleState extends ConsumerState<Battle> {
             const Distance(),
             const BattleTime(),
             const SizedBox(height: 20),
-            const Unity(),
+            const RunBar(),
             const SizedBox(height: 20),
             const PaceCalory(),
             const SizedBox(height: 20),

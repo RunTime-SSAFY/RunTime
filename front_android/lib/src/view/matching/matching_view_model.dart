@@ -2,11 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/repository/socket_repository.dart';
+import 'package:front_android/src/service/socket_service.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
 import 'package:front_android/util/route_path.dart';
 
 final matchingViewModelProvider =
-    ChangeNotifierProvider((ref) => MatchingViewModel());
+    ChangeNotifierProvider.autoDispose<MatchingViewModel>((ref) {
+  var socket = ref.watch(socketProvider);
+  return MatchingViewModel(socket);
+});
 
 // 매칭된 후 수락, 거절, 응답 전의 상태
 enum MatchedState {
@@ -16,6 +21,12 @@ enum MatchedState {
 }
 
 class MatchingViewModel with ChangeNotifier {
+  MatchingViewModel(this._socket) {
+    _socket.count++;
+  }
+
+  final SocketRepository _socket;
+
   void startTempTimer() {
     if (_hasTempTimer) return;
     int count = 0;
@@ -37,6 +48,7 @@ class MatchingViewModel with ChangeNotifier {
 
   int targetDistance = 3;
 
+  // 매칭을 시작하기
   void matchingStart(BuildContext context) {
     Navigator.popAndPushNamed(context, RoutePath.matching);
   }
@@ -54,11 +66,23 @@ class MatchingViewModel with ChangeNotifier {
     );
   }
 
-  Timer? _timer;
-  int get fullProgress => 5000;
-  int _timerTime = 5000;
-  int get currentProgress => _timerTime;
+  // 매칭이 시작된 상태 아직 매칭이 되지는 않음
+  void matching(BuildContext context) {
+    _matchedState = MatchedState.noResponse;
+    if (_isMatched) {
+      Navigator.popAndPushNamed(context, RoutePath.matched);
+      _tempTimer.cancel();
+      _isMatched = false;
+      _hasTempTimer = false;
+    }
+  }
 
+  Timer? _timer;
+  double get fullProgress => 5000;
+  double _timerTime = 5000;
+  double get currentProgress => _timerTime;
+
+  // 매칭되고 시작되는 타이머
   void startTimer(BuildContext context) {
     _timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
       if (_timerTime > 0) {
@@ -79,17 +103,6 @@ class MatchingViewModel with ChangeNotifier {
         }
       }
     });
-  }
-
-  // 매칭이 시작된 상태 아직 매칭이 완료되지는 않음
-  void matching(BuildContext context) {
-    _matchedState = MatchedState.noResponse;
-    if (_isMatched) {
-      Navigator.popAndPushNamed(context, RoutePath.matched);
-      _tempTimer.cancel();
-      _isMatched = false;
-      _hasTempTimer = false;
-    }
   }
 
   // matched의 수락 상태

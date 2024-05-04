@@ -21,7 +21,7 @@ class WaitingMatching extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var viewModel = ref.watch(matchingViewModelProvider);
+    MatchingViewModel viewModel = ref.watch(matchingViewModelProvider);
     viewModel.startTempTimer();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

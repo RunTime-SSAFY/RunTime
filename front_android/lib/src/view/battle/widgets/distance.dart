@@ -16,21 +16,21 @@ class Distance extends ConsumerStatefulWidget {
 class _DistanceTimeState extends ConsumerState<Distance> {
   @override
   Widget build(BuildContext context) {
-    BattleViewModel viewModel = ref.watch(battleViewProvider);
+    BattleViewModel viewModel = ref.watch(battleViewModelProvider);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          viewModel.distanceNow.toKilometer(),
+          viewModel.currentDistance.toKilometer(),
           style: ref.typo.headline1.copyWith(
             color: ref.color.onBackground,
             fontSize: 60,
           ),
         ),
         Text(
-          ' / ${viewModel.targetDistance}km',
+          ' / ${viewModel.targetDistance.toKilometer()}',
           style: ref.typo.body1.copyWith(
             color: ref.color.onBackground,
             fontSize: 40,
