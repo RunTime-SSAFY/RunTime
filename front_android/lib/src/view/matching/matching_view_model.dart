@@ -55,21 +55,29 @@ class MatchingViewModel with ChangeNotifier {
   }
 
   Timer? _timer;
+  int get fullProgress => 5000;
+  int _timerTime = 5000;
+  int get currentProgress => _timerTime;
 
   void startTimer(BuildContext context) {
-    print('matched 타이머 세팅');
-    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      print('matched 타이머 종료 $_matchedState');
-      if (_matchedState == MatchedState.accept) {
-        startBattle(context);
+    _timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
+      if (_timerTime > 0) {
+        _timerTime -= 50;
+        notifyListeners();
       } else {
-        Navigator.popAndPushNamed(context, RoutePath.beforeMatching);
+        _tempTimer.cancel();
+        _isMatched = false;
+        _hasTempTimer = false;
+        _timer?.cancel();
+        _timerTime = 5000;
+        if (_matchedState == MatchedState.accept) {
+          _matchedState = MatchedState.noResponse;
+          startBattle(context);
+        } else {
+          _matchedState = MatchedState.noResponse;
+          Navigator.popAndPushNamed(context, RoutePath.beforeMatching);
+        }
       }
-      _tempTimer.cancel();
-      _matchedState = MatchedState.noResponse;
-      _isMatched = false;
-      _hasTempTimer = false;
-      _timer?.cancel();
     });
   }
 

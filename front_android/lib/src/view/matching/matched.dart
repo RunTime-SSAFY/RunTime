@@ -4,7 +4,7 @@ import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/matching/matching_view_model.dart';
 import 'package:front_android/src/view/matching/widgets/matching_layout.dart';
 import 'package:front_android/theme/components/button.dart';
-import 'package:front_android/theme/components/countdown_progress_bar.dart';
+import 'package:front_android/theme/components/progress_bar.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
 class Matched extends ConsumerStatefulWidget {
@@ -77,8 +77,9 @@ class _Matched extends ConsumerState<Matched> {
         middleWidget: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50),
-            child: CountdownProgressBar(
-              seconds: 5,
+            child: ProgressBar(
+              currentProgress: viewModel.currentProgress,
+              fullProgress: viewModel.fullProgress,
               valueColor: ref.color.accept,
               flipHorizontally: true,
               backgroundColor: Colors.transparent,
