@@ -1,16 +1,13 @@
 package org.example.back.achievement.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.example.back.achievement.dto.AchievementResDto;
-import org.example.back.db.entity.Achievement;
+import org.example.back.achievement.dto.CheckAchievementResDto;
 import org.example.back.db.repository.AchievementRepository;
 import org.example.back.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 
-import jakarta.persistence.Tuple;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,8 +21,18 @@ public class AchievementService {
 		Long memberId = SecurityUtil.getCurrentMemberId();
 
 		// 해당 사용자가 진행중인 도전과제 리스트.
-		List<AchievementResDto> list = achievementRepository.FindOwnAchievement(memberId);
+		List<AchievementResDto> list = achievementRepository.findOwnAchievement(memberId);
 
 		return list;
+	}
+
+	public CheckAchievementResDto checkAchievement() {
+		Long memberId = SecurityUtil.getCurrentMemberId();
+		List<AchievementResDto> list = achievementRepository.findOwnAchievement(memberId);
+
+		list.forEach(el->{
+
+		});
+		return null;
 	}
 }
