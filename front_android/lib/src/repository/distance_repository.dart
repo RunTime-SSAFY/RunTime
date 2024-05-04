@@ -28,6 +28,7 @@ class DistanceRepository {
         _distanceNow += Geolocator.distanceBetween(_lastPosition.latitude,
             _lastPosition.longitude, position.latitude, position.longitude);
         _lastPosition = position;
+        print('$position, $_distanceNow');
 
         // 주석: 소켓으로 서버에 정보 보내기
       }
@@ -35,11 +36,6 @@ class DistanceRepository {
   }
 
   void cancelListen() {
-    _positionStream?.cancel();
-  }
-
-  @override
-  void dispose() {
     _positionStream?.cancel();
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:front_android/src/service/atuh_service.dart';
+import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/src/service/lang_service.dart';
 import 'package:front_android/src/service/theme_service.dart';

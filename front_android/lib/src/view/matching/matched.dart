@@ -26,58 +26,63 @@ class _Matched extends ConsumerState<Matched> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      viewModel.startTimer(context);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     viewModel = ref.watch(matchingViewModelProvider);
 
-    if (viewModel.isAccepted) {
+    if (viewModel.isResponded) {
       image = 'waitingOthers';
       mainMessage = S.current.waitingOthers;
     }
 
-    return MatchingLayoutView(
-      image: image,
-      mainMessage: mainMessage,
-      button: Row(
-        children: [
-          Expanded(
-            child: Button(
-              onPressed: () => viewModel.onDenyMatching(context),
-              text: S.current.deny,
-              backGroundColor: ref.color.deny,
-              fontColor: ref.color.onDeny,
-              isInactive: viewModel.isAccepted,
+    return PopScope(
+      canPop: false,
+      child: MatchingLayoutView(
+        image: image,
+        mainMessage: mainMessage,
+        button: Row(
+          children: [
+            Expanded(
+              child: Button(
+                onPressed: () => viewModel.onMatchingResponse(false),
+                text: S.current.deny,
+                backGroundColor: ref.color.deny,
+                fontColor: ref.color.onDeny,
+                isInactive: viewModel.isResponded,
+              ),
             ),
-          ),
-          const SizedBox(width: 20),
-          Expanded(
-            child: Button(
-              onPressed: () => viewModel.onAcceptMatching(),
-              text: S.current.accept,
-              backGroundColor: ref.color.accept,
-              fontColor: ref.color.onAccept,
-              isInactive: viewModel.isAccepted,
+            const SizedBox(width: 20),
+            Expanded(
+              child: Button(
+                onPressed: () => viewModel.onMatchingResponse(true),
+                text: S.current.accept,
+                backGroundColor: ref.color.accept,
+                fontColor: ref.color.onAccept,
+                isInactive: viewModel.isResponded,
+              ),
             ),
-          ),
-        ],
-      ),
-      hintMessage: Text(
-        S.current.matchedHint,
-        style: ref.typo.subTitle4.copyWith(
-          color: ref.color.inactive,
+          ],
         ),
-      ),
-      middleWidget: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50),
-          child: CountdownProgressBar(
-            handleTimeOut: () => {viewModel.onDenyMatching(context)},
-            seconds: 5,
-            valueColor: ref.color.accept,
-            flipHorizontally: true,
-            backgroundColor: Colors.transparent,
+        hintMessage: Text(
+          S.current.matchedHint,
+          style: ref.typo.subTitle4.copyWith(
+            color: ref.color.inactive,
+          ),
+        ),
+        middleWidget: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: CountdownProgressBar(
+              seconds: 5,
+              valueColor: ref.color.accept,
+              flipHorizontally: true,
+              backgroundColor: Colors.transparent,
+            ),
           ),
         ),
       ),

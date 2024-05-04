@@ -17,7 +17,7 @@ class KakaoLoginButton extends StatelessWidget {
     void onPress() async {
       if (!context.mounted) return;
       try {
-        var result = await KakaoService.kakaoLogin();
+        await KakaoService.kakaoLogin();
         Navigator.pushNamed(context, RoutePath.runMain);
       } catch (error) {
         print(error);

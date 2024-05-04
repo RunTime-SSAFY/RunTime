@@ -10,7 +10,6 @@ import 'package:front_android/src/view/battle/widgets/unity.dart';
 import 'package:front_android/theme/components/battle_background.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
-import 'package:front_android/util/route_path.dart';
 
 class Battle extends ConsumerWidget {
   const Battle({super.key});
@@ -20,9 +19,9 @@ class Battle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     BattleViewModel viewModel = ref.watch(battleViewProvider);
-    final args = ModalRoute.of(context)!.settings.arguments
-        as Map<RouteParameter, dynamic>;
-    viewModel.targetDistance = args[RouteParameter.targetDistance];
+    // final args = ModalRoute.of(context)!.settings.arguments
+    //     as Map<RouteParameter, dynamic>;
+    // viewModel.targetDistance = args[RouteParameter.targetDistance];
 
     return PopScope(
       canPop: false,
