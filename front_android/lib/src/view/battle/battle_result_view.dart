@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/battle/battle_view_model.dart';
-import 'package:front_android/src/view/battle/widgets/result_data/result_box.dart';
+import 'package:front_android/src/view/battle/widgets/result_box.dart';
 import 'package:front_android/theme/components/battle_background.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/theme/components/png_image.dart';
@@ -13,7 +13,7 @@ class BattleResultView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    BattleViewModel viewModel = ref.watch(battleViewProvider);
+    BattleViewModel viewModel = ref.watch(battleViewModelProvider);
 
     return BattleBackground(
       child: Column(

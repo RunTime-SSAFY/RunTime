@@ -12,11 +12,11 @@ class BaseDialog extends ConsumerWidget {
 
   final String? title;
   final Widget content;
-  final List<Widget>? actions;
+  final Widget? actions;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AlertDialog(
+    return SimpleDialog(
       backgroundColor: ref.color.surface,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
@@ -26,15 +26,20 @@ class BaseDialog extends ConsumerWidget {
       contentPadding: const EdgeInsets.all(16).copyWith(
         top: title != null ? 0 : 16,
       ),
-      actionsPadding: const EdgeInsets.all(16),
       title: title != null
           ? Text(
               title!,
               style: ref.typo.headline2,
             )
           : null,
-      content: content,
-      actions: actions,
+      children: [
+        content,
+        if (actions != null)
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: actions!,
+          ),
+      ],
     );
   }
 }

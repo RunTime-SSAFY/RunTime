@@ -10,6 +10,6 @@ extension DurationFormatter on Duration {
 
 extension DoubleExtension on double {
   String toKilometer() {
-    return (this / 1000).toStringAsFixed(2);
+    return '${(this / 1000).toStringAsFixed(2)}km';
   }
 }
