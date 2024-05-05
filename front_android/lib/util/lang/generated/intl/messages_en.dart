@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "ReallyCancelQuestion":
             MessageLookupByLibrary.simpleMessage("정말로 취소하시겠습니까?"),
+        "ReallyGiveUpQuestion": MessageLookupByLibrary.simpleMessage(
+            "정말로 포기하시겠습니까?\n완료 보상을 획득할 수 없습니다."),
         "accept": MessageLookupByLibrary.simpleMessage("accept"),
         "achievement": MessageLookupByLibrary.simpleMessage("Achievement"),
         "avgPace": MessageLookupByLibrary.simpleMessage("Avg. Pace"),

@@ -1,69 +1,56 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/repository/socket_repository.dart';
+import 'package:front_android/src/service/socket_service.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
-import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
 
 final matchingViewModelProvider =
-    ChangeNotifierProvider((ref) => MatchingViewModel());
+    ChangeNotifierProvider.autoDispose<MatchingViewModel>((ref) {
+  var socket = ref.watch(socketProvider);
+  return MatchingViewModel(socket);
+});
 
-enum MatchingState {
-  beforeMatching,
-  matching,
-  matched,
-  waitingOthers;
+// 매칭된 후 수락, 거절, 응답 전의 상태
+enum MatchedState {
+  accept,
+  deny,
+  noResponse;
 }
 
 class MatchingViewModel with ChangeNotifier {
-  MatchingState _matchingState = MatchingState.beforeMatching;
-
-  // 화면 이동 등 확실한 빌드 전에 실행! 빌드를 재실행 시키지 않음!
-  set matchingState(MatchingState state) => _matchingState = state;
-
-  bool _isAccepted = false;
-
-  bool get isAccepted => _isAccepted;
-
-  String get image {
-    switch (_matchingState) {
-      case MatchingState.beforeMatching:
-        return 'beforeMatching';
-      case MatchingState.matching:
-        return 'matching';
-      case MatchingState.matched:
-        return 'matched';
-      case MatchingState.waitingOthers:
-        return 'waitingOthers';
-    }
+  MatchingViewModel(this._socket) {
+    _socket.count++;
   }
 
-  String get mainMessage {
-    switch (_matchingState) {
-      case MatchingState.beforeMatching:
-        return S.current.beforeMatching;
-      case MatchingState.matching:
-        return S.current.matching;
-      case MatchingState.matched:
-        return S.current.matched;
-      case MatchingState.waitingOthers:
-        return S.current.waitingOthers;
-    }
+  final SocketRepository _socket;
+
+  void startTempTimer() {
+    if (_hasTempTimer) return;
+    int count = 0;
+    _hasTempTimer = true;
+    _tempTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (count > 0) {
+        count--;
+      } else {
+        _isMatched = true;
+        notifyListeners();
+        _tempTimer.cancel();
+        _hasTempTimer = false;
+      }
+    });
   }
 
-  String get hintMassage {
-    switch (_matchingState) {
-      case MatchingState.beforeMatching:
-        return S.current.beforeMatching;
-      case MatchingState.matched:
-        return S.current.matchedHint;
-      default:
-        return '';
-    }
-  }
+  late Timer _tempTimer;
+  bool _hasTempTimer = false;
 
-  void matchingStart() {
-    _matchingState = MatchingState.matching;
-    notifyListeners();
+  int targetDistance = 3;
+
+  // 매칭을 시작하기
+  void matchingStart(BuildContext context) {
+    Navigator.popAndPushNamed(context, RoutePath.matching);
   }
 
   void onPressCancelDuringMatching(BuildContext context) {
@@ -71,42 +58,76 @@ class MatchingViewModel with ChangeNotifier {
       context: context,
       builder: (context) {
         return CancelDialog(
-          onCancel: () {
+          onAcceptCancel: () {
             Navigator.pop(context);
-            print('뒤로가기');
-            _matchingState = MatchingState.beforeMatching;
           },
         );
       },
     );
   }
 
-  void acceptBattle(bool button) {
-    if (button) {
-      // Accept
-      _isAccepted = true;
+  // 매칭이 시작된 상태 아직 매칭이 되지는 않음
+  void matching(BuildContext context) {
+    _matchedState = MatchedState.noResponse;
+    if (_isMatched) {
+      Navigator.popAndPushNamed(context, RoutePath.matched);
+      _tempTimer.cancel();
+      _isMatched = false;
+      _hasTempTimer = false;
+    }
+  }
+
+  Timer? _timer;
+  double get fullProgress => 5000;
+  double _timerTime = 5000;
+  double get currentProgress => _timerTime;
+
+  // 매칭되고 시작되는 타이머
+  void startTimer(BuildContext context) {
+    _timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
+      if (_timerTime > 0) {
+        _timerTime -= 50;
+        notifyListeners();
+      } else {
+        _tempTimer.cancel();
+        _isMatched = false;
+        _hasTempTimer = false;
+        _timer?.cancel();
+        _timerTime = 5000;
+        if (_matchedState == MatchedState.accept) {
+          _matchedState = MatchedState.noResponse;
+          startBattle(context);
+        } else {
+          _matchedState = MatchedState.noResponse;
+          Navigator.popAndPushNamed(context, RoutePath.beforeMatching);
+        }
+      }
+    });
+  }
+
+  // matched의 수락 상태
+  MatchedState _matchedState = MatchedState.noResponse;
+  bool get isResponded => _matchedState != MatchedState.noResponse;
+
+  void onMatchingResponse(bool response) {
+    _tempTimer.cancel();
+    if (response) {
+      _matchedState = MatchedState.accept;
     } else {
-      // Deny
+      _matchedState = MatchedState.deny;
     }
     notifyListeners();
   }
 
-  void matchedOnPressButton() {
-    _matchingState = MatchingState.matched;
-    notifyListeners();
-  }
-
-  void onAcceptMatching() {
-    _matchingState = MatchingState.waitingOthers;
-    notifyListeners();
-  }
-
-  void onDenyMatching() {
-    _matchingState = MatchingState.beforeMatching;
-    notifyListeners();
-  }
+  bool _isMatched = false;
 
   void startBattle(BuildContext context) {
-    Navigator.pushNamed(context, RoutePath.battle);
+    Navigator.popAndPushNamed(
+      context,
+      RoutePath.battle,
+      arguments: {
+        RouteParameter.targetDistance: targetDistance,
+      },
+    );
   }
 }

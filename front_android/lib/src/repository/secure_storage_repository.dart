@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-abstract class SecureStorageService with ChangeNotifier {
+class SecureStorageRepository {
   static AndroidOptions _getAndroidOptions() => const AndroidOptions(
         encryptedSharedPreferences: true,
       );

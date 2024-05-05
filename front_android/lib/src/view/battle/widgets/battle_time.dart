@@ -12,23 +12,14 @@ class BattleTime extends ConsumerStatefulWidget {
 
 class _BattleTimeState extends ConsumerState<BattleTime> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    BattleViewModel viewModel = ref.watch(battleViewProvider);
+    BattleViewModel viewModel = ref.watch(battleViewModelProvider);
+
     return Text(
       viewModel.runningTime,
-      style: ref.typo.mainTitle.copyWith(
+      style: ref.typo.subTitle1.copyWith(
         color: ref.color.onBackground,
-        fontSize: 60,
+        fontSize: 80,
       ),
     );
   }

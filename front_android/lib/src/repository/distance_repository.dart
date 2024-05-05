@@ -1,21 +1,24 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front_android/util/helper/extension.dart';
+import 'package:front_android/src/service/socket_service.dart';
 import 'package:geolocator/geolocator.dart';
 
-final distanceServiceProvider =
-    ChangeNotifierProvider((ref) => DistanceService());
+class DistanceRepository {
+  DistanceRepository(this.streamHandler) {
+    listenLocation();
+  }
 
-class DistanceService with ChangeNotifier {
-  DistanceService();
+  BattleSocketStreamHandler streamHandler;
+  int index = 0;
 
   StreamSubscription<Position>? _positionStream;
   late Position _lastPosition;
-  double _distanceNow = 0;
-  String get distanceNow => _distanceNow.toKilometer();
+  double _currentDistance = 0;
+  double get currentDistance => _currentDistance;
+
   bool get isNotListening => _positionStream == null;
+  double instantaneousVelocity = 0;
+  late double _distanceBetween;
 
   Future<void> listenLocation() async {
     _lastPosition = await Geolocator.getCurrentPosition();
@@ -27,26 +30,25 @@ class DistanceService with ChangeNotifier {
     _positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position? position) {
-      print(position.toString());
-      print('현재까지 달린 거리: $distanceNow');
-      notifyListeners();
       if (position != null) {
-        _distanceNow += Geolocator.distanceBetween(_lastPosition.latitude,
+        _distanceBetween = Geolocator.distanceBetween(_lastPosition.latitude,
             _lastPosition.longitude, position.latitude, position.longitude);
         _lastPosition = position;
+        // 부동소수점 오차 제거
+        _currentDistance =
+            (_currentDistance * 10000 + _distanceBetween * 10000) / 10000;
+        instantaneousVelocity = _distanceBetween * 2 * 36 / 10;
 
-        // 주석: 소켓으로 서버에 정보 보내기
+        streamHandler.addStreamData(BattleSocketData(
+          position: position,
+          currentDistance: _currentDistance,
+          index: index,
+        ));
       }
     });
   }
 
   void cancelListen() {
     _positionStream?.cancel();
-  }
-
-  @override
-  void dispose() {
-    _positionStream?.cancel();
-    super.dispose();
   }
 }

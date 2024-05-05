@@ -25,48 +25,51 @@ class LoginView extends ConsumerWidget {
           image: AssetImage('assets/images/background/loginBackground.png'),
         ),
       ),
-      child: Scaffold(
-        backgroundColor: const Color(0x99000000),
-        body: SafeArea(
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  onPressed: onPressSetting,
-                  icon: const Icon(Icons.settings),
-                  color: ref.color.onBackground,
-                ),
-              ),
-              Expanded(
-                child: Center(
-                  child: Column(
-                    children: [
-                      const Spacer(
-                        flex: 2,
-                      ),
-                      const PngImage("mainCharacter"),
-                      const Spacer(
-                        flex: 1,
-                      ),
-                      Text(
-                        "Run Mate",
-                        style: ref.typo.mainTitle.copyWith(
-                          color: ref.color.onBackground,
-                        ),
-                      ),
-                      const Spacer(
-                        flex: 1,
-                      ),
-                      KakaoLoginButton(ref.locale.toString()),
-                      const Spacer(
-                        flex: 4,
-                      )
-                    ],
+      child: PopScope(
+        canPop: false,
+        child: Scaffold(
+          backgroundColor: const Color(0x99000000),
+          body: SafeArea(
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    onPressed: onPressSetting,
+                    icon: const Icon(Icons.settings),
+                    color: ref.color.onBackground,
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Center(
+                    child: Column(
+                      children: [
+                        const Spacer(
+                          flex: 2,
+                        ),
+                        const PngImage("mainCharacter"),
+                        const Spacer(
+                          flex: 1,
+                        ),
+                        Text(
+                          "Run Mate",
+                          style: ref.typo.mainTitle.copyWith(
+                            color: ref.color.onBackground,
+                          ),
+                        ),
+                        const Spacer(
+                          flex: 1,
+                        ),
+                        KakaoLoginButton(ref.locale.toString()),
+                        const Spacer(
+                          flex: 4,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

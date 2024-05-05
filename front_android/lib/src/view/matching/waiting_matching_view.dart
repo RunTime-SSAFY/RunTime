@@ -21,13 +21,24 @@ class WaitingMatching extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var viewModel = ref.watch(matchingViewModelProvider);
+    MatchingViewModel viewModel = ref.watch(matchingViewModelProvider);
+    viewModel.startTempTimer();
 
-    viewModel.matchingState = MatchingState.matching;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      viewModel.matching(context);
+    });
 
     return PopScope(
       canPop: false,
+      onPopInvoked: (bool didPop) {
+        if (didPop) {
+          return;
+        }
+        viewModel.onPressCancelDuringMatching(context);
+      },
       child: MatchingLayoutView(
+        image: 'matching',
+        mainMessage: S.current.matching,
         button: Button(
           onPressed: () {
             viewModel.onPressCancelDuringMatching(context);
@@ -36,12 +47,11 @@ class WaitingMatching extends ConsumerWidget {
           backGroundColor: ref.color.deny,
           fontColor: ref.color.onDeny,
         ),
-        middleWidget: Expanded(
-            child: SvgIcon(
+        middleWidget: SvgIcon(
           'matching/waitingIcon',
           color: ref.color.onBackground,
           size: 100,
-        )),
+        ),
       ),
     );
   }
