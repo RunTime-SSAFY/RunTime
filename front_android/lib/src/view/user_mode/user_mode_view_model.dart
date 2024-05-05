@@ -8,7 +8,29 @@ final userModeViewModelProvider =
     ChangeNotifierProvider((ref) => UserModeViewModel());
 
 class UserModeViewModel with ChangeNotifier {
-  List<UserModeRoom> userModeRoomList = [];
+  List<UserModeRoom> _userModeRoomList = [];
+
+  List<String> tagList = const ['전체', '공개방', '1km', '3km', '5km'];
+  Map<String, double> distanceMap = const {'1km': 1, '3km': 3, '5km': 5};
+  String tagNow = '전체';
+
+  void changeTag(String tag) {
+    assert(tagList.contains(tag));
+    tagNow = tag;
+    notifyListeners();
+  }
+
+  List<UserModeRoom> get userModeRoomList {
+    if (tagNow == '전체') {
+      return _userModeRoomList;
+    } else if (tagNow != "공개방") {
+      return _userModeRoomList
+          .where((element) => element.distance == distanceMap[tagNow])
+          .toList();
+    } else {
+      return _userModeRoomList;
+    }
+  }
 
   final userModeRoomRepository = UserModeRoomRepository();
 
@@ -23,7 +45,7 @@ class UserModeViewModel with ChangeNotifier {
       userModeRoomRepository.getUserModeRoomList(),
       Future.delayed(const Duration(milliseconds: 500)),
     ]);
-    userModeRoomList = results[0];
+    _userModeRoomList = results[0];
 
     _isLoading = false;
     notifyListeners();

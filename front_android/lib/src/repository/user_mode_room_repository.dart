@@ -35,7 +35,7 @@ var a = [
     "roomId": 1,
     "name": '안녕',
     "capacity": 4,
-    "distance": 3,
+    "distance": 1,
     "status": UserModeRoomStatus.WAITING,
     "headcount": 1
   },
@@ -51,7 +51,7 @@ var a = [
     "roomId": 4,
     "name": '달리기',
     "capacity": 4,
-    "distance": 3,
+    "distance": 5,
     "status": UserModeRoomStatus.WAITING,
     "headcount": 3
   },
@@ -67,7 +67,7 @@ var a = [
     "roomId": 5,
     "name": 'english name',
     "capacity": 2,
-    "distance": 3,
+    "distance": 5,
     "status": UserModeRoomStatus.IN_PROGRESS,
     "headcount": 2
   },

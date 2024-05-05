@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/src/view/user_mode/user_mode_view_model.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
-class TagButton extends ConsumerStatefulWidget {
+class TagButton extends ConsumerWidget {
   const TagButton({
     super.key,
     required this.tagName,
@@ -12,32 +13,35 @@ class TagButton extends ConsumerStatefulWidget {
   final String tagName;
 
   @override
-  ConsumerState<TagButton> createState() => _TagButtonState();
-}
-
-class _TagButtonState extends ConsumerState<TagButton> {
-  bool isPressed = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: S.current.semanticsButton,
-      hint: '${widget.tagName} ${S.current.search}',
-      child: AnimatedContainer(
-        duration: const Duration(
-          milliseconds: 500,
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
-        decoration: BoxDecoration(
-          color: ref.color.accept,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: Text(
-            widget.tagName,
-            style: ref.typo.headline2.copyWith(
-              color: ref.color.onAccept,
+  Widget build(BuildContext context, WidgetRef ref) {
+    UserModeViewModel viewModel = ref.watch(userModeViewModelProvider);
+    return GestureDetector(
+      onTap: () {
+        viewModel.changeTag(tagName);
+      },
+      child: Semantics(
+        button: true,
+        label: S.current.semanticsButton,
+        hint: '$tagName ${S.current.search}',
+        child: AnimatedContainer(
+          duration: const Duration(
+            milliseconds: 500,
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
+          decoration: BoxDecoration(
+            color: viewModel.tagNow == tagName
+                ? ref.color.accept
+                : ref.color.inactive,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Center(
+            child: Text(
+              tagName,
+              style: ref.typo.headline2.copyWith(
+                color: viewModel.tagNow == tagName
+                    ? ref.color.onAccept
+                    : ref.color.onInactive,
+              ),
             ),
           ),
         ),
@@ -47,9 +51,12 @@ class _TagButtonState extends ConsumerState<TagButton> {
 }
 
 class TagButtonList extends StatelessWidget {
-  const TagButtonList({super.key});
+  const TagButtonList({
+    super.key,
+    required this.tagNameList,
+  });
 
-  final List<String> tagNameList = const ['전체', '공개방', '1km', '3km', '5km'];
+  final List<String> tagNameList;
 
   @override
   Widget build(BuildContext context) {

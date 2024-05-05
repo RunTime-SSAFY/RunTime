@@ -68,7 +68,7 @@ class _UserModeViewState extends ConsumerState<UserModeView> {
             ),
             body: Column(
               children: [
-                const TagButtonList(),
+                TagButtonList(tagNameList: viewModel.tagList),
                 viewModel.userModeRoomList.isEmpty
                     ? const RoomEmpty()
                     : Expanded(
