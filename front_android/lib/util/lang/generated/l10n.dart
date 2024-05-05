@@ -380,10 +380,10 @@ class S {
     );
   }
 
-  /// `확인`
+  /// `Done`
   String get done {
     return Intl.message(
-      '확인',
+      'Done',
       name: 'done',
       desc: '',
       args: [],
@@ -405,6 +405,56 @@ class S {
     return Intl.message(
       '정말로 포기하시겠습니까?\n완료 보상을 획득할 수 없습니다.',
       name: 'ReallyGiveUpQuestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no rooms Now\nTry later`
+  String get roomEmpty {
+    return Intl.message(
+      'There are no rooms Now\nTry later',
+      name: 'roomEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Make Room`
+  String get makeRoom {
+    return Intl.message(
+      'Make Room',
+      name: 'makeRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message(
+      'Search',
+      name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Waiting`
+  String get waiting {
+    return Intl.message(
+      'Waiting',
+      name: 'waiting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In Progress`
+  String get inProgress {
+    return Intl.message(
+      'In Progress',
+      name: 'inProgress',
       desc: '',
       args: [],
     );

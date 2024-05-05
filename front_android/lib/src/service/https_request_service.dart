@@ -11,13 +11,13 @@ final apiInstance = Dio(
 );
 
 class CustomInterceptor extends Interceptor {
+  final BuildContext context;
+  final AuthService authService;
+
   CustomInterceptor({
     required this.context,
     required this.authService,
   });
-
-  final BuildContext context;
-  final AuthService authService;
 
   @override
   void onRequest(
@@ -25,7 +25,7 @@ class CustomInterceptor extends Interceptor {
     var accessToken = authService.accessToken;
     options.headers['Authorization'] = 'Bearer $accessToken';
 
-    debugPrint('REQUEST[${options.method}] => PATH: ${options.path}');
+    debugPrint('요청\nREQUEST[${options.method}] => PATH: ${options.path}');
     handler.next(options);
   }
 
@@ -35,12 +35,13 @@ class CustomInterceptor extends Interceptor {
     ResponseInterceptorHandler handler,
   ) {
     debugPrint(
-        'RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}');
+        '응답\nRESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}');
     handler.next(response);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
+    debugPrint('에러 $err');
     if (err.response?.statusCode == 401) {
       Navigator.of(context).pushNamed(RoutePath.login);
     } else {

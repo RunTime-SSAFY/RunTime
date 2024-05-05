@@ -42,13 +42,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "character": MessageLookupByLibrary.simpleMessage("Character"),
         "currentLanguage": MessageLookupByLibrary.simpleMessage("English"),
         "deny": MessageLookupByLibrary.simpleMessage("deny"),
-        "done": MessageLookupByLibrary.simpleMessage("확인"),
+        "done": MessageLookupByLibrary.simpleMessage("Done"),
         "enter": MessageLookupByLibrary.simpleMessage("Enter"),
         "giveUp": MessageLookupByLibrary.simpleMessage("giving up"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "inProgress": MessageLookupByLibrary.simpleMessage("In Progress"),
         "kakaoLogin": MessageLookupByLibrary.simpleMessage("Login with Kakao"),
         "language": MessageLookupByLibrary.simpleMessage("language"),
         "lose": MessageLookupByLibrary.simpleMessage("Lose"),
+        "makeRoom": MessageLookupByLibrary.simpleMessage("Make Room"),
         "matched":
             MessageLookupByLibrary.simpleMessage("상대를 찾았습니다\n게임을 수락해주세요"),
         "matchedHint": MessageLookupByLibrary.simpleMessage(
@@ -59,10 +61,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "rankPoint": MessageLookupByLibrary.simpleMessage("Rank Point"),
         "ranking": MessageLookupByLibrary.simpleMessage("Ranking"),
         "record": MessageLookupByLibrary.simpleMessage("Record"),
+        "roomEmpty": MessageLookupByLibrary.simpleMessage(
+            "There are no rooms Now\nTry later"),
         "running": MessageLookupByLibrary.simpleMessage("Running"),
         "runningTime": MessageLookupByLibrary.simpleMessage("Time Taken"),
+        "search": MessageLookupByLibrary.simpleMessage("Search"),
         "semanticsButton": MessageLookupByLibrary.simpleMessage("Button"),
         "userMode": MessageLookupByLibrary.simpleMessage("User Mode"),
+        "waiting": MessageLookupByLibrary.simpleMessage("Waiting"),
         "waitingOthers":
             MessageLookupByLibrary.simpleMessage("waiting for others response"),
         "win": MessageLookupByLibrary.simpleMessage("Win")

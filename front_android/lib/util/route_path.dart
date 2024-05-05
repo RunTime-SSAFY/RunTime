@@ -6,7 +6,8 @@ import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';
 import 'package:front_android/src/view/matching/waiting_matching_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
-import 'package:front_android/src/view/runMain/run_view.dart';
+import 'package:front_android/src/view/run_main/run_main_view.dart';
+import 'package:front_android/src/view/user_mode/user_mode_view.dart';
 
 enum RouteParameter {
   targetDistance;
@@ -50,6 +51,7 @@ interface class RoutePath {
         page = const BattleResultView();
         break;
       case RoutePath.userMode:
+        page = const UserModeView();
         break;
       case RoutePath.practiceMode:
         break;

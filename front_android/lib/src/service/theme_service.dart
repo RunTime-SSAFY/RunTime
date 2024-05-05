@@ -6,11 +6,11 @@ import 'package:front_android/theme/foundation/app_theme.dart';
 final themeServiceProvider = ChangeNotifierProvider((ref) => ThemeService());
 
 class ThemeService with ChangeNotifier {
+  AppTheme theme;
+
   ThemeService({
     AppTheme? theme,
   }) : theme = theme ?? BasicTheme();
-
-  AppTheme theme;
 
   // 테마 변경
 

@@ -1,14 +1,16 @@
 import 'dart:async';
 
+import 'package:front_android/src/model/battle.dart';
 import 'package:front_android/src/service/socket_service.dart';
 import 'package:geolocator/geolocator.dart';
 
 class DistanceRepository {
+  BattleSocketStreamHandler streamHandler;
+
   DistanceRepository(this.streamHandler) {
     listenLocation();
   }
 
-  BattleSocketStreamHandler streamHandler;
   int index = 0;
 
   StreamSubscription<Position>? _positionStream;

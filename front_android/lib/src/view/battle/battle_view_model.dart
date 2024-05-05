@@ -17,12 +17,13 @@ final battleViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
 });
 
 class BattleViewModel with ChangeNotifier {
+  final SocketRepository _socket;
+
   BattleViewModel(this._socket) {
     _startTimer();
     battleSocketStreamHandler = BattleSocketStreamHandler();
     distanceService = DistanceRepository(battleSocketStreamHandler);
   }
-  final SocketRepository _socket;
   late final DistanceRepository distanceService;
   late final BattleSocketStreamHandler battleSocketStreamHandler;
 

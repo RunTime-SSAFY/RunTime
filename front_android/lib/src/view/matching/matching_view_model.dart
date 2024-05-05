@@ -21,11 +21,9 @@ enum MatchedState {
 }
 
 class MatchingViewModel with ChangeNotifier {
-  MatchingViewModel(this._socket) {
-    _socket.count++;
-  }
-
   final SocketRepository _socket;
+
+  MatchingViewModel(this._socket);
 
   void startTempTimer() {
     if (_hasTempTimer) return;
