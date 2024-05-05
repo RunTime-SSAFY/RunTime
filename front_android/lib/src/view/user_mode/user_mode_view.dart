@@ -6,6 +6,7 @@ import 'package:front_android/src/view/user_mode/widget/add_room_button.dart';
 import 'package:front_android/src/view/user_mode/widget/room_empty.dart';
 import 'package:front_android/src/view/user_mode/widget/tag_button.dart';
 import 'package:front_android/src/view/user_mode/widget/user_mode_room.dart';
+import 'package:front_android/theme/components/circular_indicator.dart';
 import 'package:front_android/theme/components/image_background.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
@@ -30,47 +31,52 @@ class _UserModeViewState extends ConsumerState<UserModeView> {
   Widget build(BuildContext context) {
     viewModel = ref.watch(userModeViewModelProvider);
 
-    return BattleImageBackground(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.close,
-              color: ref.color.onBackground,
-              size: 40,
-            ),
-          ),
-          centerTitle: true,
-          title: Text(
-            S.current.userMode,
-            style: ref.typo.appBarMainTitle.copyWith(
-              color: ref.color.onBackground,
-            ),
-          ),
-          backgroundColor: Colors.transparent,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.search,
-                color: ref.color.onBackground,
-                size: 40,
+    return Stack(
+      children: [
+        BattleImageBackground(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              leading: IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.close,
+                  color: ref.color.onBackground,
+                  size: 40,
+                ),
               ),
-            )
-          ],
+              centerTitle: true,
+              title: Text(
+                S.current.userMode,
+                style: ref.typo.appBarMainTitle.copyWith(
+                  color: ref.color.onBackground,
+                ),
+              ),
+              backgroundColor: Colors.transparent,
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.search,
+                    color: ref.color.onBackground,
+                    size: 40,
+                  ),
+                )
+              ],
+            ),
+            body: Column(
+              children: [
+                const TagButtonList(),
+                viewModel.userModeRoomList.isEmpty
+                    ? const RoomEmpty()
+                    : const Expanded(child: UserModeRoomList()),
+              ],
+            ),
+            floatingActionButton: const MakeRoomButton(),
+          ),
         ),
-        body: Column(
-          children: [
-            const TagButtonList(),
-            viewModel.userModeRoomList.isEmpty
-                ? const RoomEmpty()
-                : const Expanded(child: UserModeRoomList()),
-          ],
-        ),
-        floatingActionButton: const MakeRoomButton(),
-      ),
+        CircularIndicator(isLoading: viewModel.isLoading),
+      ],
     );
   }
 }

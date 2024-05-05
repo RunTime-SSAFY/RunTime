@@ -24,7 +24,7 @@ class UserModeViewModel with ChangeNotifier {
     ]);
     userModeRoomList = results[0];
 
-    _isLoading = true;
+    _isLoading = false;
     notifyListeners();
   }
 }

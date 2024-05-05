@@ -35,6 +35,7 @@ class UserModeRoomRepository {
   }
 }
 
+// 주석: 임시 데이터
 var a = [
   {
     "roomId": 1,
