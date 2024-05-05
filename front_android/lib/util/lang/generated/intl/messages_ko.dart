@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "EnterSearchTerm": MessageLookupByLibrary.simpleMessage("검색어 입력"),
         "ReallyCancelQuestion":
             MessageLookupByLibrary.simpleMessage("정말로 취소하시겠습니까?"),
         "ReallyGiveUpQuestion": MessageLookupByLibrary.simpleMessage(
@@ -44,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deny": MessageLookupByLibrary.simpleMessage("거절"),
         "done": MessageLookupByLibrary.simpleMessage("확인"),
         "enter": MessageLookupByLibrary.simpleMessage("입장"),
+        "findRoom": MessageLookupByLibrary.simpleMessage("방찾기"),
         "giveUp": MessageLookupByLibrary.simpleMessage("포기하기"),
         "home": MessageLookupByLibrary.simpleMessage("홈"),
         "inProgress": MessageLookupByLibrary.simpleMessage("게임 진행 중"),
@@ -56,7 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "matchedHint": MessageLookupByLibrary.simpleMessage(
             "반복적인 매칭 거절 시 게임이용에 제한을 받으실 수 있습니다"),
         "matching": MessageLookupByLibrary.simpleMessage("상대를 찾는 중"),
-        "practiceMode": MessageLookupByLibrary.simpleMessage("연습모드"),
+        "practiceMode": MessageLookupByLibrary.simpleMessage("연습 모드"),
         "profile": MessageLookupByLibrary.simpleMessage("프로필"),
         "rankPoint": MessageLookupByLibrary.simpleMessage("랭크포인트"),
         "ranking": MessageLookupByLibrary.simpleMessage("랭킹"),
@@ -67,7 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "runningTime": MessageLookupByLibrary.simpleMessage("달린 시간"),
         "search": MessageLookupByLibrary.simpleMessage("검색"),
         "semanticsButton": MessageLookupByLibrary.simpleMessage("버튼"),
-        "userMode": MessageLookupByLibrary.simpleMessage("사용자모드"),
+        "userMode": MessageLookupByLibrary.simpleMessage("사용자 모드"),
         "waiting": MessageLookupByLibrary.simpleMessage("대기중"),
         "waitingOthers":
             MessageLookupByLibrary.simpleMessage("상대방의 응답을 기다리고 있습니다."),

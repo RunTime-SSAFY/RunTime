@@ -3,8 +3,8 @@
   "battleMode": "배틀모드",
   "enter": "입장",
   "running": "달리기",
-  "userMode": "사용자모드",
-  "practiceMode": "연습모드",
+  "userMode": "사용자 모드",
+  "practiceMode": "연습 모드",
   "ranking": "랭킹",
   "home": "홈",
   "achievement": "도전과제",
@@ -40,5 +40,7 @@
   "makeRoom": "방 생성",
   "search": "검색",
   "waiting": "대기중",
-  "inProgress": "게임 진행 중"
+  "inProgress": "게임 진행 중",
+  "findRoom": "방찾기",
+  "EnterSearchTerm": "검색어 입력"
 }

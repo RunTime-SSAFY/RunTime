@@ -7,6 +7,7 @@ import 'package:front_android/src/view/matching/matched.dart';
 import 'package:front_android/src/view/matching/waiting_matching_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
 import 'package:front_android/src/view/run_main/run_main_view.dart';
+import 'package:front_android/src/view/user_mode/user_mode_search_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_view.dart';
 
 enum RouteParameter {
@@ -19,6 +20,7 @@ interface class RoutePath {
   static const String matching = 'matching';
   static const String matched = 'matched';
   static const String userMode = 'userMode';
+  static const String userModeSearch = 'userModeSearch';
   static const String practiceMode = 'practiceMode';
   static const String ranking = 'ranking';
   static const String login = 'login';
@@ -52,6 +54,9 @@ interface class RoutePath {
         break;
       case RoutePath.userMode:
         page = const UserModeView();
+        break;
+      case RoutePath.userModeSearch:
+        page = const UserModeSearchView();
         break;
       case RoutePath.practiceMode:
         break;

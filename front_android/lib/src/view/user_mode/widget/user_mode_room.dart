@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/user_mode_room.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/view/user_mode/user_mode_view_model.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
 class UserModeRoomCard extends ConsumerWidget {
@@ -71,21 +70,24 @@ class UserModeRoomCard extends ConsumerWidget {
 }
 
 class UserModeRoomList extends ConsumerWidget {
-  const UserModeRoomList({super.key});
+  const UserModeRoomList({
+    super.key,
+    required this.userModeRoomList,
+  });
+
+  final List<UserModeRoom> userModeRoomList;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    UserModeViewModel viewModel = ref.watch(userModeViewModelProvider);
-
     return ListView.separated(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       itemBuilder: (context, index) {
         return UserModeRoomCard(
-          room: viewModel.userModeRoomList[index],
+          room: userModeRoomList[index],
         );
       },
       separatorBuilder: (context, index) => const SizedBox(height: 10),
-      itemCount: viewModel.userModeRoomList.length,
+      itemCount: userModeRoomList.length,
     );
   }
 }

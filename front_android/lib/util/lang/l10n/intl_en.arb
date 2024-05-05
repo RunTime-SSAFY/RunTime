@@ -40,5 +40,7 @@
   "makeRoom": "Make Room",
   "search": "Search",
   "waiting": "Waiting",
-  "inProgress": "In Progress"
+  "inProgress": "In Progress",
+  "findRoom": "Finding Room",
+  "EnterSearchTerm": "Enter search term"
 }

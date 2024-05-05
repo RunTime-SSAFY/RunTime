@@ -459,6 +459,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Finding Room`
+  String get findRoom {
+    return Intl.message(
+      'Finding Room',
+      name: 'findRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter search term`
+  String get EnterSearchTerm {
+    return Intl.message(
+      'Enter search term',
+      name: 'EnterSearchTerm',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

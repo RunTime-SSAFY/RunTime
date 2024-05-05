@@ -2,34 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/user_mode/user_mode_view_model.dart';
-import 'package:front_android/src/view/user_mode/widget/add_room_button.dart';
 import 'package:front_android/src/view/user_mode/widget/room_empty.dart';
-import 'package:front_android/src/view/user_mode/widget/tag_button.dart';
+import 'package:front_android/src/view/user_mode/widget/search_input.dart';
 import 'package:front_android/src/view/user_mode/widget/user_mode_room.dart';
 import 'package:front_android/theme/components/circular_indicator.dart';
 import 'package:front_android/theme/components/image_background.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
-class UserModeView extends ConsumerStatefulWidget {
-  const UserModeView({super.key});
+class UserModeSearchView extends ConsumerWidget {
+  const UserModeSearchView({super.key});
 
   @override
-  ConsumerState<UserModeView> createState() => _UserModeViewState();
-}
-
-class _UserModeViewState extends ConsumerState<UserModeView> {
-  late UserModeViewModel viewModel;
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      viewModel.getRoomList();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    viewModel = ref.watch(userModeViewModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    UserModeViewModel viewModel = ref.watch(userModeViewModelProvider);
 
     return Stack(
       children: [
@@ -38,46 +23,39 @@ class _UserModeViewState extends ConsumerState<UserModeView> {
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               leading: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 icon: Icon(
-                  Icons.close,
+                  Icons.arrow_back_ios,
                   color: ref.color.onBackground,
                   size: 30,
                 ),
               ),
               centerTitle: true,
               title: Text(
-                S.current.userMode,
+                S.current.findRoom,
                 style: ref.typo.appBarMainTitle.copyWith(
                   color: ref.color.onBackground,
                 ),
               ),
               backgroundColor: Colors.transparent,
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    viewModel.moveToSearch(context);
-                  },
-                  icon: Icon(
-                    Icons.search,
-                    color: ref.color.onBackground,
-                    size: 30,
-                  ),
-                )
-              ],
             ),
             body: Column(
               children: [
-                const TagButtonList(),
+                SearchInput(
+                  controller: viewModel.textController,
+                  onSubmit: viewModel.searchRoomList,
+                ),
                 viewModel.userModeRoomList.isEmpty
                     ? const RoomEmpty()
                     : Expanded(
                         child: UserModeRoomList(
-                        userModeRoomList: viewModel.userModeRoomList,
-                      )),
+                          userModeRoomList: viewModel.userModeSearchedList,
+                        ),
+                      ),
               ],
             ),
-            floatingActionButton: const MakeRoomButton(),
           ),
         ),
         CircularIndicator(isLoading: viewModel.isLoading),

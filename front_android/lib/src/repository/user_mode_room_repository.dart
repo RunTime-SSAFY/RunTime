@@ -5,18 +5,12 @@ import 'package:front_android/src/model/user_mode_room.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 
 class UserModeRoomRepository {
-  UserModeRoomRepository({
-    this.lastId,
-    this.searchWord,
-    this.isSecret,
-  });
+  UserModeRoomRepository();
 
   final api = apiInstance;
-  final int? lastId;
-  final String? searchWord;
-  final bool? isSecret;
 
-  Future<List<UserModeRoom>> getUserModeRoomList() async {
+  Future<List<UserModeRoom>> getUserModeRoomList(
+      {int? lastId, String? searchWord, bool? isSecret}) async {
     try {
       final response = await api.get(
         'rooms',

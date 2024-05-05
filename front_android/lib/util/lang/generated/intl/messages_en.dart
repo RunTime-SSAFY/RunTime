@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "EnterSearchTerm":
+            MessageLookupByLibrary.simpleMessage("Enter search term"),
         "ReallyCancelQuestion":
             MessageLookupByLibrary.simpleMessage("정말로 취소하시겠습니까?"),
         "ReallyGiveUpQuestion": MessageLookupByLibrary.simpleMessage(
@@ -44,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deny": MessageLookupByLibrary.simpleMessage("deny"),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
         "enter": MessageLookupByLibrary.simpleMessage("Enter"),
+        "findRoom": MessageLookupByLibrary.simpleMessage("Finding Room"),
         "giveUp": MessageLookupByLibrary.simpleMessage("giving up"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "inProgress": MessageLookupByLibrary.simpleMessage("In Progress"),

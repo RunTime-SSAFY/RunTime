@@ -55,14 +55,18 @@ class TagButtonList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      child: ListView.separated(
+      child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: tagNameList.length,
-        itemBuilder: (context, index) => TagButton(
-          tagName: tagNameList[index],
+        itemBuilder: (context, index) => Container(
+          margin: EdgeInsets.only(
+            left: index == 0 ? 20 : 5,
+            right: index == tagNameList.length - 1 ? 20 : 5,
+          ),
+          child: TagButton(
+            tagName: tagNameList[index],
+          ),
         ),
-        separatorBuilder: (BuildContext context, int index) =>
-            const SizedBox(width: 15),
       ),
     );
   }
