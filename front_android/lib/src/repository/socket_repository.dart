@@ -1,25 +1,19 @@
-import 'dart:io';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:front_android/src/service/socket_service.dart';
 
 class SocketRepository {
   SocketRepository();
 
-  late final Socket? _socket;
+  late final BattleSocket? _socket;
   final String socketBaseUrl = dotenv.get('SOCKET_URL');
 
   int count = 0;
 
   // 매칭요청
-  void randomMatchingStart() async {
-    _socket = await Socket.connect(socketBaseUrl, 80);
-    _socket!.listen((event) {
-      var stringData = String.fromCharCodes(event);
-    });
-  }
 
+  // 연결 해제
   void disconnect() async {
-    _socket?.destroy();
+    _socket?.close();
   }
 
   void onDispose() {

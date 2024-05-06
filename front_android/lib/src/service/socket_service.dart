@@ -1,8 +1,9 @@
-import 'dart:async';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/battle.dart';
 import 'package:front_android/src/repository/socket_repository.dart';
+// ignore: library_prefixes
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 final socketProvider = Provider.autoDispose((ref) {
   final socketRepository = SocketRepository();
@@ -12,27 +13,24 @@ final socketProvider = Provider.autoDispose((ref) {
   return socketRepository;
 });
 
-class BattleSocketStreamHandler {
-  BattleSocketStreamHandler() {
-    startListening();
+class BattleSocket {
+  BattleSocket() {
+    init();
   }
 
-  final StreamController _controller = StreamController();
+  final IO.Socket _socket = IO.io(dotenv.get('BASE_URL'));
 
-  StreamController get streamController => _controller;
-
-  void addStreamData(BattleSocketData data) {
-    _controller.add(data);
+  void init() {
+    _socket.onConnect((_) => print('소켓 연결 완료'));
   }
 
-  void startListening() {
-    _controller.stream.listen((data) {
-      // 스트림으로부터 받은 데이터를 처리
-      print('보낼 데이터: $data');
-    });
+  IO.Socket get streamController => _socket;
+
+  void emitBattleData(BattleSocketData data) {
+    _socket.emit('battleData', data);
   }
 
-  void onDispose() {
-    _controller.close();
+  void close() {
+    _socket.close();
   }
 }

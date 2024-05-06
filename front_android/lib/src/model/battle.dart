@@ -10,4 +10,13 @@ class BattleSocketData {
     required this.currentDistance,
     required this.index,
   });
+
+  Map<String, dynamic> toJson() => {
+        'position': {
+          'lng': position.longitude,
+          'lat': position.latitude,
+        },
+        'currentDistance': currentDistance,
+        'index': index,
+      };
 }

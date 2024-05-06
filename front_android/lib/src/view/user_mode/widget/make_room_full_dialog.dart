@@ -4,7 +4,7 @@ import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/user_mode/user_mode_view_model.dart';
 import 'package:front_android/src/view/user_mode/widget/number_button.dart';
 import 'package:front_android/src/view/user_mode/widget/text_input.dart';
-import 'package:front_android/src/view/user_mode/widget/toggleButton.dart';
+import 'package:front_android/src/view/user_mode/widget/toggle_button.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/theme/components/image_background.dart';
 import 'package:front_android/util/helper/text_input_format_helper.dart';
