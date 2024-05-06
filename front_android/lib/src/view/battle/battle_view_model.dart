@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/repository/distance_repository.dart';
-import 'package:front_android/src/repository/socket_repository.dart';
 import 'package:front_android/src/service/socket_service.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
 import 'package:front_android/util/helper/extension.dart';
@@ -17,15 +16,15 @@ final battleViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
 });
 
 class BattleViewModel with ChangeNotifier {
-  final SocketRepository _socket;
+  final SocketService _socket;
 
   BattleViewModel(this._socket) {
     _startTimer();
-    battleSocketStreamHandler = BattleSocket();
+    battleSocketStreamHandler = SocketService();
     distanceService = DistanceRepository(battleSocketStreamHandler);
   }
   late final DistanceRepository distanceService;
-  late final BattleSocket battleSocketStreamHandler;
+  late final SocketService battleSocketStreamHandler;
 
   double get currentDistance => distanceService.currentDistance;
 

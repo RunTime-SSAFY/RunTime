@@ -20,3 +20,18 @@ class BattleSocketData {
         'index': index,
       };
 }
+
+class MatchingRoomData {
+  MatchingRoomData({
+    required this.matchingRoomId,
+    required this.opponentId,
+  });
+  final int matchingRoomId;
+  final int opponentId;
+
+  factory MatchingRoomData.fromJson(Map<String, dynamic> json) =>
+      MatchingRoomData(
+        matchingRoomId: json['matchingRoomId'],
+        opponentId: json['opponentId'],
+      );
+}
