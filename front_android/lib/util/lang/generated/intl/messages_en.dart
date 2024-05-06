@@ -50,14 +50,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "done": MessageLookupByLibrary.simpleMessage("Done"),
         "enter": MessageLookupByLibrary.simpleMessage("Enter"),
         "findRoom": MessageLookupByLibrary.simpleMessage("Finding Room"),
+        "gameStart": MessageLookupByLibrary.simpleMessage("Game Start"),
         "giveUp": MessageLookupByLibrary.simpleMessage("giving up"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "inProgress": MessageLookupByLibrary.simpleMessage("In Progress"),
+        "invite": MessageLookupByLibrary.simpleMessage("invite"),
         "kakaoLogin": MessageLookupByLibrary.simpleMessage("Login with Kakao"),
         "language": MessageLookupByLibrary.simpleMessage("language"),
         "lose": MessageLookupByLibrary.simpleMessage("Lose"),
         "makeRoom": MessageLookupByLibrary.simpleMessage("Make Room"),
         "makingRoom": MessageLookupByLibrary.simpleMessage("Making Room"),
+        "manager": MessageLookupByLibrary.simpleMessage("manager"),
         "matched":
             MessageLookupByLibrary.simpleMessage("상대를 찾았습니다\n게임을 수락해주세요"),
         "matchedHint": MessageLookupByLibrary.simpleMessage(
@@ -70,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "publicRoom": MessageLookupByLibrary.simpleMessage("Public Room"),
         "rankPoint": MessageLookupByLibrary.simpleMessage("Rank Point"),
         "ranking": MessageLookupByLibrary.simpleMessage("Ranking"),
+        "ready": MessageLookupByLibrary.simpleMessage("ready"),
         "record": MessageLookupByLibrary.simpleMessage("Record"),
         "roomEmpty": MessageLookupByLibrary.simpleMessage(
             "There are no rooms Now\nTry later"),
@@ -84,6 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "waiting": MessageLookupByLibrary.simpleMessage("Waiting"),
         "waitingOthers":
             MessageLookupByLibrary.simpleMessage("waiting for others response"),
+        "waitingRoom": MessageLookupByLibrary.simpleMessage("waiting room"),
         "win": MessageLookupByLibrary.simpleMessage("Win")
       };
 }

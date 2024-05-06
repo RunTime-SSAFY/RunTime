@@ -49,14 +49,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "done": MessageLookupByLibrary.simpleMessage("확인"),
         "enter": MessageLookupByLibrary.simpleMessage("입장"),
         "findRoom": MessageLookupByLibrary.simpleMessage("방찾기"),
+        "gameStart": MessageLookupByLibrary.simpleMessage("게임시작"),
         "giveUp": MessageLookupByLibrary.simpleMessage("포기하기"),
         "home": MessageLookupByLibrary.simpleMessage("홈"),
         "inProgress": MessageLookupByLibrary.simpleMessage("게임 진행 중"),
+        "invite": MessageLookupByLibrary.simpleMessage("초대"),
         "kakaoLogin": MessageLookupByLibrary.simpleMessage("카카오 로그인"),
         "language": MessageLookupByLibrary.simpleMessage("언어"),
         "lose": MessageLookupByLibrary.simpleMessage("패배"),
         "makeRoom": MessageLookupByLibrary.simpleMessage("방 생성"),
         "makingRoom": MessageLookupByLibrary.simpleMessage("방 만들기"),
+        "manager": MessageLookupByLibrary.simpleMessage("방장"),
         "matched":
             MessageLookupByLibrary.simpleMessage("상대를 찾았습니다\n게임을 수락해주세요"),
         "matchedHint": MessageLookupByLibrary.simpleMessage(
@@ -69,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "publicRoom": MessageLookupByLibrary.simpleMessage("공개방"),
         "rankPoint": MessageLookupByLibrary.simpleMessage("랭크포인트"),
         "ranking": MessageLookupByLibrary.simpleMessage("랭킹"),
+        "ready": MessageLookupByLibrary.simpleMessage("준비완료"),
         "record": MessageLookupByLibrary.simpleMessage("기록"),
         "roomEmpty": MessageLookupByLibrary.simpleMessage(
             "현재 대기 방이 없습니다.\n오른쪽 아래 버튼으로 방을 직접 만들어 보세요"),
@@ -83,6 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "waiting": MessageLookupByLibrary.simpleMessage("대기중"),
         "waitingOthers":
             MessageLookupByLibrary.simpleMessage("상대방의 응답을 기다리고 있습니다."),
+        "waitingRoom": MessageLookupByLibrary.simpleMessage("대기방"),
         "win": MessageLookupByLibrary.simpleMessage("승리")
       };
 }

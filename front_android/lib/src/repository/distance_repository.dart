@@ -6,9 +6,9 @@ import 'package:front_android/util/helper/socket_helper.dart';
 import 'package:geolocator/geolocator.dart';
 
 class DistanceRepository {
-  SocketService streamHandler;
+  final SocketService _socket;
 
-  DistanceRepository(this.streamHandler) {
+  DistanceRepository(this._socket) {
     listenLocation();
   }
 
@@ -42,7 +42,7 @@ class DistanceRepository {
             (_currentDistance * 10000 + _distanceBetween * 10000) / 10000;
         instantaneousVelocity = _distanceBetween * 2 * 36 / 10;
 
-        streamHandler.emit(
+        _socket.emit(
             SocketHelper.battle,
             BattleSocketData(
               position: position,

@@ -51,5 +51,10 @@
   "roomName": "Room Name",
   "capacity": "capacity",
   "distance": "distance",
-  "create": "create"
+  "create": "create",
+  "waitingRoom": "waiting room",
+  "gameStart": "Game Start",
+  "invite": "invite",
+  "manager": "manager",
+  "ready": "ready"
 }

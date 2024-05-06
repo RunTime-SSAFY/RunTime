@@ -51,5 +51,10 @@
   "roomName": "방제목",
   "capacity": "인원 수",
   "distance": "거리",
-  "create": "만들기"
+  "create": "만들기",
+  "waitingRoom": "대기방",
+  "gameStart": "게임시작",
+  "invite": "초대",
+  "manager": "방장",
+  "ready": "준비완료"
 }

@@ -19,7 +19,7 @@ class SocketService {
 
   MatchingRoomData? roomData;
 
-  final IO.Socket _socket = IO.io(dotenv.get('BASE_URL'));
+  final IO.Socket _socket = IO.io(dotenv.get('SOCKET_URL'));
 
   void init() {
     _socket.onConnect((_) => print('소켓 연결 완료'));

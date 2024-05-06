@@ -569,6 +569,56 @@ class S {
       args: [],
     );
   }
+
+  /// `waiting room`
+  String get waitingRoom {
+    return Intl.message(
+      'waiting room',
+      name: 'waitingRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game Start`
+  String get gameStart {
+    return Intl.message(
+      'Game Start',
+      name: 'gameStart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `invite`
+  String get invite {
+    return Intl.message(
+      'invite',
+      name: 'invite',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `manager`
+  String get manager {
+    return Intl.message(
+      'manager',
+      name: 'manager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ready`
+  String get ready {
+    return Intl.message(
+      'ready',
+      name: 'ready',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
