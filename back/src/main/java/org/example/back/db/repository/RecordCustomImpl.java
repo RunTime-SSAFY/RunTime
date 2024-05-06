@@ -1,8 +1,11 @@
 package org.example.back.db.repository;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+
+import org.example.back.achievement.dto.RecordSummaryResDto;
 import org.example.back.db.entity.Member;
 import org.example.back.db.entity.QRecord;
 import org.example.back.db.entity.Record;
@@ -53,7 +56,19 @@ public class RecordCustomImpl implements RecordCustom {
         }
 
         return new SliceImpl<>(results, pageable, hasNext);
+    }
 
+    @Override
+    public RecordSummaryResDto getSummary(Long memberId){
+        BooleanExpression isRankingFirst = record.ranking.eq(1);
+		return query.select(Projections.bean(RecordSummaryResDto.class,
+            record.distance.sum().as("totalDistance"), isRankingFirst.count().intValue().as("countWins"),
+                record.duration
+                    .sum().divide(3600000).floatValue()
+                    .as("totalDuration") ))
+            .from(record)
+            .where(record.member.id.eq(memberId))
+            .fetchOne();
     }
 
 }
