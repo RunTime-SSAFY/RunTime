@@ -4,7 +4,12 @@ import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
 class MakeRoomButton extends ConsumerWidget {
-  const MakeRoomButton({super.key});
+  const MakeRoomButton({
+    super.key,
+    required this.onPress,
+  });
+
+  final void Function() onPress;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -13,7 +18,7 @@ class MakeRoomButton extends ConsumerWidget {
       width: 80,
       margin: const EdgeInsets.only(right: 30, bottom: 20),
       child: FloatingActionButton(
-        onPressed: () {},
+        onPressed: onPress,
         backgroundColor: ref.color.accept,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -38,7 +38,7 @@ class BasicTheme implements AppTheme {
     battleBackground1: Color(0xFF000000),
     battleBackground2: Color(0xFF1A202C),
     onBackground: Color(0xFFf8f8f8),
-    useModeBackground: Color(0x9F1A202C),
+    userModeBackground: Color(0x9F1A202C),
     achievementLevel: Color(0xFFecc94b),
     counterAchievementLevel: Color(0xFFf8f8f8),
     surface: Color(0xFFf8f8f8),

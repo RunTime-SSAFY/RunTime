@@ -39,3 +39,60 @@ class UserModeRoom {
     );
   }
 }
+
+class MakeRoomModel {
+  String _name; // 방 이름
+  String get name => _name;
+  set name(String value) {
+    if (value.length < 20) _name = value;
+  }
+
+  double _distance; // 목표 거리
+  double get distance => _distance;
+  set distance(double value) {
+    switch (value) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+        _distance = value;
+        break;
+    }
+  }
+
+  int _capacity; // 정원
+  int get capacity => _capacity;
+
+  set capacity(int value) {
+    if (value <= 5) _capacity = value;
+  }
+
+  String? _password;
+  String get password => _password ?? '';
+
+  set password(String value) {
+    if (value.length < 20) {
+      _password = value;
+    } else if (value.isEmpty) {
+      _password = null;
+    }
+  }
+
+  MakeRoomModel({
+    String name = '',
+    double distance = 3,
+    int capacity = 4,
+    String? password,
+  })  : _password = password,
+        _capacity = capacity,
+        _distance = distance,
+        _name = name;
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'distance': distance,
+        'capacity': capacity,
+        'password': password,
+      };
+}

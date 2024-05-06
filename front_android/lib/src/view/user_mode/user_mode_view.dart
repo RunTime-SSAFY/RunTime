@@ -38,7 +38,9 @@ class _UserModeViewState extends ConsumerState<UserModeView> {
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               leading: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 icon: Icon(
                   Icons.close,
                   color: ref.color.onBackground,
@@ -77,7 +79,11 @@ class _UserModeViewState extends ConsumerState<UserModeView> {
                       )),
               ],
             ),
-            floatingActionButton: const MakeRoomButton(),
+            floatingActionButton: MakeRoomButton(
+              onPress: () {
+                viewModel.makeRoomModal(context);
+              },
+            ),
           ),
         ),
         CircularIndicator(isLoading: viewModel.isLoading),

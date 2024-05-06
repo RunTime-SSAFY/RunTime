@@ -13,7 +13,7 @@ class UserModeRoomRepository {
       {int? lastId, String? searchWord, bool? isSecret}) async {
     try {
       final response = await api.get(
-        'rooms',
+        '/api/rooms',
         queryParameters: {
           if (lastId != null) 'lastId': lastId,
           if (searchWord != null) 'searchWord': searchWord,

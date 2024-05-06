@@ -42,5 +42,14 @@
   "waiting": "Waiting",
   "inProgress": "In Progress",
   "findRoom": "Finding Room",
-  "EnterSearchTerm": "Enter search term"
+  "EnterSearchTerm": "Enter search term",
+  "makingRoom": "Making Room",
+  "publicRoom": "Public Room",
+  "privateRoom": "Private Room",
+  "roomPasswordRule": "The password can be up to 20 characters long.",
+  "password": "password",
+  "roomName": "Room Name",
+  "capacity": "capacity",
+  "distance": "distance",
+  "create": "create"
 }

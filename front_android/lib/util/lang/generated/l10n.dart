@@ -479,6 +479,96 @@ class S {
       args: [],
     );
   }
+
+  /// `Making Room`
+  String get makingRoom {
+    return Intl.message(
+      'Making Room',
+      name: 'makingRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Public Room`
+  String get publicRoom {
+    return Intl.message(
+      'Public Room',
+      name: 'publicRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Private Room`
+  String get privateRoom {
+    return Intl.message(
+      'Private Room',
+      name: 'privateRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The password can be up to 20 characters long.`
+  String get roomPasswordRule {
+    return Intl.message(
+      'The password can be up to 20 characters long.',
+      name: 'roomPasswordRule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `password`
+  String get password {
+    return Intl.message(
+      'password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Room Name`
+  String get roomName {
+    return Intl.message(
+      'Room Name',
+      name: 'roomName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `capacity`
+  String get capacity {
+    return Intl.message(
+      'capacity',
+      name: 'capacity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `distance`
+  String get distance {
+    return Intl.message(
+      'distance',
+      name: 'distance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `create`
+  String get create {
+    return Intl.message(
+      'create',
+      name: 'create',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

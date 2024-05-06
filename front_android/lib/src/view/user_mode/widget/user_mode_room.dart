@@ -21,7 +21,7 @@ class UserModeRoomCard extends ConsumerWidget {
       height: 110,
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: ref.color.useModeBackground,
+        color: ref.color.userModeBackground,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(

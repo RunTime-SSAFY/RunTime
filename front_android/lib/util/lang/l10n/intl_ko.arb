@@ -42,5 +42,14 @@
   "waiting": "대기중",
   "inProgress": "게임 진행 중",
   "findRoom": "방찾기",
-  "EnterSearchTerm": "검색어 입력"
+  "EnterSearchTerm": "검색어 입력",
+  "makingRoom": "방 만들기",
+  "publicRoom": "공개방",
+  "privateRoom": "비밀방",
+  "roomPasswordRule": "비밀번호는 최대 20자까지 가능합니다.",
+  "password": "비밀번호",
+  "roomName": "방제목",
+  "capacity": "인원 수",
+  "distance": "거리",
+  "create": "만들기"
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/user_mode_room.dart';
 import 'package:front_android/src/repository/user_mode_room_repository.dart';
+import 'package:front_android/src/service/user_mode_room_service.dart';
+import 'package:front_android/src/view/user_mode/widget/make_room_full_dialog.dart';
 import 'package:front_android/util/route_path.dart';
 
 final userModeViewModelProvider =
@@ -55,7 +57,7 @@ class UserModeViewModel with ChangeNotifier {
     Navigator.pushNamed(context, RoutePath.userModeSearch);
   }
 
-  TextEditingController textController = TextEditingController();
+  final TextEditingController textController = TextEditingController();
   String get searchWord => textController.text.trim();
 
   List<UserModeRoom> userModeSearchedList = [];
@@ -72,5 +74,58 @@ class UserModeViewModel with ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
+  }
+
+  void makeRoomModal(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const MakeRoomFullDialog();
+      },
+    );
+  }
+
+  final TextEditingController roomNameTextController = TextEditingController();
+  String get name => roomNameTextController.text.trim(); // 방 이름
+
+  double _distance = 3; // 목표 거리
+  double get distance => _distance;
+  void setDistance(double value) {
+    switch (value) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+        _distance = value;
+        notifyListeners();
+        break;
+    }
+  }
+
+  int _capacity = 4; // 정원
+  int get capacity => _capacity;
+  void setCapacity(double value) {
+    if (value <= 5) {
+      _capacity = value.toInt();
+      notifyListeners();
+    }
+  }
+
+  final TextEditingController passwordController = TextEditingController();
+  String? get password => passwordController.text.trim() == ''
+      ? null
+      : passwordController.text.trim();
+  void onChangeText() {
+    notifyListeners();
+  }
+
+  UserModeRoomService userModeRoomService = UserModeRoomService();
+  void makeRoom() {
+    if (name.isEmpty) return;
+    MakeRoomModel makeRoomModel = MakeRoomModel(
+        name: name, capacity: capacity, distance: distance, password: password);
+
+    userModeRoomService.makeRoom(makeRoomModel: makeRoomModel);
   }
 }

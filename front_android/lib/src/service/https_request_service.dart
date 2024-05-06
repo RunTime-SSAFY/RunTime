@@ -26,6 +26,7 @@ class CustomInterceptor extends Interceptor {
     options.headers['Authorization'] = 'Bearer $accessToken';
 
     debugPrint('요청\nREQUEST[${options.method}] => PATH: ${options.path}');
+    debugPrint('요청 데이터\n${options.data}');
     handler.next(options);
   }
 

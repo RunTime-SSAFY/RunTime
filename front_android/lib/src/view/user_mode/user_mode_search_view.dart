@@ -3,10 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/user_mode/user_mode_view_model.dart';
 import 'package:front_android/src/view/user_mode/widget/room_empty.dart';
-import 'package:front_android/src/view/user_mode/widget/search_input.dart';
+import 'package:front_android/src/view/user_mode/widget/text_input.dart';
 import 'package:front_android/src/view/user_mode/widget/user_mode_room.dart';
 import 'package:front_android/theme/components/circular_indicator.dart';
 import 'package:front_android/theme/components/image_background.dart';
+import 'package:front_android/util/helper/text_input_format_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
 class UserModeSearchView extends ConsumerWidget {
@@ -43,9 +44,18 @@ class UserModeSearchView extends ConsumerWidget {
             ),
             body: Column(
               children: [
-                SearchInput(
+                TextInput(
+                  title: S.current.EnterSearchTerm,
                   controller: viewModel.textController,
                   onSubmit: viewModel.searchRoomList,
+                  textInputFormatter: [
+                    TextInputFormatHelper.englishKoreanNumber,
+                    TextInputFormatHelper.maximumLength(20),
+                  ],
+                  icon: IconButton(
+                    icon: Icon(Icons.search, color: ref.color.onBackground),
+                    onPressed: viewModel.searchRoomList,
+                  ),
                 ),
                 viewModel.userModeRoomList.isEmpty
                     ? const RoomEmpty()
