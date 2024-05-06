@@ -7,26 +7,12 @@ import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/theme/components/svg_icon.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
-enum StateType {
-  start,
-  matching,
-  found,
-  waiting;
-}
-
-// 주석: 대기열 큐에 들어감
-
 class WaitingMatching extends ConsumerWidget {
   const WaitingMatching({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     MatchingViewModel viewModel = ref.watch(matchingViewModelProvider);
-    viewModel.startTempTimer();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      viewModel.matching(context);
-    });
 
     return PopScope(
       canPop: false,

@@ -380,10 +380,10 @@ class S {
     );
   }
 
-  /// `확인`
+  /// `Done`
   String get done {
     return Intl.message(
-      '확인',
+      'Done',
       name: 'done',
       desc: '',
       args: [],
@@ -405,6 +405,216 @@ class S {
     return Intl.message(
       '정말로 포기하시겠습니까?\n완료 보상을 획득할 수 없습니다.',
       name: 'ReallyGiveUpQuestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no rooms Now\nTry later`
+  String get roomEmpty {
+    return Intl.message(
+      'There are no rooms Now\nTry later',
+      name: 'roomEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Make Room`
+  String get makeRoom {
+    return Intl.message(
+      'Make Room',
+      name: 'makeRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message(
+      'Search',
+      name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Waiting`
+  String get waiting {
+    return Intl.message(
+      'Waiting',
+      name: 'waiting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In Progress`
+  String get inProgress {
+    return Intl.message(
+      'In Progress',
+      name: 'inProgress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finding Room`
+  String get findRoom {
+    return Intl.message(
+      'Finding Room',
+      name: 'findRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter search term`
+  String get EnterSearchTerm {
+    return Intl.message(
+      'Enter search term',
+      name: 'EnterSearchTerm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Making Room`
+  String get makingRoom {
+    return Intl.message(
+      'Making Room',
+      name: 'makingRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Public Room`
+  String get publicRoom {
+    return Intl.message(
+      'Public Room',
+      name: 'publicRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Private Room`
+  String get privateRoom {
+    return Intl.message(
+      'Private Room',
+      name: 'privateRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The password can be up to 20 characters long.`
+  String get roomPasswordRule {
+    return Intl.message(
+      'The password can be up to 20 characters long.',
+      name: 'roomPasswordRule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `password`
+  String get password {
+    return Intl.message(
+      'password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Room Name`
+  String get roomName {
+    return Intl.message(
+      'Room Name',
+      name: 'roomName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `capacity`
+  String get capacity {
+    return Intl.message(
+      'capacity',
+      name: 'capacity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `distance`
+  String get distance {
+    return Intl.message(
+      'distance',
+      name: 'distance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `create`
+  String get create {
+    return Intl.message(
+      'create',
+      name: 'create',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `waiting room`
+  String get waitingRoom {
+    return Intl.message(
+      'waiting room',
+      name: 'waitingRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game Start`
+  String get gameStart {
+    return Intl.message(
+      'Game Start',
+      name: 'gameStart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `invite`
+  String get invite {
+    return Intl.message(
+      'invite',
+      name: 'invite',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `manager`
+  String get manager {
+    return Intl.message(
+      'manager',
+      name: 'manager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ready`
+  String get ready {
+    return Intl.message(
+      'ready',
+      name: 'ready',
       desc: '',
       args: [],
     );

@@ -6,7 +6,10 @@ import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';
 import 'package:front_android/src/view/matching/waiting_matching_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
-import 'package:front_android/src/view/runMain/run_view.dart';
+import 'package:front_android/src/view/run_main/run_main_view.dart';
+import 'package:front_android/src/view/user_mode/user_mode_search_view.dart';
+import 'package:front_android/src/view/user_mode/user_mode_view.dart';
+import 'package:front_android/src/view/waiting_room/waiting_room_view.dart';
 
 enum RouteParameter {
   targetDistance;
@@ -18,6 +21,8 @@ interface class RoutePath {
   static const String matching = 'matching';
   static const String matched = 'matched';
   static const String userMode = 'userMode';
+  static const String waitingRoom = 'waitingRoom';
+  static const String userModeSearch = 'userModeSearch';
   static const String practiceMode = 'practiceMode';
   static const String ranking = 'ranking';
   static const String login = 'login';
@@ -50,6 +55,18 @@ interface class RoutePath {
         page = const BattleResultView();
         break;
       case RoutePath.userMode:
+        page = const UserModeView();
+        break;
+      case RoutePath.waitingRoom:
+        assert(
+          settings.arguments != null,
+          'WaitingRoomView는 WaitingRoomArguments가 필요합니다.',
+        );
+        final args = settings.arguments as WaitingRoomArguments;
+        page = WaitingRoom(roomId: args.roomId);
+        break;
+      case RoutePath.userModeSearch:
+        page = const UserModeSearchView();
         break;
       case RoutePath.practiceMode:
         break;

@@ -1,49 +1,45 @@
-import 'dart:async';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front_android/src/repository/socket_repository.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:front_android/src/model/battle.dart';
+// ignore: library_prefixes
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 final socketProvider = Provider.autoDispose((ref) {
-  final socketRepository = SocketRepository();
+  final socketRepository = SocketService();
   ref.onDispose(() {
-    socketRepository.onDispose();
+    socketRepository.close();
   });
   return socketRepository;
 });
 
-class BattleSocketData {
-  const BattleSocketData({
-    required this.position,
-    required this.currentDistance,
-    required this.index,
-  });
-
-  final Position position;
-  final double currentDistance;
-  final int index;
-}
-
-class BattleSocketStreamHandler {
-  BattleSocketStreamHandler() {
-    startListening();
-  }
-  final StreamController _controller = StreamController();
-
-  StreamController get streamController => _controller;
-
-  void addStreamData(BattleSocketData data) {
-    _controller.add(data);
+class SocketService {
+  SocketService() {
+    init();
   }
 
-  void startListening() {
-    _controller.stream.listen((data) {
-      // 스트림으로부터 받은 데이터를 처리
-      print('받은 데이터: $data');
-    });
+  MatchingRoomData? roomData;
+
+  final IO.Socket _socket = IO.io(dotenv.get('SOCKET_URL'));
+
+  void init() {
+    _socket.onConnect((_) => print('소켓 연결 완료'));
   }
 
-  void onDispose() {
-    _controller.close();
+  IO.Socket get streamController => _socket;
+
+  void on(String event, dynamic Function(dynamic) callback) {
+    _socket.on(event, callback);
+  }
+
+  void off(String event) {
+    _socket.off(event);
+  }
+
+  void emit(String event, [dynamic data]) {
+    _socket.emit(event, data);
+  }
+
+  void close() {
+    _socket.close();
   }
 }

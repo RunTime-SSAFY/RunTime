@@ -42,7 +42,7 @@ class AuthService with ChangeNotifier {
   Future<void> setRefreshToken(String token, DateTime expireDate) async {
     _refreshToken = token;
     _expireDate = expireDate;
-    SecureStorageRepository.setRefreshToken(token, expireDate);
+    SecureStorageRepository().setRefreshToken(token, expireDate);
     notifyListeners();
   }
 }

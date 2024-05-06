@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "EnterSearchTerm":
+            MessageLookupByLibrary.simpleMessage("Enter search term"),
         "ReallyCancelQuestion":
             MessageLookupByLibrary.simpleMessage("정말로 취소하시겠습니까?"),
         "ReallyGiveUpQuestion": MessageLookupByLibrary.simpleMessage(
@@ -39,32 +41,54 @@ class MessageLookup extends MessageLookupByLibrary {
         "bestRecord": MessageLookupByLibrary.simpleMessage("Best Record"),
         "caloryBurn": MessageLookupByLibrary.simpleMessage("Burned Calory"),
         "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
+        "capacity": MessageLookupByLibrary.simpleMessage("capacity"),
         "character": MessageLookupByLibrary.simpleMessage("Character"),
+        "create": MessageLookupByLibrary.simpleMessage("create"),
         "currentLanguage": MessageLookupByLibrary.simpleMessage("English"),
         "deny": MessageLookupByLibrary.simpleMessage("deny"),
-        "done": MessageLookupByLibrary.simpleMessage("확인"),
+        "distance": MessageLookupByLibrary.simpleMessage("distance"),
+        "done": MessageLookupByLibrary.simpleMessage("Done"),
         "enter": MessageLookupByLibrary.simpleMessage("Enter"),
+        "findRoom": MessageLookupByLibrary.simpleMessage("Finding Room"),
+        "gameStart": MessageLookupByLibrary.simpleMessage("Game Start"),
         "giveUp": MessageLookupByLibrary.simpleMessage("giving up"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "inProgress": MessageLookupByLibrary.simpleMessage("In Progress"),
+        "invite": MessageLookupByLibrary.simpleMessage("invite"),
         "kakaoLogin": MessageLookupByLibrary.simpleMessage("Login with Kakao"),
         "language": MessageLookupByLibrary.simpleMessage("language"),
         "lose": MessageLookupByLibrary.simpleMessage("Lose"),
+        "makeRoom": MessageLookupByLibrary.simpleMessage("Make Room"),
+        "makingRoom": MessageLookupByLibrary.simpleMessage("Making Room"),
+        "manager": MessageLookupByLibrary.simpleMessage("manager"),
         "matched":
             MessageLookupByLibrary.simpleMessage("상대를 찾았습니다\n게임을 수락해주세요"),
         "matchedHint": MessageLookupByLibrary.simpleMessage(
             "반복적인 매칭 거절 시 게임이용에 제한을 받으실 수 있습니다"),
         "matching": MessageLookupByLibrary.simpleMessage("matching"),
+        "password": MessageLookupByLibrary.simpleMessage("password"),
         "practiceMode": MessageLookupByLibrary.simpleMessage("Practice Mode"),
+        "privateRoom": MessageLookupByLibrary.simpleMessage("Private Room"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "publicRoom": MessageLookupByLibrary.simpleMessage("Public Room"),
         "rankPoint": MessageLookupByLibrary.simpleMessage("Rank Point"),
         "ranking": MessageLookupByLibrary.simpleMessage("Ranking"),
+        "ready": MessageLookupByLibrary.simpleMessage("ready"),
         "record": MessageLookupByLibrary.simpleMessage("Record"),
+        "roomEmpty": MessageLookupByLibrary.simpleMessage(
+            "There are no rooms Now\nTry later"),
+        "roomName": MessageLookupByLibrary.simpleMessage("Room Name"),
+        "roomPasswordRule": MessageLookupByLibrary.simpleMessage(
+            "The password can be up to 20 characters long."),
         "running": MessageLookupByLibrary.simpleMessage("Running"),
         "runningTime": MessageLookupByLibrary.simpleMessage("Time Taken"),
+        "search": MessageLookupByLibrary.simpleMessage("Search"),
         "semanticsButton": MessageLookupByLibrary.simpleMessage("Button"),
         "userMode": MessageLookupByLibrary.simpleMessage("User Mode"),
+        "waiting": MessageLookupByLibrary.simpleMessage("Waiting"),
         "waitingOthers":
             MessageLookupByLibrary.simpleMessage("waiting for others response"),
+        "waitingRoom": MessageLookupByLibrary.simpleMessage("waiting room"),
         "win": MessageLookupByLibrary.simpleMessage("Win")
       };
 }

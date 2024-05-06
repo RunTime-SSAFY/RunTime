@@ -62,9 +62,10 @@ interface class KakaoService {
   }
 
   static _saveToekn(OAuthToken token) {
-    SecureStorageRepository.setAccessToken(token.accessToken);
+    var secureStorage = SecureStorageRepository();
+    secureStorage.setAccessToken(token.accessToken);
     if (token.refreshToken != null) {
-      SecureStorageRepository.setRefreshToken(
+      secureStorage.setRefreshToken(
           token.refreshToken!, DateTime.now().add(const Duration(days: 14)));
     }
   }
