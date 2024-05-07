@@ -1,25 +1,16 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front_android/src/model/battle.dart';
 // ignore: library_prefixes
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-final socketProvider = Provider.autoDispose((ref) {
-  final socketRepository = SocketService();
-  ref.onDispose(() {
-    socketRepository.close();
-  });
-  return socketRepository;
-});
-
 class SocketService {
-  SocketService() {
+  SocketService({required this.socketUri}) {
     init();
   }
 
-  MatchingRoomData? roomData;
+  final String socketUri;
 
-  final IO.Socket _socket = IO.io(dotenv.get('SOCKET_URL'));
+  late final IO.Socket _socket =
+      IO.io('${dotenv.get('SOCKET_URL')}/$socketUri');
 
   void init() {
     _socket.onConnect((_) => print('소켓 연결 완료'));
