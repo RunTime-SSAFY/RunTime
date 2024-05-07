@@ -20,12 +20,7 @@ class SecureStorageRepository {
     await storage.write(key: 'accessToken', value: token);
   }
 
-  Future<void> setRefreshToken(String token, DateTime expireDate) async {
-    List<Future> asyncTasks = [
-      storage.write(key: 'refreshToken', value: token),
-      storage.write(key: 'expireDate', value: expireDate.toIso8601String()),
-    ];
-
-    await Future.wait(asyncTasks);
+  Future<void> setRefreshToken(String token) async {
+    await storage.write(key: 'refreshToken', value: token);
   }
 }

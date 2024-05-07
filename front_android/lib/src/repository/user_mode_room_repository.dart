@@ -17,7 +17,8 @@ class UserModeRoomRepository {
         queryParameters: {
           if (lastId != null) 'lastId': lastId,
           if (searchWord != null) 'searchWord': searchWord,
-          if (isSecret != null) 'isSecret': isSecret,
+          'isSecret': isSecret ?? false,
+          'pageSize': 5,
         },
       );
       return jsonDecode(response.data)
