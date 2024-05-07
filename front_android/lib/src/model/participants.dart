@@ -13,8 +13,8 @@ class Participants {
   factory Participants.fromJson(Map<String, dynamic> json) => Participants(
         memberId: json['memberId'],
         nickname: json['nickname'],
-        characterImgUrl: json['characterImgUrl'],
-        isManager: json['isManager'],
-        isReady: json['isReady'],
+        characterImgUrl: json['characterImgUrl'] ?? '',
+        isManager: json['isManager'] ?? false,
+        isReady: json['isReady'] ?? true,
       );
 }
