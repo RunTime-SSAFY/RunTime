@@ -45,11 +45,6 @@ public class AchievementCustomImpl implements AchievementCustom{
 
 
 
-	@Override
-	public void updateAchievement(Long memberId) {
-		List<Tuple> list = findAchievementQuery(memberId);
-	}
-
 	private List<Tuple> findAchievementQuery(Long memberId) {
 		return query.select(achievement, currentAchievement, achievementType, character)
 			.from(achievement)

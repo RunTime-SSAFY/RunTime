@@ -80,4 +80,23 @@ public class MemberCustomImpl implements MemberCustom {
 
 		return new SliceImpl<>(results, pageable, hasNext);
 	}
+
+
+	@Override
+	public int countFriends(Long memberId){
+		return query.select(member.id.count()).
+			from(member)
+			.where(member.id.in(
+				// 사용자 중 나와 친구 관계가 "accepted"인 모든 사용자
+				JPAExpressions.select(
+						new CaseBuilder()
+							.when(friend.requester.id.eq(1L)).then(friend.addressee.id)
+							.otherwise(friend.requester.id)
+					).from(friend)
+					.where(friend.status.eq(FriendStatusType.accepted)
+						.and(friend.requester.id.eq(memberId).or(friend.addressee.id.eq(memberId)))
+					))
+			)
+			.fetchFirst().intValue();
+	}
 }
