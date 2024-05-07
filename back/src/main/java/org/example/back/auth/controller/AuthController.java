@@ -24,8 +24,4 @@ public class AuthController {
 		return ResponseEntity.ok(token);
 	}
 
-	@PostMapping("/join")
-	public ResponseEntity<JoinResponseDto> join(@RequestBody LoginDto loginDto) {
-		return ResponseEntity.ok(authService.join(loginDto.getEmail()));
-	}
 }
