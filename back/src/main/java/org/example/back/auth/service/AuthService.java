@@ -19,6 +19,9 @@ import org.example.back.db.repository.UnlockedCharacterRepository;
 import org.example.back.exception.CharacterNotFoundException;
 import org.example.back.exception.EmailExistsException;
 import org.example.back.auth.dto.LoginDto;
+import org.example.back.exception.RefreshTokenNotFoundException;
+import org.example.back.redis.entity.RefreshToken;
+import org.example.back.redis.repository.RefreshTokenRepository;
 import org.example.back.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -35,6 +38,7 @@ public class AuthService {
 	private final CurrentAchievementRepository currentAchievementRepository;
 	private final AchievementTypeRepository achievementTypeRepository;
 	private final UnlockedCharacterRepository unlockedCharacterRepository;
+	private final RefreshTokenRepository refreshTokenRepository;
 
 	@Value("${jwt.secret}")
 	private String secretKey;
@@ -89,6 +93,10 @@ public class AuthService {
 		}
 		String accessToken = JWTUtil.createJwt(member.getId(), secretKey, expiredMs);
 		String refreshToken = JWTUtil.createRefreshToken(secretKey);
+
+		RefreshToken redis = new RefreshToken(refreshToken, member.getId());
+		refreshTokenRepository.save(redis);
+
 		return TokenResponseDto.builder()
 			.accessToken(accessToken)
 			.refreshToken(refreshToken)
@@ -106,6 +114,7 @@ public class AuthService {
 		String refreshToken = JWTUtil.createRefreshToken(secretKey);
 
 
+
 		return JoinResponseDto.builder()
 			.id(id)
 			.email(email)
@@ -119,5 +128,22 @@ public class AuthService {
 
 	public boolean isExistMember(String email) {
 		return memberRepository.existsByEmail(email);
+	}
+
+	public TokenResponseDto reissueToken(String refreshToken) {
+		System.out.println(refreshToken);
+		RefreshToken redisToken = refreshTokenRepository.findById(refreshToken).orElseThrow(
+			RefreshTokenNotFoundException::new);
+		String accessToken = JWTUtil.createJwt(redisToken.getMemberId(), secretKey, expiredMs);
+		String newRefreshToken = JWTUtil.createRefreshToken(secretKey);
+		RefreshToken redis = new RefreshToken(newRefreshToken, redisToken.getMemberId());
+		refreshTokenRepository.save(redis);
+
+		return TokenResponseDto.builder()
+			.accessToken(accessToken)
+			.refreshToken(newRefreshToken)
+			.isNewMember(false)
+			.build();
+
 	}
 }
