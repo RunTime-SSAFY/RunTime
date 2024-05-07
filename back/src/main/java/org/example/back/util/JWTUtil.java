@@ -1,5 +1,6 @@
 package org.example.back.util;
 
+import java.security.Key;
 import java.util.Date;
 
 import io.jsonwebtoken.Jwts;
@@ -7,7 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JWTUtil {
 
-	private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
+	private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24*4;  // 4일
 	public static String getId(String token, String secretKey) {
 		return Jwts.parser()
 			.setSigningKey(secretKey)
@@ -43,7 +44,7 @@ public class JWTUtil {
 	public static String createRefreshToken(String secretKey){
 		long now = (new Date()).getTime();
 		return Jwts.builder()
-			.setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
+			.expiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
 			.signWith(SignatureAlgorithm.HS512, secretKey)
 			.compact();
 	}

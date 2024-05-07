@@ -6,6 +6,7 @@ import org.example.back.db.entity.Achievement;
 import org.example.back.db.entity.AchievementType;
 import org.example.back.db.entity.Character;
 import org.example.back.db.entity.CurrentAchievement;
+import org.example.back.db.enums.AchievementCriteriaType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,7 @@ public class AchievementResDto {
 	private Long type;
 	private String name;
 	private String detail;
-	private String criteria;
+	private AchievementCriteriaType criteria;
 	private Integer grade;
 	private Float goal;
 	private Float progress;
