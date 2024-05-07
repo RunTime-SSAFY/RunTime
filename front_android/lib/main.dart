@@ -67,7 +67,8 @@ class MyApp extends ConsumerWidget {
         );
       },
       theme: ref.themeService.themeDate,
-      initialRoute: RoutePath.runMain,
+      // initialRoute: RoutePath.runMain,
+      initialRoute: RoutePath.record,
       onGenerateRoute: RoutePath.onGenerateRoute,
       locale: ref.locale,
     );
