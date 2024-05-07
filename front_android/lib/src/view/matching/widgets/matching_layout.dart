@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/theme/components/image_background.dart';
 import 'package:front_android/theme/components/png_image.dart';
 
 class MatchingLayoutView extends ConsumerWidget {
@@ -21,13 +22,7 @@ class MatchingLayoutView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/background/battleBackground.png'),
-          fit: BoxFit.fitHeight,
-        ),
-      ),
+    return BattleImageBackground(
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(

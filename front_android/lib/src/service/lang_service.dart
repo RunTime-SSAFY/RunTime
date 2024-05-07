@@ -5,12 +5,12 @@ import 'package:front_android/util/helper/l10n_helper.dart';
 final langServiceProvider = ChangeNotifierProvider((ref) => LangService());
 
 class LangService with ChangeNotifier {
+  /// 현재 언어
+  Locale locale;
+
   LangService({
     Locale? locale,
   }) : locale = locale ?? IntlHelper.ko;
-
-  /// 현재 언어
-  Locale locale;
 
   /// 언어 변경
   void changeLang(Locale targetLang) {

@@ -17,14 +17,16 @@ final battleViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
 });
 
 class BattleViewModel with ChangeNotifier {
-  BattleViewModel(this._socket) {
+  final SocketRepository socketRepository;
+
+  BattleViewModel(this.socketRepository) {
+    _socket = SocketService(socketUri: 'socketUrl');
     _startTimer();
-    battleSocketStreamHandler = BattleSocketStreamHandler();
-    distanceService = DistanceRepository(battleSocketStreamHandler);
+    distanceService = DistanceRepository(_socket);
   }
-  final SocketRepository _socket;
   late final DistanceRepository distanceService;
-  late final BattleSocketStreamHandler battleSocketStreamHandler;
+
+  late final SocketService _socket;
 
   double get currentDistance => distanceService.currentDistance;
 
@@ -93,7 +95,7 @@ class BattleViewModel with ChangeNotifier {
   @override
   void dispose() {
     distanceService.cancelListen();
-    battleSocketStreamHandler.onDispose();
+    _socket.close();
     super.dispose();
   }
 }

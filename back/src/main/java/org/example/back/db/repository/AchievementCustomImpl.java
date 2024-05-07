@@ -25,16 +25,9 @@ public class AchievementCustomImpl implements AchievementCustom{
 	private final QAchievementType achievementType = QAchievementType.achievementType;
 	private final QCharacter character = QCharacter.character;
 	@Override
-	public List<AchievementResDto> FindOwnAchievement(Long memberId) {
+	public List<AchievementResDto> findOwnAchievement(Long memberId) {
 
-		List<Tuple> result = query.select(achievement, currentAchievement, achievementType, character)
-			.from(achievement)
-			.join(currentAchievement).on(achievement.achievementType.id.eq(currentAchievement.achievementType.id))
-			.join(achievementType).on(achievement.achievementType.id.eq(achievementType.id))
-			.join(character).on(character.achievement.id.eq(achievement.id))
-			.where(achievement.grade.eq(currentAchievement.currentGrade),
-				currentAchievement.member.id.eq(memberId))
-			.fetch();
+		List<Tuple> result = findAchievementQuery(memberId);
 
 		List<AchievementResDto> list = new ArrayList<>();
 		result.forEach(el->{
@@ -48,5 +41,18 @@ public class AchievementCustomImpl implements AchievementCustom{
 		});
 
 		return list;
+	}
+
+
+
+	private List<Tuple> findAchievementQuery(Long memberId) {
+		return query.select(achievement, currentAchievement, achievementType, character)
+			.from(achievement)
+			.join(currentAchievement).on(achievement.achievementType.id.eq(currentAchievement.achievementType.id))
+			.join(achievementType).on(achievement.achievementType.id.eq(achievementType.id))
+			.join(character).on(character.achievement.id.eq(achievement.id))
+			.where(achievement.grade.eq(currentAchievement.currentGrade),
+				currentAchievement.member.id.eq(memberId))
+			.fetch();
 	}
 }

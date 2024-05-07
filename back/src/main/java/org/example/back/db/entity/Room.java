@@ -31,6 +31,7 @@ public class Room extends BaseEntity {
     private int capacity; // 방의 정원
     private int headcount; // 방에 참여한 인원의 수
 
+    @Setter
     @OneToMany(mappedBy = "room", cascade = CascadeType.REMOVE)
     private List<RoomMember> roomMembers;
 

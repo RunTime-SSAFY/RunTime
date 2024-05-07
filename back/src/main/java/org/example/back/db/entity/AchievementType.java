@@ -1,8 +1,12 @@
 package org.example.back.db.entity;
 
 import org.example.back.common.BaseEntity;
+import org.example.back.db.enums.AchievementCriteriaType;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,7 +26,9 @@ public class AchievementType extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String criteria;
+	@Column(name = "criteria")
+	@Enumerated(EnumType.STRING)
+	private AchievementCriteriaType criteria;
 
 	private Integer finalGrade;
 

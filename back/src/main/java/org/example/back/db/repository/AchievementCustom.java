@@ -6,5 +6,5 @@ import org.example.back.achievement.dto.AchievementResDto;
 
 public interface AchievementCustom {
 
-	public List<AchievementResDto> FindOwnAchievement(Long memberId);
+	public List<AchievementResDto> findOwnAchievement(Long memberId);
 }

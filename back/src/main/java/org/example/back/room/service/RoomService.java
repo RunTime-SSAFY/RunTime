@@ -15,9 +15,11 @@ import org.example.back.util.SecurityUtil;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +30,7 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final RoomMemberRepository roomMemberRepository;
     private final SimpMessagingTemplate messagingTemplate;
-
+    private final PasswordEncoder passwordEncoder;
     @Transactional
     public PostRoomResDto postRoom(PostRoomReqDto postRoomReqDto) {
         // 나 가져오기
@@ -41,13 +43,16 @@ public class RoomService {
         String password = postRoomReqDto.getPassword();
         String name = postRoomReqDto.getName();
 
+        // 방 비밀번호 hashing
+        String hashedPassword = passwordEncoder.encode(password);
+
         // room 만들기
         Room room = Room.builder()
                 .manager(me)
                 .name(name)
                 .distance(distance)
                 .status(Status.WAITING)
-                .password(password)
+                .password(hashedPassword)
                 .capacity(capacity)
                 .build();
 
@@ -62,7 +67,12 @@ public class RoomService {
 
         roomMemberRepository.save(roomMember);
 
+        if (savedRoom.getRoomMembers() == null) {
+            savedRoom.setRoomMembers(new ArrayList<>());
+        }
+
         savedRoom.getRoomMembers().add(roomMember);
+
         // socket으로 방의 멤버(자기 자신밖에 없다)들의 리스트를 보내준다
         List<MemberResDto> memberResDtos = savedRoom.getRoomMembers().stream().map(RoomMember::toMemberResDto).toList();
         StompResDto stompResDto = StompResDto.builder()
@@ -84,11 +94,10 @@ public class RoomService {
     }
 
     @Transactional
-    public PatchRoomResDto patchRoomName(PatchRoomNameReqDto patchRoomNameReqDto) {
+    public PatchRoomResDto patchRoomName(Long roomId, PatchRoomNameReqDto patchRoomNameReqDto) {
         // 요청자가 방장인지 확인한다
         Long myMemberId = SecurityUtil.getCurrentMemberId();
 
-        Long roomId = patchRoomNameReqDto.getRoomId();
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
 
         if (!myMemberId.equals(room.getManager().getId())) {
@@ -112,11 +121,10 @@ public class RoomService {
     }
 
     @Transactional
-    public PatchRoomResDto patchRoomDistance(PatchRoomDistanceReqDto patchRoomDistanceReqDto) {
+    public PatchRoomResDto patchRoomDistance(Long roomId, PatchRoomDistanceReqDto patchRoomDistanceReqDto) {
         // 요청자가 방장인지 확인한다
         Long myMemberId = SecurityUtil.getCurrentMemberId();
 
-        Long roomId = patchRoomDistanceReqDto.getRoomId();
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
 
         if (!myMemberId.equals(room.getManager().getId())) {
@@ -141,11 +149,10 @@ public class RoomService {
     }
 
     @Transactional
-    public PatchRoomResDto patchRoomPassword(PatchRoomPasswordReqDto patchRoomPasswordReqDto) {
+    public PatchRoomResDto patchRoomPassword(Long roomId, PatchRoomPasswordReqDto patchRoomPasswordReqDto) {
         // 요청자가 방장인지 확인한다
         Long myMemberId = SecurityUtil.getCurrentMemberId();
 
-        Long roomId = patchRoomPasswordReqDto.getRoomId();
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
 
         if (!myMemberId.equals(room.getManager().getId())) {
@@ -153,8 +160,10 @@ public class RoomService {
         }
 
         String password = patchRoomPasswordReqDto.getPassword();
+        // 방 비밀번호 hashing
+        String hashedPassword = passwordEncoder.encode(password);
 
-        room.patchRoomPassword(password);
+        room.patchRoomPassword(hashedPassword);
 
         return PatchRoomResDto.builder()
                 .roomId(roomId)
@@ -163,11 +172,10 @@ public class RoomService {
     }
 
     @Transactional
-    public PatchRoomResDto patchRoomCapacity(PatchRoomCapacityReqDto patchRoomCapacityReqDto) {
+    public PatchRoomResDto patchRoomCapacity(Long roomId, PatchRoomCapacityReqDto patchRoomCapacityReqDto) {
         // 요청자가 방장인지 확인한다
         Long myMemberId = SecurityUtil.getCurrentMemberId();
 
-        Long roomId = patchRoomCapacityReqDto.getRoomId();
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
 
         if (!myMemberId.equals(room.getManager().getId())) {
@@ -191,7 +199,7 @@ public class RoomService {
     }
 
     @Transactional
-    public RoomMemberResDto enterRoom(Long roomId) {
+    public RoomMemberResDto enterRoom(Long roomId, String password) {
         Long myMemberId = SecurityUtil.getCurrentMemberId();
         Member me =  memberRepository.findById(myMemberId).orElseThrow(MemberNotFoundException::new);
 
@@ -203,6 +211,13 @@ public class RoomService {
         }
         // 게임이 진행 중이라면 에러 발생
         if (room.getStatus().name().equals("IN_PROGRESS")) throw new CustomException(HttpStatus.NOT_MODIFIED, room.getId() + "방은 게임이 진행 중이므로 입장할 수 없습니다");
+
+        // 비밀방이라면 비밀번호가 일치해야 한다
+        if (password != null) {
+            if (!passwordEncoder.matches(password, room.getPassword())) {
+                throw new CustomException(HttpStatus.BAD_REQUEST, roomId +"방의 비밀번호가 일치하지 않습니다");
+            }
+        }
 
         // roomMember 만들기
         RoomMember toSaveRoomMember = RoomMember.builder()
@@ -248,13 +263,13 @@ public class RoomService {
        RoomMember roomMember = roomMemberOptional.get();
        roomMember.setReady();
 
-        // room은 업데이트 할 필요가 없는가?
         List<RoomMember> roomMembers = room.getRoomMembers();
         for (RoomMember r: roomMembers) {
             if (r.getMember().getId().equals(myMemberId)) {
                 r.setReady();
             }
         }
+
 
         List<MemberResDto> memberResDtos = room.getRoomMembers().stream().map(RoomMember::toMemberResDto).toList();
 
@@ -321,7 +336,14 @@ public class RoomService {
 
     @Transactional
     public void startGame(Long roomId) { // 단체전 방의 게임을 시작
+        // 요청자가 방장인지 확인한다
+        Long myMemberId = SecurityUtil.getCurrentMemberId();
+
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
+
+        if (!myMemberId.equals(room.getManager().getId())) {
+            throw new NotManagerException(HttpStatus.BAD_REQUEST, myMemberId + "는 " + roomId + "의 방장이 아닙니다");
+        }
 
         // 단체전 방의 게임이 시작될 수 있는지 확인한다: 그렇지 않다면 에러 발생
         List<RoomMember> roomMembers = room.getRoomMembers();

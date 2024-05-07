@@ -25,7 +25,6 @@ class AppTypo {
   );
 
   late final TextStyle appBarMainTitle = TextStyle(
-    height: 1.3,
     fontFamily: _typo.name,
     fontWeight: _typo.bold,
     fontSize: 24,
@@ -33,7 +32,6 @@ class AppTypo {
   );
 
   late final TextStyle appBarSubTitle = TextStyle(
-    height: 1.3,
     fontFamily: _typo.name,
     fontWeight: _typo.bold,
     fontSize: 24,
@@ -141,6 +139,14 @@ class AppTypo {
     fontFamily: _typo.name,
     fontWeight: _typo.regular,
     fontSize: 14,
+    color: fontColor,
+  );
+
+  late final TextStyle bigRegular = TextStyle(
+    height: 1.3,
+    fontFamily: _typo.name,
+    fontWeight: _typo.regular,
+    fontSize: 24,
     color: fontColor,
   );
 }

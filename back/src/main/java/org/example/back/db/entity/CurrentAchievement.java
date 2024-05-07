@@ -10,12 +10,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "current_achievement")
 public class CurrentAchievement extends BaseEntity {
 	@EmbeddedId
@@ -26,7 +32,7 @@ public class CurrentAchievement extends BaseEntity {
 	@JoinColumn(name = "member_id", nullable = false)
 	private Member member;
 
-	@MapsId("achievementId")
+	@MapsId("achievementTypeId")
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "achievement_type_id", nullable = false)
 	private AchievementType achievementType;
@@ -40,4 +46,12 @@ public class CurrentAchievement extends BaseEntity {
 	@Column(name = "is_received")
 	private Boolean isReceived;
 
+	public void updateProgress(Float progress) {
+		this.progress = progress;
+	}
+
+	public void markReceived(){this.isReceived = true;}
+	public void toNextGrade(){
+		this.currentGrade++;
+	}
 }
