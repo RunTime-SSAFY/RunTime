@@ -27,32 +27,47 @@ public class ResultService {
 
 	@Transactional
 	public ResultResDto getResult(ResultReqDto record) {  // 경기 기록 저장 및 저장 결과 반환
-		// 경기 결과 저장
-		Record result = new Record();
-		result.setMember(getMember());
-		result.setGameMode(record.getGameMode());
-		result.setRanking(record.getRanking());
-		result.setDistance(record.getDistance());
-		result.setRunStartTime(record.getRunStartTime());
-		result.setRunEndTime(record.getRunEndTime());
-		result.setPace(record.getPace());
-		result.setCalorie(record.getCalorie());
-		recordRepository.save(result);
-
-		// 점수 갱신
-		int consecutive, beforeScore, afterScore, status;
+		// 처리할 사용자 로드
 		Member member = getMember();
 
-		consecutive = record.getRanking().equals(1) ? member.getConsecutiveGames() + 1 : 0; // 연승 기록 갱신
-		beforeScore = member.getTierScore();  // 갱신 전 점수
-		afterScore = Math.min(Math.max(beforeScore + (record.getRanking().equals(1) ? 30 * consecutive : -30), 0), 1100);  // 점수 상한선 제한
+		// 경기 결과 저장
+		saveRecord(member, record);
 
-		member.updateTierScore(afterScore);  // 갱신 점수 저장
-		member.updateConsecutive(consecutive);  // 갱신 연승 기록 저장
-		memberRepository.save(member);  // db 저장
+		// 사용자 점수 갱신 및 저장
+		updateMemberScores(member, record);
 
-		status = Integer.compare(afterScore / 100, beforeScore / 100);
+		return createResultResDto(member);
+	}
 
-		return new ResultResDto(beforeScore, afterScore, status, consecutive);
+	private void saveRecord(Member member, ResultReqDto record) {
+		Record result =  Record.builder()
+			.member(member)
+			.gameMode(record.getGameMode())
+			.ranking(record.getRanking())
+			.distance(record.getDistance())
+			.runStartTime(record.getRunStartTime())
+			.runEndTime(record.getRunEndTime())
+			.pace(record.getPace())
+			.calorie(record.getCalorie())
+			.duration(record.getDuration())
+			.build();
+		recordRepository.save(result);
+	}
+
+	private void updateMemberScores(Member member, ResultReqDto record) {
+		int consecutive = record.getRanking().equals(1) ? member.getConsecutiveGames() + 1 : 0; // 연승 기록 갱신
+		int beforeScore = member.getTierScore();  // 갱신 전 점수
+		int updateScore = beforeScore + (record.getRanking().equals(1) ? 30 * consecutive : -30);  // 점수 갱신
+		int afterScore = Math.min(Math.max(updateScore, 0), 1100);  // 점수 상한선 제한
+
+		member.updateTierScore(afterScore);
+		member.updateConsecutive(consecutive);
+		memberRepository.save(member);
+	}
+
+	private ResultResDto createResultResDto(Member member) {
+		int beforeScore = member.getTierScore();
+		int status = Integer.compare(member.getTierScore() / 100, beforeScore / 100);
+		return new ResultResDto(beforeScore, member.getTierScore(), status, member.getConsecutiveGames());
 	}
 }

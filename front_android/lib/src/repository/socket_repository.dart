@@ -1,29 +1,16 @@
-import 'dart:io';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/model/battle.dart';
+import 'package:front_android/src/model/participants.dart';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+final socketProvider = Provider.autoDispose((ref) {
+  final socketRepository = SocketRepository();
+  return socketRepository;
+});
 
 class SocketRepository {
-  SocketRepository() {
-    dotenv.get('SOCKET_URL');
-  }
-  late final Socket _socket;
-  late final String socketBaseUrl;
+  MatchingData? matchingData;
 
-  int count = 0;
+  int distance = 3;
 
-  // 매칭요청
-  void randomMatchingStart() async {
-    _socket = await Socket.connect(socketBaseUrl, 80);
-    _socket.listen((event) {
-      var stringData = String.fromCharCodes(event);
-    });
-  }
-
-  void disconnect() async {
-    _socket.destroy();
-  }
-
-  void onDispose() {
-    // disconnect();
-  }
+  List<Participants> participants = [];
 }

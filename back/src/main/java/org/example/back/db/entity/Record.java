@@ -50,6 +50,9 @@ public class Record extends BaseEntity {
 	@Column(name = "calorie")
 	private Integer calorie;
 
+	@Column(name="duration")
+	private Integer duration;
+
 	public Long getDuration() {
 		if (runStartTime != null && runEndTime != null) {
 			return Duration.between(runStartTime, runEndTime).toMillis();

@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "EnterSearchTerm": MessageLookupByLibrary.simpleMessage("검색어 입력"),
         "ReallyCancelQuestion":
             MessageLookupByLibrary.simpleMessage("정말로 취소하시겠습니까?"),
         "ReallyGiveUpQuestion": MessageLookupByLibrary.simpleMessage(
@@ -39,32 +40,54 @@ class MessageLookup extends MessageLookupByLibrary {
         "bestRecord": MessageLookupByLibrary.simpleMessage("최고 기록"),
         "caloryBurn": MessageLookupByLibrary.simpleMessage("소모칼로리"),
         "cancel": MessageLookupByLibrary.simpleMessage("취소하기"),
+        "capacity": MessageLookupByLibrary.simpleMessage("인원 수"),
         "character": MessageLookupByLibrary.simpleMessage("캐릭터"),
+        "create": MessageLookupByLibrary.simpleMessage("만들기"),
         "currentLanguage": MessageLookupByLibrary.simpleMessage("한국어"),
         "deny": MessageLookupByLibrary.simpleMessage("거절"),
+        "distance": MessageLookupByLibrary.simpleMessage("거리"),
         "done": MessageLookupByLibrary.simpleMessage("확인"),
         "enter": MessageLookupByLibrary.simpleMessage("입장"),
+        "findRoom": MessageLookupByLibrary.simpleMessage("방찾기"),
+        "gameStart": MessageLookupByLibrary.simpleMessage("게임시작"),
         "giveUp": MessageLookupByLibrary.simpleMessage("포기하기"),
         "home": MessageLookupByLibrary.simpleMessage("홈"),
+        "inProgress": MessageLookupByLibrary.simpleMessage("게임 진행 중"),
+        "invite": MessageLookupByLibrary.simpleMessage("초대"),
         "kakaoLogin": MessageLookupByLibrary.simpleMessage("카카오 로그인"),
         "language": MessageLookupByLibrary.simpleMessage("언어"),
         "lose": MessageLookupByLibrary.simpleMessage("패배"),
+        "makeRoom": MessageLookupByLibrary.simpleMessage("방 생성"),
+        "makingRoom": MessageLookupByLibrary.simpleMessage("방 만들기"),
+        "manager": MessageLookupByLibrary.simpleMessage("방장"),
         "matched":
             MessageLookupByLibrary.simpleMessage("상대를 찾았습니다\n게임을 수락해주세요"),
         "matchedHint": MessageLookupByLibrary.simpleMessage(
             "반복적인 매칭 거절 시 게임이용에 제한을 받으실 수 있습니다"),
         "matching": MessageLookupByLibrary.simpleMessage("상대를 찾는 중"),
-        "practiceMode": MessageLookupByLibrary.simpleMessage("연습모드"),
+        "password": MessageLookupByLibrary.simpleMessage("비밀번호"),
+        "practiceMode": MessageLookupByLibrary.simpleMessage("연습 모드"),
+        "privateRoom": MessageLookupByLibrary.simpleMessage("비밀방"),
         "profile": MessageLookupByLibrary.simpleMessage("프로필"),
+        "publicRoom": MessageLookupByLibrary.simpleMessage("공개방"),
         "rankPoint": MessageLookupByLibrary.simpleMessage("랭크포인트"),
         "ranking": MessageLookupByLibrary.simpleMessage("랭킹"),
+        "ready": MessageLookupByLibrary.simpleMessage("준비완료"),
         "record": MessageLookupByLibrary.simpleMessage("기록"),
+        "roomEmpty": MessageLookupByLibrary.simpleMessage(
+            "현재 대기 방이 없습니다.\n오른쪽 아래 버튼으로 방을 직접 만들어 보세요"),
+        "roomName": MessageLookupByLibrary.simpleMessage("방제목"),
+        "roomPasswordRule":
+            MessageLookupByLibrary.simpleMessage("비밀번호는 최대 20자까지 가능합니다."),
         "running": MessageLookupByLibrary.simpleMessage("달리기"),
         "runningTime": MessageLookupByLibrary.simpleMessage("달린 시간"),
+        "search": MessageLookupByLibrary.simpleMessage("검색"),
         "semanticsButton": MessageLookupByLibrary.simpleMessage("버튼"),
-        "userMode": MessageLookupByLibrary.simpleMessage("사용자모드"),
+        "userMode": MessageLookupByLibrary.simpleMessage("사용자 모드"),
+        "waiting": MessageLookupByLibrary.simpleMessage("대기중"),
         "waitingOthers":
             MessageLookupByLibrary.simpleMessage("상대방의 응답을 기다리고 있습니다."),
+        "waitingRoom": MessageLookupByLibrary.simpleMessage("대기방"),
         "win": MessageLookupByLibrary.simpleMessage("승리")
       };
 }

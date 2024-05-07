@@ -8,6 +8,20 @@ spring:
       host: localhost
       port: 6379
 
+#spring:
+#  datasource:
+#    db1:
+#      jdbc-url: jdbc:mysql://localhost:3306/runmate?useSSL=true&serverTimezone=UTC&useLegacyDatetimeCode=false
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#    db2:
+#      jdbc-url: jdbc:postgresql://localhost:5432/runmate
+#      driver-class-name: org.postgresql.Driver
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379
+
+
 # JPA Configuration
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -18,6 +32,18 @@ spring:
         format_sql: true
         show_sql: true
 
+  # Kafka
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      bootstrap-servers: localhost:9092
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: gps-group
 
 logging:
   level:
