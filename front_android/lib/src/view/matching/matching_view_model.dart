@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/battle.dart';
+import 'package:front_android/src/repository/socket_repository.dart';
 import 'package:front_android/src/service/socket_service.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
 import 'package:front_android/util/helper/socket_helper.dart';
@@ -22,9 +23,13 @@ enum MatchedState {
 }
 
 class MatchingViewModel with ChangeNotifier {
-  final SocketService _socket;
+  final SocketRepository socketRepository;
 
-  MatchingViewModel(this._socket);
+  MatchingViewModel(this.socketRepository) {
+    _socket = SocketService(socketUri: 'socketUrl');
+  }
+
+  late final SocketService _socket;
 
   int targetDistance = 3;
 
@@ -43,7 +48,7 @@ class MatchingViewModel with ChangeNotifier {
       // 방의 id와 상대의 id
       print(data);
       // 소켓 인스턴스에 방의 정보를 저장한 뒤 매칭 수락, 거절 화면으로 이동
-      _socket.roomData = MatchingRoomData.fromJson(data);
+      socketRepository.matchingData = MatchingData.fromJson(data);
       Navigator.popAndPushNamed(context, RoutePath.matched);
     });
   }
