@@ -40,7 +40,7 @@ public class Character extends BaseEntity {
     private String imgUrl;
 
 	@OneToOne
-	@JoinColumn(name="acievements_id")
+	@JoinColumn(name="achievement_id")
 	private Achievement achievement;
 
 }

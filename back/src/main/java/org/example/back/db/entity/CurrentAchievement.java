@@ -49,4 +49,9 @@ public class CurrentAchievement extends BaseEntity {
 	public void updateProgress(Float progress) {
 		this.progress = progress;
 	}
+
+	public void markReceived(){this.isReceived = true;}
+	public void toNextGrade(){
+		this.currentGrade++;
+	}
 }

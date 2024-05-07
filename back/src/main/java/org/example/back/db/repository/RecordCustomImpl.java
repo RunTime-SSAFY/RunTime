@@ -62,9 +62,9 @@ public class RecordCustomImpl implements RecordCustom {
     public RecordSummaryResDto getSummary(Long memberId){
         BooleanExpression isRankingFirst = record.ranking.eq(1);
 		return query.select(Projections.bean(RecordSummaryResDto.class,
-            record.distance.sum().as("totalDistance"), isRankingFirst.count().intValue().as("countWins"),
+            record.distance.sum().coalesce(0f).as("totalDistance"), isRankingFirst.count().intValue().as("countWins"),
                 record.duration
-                    .sum().divide(3600000).floatValue()
+                    .sum().divide(3600000).floatValue().coalesce(0f)
                     .as("totalDuration") ))
             .from(record)
             .where(record.member.id.eq(memberId))
