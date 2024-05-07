@@ -30,15 +30,14 @@ class RecordView extends ConsumerWidget {
           ),
         ],
       ),
-      body: Column(
+      body: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const RecordTop(),
+          RecordTop(),
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              color: Colors.grey[200],
-              child: const RecordList(),
+            child: Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: RecordList(),
             ),
           ),
         ],

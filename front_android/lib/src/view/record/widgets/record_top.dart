@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/theme/components/svg_icon.dart';
 import 'package:intl/intl.dart';
 
 class RecordTop extends ConsumerWidget {
@@ -10,27 +13,134 @@ class RecordTop extends ConsumerWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 20, top: 16),
-          child: Consumer(
-            builder: (context, ref, _) {
-              final dateInfo = ref.watch(dateProvider); // 현재 날짜 정보 가져옴
-              return Text('${dateInfo.year}년 ${dateInfo.month}월', // 연도와 월 표시
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold));
-            },
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Row(
+            // 하위요소 양 끝으로 정렬
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // 2024년 5월 표시
+              Text('2024년 5월', style: ref.typo.headline2),
+              // 통계정보 버튼 추가
+              Row(
+                // 오른쪽 정렬
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  // 아이콘 추가
+                  SvgIcon(
+                    'statistics',
+                    color: ref.color.accept,
+                    size: 28,
+                  ),
+                  // const SizedBox(width: 1),
+                  // 텍스트
+                  Text(
+                    '통계정보',
+                    style: ref.typo.headline3.copyWith(
+                      color: ref.color.accept,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-        const SizedBox(
-          height: 100,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: CenteredTimeline(), // 중앙 정렬된 타임라인 위젯
+        const Padding(
+          padding: EdgeInsets.only(top: 10),
+          child: SizedBox(height: 80),
+          // 캐러셀 형태의 타임라인 추가
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+          child: Row(
+            children: [
+              // 리스트 제목1
+              Expanded(
+                flex: 2,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Text(
+                      'Time',
+                      style: ref.typo.subTitle4.copyWith(
+                        color: ref.color.inactive,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 8,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // 리스트 제목2
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text(
+                        'History',
+                        style: ref.typo.subTitle4.copyWith(
+                          color: ref.color.inactive,
+                        ),
+                      ),
+                    ),
+                    // 필터 버튼 추가
+                    Row(
+                      children: [
+                        Text(
+                          '전체',
+                          style: ref.typo.subTitle4.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: ref.palette.gray600),
+                        ),
+                        const SizedBox(width: 4),
+                        SvgIcon(
+                          'filter',
+                          color: ref.palette.gray600,
+                          size: 18,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ],
     );
   }
 }
+
+// class RecordTop extends ConsumerWidget {
+//   const RecordTop({super.key});
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     return Column(
+//       children: [
+//         Padding(
+//           padding: const EdgeInsets.only(left: 20, top: 16),
+//           child: Consumer(
+//             builder: (context, ref, _) {
+//               final dateInfo = ref.watch(dateProvider); // 현재 날짜 정보 가져옴
+//               return Text('${dateInfo.year}년 ${dateInfo.month}월', // 연도와 월 표시
+//                   style: const TextStyle(
+//                       fontSize: 20, fontWeight: FontWeight.bold));
+//             },
+//           ),
+//         ),
+//         const SizedBox(
+//           height: 100,
+//           child: Padding(
+//             padding: EdgeInsets.symmetric(horizontal: 20),
+//             child: CenteredTimeline(), // 중앙 정렬된 타임라인 위젯
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 // 연도와 월 정보를 보유하는 클래스
 class DateInfo {
