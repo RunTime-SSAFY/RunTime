@@ -44,7 +44,8 @@ class UserModeViewModel with ChangeNotifier {
     notifyListeners();
 
     final results = await Future.wait([
-      userModeRoomRepository.getUserModeRoomList(),
+      userModeRoomRepository.getUserModeRoomList(
+          lastId: userModeRoomRepository.lastId),
       Future.delayed(const Duration(milliseconds: 500)),
     ]);
     _userModeRoomList = results[0];
@@ -124,7 +125,11 @@ class UserModeViewModel with ChangeNotifier {
   void makeRoom() {
     if (name.isEmpty) return;
     MakeRoomModel makeRoomModel = MakeRoomModel(
-        name: name, capacity: capacity, distance: distance, password: password);
+      name: name,
+      capacity: capacity,
+      distance: distance.toDouble(),
+      password: password,
+    );
 
     userModeRoomService.makeRoom(makeRoomModel: makeRoomModel);
   }

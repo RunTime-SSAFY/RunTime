@@ -28,19 +28,19 @@ void main() async {
   String initialRoute = RoutePath.runMain;
 
   try {
-    final refreshToken = await secureStorage.read(key: 'refreshToken');
-    if (refreshToken == null) {
+    final accessToken = await secureStorage.read(key: 'accessToken');
+    if (accessToken == null) {
       initialRoute = RoutePath.login;
     }
-    //   final newAccessToken = loginWithRefreshToken(refreshToken);
-    //     if (newAccessToken != null) {
-    //   await secureStorage.write(key: 'accessToken', value: newAccessToken);
-    //   }
+    // final newAccessToken = loginWithRefreshToken(refreshToken);
+    //   if (newAccessToken != null) {
+    // await secureStorage.write(key: 'accessToken', value: newAccessToken);
+    // }
   } catch (error) {
     debugPrint(error.toString());
   }
 
-  // secureStorage = null;
+  secureStorage = null;
 
   runApp(ProviderScope(child: MyApp(initialRoute: initialRoute)));
 }
@@ -60,6 +60,7 @@ class MyApp extends ConsumerWidget {
       authService: authService,
     ));
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
