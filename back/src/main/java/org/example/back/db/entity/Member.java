@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PostLoad;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,7 +43,7 @@ public class Member extends BaseEntity {
 	private String nickname;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "character_id")
+	@JoinColumn(name = "character_id", nullable = false)
 	private Character character;
 
 	@Column(name = "email", length = 100,unique = true)
@@ -60,6 +61,7 @@ public class Member extends BaseEntity {
 	@Column(name = "consecutive_games")
 	@ColumnDefault("0")
 	private Integer consecutiveGames;
+
 
 	public void updateNickname(String nickname) {
 		this.nickname = nickname;
