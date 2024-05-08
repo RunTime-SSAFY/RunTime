@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:front_android/src/repository/secure_storage_repository.dart';
+import 'package:front_android/src/service/user_service.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 interface class KakaoService {
@@ -82,6 +83,10 @@ interface class KakaoService {
           "email": user.kakaoAccount?.email,
         },
       );
+      if (user.kakaoAccount?.email != null) {
+        UserService.instance.email = user.kakaoAccount!.email!;
+      }
+
       var ourToken = response.data;
       _saveToken(ourToken);
       return response.data.toString();

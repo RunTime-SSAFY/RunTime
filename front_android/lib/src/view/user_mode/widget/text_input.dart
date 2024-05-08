@@ -12,6 +12,12 @@ class TextInput extends ConsumerWidget {
     this.onChanged,
     this.icon,
     this.title,
+    this.textColor,
+    this.focusedBorderColor,
+    this.enabledBorderColor,
+    this.backGroundColor,
+    this.padding,
+    this.keyboardType,
   });
 
   final TextEditingController controller;
@@ -20,11 +26,17 @@ class TextInput extends ConsumerWidget {
   final void Function()? onChanged;
   final Widget? icon;
   final String? title;
+  final Color? textColor;
+  final Color? focusedBorderColor;
+  final Color? enabledBorderColor;
+  final Color? backGroundColor;
+  final EdgeInsets? padding;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: padding ?? const EdgeInsets.symmetric(horizontal: 20),
       color: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,23 +56,26 @@ class TextInput extends ConsumerWidget {
             onChanged: (value) {
               onChanged?.call();
             },
+            keyboardType: keyboardType ?? TextInputType.text,
             controller: controller,
             inputFormatters: textInputFormatter,
-            cursorColor: ref.color.onBackground,
+            cursorColor: textColor ?? ref.color.onBackground,
             style: ref.typo.subTitle1.copyWith(
-              color: ref.color.onBackground,
+              color: textColor ?? ref.color.onBackground,
             ),
             decoration: InputDecoration(
+                filled: true,
+                fillColor: backGroundColor ?? Colors.transparent,
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
-                    color: ref.color.onBackground,
+                    color: focusedBorderColor ?? ref.color.onBackground,
                   ),
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
-                    color: ref.color.accept,
+                    color: enabledBorderColor ?? ref.color.accept,
                   ),
                 ),
                 suffixIcon: icon),
