@@ -29,9 +29,44 @@ class MatchingRoomData {
   final int matchingRoomId;
   final int opponentId;
 
-  factory MatchingRoomData.fromJson(Map<String, dynamic> json) =>
-      MatchingRoomData(
-        matchingRoomId: json['matchingRoomId'],
-        opponentId: json['opponentId'],
+  factory MatchingRoomData.fromJson(Map<String, dynamic> json) {
+    return MatchingRoomData(
+      matchingRoomId: json['matchingRoomId'],
+      opponentId: json['opponentId'],
+    );
+  }
+}
+
+class Participant {
+  final int memberId;
+  final String nickname, characterImgUrl;
+  final bool isManager, isReady;
+
+  Participant({
+    required this.memberId,
+    required this.nickname,
+    required this.characterImgUrl,
+    required this.isManager,
+    required this.isReady,
+  });
+
+  factory Participant.fromJson(Map<String, dynamic> json) => Participant(
+        memberId: json['memberId'],
+        nickname: json['nickname'],
+        characterImgUrl: json['characterImgUrl'],
+        isManager: json['isManager'] ?? false,
+        isReady: json['isReady'] ?? false,
       );
+}
+
+class BattleRecordOfParticipant {
+  final String nickname;
+  final String characterImgUrl;
+
+  BattleRecordOfParticipant({
+    required this.nickname,
+    required this.characterImgUrl,
+  });
+
+  double distance = 0;
 }

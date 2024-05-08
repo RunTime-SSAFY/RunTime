@@ -2,16 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front_android/src/model/battle.dart';
-import 'package:front_android/src/service/socket_service.dart';
+import 'package:front_android/src/service/battle_data_service.dart';
+import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
-import 'package:front_android/util/helper/socket_helper.dart';
 import 'package:front_android/util/route_path.dart';
 
 final matchingViewModelProvider =
     ChangeNotifierProvider.autoDispose<MatchingViewModel>((ref) {
-  var socket = ref.watch(socketProvider);
-  return MatchingViewModel(socket);
+  var battleData = ref.watch(battleDataServiceProvider);
+  return MatchingViewModel(battleData);
 });
 
 // 매칭된 후 수락, 거절, 응답 전의 상태
@@ -22,30 +21,29 @@ enum MatchedState {
 }
 
 class MatchingViewModel with ChangeNotifier {
-  final SocketService _socket;
+  final SocketService _battleData;
 
-  MatchingViewModel(this._socket);
+  MatchingViewModel(this._battleData);
 
   int targetDistance = 3;
 
   // 매칭을 시작하기
-  void toMatchingStartView(BuildContext context) {
+  void toMatchingStartView(BuildContext context) async {
     // 화면 이동
     Navigator.popAndPushNamed(context, RoutePath.matching);
 
     // 매칭 시작하라는 요청
-    _socket.emit(SocketHelper.matchingStart);
-
-    // 매칭이 시작된 상태 아직 매칭이 되지는 않음
-
-    // 매칭이 됨
-    _socket.on(SocketHelper.matching, (data) {
-      // 방의 id와 상대의 id
-      print(data);
-      // 소켓 인스턴스에 방의 정보를 저장한 뒤 매칭 수락, 거절 화면으로 이동
-      _socket.roomData = MatchingRoomData.fromJson(data);
-      Navigator.popAndPushNamed(context, RoutePath.matched);
-    });
+    try {
+      await _battleData.matchingStart(
+        (bool startResponse) {
+          _canStart = startResponse;
+        },
+      );
+    } catch (error) {
+      // 에러 토스트 메세지
+      print(error.toString());
+      Navigator.pop(context);
+    }
   }
 
   // 매칭 중 취소하기
@@ -54,10 +52,15 @@ class MatchingViewModel with ChangeNotifier {
       context: context,
       builder: (context) {
         return CancelDialog(
-          onAcceptCancel: () {
+          onAcceptCancel: () async {
             // 취소하면 소켓 연결 해제
-            _socket.close();
-            Navigator.pop(context);
+            try {
+              await apiInstance.patch('api/matchings/cancel');
+              _battleData.stompInstance.disconnect();
+              Navigator.pop(context);
+            } catch (error) {
+              // 에러 토스트 메세지
+            }
           },
         );
       },
@@ -86,7 +89,7 @@ class MatchingViewModel with ChangeNotifier {
         } else {
           // 클라이언트가 거절 누른 경우
           _matchedState = MatchedState.noResponse;
-          _isOpponentAccept = false;
+          _canStart = false;
           Navigator.popAndPushNamed(context, RoutePath.beforeMatching);
         }
       }
@@ -96,29 +99,36 @@ class MatchingViewModel with ChangeNotifier {
   // matched의 수락 상태
   MatchedState _matchedState = MatchedState.noResponse;
   bool get isResponded => _matchedState != MatchedState.noResponse;
-  bool _isOpponentAccept = false;
+  bool _canStart = false;
 
-  void onMatchingResponse(bool response) {
+  void onMatchingResponse(bool response) async {
     if (response) {
       _matchedState = MatchedState.accept;
     } else {
       _matchedState = MatchedState.deny;
       // 매칭 시작에 대한 소켓 구독 취소
-      _socket.off(SocketHelper.matchingStart);
+      _battleData.disconnect();
     }
 
-    // 매칭이 되면 수락 여부, _matchedState == MatchedState.accept
-    //방 Id,
-    //그리고 나의 id(token)를 같이 보낸다.
-    _socket.emit(SocketHelper.matching);
+    // 매칭이 되면 수락 여부 전송, _matchedState == MatchedState.accept
+    try {
+      await apiInstance.patch(
+        'api/matchings/${_battleData.roomId}/ready',
+        data: {
+          'ready': _matchedState == MatchedState.accept,
+        },
+      );
+    } catch (error) {
+      // 오류 토스트 메세지
+      _matchedState = MatchedState.noResponse;
+      print(error);
+    }
     notifyListeners();
   }
 
   void startBattle(BuildContext context) {
-    if (_isOpponentAccept) {
+    if (_canStart) {
       // 상대도 수락한 경우
-      // 남아있는 매칭 요청에 대한 구독 취소
-      _socket.off(SocketHelper.matchingStart);
       Navigator.popAndPushNamed(
         context,
         RoutePath.battle,

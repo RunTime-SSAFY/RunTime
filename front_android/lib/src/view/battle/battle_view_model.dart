@@ -3,28 +3,33 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/repository/distance_repository.dart';
-import 'package:front_android/src/service/socket_service.dart';
+import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
+import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/extension.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
 import 'package:intl/intl.dart';
 
 final battleViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
-  var socket = ref.watch(socketProvider);
-  return BattleViewModel(socket);
+  var battleData = ref.watch(battleDataServiceProvider);
+  return BattleViewModel(battleData);
 });
 
 class BattleViewModel with ChangeNotifier {
-  final SocketService _socket;
+  final SocketService _battleData;
 
-  BattleViewModel(this._socket) {
+  BattleViewModel(this._battleData) {
     _startTimer();
-    battleSocketStreamHandler = SocketService();
-    distanceService = DistanceRepository(battleSocketStreamHandler);
+    var mode = _battleData.mode;
+
+    distanceService = DistanceRepository(
+        sendDestination:
+            DestinationHelper.getBattleDestination(mode, _battleData.roomId),
+        socket: _battleData.stompInstance);
   }
+
   late final DistanceRepository distanceService;
-  late final SocketService battleSocketStreamHandler;
 
   double get currentDistance => distanceService.currentDistance;
 
@@ -93,7 +98,7 @@ class BattleViewModel with ChangeNotifier {
   @override
   void dispose() {
     distanceService.cancelListen();
-    battleSocketStreamHandler.close();
+    _battleData.stompInstance.disconnect();
     super.dispose();
   }
 }

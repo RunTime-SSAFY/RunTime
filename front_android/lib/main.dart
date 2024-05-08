@@ -54,10 +54,9 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AuthService authService = ref.watch(authProvider);
     apiInstance.interceptors.add(CustomInterceptor(
       context: context,
-      authService: authService,
+      authService: AuthService.instance,
     ));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
