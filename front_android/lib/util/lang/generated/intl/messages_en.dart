@@ -75,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ranking": MessageLookupByLibrary.simpleMessage("Ranking"),
         "ready": MessageLookupByLibrary.simpleMessage("ready"),
         "record": MessageLookupByLibrary.simpleMessage("Record"),
+        "recordDetail": MessageLookupByLibrary.simpleMessage("Detail"),
         "roomEmpty": MessageLookupByLibrary.simpleMessage(
             "There are no rooms Now\nTry later"),
         "roomName": MessageLookupByLibrary.simpleMessage("Room Name"),
@@ -84,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "runningTime": MessageLookupByLibrary.simpleMessage("Time Taken"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
         "semanticsButton": MessageLookupByLibrary.simpleMessage("Button"),
+        "statistics": MessageLookupByLibrary.simpleMessage("Statistics"),
         "userMode": MessageLookupByLibrary.simpleMessage("User Mode"),
         "waiting": MessageLookupByLibrary.simpleMessage("Waiting"),
         "waitingOthers":
