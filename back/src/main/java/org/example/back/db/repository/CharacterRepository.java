@@ -15,7 +15,18 @@ public interface CharacterRepository extends JpaRepository<Character, Long>, Cha
 		+ "END) "
 		+ "FROM Character c "
 		+ "LEFT JOIN UnlockedCharacter uc "
-		+ "ON c.id = uc.id.characterId AND uc.id.memberId = :id")
-	Page<CharacterResDto> findAll(Long id, Pageable pageable);
+		+ "ON c.id = uc.id.characterId AND uc.id.memberId = :memberId")
+	Page<CharacterResDto> findAll(Long memberId, Pageable pageable);
 	// 페이지 타입으로 받는 이유는, <Data, offset> 형태로 페이지의 마지막 유무를 확인하는 데이터가 따로 관리되어야 하기 때문
+
+	@Query("SELECT new org.example.back.character.dto.CharacterResDto(c.id, c.achievement.id, c.name, c.detail, c.imgUrl, "
+		+ "CASE WHEN uc.id.memberId IS NOT NULL "
+		+ "THEN TRUE "
+		+ "ELSE FALSE "
+		+ "END) "
+		+ "FROM Character c "
+		+ "LEFT JOIN UnlockedCharacter uc "
+		+ "ON c.id = uc.id.characterId AND uc.id.memberId = :memberId "
+		+ "WHERE c.id = :id")
+	CharacterResDto findById(Long id, Long memberId);
 }
