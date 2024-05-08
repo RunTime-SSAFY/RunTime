@@ -5,7 +5,10 @@ import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';
 import 'package:front_android/src/view/matching/waiting_matching_view.dart';
+import 'package:front_android/src/view/record/record_detail_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
+import 'package:front_android/src/view/record/statistics_view.dart';
+import 'package:front_android/src/view/record/widgets/map_test.dart';
 import 'package:front_android/src/view/run_main/run_main_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_search_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_view.dart';
@@ -31,6 +34,11 @@ interface class RoutePath {
 
   // 기록
   static const String record = 'record';
+  static const String recordDetail = 'recordDetail';
+  static const String statistics = 'statistics';
+
+  // Test
+  static const String mapTest = 'mapTest';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     late Widget page;
@@ -77,6 +85,21 @@ interface class RoutePath {
         break;
       case RoutePath.record:
         page = const RecordView();
+        break;
+      case RoutePath.mapTest:
+        page = const MapTest();
+        break;
+      case RoutePath.recordDetail:
+        page = const RecordDetailView();
+        // assert(
+        //   settings.arguments != null,
+        //   'RecordDetailView는 Record가 필요합니다.',
+        // );
+        // final args = settings.arguments as RecordDetailArguments;
+        // page = RecordDetailView(record: args.record);
+        break;
+      case RoutePath.statistics:
+        page = const StatisticsView();
         break;
     }
     return MaterialPageRoute(

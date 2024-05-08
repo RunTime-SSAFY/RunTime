@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/src/view/record/record_detail_view.dart';
 
 final List<String> dataList = [];
 
@@ -196,63 +198,74 @@ class RecordListItemCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 20, top: 10, bottom: 10),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: backgroundColor,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 1,
-                blurRadius: 2,
-                offset: const Offset(1, 2),
-              ),
-            ]),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // <Widget> 은 무엇을 의미하는가?
-              Row(
-                children: [
-                  Text(mode,
+    return CupertinoButton(
+      padding: EdgeInsets.zero,
+      onPressed: () {
+        Navigator.push(
+          context,
+          CupertinoPageRoute(builder: (context) => const RecordDetailView()),
+        );
+      },
+      child: Padding(
+        // Navigator.pushNamed(context, RoutePath.recordDetail);
+        padding:
+            const EdgeInsets.only(left: 10, right: 20, top: 10, bottom: 10),
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: backgroundColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 2,
+                  offset: const Offset(1, 2),
+                ),
+              ]),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // <Widget> 은 무엇을 의미하는가?
+                Row(
+                  children: [
+                    Text(mode,
+                        style: ref.typo.headline2.copyWith(
+                          color: textColor,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    const SizedBox(width: 10),
+                    Text(
+                      type + (status.isNotEmpty ? " - $status" : ""),
                       style: ref.typo.headline2.copyWith(
                         color: textColor,
                         fontWeight: FontWeight.bold,
-                      )),
-                  const SizedBox(width: 10),
-                  Text(
-                    type + (status.isNotEmpty ? " - $status" : ""),
+                      ),
+                    ),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    distance,
                     style: ref.typo.headline2.copyWith(
                       color: textColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ],
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  distance,
-                  style: ref.typo.headline2.copyWith(
-                    color: textColor,
-                    fontWeight: FontWeight.bold,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    duration,
+                    style: ref.typo.subTitle3.copyWith(
+                      color: textColor,
+                    ),
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  duration,
-                  style: ref.typo.subTitle3.copyWith(
-                    color: textColor,
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
