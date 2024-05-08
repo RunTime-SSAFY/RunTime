@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MatchingResDto {
-    private String action; // 매칭이 성사된 경우 matching, 게임이 시작된 경우 start
-    private Long matchingRoomId;
-    private Long opponentId;
+public class StompGameStartResDto {
+    private String action = "start"; // 항상 start
+    private boolean data; // 매칭전 게임이 시작된다면 true, 그렇지 않다면 false
 }
