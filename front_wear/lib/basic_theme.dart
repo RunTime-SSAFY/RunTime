@@ -47,7 +47,8 @@ class BasicTheme implements AppTheme {
     wPracticeMode: Color(0xFFD29DAC),
     wAccept: Color(0xFFB69DF8),
     wDeny: Color(0xFFE6E1E5),
-    wText: Color(0xFFFFFFFF)
+    wText: Color(0xFFFFFFFF),
+    wTextB:Color(0xFF000000),
   );
 
   @override

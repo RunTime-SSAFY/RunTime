@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_wear/src/view/wearable/mode/user_main.dart';
 
 void main() async {
   runApp(const ProviderScope(child: MyApp()));
@@ -12,7 +13,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: BattleMain(),
+      home: UserMain(),
     );
   }
 }

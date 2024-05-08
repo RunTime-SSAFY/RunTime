@@ -42,6 +42,7 @@ class AppColor {
     required this.wAccept,
     required this.wDeny,
     required this.wText,
+    required this.wTextB,
   });
 
   // Button
@@ -105,4 +106,5 @@ class AppColor {
   final Color wAccept;
   final Color wDeny;
   final Color wText;
+  final Color wTextB;
 }
