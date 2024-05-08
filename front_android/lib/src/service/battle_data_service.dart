@@ -54,7 +54,7 @@ class SocketService with ChangeNotifier {
           DestinationHelper.getStartMatching(UserService.instance.nickname),
       callback: (StompFrame data) {
         // 방의 id와 상대의 id
-        print(data);
+        print('stomp 서버 데이터 1번 $data');
         // 소켓 인스턴스에 방의 정보를 저장한 뒤 매칭 수락, 거절 화면으로 이동
         if (data.body != null) {
           var json = jsonDecode(data.body!);

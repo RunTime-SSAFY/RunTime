@@ -39,9 +39,9 @@ class AuthService with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setRefreshToken(String token) async {
+  Future<void> setRefreshToken(String? token) async {
     _refreshToken = token;
-    SecureStorageRepository().setRefreshToken(token);
+    SecureStorageRepository.instance.setRefreshToken(token);
     notifyListeners();
   }
 }

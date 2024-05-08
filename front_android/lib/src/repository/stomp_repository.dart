@@ -17,7 +17,7 @@ class StompRepository {
           print('웹 소켓 서버 연결 완료');
         },
       ),
-    );
+    )..activate();
   }
 
   void connect() {

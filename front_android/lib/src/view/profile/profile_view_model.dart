@@ -21,10 +21,10 @@ class ProfileViewModel with ChangeNotifier {
     print('입력 $weight');
 
     var result = await UserService.instance
-        .changeUserInfor(nickname: nickname, weight: weight);
+        .changeUserInfor(newNickname: nickname, newWeight: weight);
 
     if (result) {
-      Navigator.popAndPushNamed(context, RoutePath.runMain);
+      Navigator.pushNamed(context, RoutePath.runMain);
     }
   }
 }
