@@ -42,6 +42,9 @@ void main() async {
 
   secureStorage = null;
 
+  var key = await KakaoSdk.origin;
+  print(key);
+
   runApp(ProviderScope(child: MyApp(initialRoute: initialRoute)));
 }
 
