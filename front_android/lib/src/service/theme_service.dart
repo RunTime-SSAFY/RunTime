@@ -47,4 +47,5 @@ extension ThemeServiceExt on WidgetRef {
   AppTheme get theme => themeService.theme;
   AppColor get color => theme.color;
   AppTypo get typo => theme.typo;
+  Palette get palette => theme.palette;
 }

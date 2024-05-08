@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -61,53 +62,62 @@ interface class KakaoService {
     return token;
   }
 
-  static _saveToekn(OAuthToken token) {
+  static _saveToken(Map<String, dynamic> json) {
+    var accessToken = json['accessToken'];
+    var refreshToken = json['refreshToken'];
+    assert(accessToken != null, 'accessToken 없음');
+    assert(refreshToken != null, 'refreshToken 없음');
     var secureStorage = SecureStorageRepository();
-    secureStorage.setAccessToken(token.accessToken);
-    if (token.refreshToken != null) {
-      secureStorage.setRefreshToken(
-          token.refreshToken!, DateTime.now().add(const Duration(days: 14)));
+    secureStorage.setAccessToken(accessToken);
+    secureStorage.setRefreshToken(refreshToken);
+  }
+
+  static Future<String> _getOurToken(OAuthToken token) async {
+    try {
+      User user = await UserApi.instance.me();
+      String baseUrl = dotenv.get('BASE_URL');
+      var response = await Dio().post(
+        '${baseUrl}api/auth/login',
+        data: {
+          "email": user.kakaoAccount?.email,
+        },
+      );
+      var ourToken = response.data;
+      _saveToken(ourToken);
+      return response.data.toString();
+    } catch (error) {
+      debugPrint((error.toString()));
+      rethrow;
     }
   }
 
-  static Future<OAuthToken> kakaoLogin() async {
+  static Future<String> kakaoLogin() async {
     // 카카오톡 실행 가능 여부 확인
     // 카카오톡 실행이 가능하면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
     if (await isKakaoTalkInstalled()) {
       try {
-        var token = _loginWithKakaoTalk();
-        print('카카오톡으로 로그인 성공');
-        return token;
+        var token = await _loginWithKakaoTalk();
+        return _getOurToken(token);
       } catch (error) {
-        print('카카오톡으로 로그인 실패 $error');
-
         // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
         // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
         if (error is PlatformException && error.code == 'CANCELED') {
-          throw Error();
+          throw error.toString();
         }
         // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
         try {
           var token = await _loginWithKakaoAccount();
-          print('카카오계정으로 로그인 성공');
-          return token;
+          return _getOurToken(token);
         } catch (error) {
-          print('카카오계정으로 로그인 실패2 $error');
-          throw Error();
+          throw error.toString();
         }
       }
     } else {
       try {
-        var whatIsThis = await AuthCodeClient.instance.authorize(
-          redirectUri: dotenv.get('KAKAO_REDIRECT_URL'),
-        );
-        print("결과 $whatIsThis");
-        var token = _loginWithKakaoAccount();
-        print('카카오계정으로 로그인 성공');
-        return token;
+        OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
+        return _getOurToken(token);
       } catch (error) {
-        print('카카오계정으로 로그인 실패3 $error');
-        throw Error();
+        throw error.toString();
       }
     }
   }

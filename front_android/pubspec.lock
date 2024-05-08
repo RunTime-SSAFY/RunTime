@@ -738,22 +738,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  socket_io_client:
-    dependency: "direct main"
-    description:
-      name: socket_io_client
-      sha256: ede469f3e4c55e8528b4e023bdedbc20832e8811ab9b61679d1ba3ed5f01f23b
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.3+1"
-  socket_io_common:
-    dependency: transitive
-    description:
-      name: socket_io_common
-      sha256: "2ab92f8ff3ebbd4b353bf4a98bee45cc157e3255464b2f90f66e09c4472047eb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.3"
   source_span:
     dependency: transitive
     description:
@@ -786,6 +770,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  stomp_dart_client:
+    dependency: "direct main"
+    description:
+      name: stomp_dart_client
+      sha256: "244a243c8d56dd1a64e5d27f599d7d6077866267aff506f9dd9e60630c41cba7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   stream_channel:
     dependency: transitive
     description:
@@ -898,6 +890,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+  web_socket_channel:
+    dependency: transitive
+    description:
+      name: web_socket_channel
+      sha256: "58c6666b342a38816b2e7e50ed0f1e261959630becd4c879c4f26bfa14aa5a42"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.5"
   win32:
     dependency: transitive
     description:

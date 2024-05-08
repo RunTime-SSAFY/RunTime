@@ -1,14 +1,17 @@
 import 'dart:async';
 
 import 'package:front_android/src/model/battle.dart';
-import 'package:front_android/src/service/socket_service.dart';
-import 'package:front_android/util/helper/socket_helper.dart';
+import 'package:front_android/src/repository/stomp_repository.dart';
 import 'package:geolocator/geolocator.dart';
 
 class DistanceRepository {
-  final SocketService _socket;
+  final StompRepository socket;
+  final String sendDestination;
 
-  DistanceRepository(this._socket) {
+  DistanceRepository({
+    required this.socket,
+    required this.sendDestination,
+  }) {
     listenLocation();
   }
 
@@ -42,13 +45,14 @@ class DistanceRepository {
             (_currentDistance * 10000 + _distanceBetween * 10000) / 10000;
         instantaneousVelocity = _distanceBetween * 2 * 36 / 10;
 
-        _socket.emit(
-            SocketHelper.battle,
-            BattleSocketData(
-              position: position,
-              currentDistance: _currentDistance,
-              index: index,
-            ).toJson());
+        socket.send(
+          destination: sendDestination,
+          body: BattleSocketData(
+            position: position,
+            currentDistance: _currentDistance,
+            index: index,
+          ).toJson(),
+        );
       }
     });
   }

@@ -33,7 +33,7 @@ class UserModeRoom {
       roomId: json['roomId'] ?? 0,
       name: json['name'] ?? '',
       capacity: json['capacity'] ?? 0,
-      distance: json['distance'] ?? 0,
+      distance: (json['distance'] as int).toDouble() ?? 0,
       status: json['status'] ?? UserModeRoomStatus.IN_PROGRESS,
       headcount: json['headcount'] ?? 1,
     );

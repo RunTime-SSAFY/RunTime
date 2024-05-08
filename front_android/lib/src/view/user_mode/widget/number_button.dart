@@ -48,7 +48,7 @@ class NumberButton extends ConsumerWidget {
               child: NumberButtonBox(
                 color: ref.color.battleMode2,
                 child: Text(
-                  number.toString(),
+                  number.toStringAsFixed(0),
                   style: ref.typo.headline2.copyWith(
                     color: ref.color.onBackground,
                   ),

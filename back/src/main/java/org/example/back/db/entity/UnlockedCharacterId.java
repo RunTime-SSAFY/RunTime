@@ -20,6 +20,6 @@ public class UnlockedCharacterId implements Serializable {
 	@Column(name = "character_id", nullable = false)
 	private Long characterId;
 
-	@Column(name = "mmeber_id", nullable = false)
+	@Column(name = "member_id", nullable = false)
 	private Long memberId;
 }

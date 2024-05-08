@@ -1,6 +1,8 @@
 package org.example.back.db.entity;
 
 import org.example.back.common.BaseEntity;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -22,6 +24,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicInsert
 @Table(name = "current_achievement")
 public class CurrentAchievement extends BaseEntity {
 	@EmbeddedId
@@ -38,12 +41,15 @@ public class CurrentAchievement extends BaseEntity {
 	private AchievementType achievementType;
 
 	@Column(name="current_grade")
+	@ColumnDefault("1")
 	private Integer currentGrade;
 
 	@Column(name="progress")
+	@ColumnDefault("0.0")
 	private Float progress;
 
 	@Column(name = "is_received")
+	@ColumnDefault("0")
 	private Boolean isReceived;
 
 	public void updateProgress(Float progress) {
