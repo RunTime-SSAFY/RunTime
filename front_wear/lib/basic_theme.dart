@@ -41,6 +41,13 @@ class BasicTheme implements AppTheme {
     surface: Color(0xFFf8f8f8),
     text: Colors.black,
     lightText: Color(0xFFCFCFCF),
+    wBackground: Color(0xFF000000),
+    wBattleMode: Color(0xFFEADDFF),
+    wUserMode: Color(0xFFFFD8E4),
+    wPracticeMode: Color(0xFFD29DAC),
+    wAccept: Color(0xFFB69DF8),
+    wDeny: Color(0xFFE6E1E5),
+    wText: Color(0xFFFFFFFF)
   );
 
   @override

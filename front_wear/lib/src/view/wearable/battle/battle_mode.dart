@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RunFirstView extends ConsumerWidget {
-  const RunFirstView({super.key});
+class BattleMode extends ConsumerWidget {
+  const BattleMode({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
