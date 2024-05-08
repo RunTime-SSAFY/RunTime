@@ -23,7 +23,7 @@ public class ResultReqDto {
 	private Float distance;
 	private LocalDateTime runStartTime;
 	private LocalDateTime runEndTime;
-	private Long duration;
+	private Integer duration;
 	private Float avgSpeed;
 	private Integer pace;
 	private Integer calorie;

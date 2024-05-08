@@ -7,6 +7,8 @@ import org.example.back.achievement.dto.CheckAchievementResDto;
 import org.example.back.achievement.service.AchievementService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,8 +27,16 @@ public class AchievementController {
 		return ResponseEntity.ok(achievementList);
 	}
 
-	@GetMapping("/check")
-	public ResponseEntity<CheckAchievementResDto> checkAchievement(){
-		return ResponseEntity.ok(achievementService.checkAchievement());
+	@PatchMapping
+	public ResponseEntity<CheckAchievementResDto> updateAchievement(){
+		return ResponseEntity.ok(achievementService.updateAchievement());
+	}
+
+	@PatchMapping("/{achievementTypeId}")
+	public ResponseEntity<AchievementResDto> receiveReward(@PathVariable Long achievementTypeId) {
+
+		AchievementResDto achievementResDto = achievementService.receiveReward(achievementTypeId);
+
+		return ResponseEntity.ok(achievementResDto);
 	}
 }
