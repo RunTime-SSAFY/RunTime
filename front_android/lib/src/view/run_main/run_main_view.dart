@@ -92,7 +92,7 @@ class RunMainView extends ConsumerWidget {
             ],
           ),
         ),
-        bottomNavigationBar: const BottomNavigationWidget(),
+        // bottomNavigationBar: const BottomNavigationWidget(),
       ),
     );
   }

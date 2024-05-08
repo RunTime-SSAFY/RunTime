@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
+
+final currentIndexProvider = StateProvider<int>((ref) => 0);
 
 class BottomNavigationWidget extends ConsumerWidget {
   const BottomNavigationWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final int currentIndex = ref.watch(bottomNavigationProvider);
+    // 현재 내비게이션 인덱스 프로바이더 등록
+    final int currentIndex = ref.watch(currentIndexProvider);
 
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
@@ -41,8 +45,22 @@ class BottomNavigationWidget extends ConsumerWidget {
       ],
       currentIndex: currentIndex,
       selectedItemColor: ref.color.accept,
+      // 클릭 시, 스테이트 변경
+      onTap: (index) {
+        ref.read(currentIndexProvider.notifier).update((state) => index);
+        switch (index) {
+          case 0:
+            GoRouter.of(context).go('/main');
+          case 1:
+            GoRouter.of(context).go('/main');
+          case 2:
+            GoRouter.of(context).go('/main');
+          case 3:
+            GoRouter.of(context).go('/record');
+          case 4:
+            GoRouter.of(context).go('/main');
+        }
+      },
     );
   }
 }
-
-final bottomNavigationProvider = StateProvider<int>((ref) => 0);
