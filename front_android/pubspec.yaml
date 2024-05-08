@@ -45,9 +45,8 @@ dependencies:
   kakao_flutter_sdk_share: ^1.9.1+2 # 카카오톡 공유 API 패키지
   kakao_flutter_sdk_common: ^1.9.1+2
   dio: ^5.4.3+1
-
   geolocator: ^11.0.0
-  socket_io_client: ^2.0.3+1
+  stomp_dart_client: ^2.0.0
 
 dev_dependencies:
   flutter_test:

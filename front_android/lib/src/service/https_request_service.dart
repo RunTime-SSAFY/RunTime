@@ -25,7 +25,9 @@ class CustomInterceptor extends Interceptor {
     var accessToken = authService.accessToken;
     options.headers['Authorization'] = 'Bearer $accessToken';
 
-    debugPrint('요청\nREQUEST[${options.method}] => PATH: ${options.path}');
+    debugPrint(
+        '요청\nREQUEST[${options.method}] => PATH: ${options.uri.toString()}');
+    debugPrint('쿼리 파라미터 ${options.queryParameters}');
     debugPrint('요청 데이터\n${options.data}');
     handler.next(options);
   }
@@ -46,6 +48,7 @@ class CustomInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       Navigator.of(context).pushNamed(RoutePath.login);
     } else {
+      debugPrint('에러 메세지 ${err.message}');
       super.onError(err, handler);
     }
   }

@@ -1,14 +1,14 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:front_android/src/repository/secure_storage_repository.dart';
 
-final authProvider = StateProvider((ref) => AuthService());
-
 class AuthService with ChangeNotifier {
-  AuthService() {
+  AuthService._() {
     _init();
   }
+
+  static final _instance = AuthService._();
+  static AuthService get instance => _instance;
 
   String? _accessToken;
   String? _refreshToken;
@@ -39,10 +39,9 @@ class AuthService with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setRefreshToken(String token, DateTime expireDate) async {
+  Future<void> setRefreshToken(String token) async {
     _refreshToken = token;
-    _expireDate = expireDate;
-    SecureStorageRepository().setRefreshToken(token, expireDate);
+    SecureStorageRepository().setRefreshToken(token);
     notifyListeners();
   }
 }

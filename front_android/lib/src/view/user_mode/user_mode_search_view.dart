@@ -62,6 +62,7 @@ class UserModeSearchView extends ConsumerWidget {
                     : Expanded(
                         child: UserModeRoomList(
                           userModeRoomList: viewModel.userModeSearchedList,
+                          getRoomList: viewModel.getRoomList,
                         ),
                       ),
               ],
