@@ -24,8 +24,7 @@ public class MemberServiceImpl implements MemberService {
 		return ProfileResponseDto.builder()
 			.nickname(member.getNickname())
 			.weight(member.getWeight())
-			// TODO: 캐릭터 아이디 바꿔 줘야함.
-			.characterId(1L)
+			.characterId(member.getCharacter().getId())
 			.build();
 	}
 
@@ -50,8 +49,7 @@ public class MemberServiceImpl implements MemberService {
 		return ProfileResponseDto.builder()
 			.nickname(member.getNickname())
 			.weight(member.getWeight())
-			// TODO: 캐릭터 아이디 바꿔 줘야함.
-			.characterId(1L)
+			.characterId(member.getCharacter().getId())
 			.build();
 	}
 

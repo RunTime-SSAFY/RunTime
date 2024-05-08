@@ -103,10 +103,13 @@ public class FriendService {
 		Long id = SecurityUtil.getCurrentMemberId();
 
 		// 해당 친구요청 정보를 찾아 status를 rejected로 변경
-		Friend friend = friendRepository.findByRequesterIdAndAddresseeId(requesterId, id)
-			.orElseThrow(MemberNotFoundException::new);
+		Friend friend = friendRepository.searchFriendRequest(requesterId);
+		if (friend == null) {
+			throw new MemberNotFoundException();
+		}
 		friend.updateStatus(FriendStatusType.rejected);
 		friendRepository.save(friend);
 		return requesterId;
 	}
+
 }
