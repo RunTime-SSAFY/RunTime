@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:front_android/src/repository/secure_storage_repository.dart';
+import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/service/user_service.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
@@ -70,7 +71,9 @@ interface class KakaoService {
     assert(refreshToken != null, 'refreshToken 없음');
     var secureStorage = SecureStorageRepository();
     secureStorage.setAccessToken(accessToken);
+    AuthService.instance.setAccessToken(accessToken);
     secureStorage.setRefreshToken(refreshToken);
+    AuthService.instance.setRefreshToken(refreshToken);
   }
 
   static Future<String> _getOurToken(OAuthToken token) async {
