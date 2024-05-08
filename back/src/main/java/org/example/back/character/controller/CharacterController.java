@@ -22,8 +22,7 @@ public class CharacterController {
 
     @GetMapping
     public ResponseEntity<CharacterListResDto>
-    getCharacterList(@PageableDefault(size = 9) Pageable pageable  // 페이지 기본값
-    ) {
+    getCharacterList(@PageableDefault(size = 9) Pageable pageable) {  // 페이지 기본값
         // TODO 멤버 정보 받아서 캐릭터 리스트 전부 가져옴 -> 열린 캐릭터, 안 열린 캐릭터 구분
         CharacterListResDto characterListResDto = characterService.getCharacterList(pageable);
         return ResponseEntity.ok(characterListResDto);
