@@ -10,6 +10,8 @@
   "achievement": "Achievement",
   "character": "Character",
   "record": "Record",
+  "recordDetail": "Detail",
+  "statistics": "Statistics",
   "profile": "Profile",
   "kakaoLogin": "Login with Kakao",
   "semanticsButton": "Button",
