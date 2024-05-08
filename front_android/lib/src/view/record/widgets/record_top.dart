@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/view/record/record_detail_view.dart';
 import 'package:front_android/src/view/record/statistics_view.dart';
 import 'package:front_android/theme/components/svg_icon.dart';
 import 'package:intl/intl.dart';

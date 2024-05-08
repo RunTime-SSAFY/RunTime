@@ -1,14 +1,12 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapTest extends StatelessWidget {
-  const MapTest({Key? key}) : super(key: key);
+  const MapTest({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "GoogleMap",
       home: GoogleMapPage(),
@@ -17,15 +15,15 @@ class MapTest extends StatelessWidget {
 }
 
 class GoogleMapPage extends StatelessWidget {
-  const GoogleMapPage({Key? key}) : super(key: key);
+  const GoogleMapPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Google Map"),
+        title: const Text("Google Map"),
       ),
-      body: GoogleMap(
+      body: const GoogleMap(
         initialCameraPosition: CameraPosition(
             target: LatLng(37.43296265331129, -122.08832357078792)),
       ),
