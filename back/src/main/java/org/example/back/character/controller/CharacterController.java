@@ -5,11 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.example.back.character.dto.CharacterListResDto;
 import org.example.back.character.dto.CharacterResDto;
+import org.example.back.character.dto.CharacterSetResDto;
 import org.example.back.character.service.CharacterService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,5 +36,12 @@ public class CharacterController {
     public ResponseEntity<CharacterResDto> getCharacter(@PathVariable("characterId") String id) {
         CharacterResDto characterResDto = characterService.getCharacter(Long.parseLong(id));
         return ResponseEntity.ok(characterResDto);
+    }
+
+    @PatchMapping("/{characterId}/profile-characters")
+    public ResponseEntity<CharacterSetResDto> setCharacter(@PathVariable("characterId") String id) {
+        // TODO 대표 캐릭터 선택 -> 캐릭터 활성화 여부 판단 후, 대표 캐릭터 설정
+        CharacterSetResDto characterSetResDto = characterService.setCharacter(Long.parseLong(id));
+        return ResponseEntity.ok(characterSetResDto);
     }
 }
