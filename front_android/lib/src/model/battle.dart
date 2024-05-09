@@ -24,15 +24,18 @@ class BattleSocketData {
 class MatchingRoomData {
   MatchingRoomData({
     required this.matchingRoomId,
-    required this.opponentId,
+    required this.memberId,
+    required this.uuid,
   });
   final int matchingRoomId;
-  final int opponentId;
+  final int memberId;
+  final int uuid;
 
   factory MatchingRoomData.fromJson(Map<String, dynamic> json) {
     return MatchingRoomData(
       matchingRoomId: json['matchingRoomId'],
-      opponentId: json['opponentId'],
+      memberId: json['memberId'],
+      uuid: json['uuid'],
     );
   }
 }
