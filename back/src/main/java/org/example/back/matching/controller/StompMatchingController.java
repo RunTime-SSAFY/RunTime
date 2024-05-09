@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.back.matching.dto.RealtimeDto;
+import org.example.back.realtime_record.dto.RealtimeDto;
 import org.example.back.realtime_record.dto.StompRealtimeReqDto;
 import org.example.back.realtime_record.dto.StompRealtimeResDto;
 import org.springframework.data.redis.core.ListOperations;
@@ -23,18 +23,19 @@ public class StompMatchingController {
     private final SimpMessagingTemplate messagingTemplate;
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper;
-    @MessageMapping("/matchingRoom/{matchingRoomId}")
-    public void broadcast(@DestinationVariable("matchingRoomId") Long matchingRoomId, StompRealtimeReqDto stompRealTimeReqDto) throws JsonProcessingException {
+    @MessageMapping("/matchingRoom/{uuid}")
+    public void broadcast(@DestinationVariable("uuid") String uuid, StompRealtimeReqDto stompRealtimeReqDto) throws JsonProcessingException {
         // 변수 정의
-        Long memberId = stompRealTimeReqDto.getMemberId();
-        double lon = stompRealTimeReqDto.getLon();
-        double lat = stompRealTimeReqDto.getLat();
-        double distance = stompRealTimeReqDto.getDistance();
-        int idx = stompRealTimeReqDto.getIdx();
+        Long memberId = stompRealtimeReqDto.getMemberId();
+        double lon = stompRealtimeReqDto.getLon();
+        double lat = stompRealtimeReqDto.getLat();
+        double distance = stompRealtimeReqDto.getDistance();
+        int idx = stompRealtimeReqDto.getIdx();
+        Long roomId = stompRealtimeReqDto.getRoomId();
 
         // redis에 저장
         ListOperations<String, Object> listOperations = redisTemplate.opsForList();
-        listOperations.rightPush("realtime_matchingRoom:" + matchingRoomId + "memberId:" + memberId, objectMapper.writeValueAsString(stompRealTimeReqDto));
+        listOperations.rightPush("realtime_matchingRoom:" + roomId + "memberId:" + memberId, objectMapper.writeValueAsString(stompRealtimeReqDto));
 
 //        List<Object> stompRealtimeReqDtoList =  listOperations.range("matchingRoom:" + matchingRoomId + ":" + memberId, 0, -1);
 //        for (Object o: stompRealtimeReqDtoList) {
@@ -45,7 +46,7 @@ public class StompMatchingController {
         // stomp로 보내준다
         RealtimeDto dataDto = RealtimeDto.builder().memberId(memberId).lon(lon).lat(lat).distance(distance).idx(idx).currentTime(LocalDateTime.now()).build();
         StompRealtimeResDto stompRealtimeResDto = StompRealtimeResDto.builder().action("realtime").data(dataDto).build();
-        messagingTemplate.convertAndSend("/topic/matchingRoom/" + matchingRoomId, stompRealtimeResDto);
+        messagingTemplate.convertAndSend("/topic/matchingRoom/" + uuid, stompRealtimeResDto);
 
     }
 }

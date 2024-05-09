@@ -13,4 +13,5 @@ public class StompRealtimeReqDto {
     private double lat; // 위도
     private double distance; // 총 이동거리
     private int idx;
+    private Long roomId; // 방의 id
 }
