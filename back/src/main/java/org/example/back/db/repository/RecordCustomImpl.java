@@ -11,12 +11,14 @@ import org.example.back.db.entity.QRecord;
 import org.example.back.db.entity.Record;
 import org.example.back.db.enums.GameMode;
 import org.example.back.record.dto.RecordDto;
+import org.example.back.record.dto.StatisticsDto;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -69,6 +71,52 @@ public class RecordCustomImpl implements RecordCustom {
             .from(record)
             .where(record.member.id.eq(memberId))
             .fetchOne();
+    }
+
+    @Override
+    public StatisticsDto getStatisticsByMonth(Member member, LocalDate selectedDate) {
+        LocalDate startDate = selectedDate.withDayOfMonth(1);
+        LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+        return query
+                .select(Projections.constructor(StatisticsDto.class,
+                        record.count(),
+                        record.calorie.sum(),
+                        record.distance.sum(),
+                        record.duration.sum()))
+                .from(record)
+                .where(record.member.eq(member)
+                        .and(record.runStartTime.between(startDate.atStartOfDay(), endDate.atTime(23, 59, 59))))
+                .fetchOne();
+    }
+
+    @Override
+    public StatisticsDto getStatisticsByYear(Member member, LocalDate selectedDate) {
+        LocalDate startDate = selectedDate.withDayOfYear(1);
+        LocalDate endDate = startDate.plusYears(1).minusDays(1);
+        return query
+                .select(Projections.constructor(StatisticsDto.class,
+                        record.count(),
+                        record.calorie.sum(),
+                        record.distance.sum(),
+                        record.duration.sum()))
+                .from(record)
+                .where(record.member.eq(member)
+                        .and(record.runStartTime.between(startDate.atStartOfDay(), endDate.atTime(23, 59, 59))))
+                .fetchOne();
+    }
+
+    @Override
+    public StatisticsDto getStatisticsByAll(Member member) {
+        return query
+                .select(Projections.constructor(StatisticsDto.class,
+                        record.count(),
+                        record.calorie.sum(),
+                        record.distance.sum(),
+                        record.duration.sum()))
+                .from(record)
+                .where(record.member.eq(member))
+                .fetchOne();
+
     }
 
 }

@@ -150,6 +150,26 @@ class S {
     );
   }
 
+  /// `Detail`
+  String get recordDetail {
+    return Intl.message(
+      'Detail',
+      name: 'recordDetail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Statistics`
+  String get statistics {
+    return Intl.message(
+      'Statistics',
+      name: 'statistics',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Profile`
   String get profile {
     return Intl.message(

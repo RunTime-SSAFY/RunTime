@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:front_android/src/model/record_list_model.dart';
 import 'package:front_android/src/model/record_model.dart';
 import 'package:front_android/src/service/https_request_service.dart';
@@ -15,7 +13,7 @@ class RecordRepository {
     try {
       var response = await dio.get("/records?size=10&lastId=0");
       final json = jsonDecode(response.data) as Map<String, dynamic>;
-      print(json);
+      debugPrint(json.toString());
       return RecordModel.fromJson(json);
     } catch (e, s) {
       debugPrint('에러 발생 $e, $s');

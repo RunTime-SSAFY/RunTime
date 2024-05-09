@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/util/router.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:front_android/src/repository/secure_storage_repository.dart';
 import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
@@ -9,7 +11,7 @@ import 'package:front_android/src/service/lang_service.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/service/user_service.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
-import 'package:front_android/util/route_path.dart';
+import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 void main() async {
@@ -23,16 +25,19 @@ void main() async {
     javaScriptAppKey: dotenv.get("KAKAO_JAVASCRIPT_KEY"),
   );
 
-  String initialRoute = RoutePath.runMain;
+  // 초기 경로 값
+  String initialRoute = '/main';
 
+  // 인터셉터
   apiInstance.interceptors.add(CustomInterceptor(
     authService: AuthService.instance,
   ));
 
+  // refreshToken이 있는지 확인
   try {
     final refreshToken = await SecureStorageRepository.instance.refreshToken;
     if (refreshToken == null) {
-      initialRoute = RoutePath.login;
+      initialRoute = '/login';
     } else {
       try {
         var response = await apiInstance.get('api/members');
@@ -61,11 +66,10 @@ class MyApp extends ConsumerWidget {
 
   final String initialRoute;
 
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         S.delegate,
@@ -74,7 +78,10 @@ class MyApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      navigatorKey: navigatorKey,
+      theme: ref.themeService.themeDate,
+      locale: ref.locale,
+
+      // 오버레이를 사용하기 위해 builder 사용
       builder: (context, child) {
         return Overlay(
           initialEntries: [
@@ -84,10 +91,9 @@ class MyApp extends ConsumerWidget {
           ],
         );
       },
-      theme: ref.themeService.themeDate,
-      initialRoute: initialRoute,
-      onGenerateRoute: RoutePath.onGenerateRoute,
-      locale: ref.locale,
     );
   }
 }
+
+// 루트 네비게이터 키
+

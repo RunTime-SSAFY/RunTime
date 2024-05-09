@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/src/view/record/statistics_view.dart';
 import 'package:front_android/theme/components/svg_icon.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class RecordTop extends ConsumerWidget {
@@ -21,32 +23,44 @@ class RecordTop extends ConsumerWidget {
               // 2024년 5월 표시
               Text('2024년 5월', style: ref.typo.headline2),
               // 통계정보 버튼 추가
-              Row(
-                // 오른쪽 정렬
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  // 아이콘 추가
-                  SvgIcon(
-                    'statistics',
-                    color: ref.color.accept,
-                    size: 28,
-                  ),
-                  // const SizedBox(width: 1),
-                  // 텍스트
-                  Text(
-                    '통계정보',
-                    style: ref.typo.headline3.copyWith(
+              CupertinoButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  GoRouter.of(context).push('/record/statistics');
+                  // Navigator.push(
+                  //   context,
+                  //   CupertinoPageRoute(
+                  //       builder: (context) => const StatisticsView()),
+                  // );
+                },
+                child: Row(
+                  // 오른쪽 정렬
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    // 아이콘 추가
+                    SvgIcon(
+                      'statistics',
                       color: ref.color.accept,
+                      size: 28,
                     ),
-                  ),
-                ],
+                    // const SizedBox(width: 1),
+                    // 텍스트
+                    Text(
+                      '통계정보',
+                      style: ref.typo.headline3.copyWith(
+                        color: ref.color.accept,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         ),
         const Padding(
           padding: EdgeInsets.only(top: 10),
-          child: SizedBox(height: 80),
+          child: Expanded(child: DayCarousel()),
+          // child: SizedBox(height: 80),
           // 캐러셀 형태의 타임라인 추가
         ),
         Padding(
@@ -109,6 +123,16 @@ class RecordTop extends ConsumerWidget {
         ),
       ],
     );
+  }
+}
+
+class DayCarousel extends ConsumerWidget {
+  const DayCarousel({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // 날짜 캐러셀 표시
+    return const SizedBox(height: 100);
   }
 }
 

@@ -80,6 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ranking": MessageLookupByLibrary.simpleMessage("랭킹"),
         "ready": MessageLookupByLibrary.simpleMessage("준비완료"),
         "record": MessageLookupByLibrary.simpleMessage("기록"),
+        "recordDetail": MessageLookupByLibrary.simpleMessage("기록상세"),
         "roomEmpty": MessageLookupByLibrary.simpleMessage(
             "현재 대기 방이 없습니다.\n오른쪽 아래 버튼으로 방을 직접 만들어 보세요"),
         "roomName": MessageLookupByLibrary.simpleMessage("방제목"),
@@ -89,6 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "runningTime": MessageLookupByLibrary.simpleMessage("달린 시간"),
         "search": MessageLookupByLibrary.simpleMessage("검색"),
         "semanticsButton": MessageLookupByLibrary.simpleMessage("버튼"),
+        "statistics": MessageLookupByLibrary.simpleMessage("통계"),
         "userMode": MessageLookupByLibrary.simpleMessage("사용자 모드"),
         "waiting": MessageLookupByLibrary.simpleMessage("대기중"),
         "waitingOthers":

@@ -6,7 +6,6 @@ import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/run_main/run_main_view_model.dart';
 import 'package:front_android/src/view/run_main/widgets/battle_mode_button.dart';
 import 'package:front_android/src/view/run_main/widgets/run_main_button.dart';
-import 'package:front_android/theme/components/bottom_navigation.dart';
 import 'package:front_android/theme/components/keyboard_hiding.dart';
 import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/theme/components/svg_icon.dart';
@@ -114,7 +113,6 @@ class _RunMainViewState extends ConsumerState<RunMainView> {
               ],
             ),
           ),
-          bottomNavigationBar: const BottomNavigationWidget(),
         ),
       ),
     );

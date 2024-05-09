@@ -34,7 +34,7 @@ class AppTypo {
   late final TextStyle appBarSubTitle = TextStyle(
     fontFamily: _typo.name,
     fontWeight: _typo.bold,
-    fontSize: 24,
+    fontSize: 20,
     color: fontColor,
   );
 

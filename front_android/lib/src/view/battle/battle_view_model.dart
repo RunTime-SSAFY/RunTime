@@ -9,6 +9,7 @@ import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/extension.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/route_path.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 final battleViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
