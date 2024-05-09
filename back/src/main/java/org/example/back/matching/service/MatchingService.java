@@ -17,10 +17,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +39,8 @@ public class MatchingService {
         if (waitingNum >= 2) {
 
             String[] membersId = new String[2];
+
+            log.info(Arrays.toString(membersId));
 
             Set<String> range = redisTemplate.opsForZSet().range("matching",0, 1);
             Iterator<String> iterator = range.iterator();
@@ -97,8 +96,9 @@ public class MatchingService {
 //            String secondMatchingResDtoJson = objectMapper.writeValueAsString(secondMatchingResDto);
 
             messagingTemplate.convertAndSend("/queue/member/" + firstMember.getNickname(), firstStompMatchingSuccessResDto);
+            log.info(firstMember.getNickname());
             messagingTemplate.convertAndSend("/queue/member/" + secondMember.getNickname(), secondStompMatchingSuccessResDto);
-
+            log.info(secondMember.getNickname());
         }
 
     }
