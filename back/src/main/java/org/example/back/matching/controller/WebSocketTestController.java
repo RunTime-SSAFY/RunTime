@@ -1,7 +1,7 @@
 package org.example.back.matching.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.back.matching.dto.MatchingResDto;
+import org.example.back.matching.dto.StompMatchingSuccessResDto;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -14,9 +14,8 @@ public class WebSocketTestController {
 
     @MessageMapping("/test/{id}")
     public void testWebSocket(@DestinationVariable("id") Long id) {
-        MatchingResDto firstMatchingResDto = MatchingResDto.builder()
-                .matchingRoomId(id)
-                .opponentId(id)
+        StompMatchingSuccessResDto firstMatchingResDto = StompMatchingSuccessResDto.builder()
+
                 .build();
 
         messagingTemplate.convertAndSend("queue/member/private/"+id,  firstMatchingResDto);

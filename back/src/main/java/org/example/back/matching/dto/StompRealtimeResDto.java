@@ -1,17 +1,15 @@
-package org.example.back.room.dto;
+package org.example.back.matching.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoomMemberResDto {
-    private Long roomMemberId;
-    private UUID uuid;
+public class StompRealtimeResDto {
+    private String action; // realtime으로 고정
+    private RealtimeDto data;
 }

@@ -6,4 +6,5 @@ import lombok.Getter;
 @Data
 public class LoginDto {
 	private String email;
+	private String fcmToken;
 }

@@ -1,4 +1,4 @@
-package org.example.back.room.dto;
+package org.example.back.matching.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoomMemberResDto {
-    private Long roomMemberId;
+public class OpponentResDto {
+    private Long matchingRoomId;
     private UUID uuid;
+    private Long memberId;
+    private String nickname;
+    private String characterImgUrl;
 }

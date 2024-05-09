@@ -47,7 +47,10 @@ public class AuthService {
 	private Long expiredMs;
 
 	@Transactional
-	public TokenResponseDto login(String email){
+	public TokenResponseDto login(LoginDto loginDto){
+
+		String email = loginDto.getEmail();
+		String fcmToken = loginDto.getFcmToken();
 
 		Member member = memberRepository.findByEmail(email);
 		boolean isNewMember = false;
@@ -91,6 +94,10 @@ public class AuthService {
 		if(member.getNickname()==null){
 			isNewMember = true;
 		}
+		member.updateFcmToken(fcmToken);
+
+		memberRepository.save(member);
+
 		String accessToken = JWTUtil.createJwt(member.getId(), secretKey, expiredMs);
 		String refreshToken = JWTUtil.createRefreshToken(secretKey);
 
