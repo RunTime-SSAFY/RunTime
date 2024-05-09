@@ -74,17 +74,19 @@ public class RoomService {
 
         savedRoom.getRoomMembers().add(roomMember);
 
+        // stomp 통신을 위한 uuid
+        UUID uuid = UUID.randomUUID();
+        redisTemplate.opsForValue().set("uuid_roomId:" + savedRoom.getId(), uuid.toString()); // redis에 uuid 저장
+
         // socket으로 방의 멤버(자기 자신밖에 없다)들의 리스트를 보내준다
         List<MemberResDto> memberResDtos = savedRoom.getRoomMembers().stream().map(RoomMember::toMemberResDto).toList();
         StompResDto stompResDto = StompResDto.builder()
                 .action("member").data(memberResDtos).build();
-        messagingTemplate.convertAndSend("/topic/room/" + room.getId(), stompResDto);
+        messagingTemplate.convertAndSend("/topic/room/" + uuid, stompResDto);
 
         // postRoomResDto 돌려주기
         PostRoomResDto postRoomResDto = savedRoom.toPostRoomResDto();
 
-        UUID uuid = UUID.randomUUID();
-        redisTemplate.opsForValue().set("uuid_roomId:" + savedRoom.getId(), uuid.toString()); // redis에 uuid 저장
 
         postRoomResDto.setUuid(uuid);
 
@@ -248,11 +250,12 @@ public class RoomService {
             }
         }
 
+        UUID uuid =  UUID.fromString(Objects.requireNonNull(redisTemplate.opsForValue().get("uuid_roomId:" + room.getId())));
+
         StompResDto stompResDto = StompResDto.builder()
                         .action("member").data(memberResDtos).build();
-        messagingTemplate.convertAndSend("/topic/room/" + room.getId(), stompResDto);
+        messagingTemplate.convertAndSend("/topic/room/" + uuid, stompResDto);
 
-        UUID uuid =  UUID.fromString(Objects.requireNonNull(redisTemplate.opsForValue().get("uuid_roomId:" + room.getId())));
         return RoomMemberResDto.builder().roomMemberId(savedRoomMember.getId()).uuid(uuid).build();
 
     }
@@ -282,10 +285,12 @@ public class RoomService {
 
         List<MemberResDto> memberResDtos = room.getRoomMembers().stream().map(RoomMember::toMemberResDto).toList();
 
+        String uuid = redisTemplate.opsForValue().get("uuid_roomId:" + roomId);
+
         // 방의 유저들에게 유저들의 리스트를 socket으로 알려준다
         StompResDto stompResDto = StompResDto.builder()
                 .action("member").data(memberResDtos).build();
-        messagingTemplate.convertAndSend("/topic/room/" + room.getId(), stompResDto);
+        messagingTemplate.convertAndSend("/topic/room/" + uuid, stompResDto);
 
         return RoomMemberResDto.builder().roomMemberId(roomMember.getId()).build();
 
@@ -327,7 +332,10 @@ public class RoomService {
 
             StompResDto stompResDto = StompResDto.builder()
                     .action("member").data(memberResDtos).build();
-            messagingTemplate.convertAndSend("/topic/room/" + room.getId(), stompResDto);
+
+            String uuid = redisTemplate.opsForValue().get("uuid_roomId:" + roomId);
+
+            messagingTemplate.convertAndSend("/topic/room/" + uuid, stompResDto);
         }
 
         return RoomMemberResDto.builder().roomMemberId(roomMemberOptional.get().getId()).build();

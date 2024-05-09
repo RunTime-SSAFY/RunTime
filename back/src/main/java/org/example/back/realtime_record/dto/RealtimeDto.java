@@ -1,4 +1,4 @@
-package org.example.back.matching.dto;
+package org.example.back.realtime_record.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
