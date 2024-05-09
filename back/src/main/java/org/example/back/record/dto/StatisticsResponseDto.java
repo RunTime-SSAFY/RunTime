@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.back.db.enums.StatisticsType;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,9 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StatisticsResponseDto {
-    private StatisticsDto month;
-    private StatisticsDto year;
-    private StatisticsDto allTime;
+    private StatisticsType type;
+    private int countDay;
+    private int calorie;
+    private float distance;
+    private Long duration;
 }
