@@ -17,6 +17,9 @@ interface class TextInputFormatHelper {
   static final onEnglish =
       FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'));
 
+  static final onlyDouble =
+      FilteringTextInputFormatter.allow(RegExp(r'^\d{1,3}(\.\d{0,2})?'));
+
   static FilteringTextInputFormatter withRegExp(String regExp) {
     return FilteringTextInputFormatter.allow(RegExp('r$regExp'));
   }

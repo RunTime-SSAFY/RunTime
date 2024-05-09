@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:front_android/src/repository/secure_storage_repository.dart';
+import 'package:front_android/src/service/auth_service.dart';
+import 'package:front_android/src/service/https_request_service.dart';
+import 'package:front_android/src/service/user_service.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 interface class KakaoService {
@@ -62,31 +64,37 @@ interface class KakaoService {
     return token;
   }
 
-  static _saveToken(Map<String, dynamic> json) {
+  static _saveToken(Map<String, dynamic> json) async {
     var accessToken = json['accessToken'];
     var refreshToken = json['refreshToken'];
     assert(accessToken != null, 'accessToken 없음');
     assert(refreshToken != null, 'refreshToken 없음');
-    var secureStorage = SecureStorageRepository();
-    secureStorage.setAccessToken(accessToken);
-    secureStorage.setRefreshToken(refreshToken);
+    await SecureStorageRepository.instance.setAccessToken(accessToken);
+    await SecureStorageRepository.instance.setRefreshToken(refreshToken);
+    await AuthService.instance.setAccessToken(accessToken);
+    await AuthService.instance.setRefreshToken(refreshToken);
   }
 
   static Future<String> _getOurToken(OAuthToken token) async {
     try {
       User user = await UserApi.instance.me();
-      String baseUrl = dotenv.get('BASE_URL');
-      var response = await Dio().post(
-        '${baseUrl}api/auth/login',
+      var response = await noAuthApi.post(
+        'api/auth/login',
         data: {
           "email": user.kakaoAccount?.email,
         },
       );
+      if (user.kakaoAccount?.email != null) {
+        UserService.instance.email = user.kakaoAccount!.email!;
+      }
+
       var ourToken = response.data;
-      _saveToken(ourToken);
+      await _saveToken(ourToken);
+      await UserService.instance.getUserInfor();
       return response.data.toString();
     } catch (error) {
-      debugPrint((error.toString()));
+      debugPrint(error.toString());
+      debugPrint((error as DioException).response?.data.toString());
       rethrow;
     }
   }

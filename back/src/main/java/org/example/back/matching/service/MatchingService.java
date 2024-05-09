@@ -71,7 +71,7 @@ public class MatchingService {
                     .uuid(uuid)
                     .memberId(Long.parseLong(membersId[1]))
                     .nickname(secondMember.getNickname())
-//                    .characterImgUrl(secondMember.getCharacter().getImgUrl()) // TODO 추후 주석 해제
+                    .characterImgUrl(secondMember.getCharacter().getImgUrl()) // TODO 추후 주석 해제
                     .build();
 
             StompMatchingSuccessResDto firstStompMatchingSuccessResDto = StompMatchingSuccessResDto.builder()
@@ -86,7 +86,7 @@ public class MatchingService {
                     .uuid(uuid)
                     .memberId(Long.parseLong(membersId[0]))
                     .nickname(firstMember.getNickname())
-//                    .characterImgUrl(firstMember.getCharacter().getImgUrl()) // TODO 추후 주석 해제
+                    .characterImgUrl(firstMember.getCharacter().getImgUrl()) // TODO 추후 주석 해제
                     .build();
             StompMatchingSuccessResDto secondStompMatchingSuccessResDto = StompMatchingSuccessResDto.builder()
                     .data(secondOpponentResDto)

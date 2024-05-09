@@ -5,6 +5,7 @@ import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';
 import 'package:front_android/src/view/matching/waiting_matching_view.dart';
+import 'package:front_android/src/view/profile/profile_edit_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
 import 'package:front_android/src/view/run_main/run_main_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_search_view.dart';
@@ -16,21 +17,35 @@ enum RouteParameter {
 }
 
 interface class RoutePath {
-  static const String runMain = 'runMain';
-  static const String beforeMatching = 'beforeMatching';
-  static const String matching = 'matching';
-  static const String matched = 'matched';
-  static const String userMode = 'userMode';
-  static const String waitingRoom = 'waitingRoom';
-  static const String userModeSearch = 'userModeSearch';
-  static const String practiceMode = 'practiceMode';
-  static const String ranking = 'ranking';
+  // 로그인 & 메인
   static const String login = 'login';
+  static const String runMain = 'runMain';
+
+  // 배틀
   static const String battle = 'battle';
   static const String battleResult = 'battleResult';
 
+  // 매칭
+  static const String beforeMatching = 'beforeMatching';
+  static const String matching = 'matching';
+  static const String matched = 'matched';
+
+  // 유저 모드
+  static const String userMode = 'userMode';
+  static const String waitingRoom = 'waitingRoom';
+  static const String userModeSearch = 'userModeSearch';
+
+  // 연습 모드
+  static const String practiceMode = 'practiceMode';
+
+  // 랭킹
+  static const String ranking = 'ranking';
+
   // 기록
   static const String record = 'record';
+
+  // 프로필
+  static const String profile = 'profile';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     late Widget page;
@@ -77,6 +92,9 @@ interface class RoutePath {
         break;
       case RoutePath.record:
         page = const RecordView();
+        break;
+      case RoutePath.profile:
+        page = const ProfileEditView();
         break;
     }
     return MaterialPageRoute(

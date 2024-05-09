@@ -47,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deny": MessageLookupByLibrary.simpleMessage("거절"),
         "distance": MessageLookupByLibrary.simpleMessage("거리"),
         "done": MessageLookupByLibrary.simpleMessage("확인"),
+        "editProfileDone": MessageLookupByLibrary.simpleMessage("수정 완료"),
         "enter": MessageLookupByLibrary.simpleMessage("입장"),
         "findRoom": MessageLookupByLibrary.simpleMessage("방찾기"),
         "gameStart": MessageLookupByLibrary.simpleMessage("게임시작"),
@@ -65,10 +66,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "matchedHint": MessageLookupByLibrary.simpleMessage(
             "반복적인 매칭 거절 시 게임이용에 제한을 받으실 수 있습니다"),
         "matching": MessageLookupByLibrary.simpleMessage("상대를 찾는 중"),
+        "nickname": MessageLookupByLibrary.simpleMessage("닉네임"),
+        "nicknameRule":
+            MessageLookupByLibrary.simpleMessage("닉네임은 4 ~ 12자 이내로 작성해주세요"),
+        "nicknameSetting": MessageLookupByLibrary.simpleMessage("닉네임 설정"),
         "password": MessageLookupByLibrary.simpleMessage("비밀번호"),
         "practiceMode": MessageLookupByLibrary.simpleMessage("연습 모드"),
         "privateRoom": MessageLookupByLibrary.simpleMessage("비밀방"),
         "profile": MessageLookupByLibrary.simpleMessage("프로필"),
+        "profileEdit": MessageLookupByLibrary.simpleMessage("프로필 수정"),
         "publicRoom": MessageLookupByLibrary.simpleMessage("공개방"),
         "rankPoint": MessageLookupByLibrary.simpleMessage("랭크포인트"),
         "ranking": MessageLookupByLibrary.simpleMessage("랭킹"),
@@ -88,6 +94,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "waitingOthers":
             MessageLookupByLibrary.simpleMessage("상대방의 응답을 기다리고 있습니다."),
         "waitingRoom": MessageLookupByLibrary.simpleMessage("대기방"),
+        "weight": MessageLookupByLibrary.simpleMessage("몸무게(선택사항)"),
+        "weightRule":
+            MessageLookupByLibrary.simpleMessage("입력한 몸무게는 칼로리 계산에만 사용됩니다."),
         "win": MessageLookupByLibrary.simpleMessage("승리")
       };
 }

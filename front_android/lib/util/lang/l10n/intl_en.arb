@@ -56,5 +56,12 @@
   "gameStart": "Game Start",
   "invite": "invite",
   "manager": "manager",
-  "ready": "ready"
+  "ready": "ready",
+  "nickname": "nickName",
+  "nicknameSetting": "set nickname",
+  "profileEdit": "Edit Profile",
+  "weight": "Weight(optional)",
+  "nicknameRule": "nickname should be 4 ~ 12 length",
+  "weightRule": "입력한 몸무게는 칼로리 계산에만 사용됩니다.",
+  "editProfileDone": "Done"
 }
