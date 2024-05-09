@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front_android/src/model/participants.dart';
+import 'package:front_android/src/model/battle.dart';
 
 final waitingViewModelProvider =
     ChangeNotifierProvider((ref) => WaitingViewModel());
@@ -11,22 +11,22 @@ class WaitingViewModel with ChangeNotifier {
   final double _distance = 3;
   String get distance => '${_distance.toString()}km';
 
-  List<Participants> participants = [
-    Participants(
+  List<Participant> participants = [
+    Participant(
       characterImgUrl: 'https://randomfox.ca/images/50.jpg',
       isManager: true,
       isReady: false,
       memberId: 1,
       nickname: '몇글자까지',
     ),
-    Participants(
+    Participant(
       characterImgUrl: 'https://randomfox.ca/images/50.jpg',
       isManager: false,
       isReady: true,
       memberId: 2,
       nickname: '글자수가많아졌다',
     ),
-    Participants(
+    Participant(
       characterImgUrl: 'https://randomfox.ca/images/50.jpg',
       isManager: false,
       isReady: false,

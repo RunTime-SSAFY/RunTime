@@ -48,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deny": MessageLookupByLibrary.simpleMessage("deny"),
         "distance": MessageLookupByLibrary.simpleMessage("distance"),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
+        "editProfileDone": MessageLookupByLibrary.simpleMessage("Done"),
         "enter": MessageLookupByLibrary.simpleMessage("Enter"),
         "findRoom": MessageLookupByLibrary.simpleMessage("Finding Room"),
         "gameStart": MessageLookupByLibrary.simpleMessage("Game Start"),
@@ -66,10 +67,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "matchedHint": MessageLookupByLibrary.simpleMessage(
             "반복적인 매칭 거절 시 게임이용에 제한을 받으실 수 있습니다"),
         "matching": MessageLookupByLibrary.simpleMessage("matching"),
+        "nickname": MessageLookupByLibrary.simpleMessage("nickName"),
+        "nicknameRule": MessageLookupByLibrary.simpleMessage(
+            "nickname should be 4 ~ 12 length"),
+        "nicknameSetting": MessageLookupByLibrary.simpleMessage("set nickname"),
         "password": MessageLookupByLibrary.simpleMessage("password"),
         "practiceMode": MessageLookupByLibrary.simpleMessage("Practice Mode"),
         "privateRoom": MessageLookupByLibrary.simpleMessage("Private Room"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "profileEdit": MessageLookupByLibrary.simpleMessage("Edit Profile"),
         "publicRoom": MessageLookupByLibrary.simpleMessage("Public Room"),
         "rankPoint": MessageLookupByLibrary.simpleMessage("Rank Point"),
         "ranking": MessageLookupByLibrary.simpleMessage("Ranking"),
@@ -89,6 +95,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "waitingOthers":
             MessageLookupByLibrary.simpleMessage("waiting for others response"),
         "waitingRoom": MessageLookupByLibrary.simpleMessage("waiting room"),
+        "weight": MessageLookupByLibrary.simpleMessage("Weight(optional)"),
+        "weightRule":
+            MessageLookupByLibrary.simpleMessage("입력한 몸무게는 칼로리 계산에만 사용됩니다."),
         "win": MessageLookupByLibrary.simpleMessage("Win")
       };
 }

@@ -1,9 +1,7 @@
 package org.example.back.matching.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
-import org.example.back.matching.dto.ApproveReqDto;
-import org.example.back.matching.dto.GameExitReqDto;
+import org.example.back.matching.dto.ReadyReqDto;
 import org.example.back.matching.service.MatchingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +26,10 @@ public class MatchingController {
     }
 
     @PatchMapping("/{matchingRoomId}/ready")
-    public ResponseEntity<Void> matchingReady(@PathVariable Long matchingRoomId) {
+    public ResponseEntity<Void> matchingReady(@PathVariable Long matchingRoomId, @RequestBody ReadyReqDto readyReqDto) {
+        boolean ready = readyReqDto.isReady();
 
-        matchingService.ready(matchingRoomId);
+        matchingService.ready(matchingRoomId, ready);
 
 
         return ResponseEntity.ok().build();

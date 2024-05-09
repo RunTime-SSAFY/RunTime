@@ -619,6 +619,76 @@ class S {
       args: [],
     );
   }
+
+  /// `nickName`
+  String get nickname {
+    return Intl.message(
+      'nickName',
+      name: 'nickname',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `set nickname`
+  String get nicknameSetting {
+    return Intl.message(
+      'set nickname',
+      name: 'nicknameSetting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Profile`
+  String get profileEdit {
+    return Intl.message(
+      'Edit Profile',
+      name: 'profileEdit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weight(optional)`
+  String get weight {
+    return Intl.message(
+      'Weight(optional)',
+      name: 'weight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `nickname should be 4 ~ 12 length`
+  String get nicknameRule {
+    return Intl.message(
+      'nickname should be 4 ~ 12 length',
+      name: 'nicknameRule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `입력한 몸무게는 칼로리 계산에만 사용됩니다.`
+  String get weightRule {
+    return Intl.message(
+      '입력한 몸무게는 칼로리 계산에만 사용됩니다.',
+      name: 'weightRule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get editProfileDone {
+    return Intl.message(
+      'Done',
+      name: 'editProfileDone',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

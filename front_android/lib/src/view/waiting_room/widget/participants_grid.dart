@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front_android/src/model/participants.dart';
+import 'package:front_android/src/model/battle.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
@@ -10,7 +10,7 @@ class ParticipantsCartGrid extends ConsumerWidget {
     required this.participants,
   });
 
-  final List<Participants> participants;
+  final List<Participant> participants;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
