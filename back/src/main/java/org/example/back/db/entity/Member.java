@@ -75,5 +75,5 @@ public class Member extends BaseEntity {
 
 	public void updateConsecutive(int consecutive) { this.consecutiveGames = consecutive; }
 
-	public void updateCharacter(long characterId) { this.character.setId(characterId); }
+	public void updateCharacter(Character character) { this.character = character; }
 }
