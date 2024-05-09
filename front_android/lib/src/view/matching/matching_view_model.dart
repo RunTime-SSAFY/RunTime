@@ -36,8 +36,10 @@ class MatchingViewModel with ChangeNotifier {
     try {
       await _battleData.matchingStart(
         (bool startResponse) {
-          _canStart = startResponse;
+          _canStart = true;
+          Navigator.pushNamed(context, RoutePath.matched);
         },
+        context,
       );
     } catch (error) {
       // 에러 토스트 메세지
@@ -113,7 +115,7 @@ class MatchingViewModel with ChangeNotifier {
     // 매칭이 되면 수락 여부 전송, _matchedState == MatchedState.accept
     try {
       await apiInstance.patch(
-        'api/matchings/${_battleData.roomId}/ready',
+        'api/matchings/${_battleData.uuid}/ready',
         data: {
           'ready': _matchedState == MatchedState.accept,
         },

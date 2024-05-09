@@ -29,7 +29,7 @@ class MatchingRoomData {
   });
   final int matchingRoomId;
   final int memberId;
-  final int uuid;
+  final String uuid;
 
   factory MatchingRoomData.fromJson(Map<String, dynamic> json) {
     return MatchingRoomData(
@@ -54,9 +54,9 @@ class Participant {
   });
 
   factory Participant.fromJson(Map<String, dynamic> json) => Participant(
-        memberId: json['memberId'],
-        nickname: json['nickname'],
-        characterImgUrl: json['characterImgUrl'],
+        memberId: int.parse(json['memberId'] ?? '-1'),
+        nickname: json['nickname'] ?? '',
+        characterImgUrl: json['characterImgUrl'] ?? '',
         isManager: json['isManager'] ?? false,
         isReady: json['isReady'] ?? false,
       );

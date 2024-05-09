@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/battle.dart';
 import 'package:front_android/src/repository/stomp_repository.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/src/service/user_service.dart';
 import 'package:front_android/util/helper/battle_helper.dart';
+import 'package:front_android/util/route_path.dart';
 import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 final battleDataServiceProvider = Provider.autoDispose((ref) {
@@ -20,7 +21,11 @@ class SocketService with ChangeNotifier {
   SocketService(this.stompInstance);
 
   late int roomId;
+
   List<Participant> participants = [];
+
+  late String _uuid;
+  String get uuid => _uuid;
 
   String mode = BattleModeHelper.matching;
 
@@ -41,7 +46,8 @@ class SocketService with ChangeNotifier {
       ..sort(((a, b) => b.distance.compareTo(a.distance)));
   }
 
-  Future<void> matchingStart(void Function(bool canStart) startChanger) async {
+  Future<void> matchingStart(
+      void Function(bool canStart) startChanger, BuildContext context) async {
     try {
       await apiInstance.patch('api/matchings');
     } catch (error) {
@@ -61,6 +67,7 @@ class SocketService with ChangeNotifier {
           if (json["action"] == ActionHelper.matchingStartAction) {
             var battleData = MatchingRoomData.fromJson(json['data']);
             roomId = battleData.matchingRoomId;
+            _uuid = battleData.uuid;
             try {
               participants = [
                 Participant.fromJson(json),
@@ -72,6 +79,7 @@ class SocketService with ChangeNotifier {
                   isReady: false,
                 ),
               ];
+              Navigator.pushNamed(context, RoutePath.matched);
             } catch (error) {
               print('잘못된 참가자 정보\n$error');
               rethrow;
