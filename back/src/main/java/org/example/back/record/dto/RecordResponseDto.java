@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecordResponseDto {
-    private List<CoordinateDto> coordinates;
+    private String courseImgUrl;
     private Long recordId;
     private LocalDateTime runStartTime;
     private LocalDateTime runEndTime;
