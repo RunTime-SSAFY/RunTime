@@ -12,7 +12,6 @@ import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/service/user_service.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
-import 'package:front_android/util/route_path.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 void main() async {
@@ -26,16 +25,19 @@ void main() async {
     javaScriptAppKey: dotenv.get("KAKAO_JAVASCRIPT_KEY"),
   );
 
-  String initialRoute = RoutePath.runMain;
+  // 초기 경로 값
+  String initialRoute = '/main';
 
+  // 인터셉터
   apiInstance.interceptors.add(CustomInterceptor(
     authService: AuthService.instance,
   ));
 
+  // refreshToken이 있는지 확인
   try {
     final refreshToken = await SecureStorageRepository.instance.refreshToken;
     if (refreshToken == null) {
-      initialRoute = RoutePath.login;
+      initialRoute = '/login';
     } else {
       try {
         var response = await apiInstance.get('api/members');
@@ -60,25 +62,14 @@ void main() async {
 }
 
 class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
-  // static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   const MyApp({super.key, required this.initialRoute});
 
   final String initialRoute;
 
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AuthService authService = ref.watch(authProvider);
-    apiInstance.interceptors.add(CustomInterceptor(
-      context: context,
-      authService: authService,
-    ));
-
     return MaterialApp.router(
       routerConfig: router,
-    return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         S.delegate,
@@ -89,7 +80,8 @@ class MyApp extends ConsumerWidget {
       supportedLocales: S.delegate.supportedLocales,
       theme: ref.themeService.themeDate,
       locale: ref.locale,
-      // 전역에서 모든 context를 Overlay로 관리해도 괜찮은걸까요? 계속해서 새로운 context가 생길 때마다 새로운 Overlay가 기존의 context 위에 쌓일 것 같습니다.
+
+      // 오버레이를 사용하기 위해 builder 사용
       builder: (context, child) {
         return Overlay(
           initialEntries: [
@@ -99,35 +91,6 @@ class MyApp extends ConsumerWidget {
           ],
         );
       },
-    );
-    // return MaterialApp(
-    //   localizationsDelegates: const [
-    //     S.delegate,
-    //     GlobalMaterialLocalizations.delegate,
-    //     GlobalWidgetsLocalizations.delegate,
-    //     GlobalCupertinoLocalizations.delegate,
-    //   ],
-    //   supportedLocales: S.delegate.supportedLocales,
-    //   navigatorKey: navigatorKey,
-    //   builder: (context, child) {
-    //     return Overlay(
-    //       initialEntries: [
-    //         OverlayEntry(
-    //           builder: (context) => child!,
-    //         )
-    //       ],
-    //     );
-    //   },
-    //   theme: ref.themeService.themeDate,
-    //   // initialRoute: RoutePath.runMain,
-    //   initialRoute: RoutePath.record,
-    //   onGenerateRoute: RoutePath.onGenerateRoute,
-    //   locale: ref.locale,
-    // );
-      theme: ref.themeService.themeDate,
-      initialRoute: initialRoute,
-      onGenerateRoute: RoutePath.onGenerateRoute,
-      locale: ref.locale,
     );
   }
 }
