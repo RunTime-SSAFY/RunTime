@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.back.matching.dto.RealtimeDto;
-import org.example.back.matching.dto.StompRealtimeReqDto;
-import org.example.back.matching.dto.StompRealtimeResDto;
+import org.example.back.realtime_record.dto.StompRealtimeReqDto;
+import org.example.back.realtime_record.dto.StompRealtimeResDto;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -30,7 +30,7 @@ public class StompMatchingController {
         double lon = stompRealTimeReqDto.getLon();
         double lat = stompRealTimeReqDto.getLat();
         double distance = stompRealTimeReqDto.getDistance();
-        int index = stompRealTimeReqDto.getIndex();
+        int idx = stompRealTimeReqDto.getIdx();
 
         // redis에 저장
         ListOperations<String, Object> listOperations = redisTemplate.opsForList();
@@ -43,7 +43,7 @@ public class StompMatchingController {
 //        }
 
         // stomp로 보내준다
-        RealtimeDto dataDto = RealtimeDto.builder().memberId(memberId).lon(lon).lat(lat).distance(distance).index(index).currentTime(LocalDateTime.now()).build();
+        RealtimeDto dataDto = RealtimeDto.builder().memberId(memberId).lon(lon).lat(lat).distance(distance).idx(idx).currentTime(LocalDateTime.now()).build();
         StompRealtimeResDto stompRealtimeResDto = StompRealtimeResDto.builder().action("realtime").data(dataDto).build();
         messagingTemplate.convertAndSend("/topic/matchingRoom/" + matchingRoomId, stompRealtimeResDto);
 

@@ -13,7 +13,7 @@ import org.example.back.db.repository.MemberRepository;
 import org.example.back.db.repository.RealtimeRecordRepository;
 import org.example.back.db.repository.RecordRepository;
 import org.example.back.exception.MemberNotFoundException;
-import org.example.back.matching.dto.StompRealtimeReqDto;
+import org.example.back.realtime_record.dto.StompRealtimeReqDto;
 import org.example.back.realtime_record.dto.SaveRealtimeRecordReqDto;
 import org.example.back.util.SecurityUtil;
 import org.springframework.data.redis.core.ListOperations;
@@ -57,7 +57,7 @@ public class RealtimeRecordService {
                 double lon = s.getLon();
                 double lat = s.getLat();
                 double distance = s.getDistance();
-                int idx = s.getIndex();
+                int idx = s.getIdx();
 
                 Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 
