@@ -60,15 +60,15 @@ class MyApp extends ConsumerWidget {
       theme: ref.themeService.themeDate,
       locale: ref.locale,
       // 전역에서 모든 context를 Overlay로 관리해도 괜찮은걸까요? 계속해서 새로운 context가 생길 때마다 새로운 Overlay가 기존의 context 위에 쌓일 것 같습니다.
-      // builder: (context, child) {
-      //   return Overlay(
-      //     initialEntries: [
-      //       OverlayEntry(
-      //         builder: (context) => child!,
-      //       )
-      //     ],
-      //   );
-      // },
+      builder: (context, child) {
+        return Overlay(
+          initialEntries: [
+            OverlayEntry(
+              builder: (context) => child!,
+            )
+          ],
+        );
+      },
     );
     // return MaterialApp(
     //   localizationsDelegates: const [

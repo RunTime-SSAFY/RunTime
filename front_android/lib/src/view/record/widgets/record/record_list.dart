@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/record/record_detail_view.dart';
+import 'package:go_router/go_router.dart';
 
 final List<String> dataList = [];
 
@@ -17,7 +18,7 @@ class RecordList extends ConsumerWidget {
           mode: "대결모드",
           date: "4월 5일 19:30",
           type: "rrr",
-          status: "",
+          status: "승리",
           distance: "3Km",
           duration: "16분 37초",
           backgroundColor: Colors.black87,
@@ -37,7 +38,7 @@ class RecordList extends ConsumerWidget {
           mode: "대결모드",
           date: "4월 5일 19:30",
           type: "rrr",
-          status: "",
+          status: "승리",
           distance: "3Km",
           duration: "16분 37초",
           backgroundColor: Colors.black87,
@@ -200,10 +201,11 @@ class RecordListItemCard extends ConsumerWidget {
     return CupertinoButton(
       padding: EdgeInsets.zero,
       onPressed: () {
-        Navigator.push(
-          context,
-          CupertinoPageRoute(builder: (context) => const RecordDetailView()),
-        );
+        GoRouter.of(context).push('/record/detail');
+        // Navigator.push(
+        //   context,
+        //   CupertinoPageRoute(builder: (context) => const RecordDetailView()),
+        // );
       },
       child: Padding(
         // Navigator.pushNamed(context, RoutePath.recordDetail);
@@ -235,13 +237,31 @@ class RecordListItemCard extends ConsumerWidget {
                           fontWeight: FontWeight.bold,
                         )),
                     const SizedBox(width: 10),
-                    Text(
-                      type + (status.isNotEmpty ? " - $status" : ""),
-                      style: ref.typo.headline2.copyWith(
-                        color: textColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+
+                    // status가 존재하면 상태를 표시
+                    status.isNotEmpty
+                        ? Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: ref.color.accept,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                                left: 10,
+                                top: 3,
+                                bottom: 5,
+                              ),
+                              child: Text(
+                                status,
+                                style: ref.typo.subTitle4.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: ref.color.white,
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
                 Align(
