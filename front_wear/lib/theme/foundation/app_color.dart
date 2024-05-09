@@ -35,6 +35,14 @@ class AppColor {
     required this.surface,
     required this.text,
     required this.lightText,
+    required this.wBackground,
+    required this.wBattleMode,
+    required this.wUserMode,
+    required this.wPracticeMode,
+    required this.wAccept,
+    required this.wDeny,
+    required this.wText,
+    required this.wTextB,
   });
 
   // Button
@@ -89,4 +97,14 @@ class AppColor {
   // Basic Text
   final Color text;
   final Color lightText;
+
+  // Watch
+  final Color wBackground;
+  final Color wBattleMode;
+  final Color wUserMode;
+  final Color wPracticeMode;
+  final Color wAccept;
+  final Color wDeny;
+  final Color wText;
+  final Color wTextB;
 }

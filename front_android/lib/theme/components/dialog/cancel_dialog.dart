@@ -22,10 +22,6 @@ class CancelDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return BaseDialog(
       title: title ?? S.current.cancel,
-      content: Text(
-        content ?? S.current.ReallyCancelQuestion,
-        style: ref.typo.subTitle4,
-      ),
       actions: Row(
         children: [
           Expanded(
@@ -51,6 +47,10 @@ class CancelDialog extends ConsumerWidget {
             ),
           )
         ],
+      ),
+      child: Text(
+        content ?? S.current.ReallyCancelQuestion,
+        style: ref.typo.subTitle4,
       ),
     );
   }

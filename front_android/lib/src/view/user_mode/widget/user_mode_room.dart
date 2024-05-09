@@ -85,21 +85,33 @@ class UserModeRoomList extends ConsumerWidget {
   const UserModeRoomList({
     super.key,
     required this.userModeRoomList,
+    required this.getRoomList,
   });
 
   final List<UserModeRoom> userModeRoomList;
+  final void Function() getRoomList;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      itemBuilder: (context, index) {
-        return UserModeRoomCard(
-          room: userModeRoomList[index],
-        );
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (notification is ScrollUpdateNotification &&
+            notification.metrics.pixels >=
+                notification.metrics.maxScrollExtent) {
+          getRoomList();
+        }
+        return false;
       },
-      separatorBuilder: (context, index) => const SizedBox(height: 10),
-      itemCount: userModeRoomList.length,
+      child: ListView.separated(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        itemBuilder: (context, index) {
+          return UserModeRoomCard(
+            room: userModeRoomList[index],
+          );
+        },
+        separatorBuilder: (context, index) => const SizedBox(height: 10),
+        itemCount: userModeRoomList.length,
+      ),
     );
   }
 }

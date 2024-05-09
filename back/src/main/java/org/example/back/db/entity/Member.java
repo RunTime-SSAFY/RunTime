@@ -34,6 +34,9 @@ public class Member extends BaseEntity {
 	@Column(name = "id", nullable = false)
 	private Long id;
 
+	@Column(name="fcm_token")
+	private String fcmToken;
+
 	@Lob
 	@Column(name = "role")
 	@Enumerated(EnumType.STRING)
@@ -74,4 +77,10 @@ public class Member extends BaseEntity {
 	public void updateTierScore(int score) { this.tierScore = score; }
 
 	public void updateConsecutive(int consecutive) { this.consecutiveGames = consecutive; }
+
+	public void updateCharacter(Character character) { this.character = character; }
+
+	public void updateFcmToken(String fcmToken) {
+		this.fcmToken = fcmToken;
+	}
 }

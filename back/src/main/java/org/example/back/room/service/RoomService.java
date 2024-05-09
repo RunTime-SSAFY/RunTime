@@ -13,15 +13,14 @@ import org.example.back.exception.*;
 import org.example.back.room.dto.*;
 import org.example.back.util.SecurityUtil;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +30,8 @@ public class RoomService {
     private final RoomMemberRepository roomMemberRepository;
     private final SimpMessagingTemplate messagingTemplate;
     private final PasswordEncoder passwordEncoder;
+    private final RedisTemplate<String, String> redisTemplate;
+
     @Transactional
     public PostRoomResDto postRoom(PostRoomReqDto postRoomReqDto) {
         // 나 가져오기
@@ -73,14 +74,23 @@ public class RoomService {
 
         savedRoom.getRoomMembers().add(roomMember);
 
+        // stomp 통신을 위한 uuid
+        UUID uuid = UUID.randomUUID();
+        redisTemplate.opsForValue().set("uuid_roomId:" + savedRoom.getId(), uuid.toString()); // redis에 uuid 저장
+
         // socket으로 방의 멤버(자기 자신밖에 없다)들의 리스트를 보내준다
         List<MemberResDto> memberResDtos = savedRoom.getRoomMembers().stream().map(RoomMember::toMemberResDto).toList();
         StompResDto stompResDto = StompResDto.builder()
                 .action("member").data(memberResDtos).build();
-        messagingTemplate.convertAndSend("/topic/room/" + room.getId(), stompResDto);
+        messagingTemplate.convertAndSend("/topic/room/" + uuid, stompResDto);
 
         // postRoomResDto 돌려주기
-        return savedRoom.toPostRoomResDto();
+        PostRoomResDto postRoomResDto = savedRoom.toPostRoomResDto();
+
+
+        postRoomResDto.setUuid(uuid);
+
+        return postRoomResDto;
 
     }
 
@@ -209,7 +219,7 @@ public class RoomService {
         if (roomMember.isPresent()) {
             throw new RoomMemberExistsException(HttpStatus.CONFLICT, roomId + "를 방 id로, " + myMemberId +"를 memberId로 지닌 roomMember가 존재합니다");
         }
-        // 게임이 진행 중이라면 에러 발생
+        // 게임이 진행 중이라면 에러 발생 TODO 재입장인 경우 수정 필요:
         if (room.getStatus().name().equals("IN_PROGRESS")) throw new CustomException(HttpStatus.NOT_MODIFIED, room.getId() + "방은 게임이 진행 중이므로 입장할 수 없습니다");
 
         // 비밀방이라면 비밀번호가 일치해야 한다
@@ -240,11 +250,13 @@ public class RoomService {
             }
         }
 
+        UUID uuid =  UUID.fromString(Objects.requireNonNull(redisTemplate.opsForValue().get("uuid_roomId:" + room.getId())));
+
         StompResDto stompResDto = StompResDto.builder()
                         .action("member").data(memberResDtos).build();
-        messagingTemplate.convertAndSend("/topic/room/" + room.getId(), stompResDto);
+        messagingTemplate.convertAndSend("/topic/room/" + uuid, stompResDto);
 
-        return RoomMemberResDto.builder().roomMemberId(savedRoomMember.getId()).build();
+        return RoomMemberResDto.builder().roomMemberId(savedRoomMember.getId()).uuid(uuid).build();
 
     }
 
@@ -273,10 +285,12 @@ public class RoomService {
 
         List<MemberResDto> memberResDtos = room.getRoomMembers().stream().map(RoomMember::toMemberResDto).toList();
 
+        String uuid = redisTemplate.opsForValue().get("uuid_roomId:" + roomId);
+
         // 방의 유저들에게 유저들의 리스트를 socket으로 알려준다
         StompResDto stompResDto = StompResDto.builder()
                 .action("member").data(memberResDtos).build();
-        messagingTemplate.convertAndSend("/topic/room/" + room.getId(), stompResDto);
+        messagingTemplate.convertAndSend("/topic/room/" + uuid, stompResDto);
 
         return RoomMemberResDto.builder().roomMemberId(roomMember.getId()).build();
 
@@ -318,17 +332,21 @@ public class RoomService {
 
             StompResDto stompResDto = StompResDto.builder()
                     .action("member").data(memberResDtos).build();
-            messagingTemplate.convertAndSend("/topic/room/" + room.getId(), stompResDto);
-        }
 
+            String uuid = redisTemplate.opsForValue().get("uuid_roomId:" + roomId);
+
+            messagingTemplate.convertAndSend("/topic/room/" + uuid, stompResDto);
+        }
 
         return RoomMemberResDto.builder().roomMemberId(roomMemberOptional.get().getId()).build();
 
     }
 
     @Transactional
-    public void removeRoom(Long roomId) { // 단체전 종료 후 방 삭제
+    public void removeRoom(Long roomId) { // 방 삭제
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
+
+        redisTemplate.delete("uuid_roomId:" + roomId); // uuid 삭제
 
         roomRepository.deleteById(room.getId());
 

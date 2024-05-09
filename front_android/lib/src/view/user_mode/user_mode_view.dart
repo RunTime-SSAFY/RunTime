@@ -76,6 +76,7 @@ class _UserModeViewState extends ConsumerState<UserModeView> {
                     : Expanded(
                         child: UserModeRoomList(
                         userModeRoomList: viewModel.userModeRoomList,
+                        getRoomList: viewModel.getRoomList,
                       )),
               ],
             ),

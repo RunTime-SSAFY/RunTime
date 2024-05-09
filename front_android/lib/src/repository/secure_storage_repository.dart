@@ -1,31 +1,32 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorageRepository {
-  static AndroidOptions _getAndroidOptions() => const AndroidOptions(
+  SecureStorageRepository._();
+
+  static final SecureStorageRepository _instance = SecureStorageRepository._();
+  static SecureStorageRepository get instance => _instance;
+
+  AndroidOptions _getAndroidOptions() => const AndroidOptions(
         encryptedSharedPreferences: true,
       );
-  final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  late final _storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  FlutterSecureStorage get storage => _storage;
 
-  Future<String?> get accessToken async => await storage.read(
+  Future<String?> get accessToken async => await _storage.read(
         key: 'accessToken',
       );
 
   Future<String?> get refreshToken async =>
-      await storage.read(key: 'refreshToken');
+      await _storage.read(key: 'refreshToken');
 
   Future<DateTime> get refreshTokenExpireDate async => DateTime.parse(
-      await storage.read(key: 'expireDate') ?? '2000-01-01T12:00:00.000Z');
+      await _storage.read(key: 'expireDate') ?? '2000-01-01T12:00:00.000Z');
 
   Future<void> setAccessToken(String token) async {
-    await storage.write(key: 'accessToken', value: token);
+    await _storage.write(key: 'accessToken', value: token);
   }
 
-  Future<void> setRefreshToken(String token, DateTime expireDate) async {
-    List<Future> asyncTasks = [
-      storage.write(key: 'refreshToken', value: token),
-      storage.write(key: 'expireDate', value: expireDate.toIso8601String()),
-    ];
-
-    await Future.wait(asyncTasks);
+  Future<void> setRefreshToken(String? token) async {
+    await _storage.write(key: 'refreshToken', value: token);
   }
 }

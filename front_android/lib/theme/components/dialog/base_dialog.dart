@@ -6,12 +6,12 @@ class BaseDialog extends ConsumerWidget {
   const BaseDialog({
     super.key,
     this.title,
-    required this.content,
+    required this.child,
     this.actions,
   });
 
   final String? title;
-  final Widget content;
+  final Widget child;
   final Widget? actions;
 
   @override
@@ -33,7 +33,7 @@ class BaseDialog extends ConsumerWidget {
             )
           : null,
       children: [
-        content,
+        child,
         if (actions != null)
           Padding(
             padding: const EdgeInsets.all(8),

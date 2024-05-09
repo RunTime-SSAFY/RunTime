@@ -20,15 +20,15 @@ public class KakaoAuthController {
 	private final KakaoService kakaoService;
 	private final AuthService authService;
 
-	@GetMapping("/code")
-	public ResponseEntity<?> kakaoAuth( @RequestParam("code") String code) {
-		String token = kakaoService.getToken(code);
-		System.out.println("token: "+token);
-		KakaoInfoResponse kakaoInfoResponse = kakaoService.getKakaoInfo(token);
-		if (authService.isExistMember(kakaoInfoResponse.getEmail())) {
-			return ResponseEntity.ok(authService.login(kakaoInfoResponse.getEmail()));
-		} else {
-			return ResponseEntity.ok(authService.join(kakaoInfoResponse.getEmail()));
-		}
-	}
+	// @GetMapping("/code")
+	// public ResponseEntity<?> kakaoAuth( @RequestParam("code") String code) {
+	// 	String token = kakaoService.getToken(code);
+	// 	System.out.println("token: "+token);
+	// 	KakaoInfoResponse kakaoInfoResponse = kakaoService.getKakaoInfo(token);
+	// 	if (authService.isExistMember(kakaoInfoResponse.getEmail())) {
+	// 		return ResponseEntity.ok(authService.login(kakaoInfoResponse.getEmail()));
+	// 	} else {
+	// 		return ResponseEntity.ok(authService.join(kakaoInfoResponse.getEmail()));
+	// 	}
+	// }
 }

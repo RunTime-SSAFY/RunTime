@@ -4,12 +4,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/util/router.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:front_android/src/repository/secure_storage_repository.dart';
 import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/src/service/lang_service.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/src/service/user_service.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
+import 'package:front_android/util/route_path.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -22,23 +26,47 @@ void main() async {
     javaScriptAppKey: dotenv.get("KAKAO_JAVASCRIPT_KEY"),
   );
 
-  // FlutterSecureStorage? secureStorage = const FlutterSecureStorage();
-  // try {
-  // final refreshToken = await secureStorage.read(key: 'refreshToken');
-  // final newAccessToken = loginWithRefreshToken(refreshToken);
-  //   if (newAccessToken != null) {
-  // await secureStorage.write(key: 'accessToken', value: newAccessToken);
-  // }
-  // } catch (error) {}
+  String initialRoute = RoutePath.runMain;
 
-  // secureStorage = null;
+  apiInstance.interceptors.add(CustomInterceptor(
+    authService: AuthService.instance,
+  ));
 
-  runApp(const ProviderScope(child: MyApp()));
+  try {
+    final refreshToken = await SecureStorageRepository.instance.refreshToken;
+    if (refreshToken == null) {
+      initialRoute = RoutePath.login;
+    } else {
+      try {
+        var response = await apiInstance.get('api/members');
+        var data = response.data;
+        var userService = UserService.instance;
+        userService.nickname = data['nickname'] ?? '';
+        userService.characterImgUrl = data['characterImgUrl'] ?? '';
+        userService.weight = data['weight'] ?? '';
+        await UserService.instance.getUserInfor();
+      } catch (error) {
+        debugPrint(error.toString());
+      }
+    }
+  } catch (error) {
+    debugPrint(error.toString());
+  }
+
+  var key = await KakaoSdk.origin;
+  print(key);
+
+  runApp(ProviderScope(child: MyApp(initialRoute: initialRoute)));
 }
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
   // static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  const MyApp({super.key, required this.initialRoute});
+
+  final String initialRoute;
+
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,6 +78,8 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       routerConfig: router,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -94,6 +124,11 @@ class MyApp extends ConsumerWidget {
     //   onGenerateRoute: RoutePath.onGenerateRoute,
     //   locale: ref.locale,
     // );
+      theme: ref.themeService.themeDate,
+      initialRoute: initialRoute,
+      onGenerateRoute: RoutePath.onGenerateRoute,
+      locale: ref.locale,
+    );
   }
 }
 

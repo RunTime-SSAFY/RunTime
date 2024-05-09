@@ -58,5 +58,12 @@
   "gameStart": "게임시작",
   "invite": "초대",
   "manager": "방장",
-  "ready": "준비완료"
+  "ready": "준비완료",
+  "nickname": "닉네임",
+  "nicknameSetting": "닉네임 설정",
+  "profileEdit": "프로필 수정",
+  "weight": "몸무게(선택사항)",
+  "nicknameRule": "닉네임은 4 ~ 12자 이내로 작성해주세요",
+  "weightRule": "입력한 몸무게는 칼로리 계산에만 사용됩니다.",
+  "editProfileDone": "수정 완료"
 }

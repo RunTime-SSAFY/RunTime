@@ -1,9 +1,8 @@
 package org.example.back.room.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
@@ -21,5 +20,8 @@ public class PostRoomResDto {
     private String status; // 방의 상태: 대기 중인지, 게임 진행 중인지
 
     private String password; // 방의 비밀번호: 비밀번호가 없는 경우는 null
+
+    @Setter
+    private UUID uuid; // stomp 통신을 위한 uuid
 
 }
