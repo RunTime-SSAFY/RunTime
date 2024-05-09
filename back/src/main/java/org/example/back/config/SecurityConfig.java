@@ -33,7 +33,7 @@ public class SecurityConfig {
 			.csrf(AbstractHttpConfigurer::disable) //csrf 사용 안함
 			.cors(AbstractHttpConfigurer::disable) //cors 정책 비활성화
 			.authorizeHttpRequests(request->{
-				request.requestMatchers("/api/auth/**", "/ws", "/error","/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
+				request.requestMatchers("/api/auth/**", "/ws/**", "/error","/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
 					.anyRequest().authenticated();//login, join은 전부 허용
 					// websocket 허용
 			})
