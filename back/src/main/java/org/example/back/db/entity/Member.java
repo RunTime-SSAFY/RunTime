@@ -78,6 +78,8 @@ public class Member extends BaseEntity {
 
 	public void updateConsecutive(int consecutive) { this.consecutiveGames = consecutive; }
 
+	public void updateCharacter(Character character) { this.character = character; }
+
 	public void updateFcmToken(String fcmToken) {
 		this.fcmToken = fcmToken;
 	}
