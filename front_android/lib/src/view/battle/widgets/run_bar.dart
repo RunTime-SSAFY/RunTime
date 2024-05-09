@@ -11,11 +11,15 @@ class RunBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     BattleViewModel viewModel = ref.watch(battleViewModelProvider);
 
-    return ProgressBar(
-      currentProgress: viewModel.currentDistance,
-      fullProgress: viewModel.targetDistance,
-      valueColor: ref.color.trace,
-      backgroundColor: ref.color.traceBackground,
+    return Column(
+      children: [
+        ProgressBar(
+          currentProgress: viewModel.currentDistance,
+          fullProgress: viewModel.targetDistance,
+          valueColor: ref.color.trace,
+          backgroundColor: ref.color.traceBackground,
+        ),
+      ],
     );
   }
 }

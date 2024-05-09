@@ -54,7 +54,7 @@ class Participant {
   });
 
   factory Participant.fromJson(Map<String, dynamic> json) => Participant(
-        memberId: int.parse(json['memberId'] ?? '-1'),
+        memberId: json['memberId'],
         nickname: json['nickname'] ?? '',
         characterImgUrl: json['characterImgUrl'] ?? '',
         isManager: json['isManager'] ?? false,

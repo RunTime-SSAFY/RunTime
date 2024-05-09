@@ -48,12 +48,6 @@ class SocketService with ChangeNotifier {
 
   Future<void> matchingStart(
       void Function(bool canStart) startChanger, BuildContext context) async {
-    try {
-      await apiInstance.patch('api/matchings');
-    } catch (error) {
-      rethrow;
-    }
-
     // 매칭이 시작된 상태 아직 매칭이 되지는 않음 구독
     stompInstance.subScribe(
       destination:
@@ -79,6 +73,7 @@ class SocketService with ChangeNotifier {
                   isReady: false,
                 ),
               ];
+              print('참가자 정보 됨');
               Navigator.pushNamed(context, RoutePath.matched);
             } catch (error) {
               print('잘못된 참가자 정보\n$error');
@@ -93,6 +88,12 @@ class SocketService with ChangeNotifier {
         }
       },
     );
+
+    try {
+      await apiInstance.patch('api/matchings');
+    } catch (error) {
+      rethrow;
+    }
   }
 
   void disconnect() {
