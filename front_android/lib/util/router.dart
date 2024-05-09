@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/view/battle/battle_result_view.dart';
 import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/matching/before_matching_view.dart';
@@ -18,17 +19,20 @@ import 'package:go_router/go_router.dart';
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
+// enum type에 값을 줄 수도 있어?
+
+final authState = Provider((ref) => AuthService.instance);
+
 final router = GoRouter(
   debugLogDiagnostics: true, // 디버깅 로그 출력
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/record', // 초기 경로
+  initialLocation: '/login', // 초기 경로
   routes: [
     GoRoute(
       path: '/login',
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const LoginView(),
     ),
-
     GoRoute(
       path: '/matching',
       parentNavigatorKey: _rootNavigatorKey,
@@ -117,4 +121,12 @@ final router = GoRouter(
       ],
     )
   ],
+  // refreshListenable: authState,
+  // redirect: (context, state) {
+  //   if (!authState.) {
+  //     return '/signin';
+  //   } else {
+  //     return null;
+  //   }
+  // },
 );
