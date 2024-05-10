@@ -53,6 +53,9 @@ public class Record extends BaseEntity {
 	@Column(name="duration")
 	private Integer duration;
 
+	@Column(name="course_img_url")
+	private String courseImgUrl;
+
 	public Long getDuration() {
 		if (runStartTime != null && runEndTime != null) {
 			return Duration.between(runStartTime, runEndTime).toMillis();
