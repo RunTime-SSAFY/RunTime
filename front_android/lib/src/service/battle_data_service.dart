@@ -28,12 +28,6 @@ class BattleDataService with ChangeNotifier {
 
   String mode = BattleModeHelper.matching;
 
-  String getNicknameById(int memberId) => participants
-      .firstWhere(
-        (element) => element.memberId == memberId,
-      )
-      .nickname;
-
   void setParticipants(List<Participant> newParticipants) {
     participants = newParticipants;
   }
@@ -45,7 +39,7 @@ class BattleDataService with ChangeNotifier {
 
   void changeParticipantsDistance(Participant newParticipantsData) {
     participants.removeWhere(
-        (element) => element.memberId == newParticipantsData.memberId);
+        (element) => element.nickname == newParticipantsData.nickname);
     participants.add(newParticipantsData);
   }
 
@@ -61,7 +55,7 @@ class BattleDataService with ChangeNotifier {
         } else if (json['action'] == ActionHelper.battleRealTimeAction) {
           var data = json['data'];
           var target = participants
-              .firstWhere((element) => element.memberId == data['memberId']);
+              .firstWhere((element) => element.nickname == data['nickname']);
           var time = DateTime.parse(data['currentTime']);
           if (time.isAfter(target.lastDateTime)) {
             target.distance = data['distance'];
@@ -91,11 +85,12 @@ class BattleDataService with ChangeNotifier {
               participants = [
                 Participant.fromJson(json['data']),
                 Participant(
-                  memberId: -1,
                   nickname: UserService.instance.nickname,
                   characterImgUrl: UserService.instance.characterImgUrl,
                   isManager: false,
                   isReady: false,
+                  distance: 0,
+                  lastDateTime: DateTime.now(),
                 ),
               ];
               startChanger(false);

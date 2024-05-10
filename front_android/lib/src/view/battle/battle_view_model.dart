@@ -25,19 +25,23 @@ class BattleViewModel with ChangeNotifier {
       _battleData.getBattleDataSortByDistance();
 
   BattleViewModel(this._battleData) {
-    _startTimer();
     var mode = _battleData.mode;
 
+    // DistanceRepository 시작 - 거리 측정 및 서버에 보내기 시작
     distanceService = DistanceRepository(
         sendDestination:
             DestinationHelper.getBattleDestination(mode, _battleData.uuid),
         socket: _battleData.stompInstance);
+
+    // 데이터 구독 시작
     _battleData.stompInstance.subScribe(
         destination: DestinationHelper.getForSub(mode, _battleData.uuid),
         callback: (p0) {
-          var newParticipantsData = Participant.fromJson(jsonDecode(p0.body!));
+          var newParticipantsData =
+              Participant.fromJson(jsonDecode(p0.body!)['data']);
           _battleData.changeParticipantsDistance(newParticipantsData);
         });
+    _startTimer();
   }
 
   late final DistanceRepository distanceService;
@@ -51,8 +55,8 @@ class BattleViewModel with ChangeNotifier {
   final String character = 'mainCharacter';
   double targetDistance = 1000;
 
-  int _avgPace = 0;
-  int get avgPace => _avgPace;
+  double _avgPace = 0;
+  double get avgPace => _avgPace;
 
   double _calory = 0;
 
@@ -73,14 +77,29 @@ class BattleViewModel with ChangeNotifier {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _currentTime = DateTime.now();
       var seconds = _currentTime.difference(_startTime).inSeconds;
-      _avgPace =
-          (currentDistance * 10000 / (((seconds == 0 ? 1 : seconds) / 60))) ~/
-              100000;
+      _avgPace = _calculateTimePerKilometer(currentDistance, seconds);
       var velocity = distanceService.instantaneousVelocity;
       _calory +=
           157 * ((0.1 * velocity + (velocity == 0 ? 0 : 3.5)) / 3.5) / 1000;
       notifyListeners();
     });
+  }
+
+  double _calculateTimePerKilometer(
+      double distanceInMeters, int elapsedTimeInSeconds) {
+    if (elapsedTimeInSeconds == 0) {
+      return 0;
+    }
+
+    double secondsPerMeter = distanceInMeters / elapsedTimeInSeconds;
+    if (secondsPerMeter == 0) {
+      return 0;
+    }
+    double timeForOneKilometerInSeconds = 1000 / secondsPerMeter;
+    double timeForOneKilometerInMinutes =
+        (timeForOneKilometerInSeconds / 6).round() / 10;
+
+    return timeForOneKilometerInMinutes;
   }
 
   void onGiveUp(BuildContext context) {
@@ -92,6 +111,7 @@ class BattleViewModel with ChangeNotifier {
             Navigator.popAndPushNamed(context, RoutePath.battleResult);
             _timer.cancel();
             distanceService.cancelListen();
+            _battleData.disconnect();
           },
           title: S.current.giveUp,
           content: S.current.ReallyGiveUpQuestion,
