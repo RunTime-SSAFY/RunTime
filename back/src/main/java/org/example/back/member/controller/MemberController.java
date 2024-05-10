@@ -3,7 +3,6 @@ package org.example.back.member.controller;
 import org.example.back.member.dto.ProfileResponseDto;
 import org.example.back.member.dto.ProfileUpdateRequestDto;
 import org.example.back.member.service.MemberService;
-import org.example.back.util.SecurityUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
