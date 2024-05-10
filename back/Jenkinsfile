@@ -75,15 +75,14 @@ pipeline {
         stage('Cleaning up'){
             steps{
                 script {
-
-                try{
-                    // 이전 빌드 번호 계산
-                    def previousBuildNumber = BUILD_NUMBER.toInteger() - 1
-                    // 이전 이미지 삭제
-                    sh "docker rmi run-mate:$previousBuildNumber"
-                }catch(e){
-                    sh 'echo fail!!'
-                }
+                    try{
+                        // 이전 빌드 번호 계산
+                        def previousBuildNumber = BUILD_NUMBER.toInteger() - 1
+                        // 이전 이미지 삭제
+                        sh "docker rmi run-mate:$previousBuildNumber"
+                    }catch(e){
+                        sh 'echo fail!!'
+                    }
 
                 }
             }
