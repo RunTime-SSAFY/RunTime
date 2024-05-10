@@ -26,12 +26,7 @@ class RecordTop extends ConsumerWidget {
               CupertinoButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
-                  GoRouter.of(context).push('/record/statistic');
-                  // Navigator.push(
-                  //   context,
-                  //   CupertinoPageRoute(
-                  //       builder: (context) => const StatisticView()),
-                  // );
+                  context.push('/record/statistic');
                 },
                 child: Row(
                   // 오른쪽 정렬

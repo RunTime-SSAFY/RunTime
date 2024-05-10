@@ -50,15 +50,15 @@ class BottomNavigationWidget extends ConsumerWidget {
         ref.read(currentIndexProvider.notifier).update((state) => index);
         switch (index) {
           case 0:
-            GoRouter.of(context).go('/main');
+            context.go('/main');
           case 1:
-            GoRouter.of(context).go('/main');
+            context.go('/statistic');
           case 2:
-            GoRouter.of(context).go('/main');
+            context.go('/character');
           case 3:
-            GoRouter.of(context).go('/record');
+            context.go('/record');
           case 4:
-            GoRouter.of(context).go('/main');
+            context.go('/profile');
         }
       },
     );

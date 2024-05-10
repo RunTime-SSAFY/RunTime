@@ -201,11 +201,7 @@ class RecordListItemCard extends ConsumerWidget {
     return CupertinoButton(
       padding: EdgeInsets.zero,
       onPressed: () {
-        GoRouter.of(context).push('/record/detail');
-        // Navigator.push(
-        //   context,
-        //   CupertinoPageRoute(builder: (context) => const RecordDetailView()),
-        // );
+        context.push('/record/detail');
       },
       child: Padding(
         // Navigator.pushNamed(context, RoutePath.recordDetail);

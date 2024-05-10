@@ -119,7 +119,7 @@ final router = GoRouter(
           ],
         ),
         GoRoute(
-          path: '/profiles',
+          path: '/profile',
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               const NoTransitionPage(child: RunMainView()),
