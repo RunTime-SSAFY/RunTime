@@ -1,3 +1,4 @@
+import 'package:front_android/src/service/user_service.dart';
 import 'package:geolocator/geolocator.dart';
 
 class BattleSocketData {
@@ -12,61 +13,54 @@ class BattleSocketData {
   });
 
   Map<String, dynamic> toJson() => {
-        'position': {
-          'lng': position.longitude,
-          'lat': position.latitude,
-        },
-        'currentDistance': currentDistance,
-        'index': index,
+        'lng': position.longitude,
+        'lat': position.latitude,
+        'distance': currentDistance,
+        'idx': index,
+        'nickname': UserService.instance.nickname,
       };
 }
 
 class MatchingRoomData {
   MatchingRoomData({
     required this.matchingRoomId,
-    required this.opponentId,
+    required this.memberId,
+    required this.uuid,
   });
   final int matchingRoomId;
-  final int opponentId;
+  final int memberId;
+  final String uuid;
 
   factory MatchingRoomData.fromJson(Map<String, dynamic> json) {
     return MatchingRoomData(
       matchingRoomId: json['matchingRoomId'],
-      opponentId: json['opponentId'],
+      memberId: json['memberId'],
+      uuid: json['uuid'],
     );
   }
 }
 
 class Participant {
-  final int memberId;
   final String nickname, characterImgUrl;
   final bool isManager, isReady;
+  double distance = 0;
+  DateTime lastDateTime;
 
   Participant({
-    required this.memberId,
     required this.nickname,
     required this.characterImgUrl,
     required this.isManager,
     required this.isReady,
+    required this.distance,
+    required this.lastDateTime,
   });
 
   factory Participant.fromJson(Map<String, dynamic> json) => Participant(
-        memberId: json['memberId'],
-        nickname: json['nickname'],
-        characterImgUrl: json['characterImgUrl'],
+        nickname: json['nickname'] ?? '',
+        characterImgUrl: json['characterImgUrl'] ?? '',
         isManager: json['isManager'] ?? false,
         isReady: json['isReady'] ?? false,
+        distance: json['distance'] ?? 0,
+        lastDateTime: json['lastDateTime'] ?? DateTime.now(),
       );
-}
-
-class BattleRecordOfParticipant {
-  final String nickname;
-  final String characterImgUrl;
-
-  BattleRecordOfParticipant({
-    required this.nickname,
-    required this.characterImgUrl,
-  });
-
-  double distance = 0;
 }

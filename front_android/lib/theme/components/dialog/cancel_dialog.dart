@@ -29,7 +29,7 @@ class CancelDialog extends ConsumerWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              text: S.current.deny,
+              text: S.current.cancel,
               backGroundColor: ref.color.deny,
               fontColor: ref.color.onDeny,
             ),
@@ -41,7 +41,7 @@ class CancelDialog extends ConsumerWidget {
                 Navigator.pop(context);
                 onAcceptCancel();
               },
-              text: S.current.accept,
+              text: S.current.giveUp,
               backGroundColor: ref.color.accept,
               fontColor: ref.color.onAccept,
             ),

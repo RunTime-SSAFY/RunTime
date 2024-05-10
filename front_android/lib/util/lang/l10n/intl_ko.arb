@@ -37,7 +37,7 @@
   "bestRecord": "최고 기록",
   "done": "확인",
   "ReallyCancelQuestion": "정말로 취소하시겠습니까?",
-  "ReallyGiveUpQuestion": "정말로 포기하시겠습니까?\n완료 보상을 획득할 수 없습니다.",
+  "ReallyGiveUpQuestion": "정말로 포기하시겠습니까?",
   "roomEmpty": "현재 대기 방이 없습니다.\n오른쪽 아래 버튼으로 방을 직접 만들어 보세요",
   "makeRoom": "방 생성",
   "search": "검색",

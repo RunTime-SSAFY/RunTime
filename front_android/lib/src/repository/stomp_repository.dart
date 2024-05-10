@@ -30,7 +30,7 @@ class StompRepository {
           'Authorization': AuthService.instance.accessToken!,
         },
         onConnect: (p0) {
-          print('웹 소켓 연결 성공 ${p0.toString()}');
+          print('웹 소켓 연결 성공');
         },
         onDebugMessage: (p0) {
           print('StompClient 내부 디버그 메세지${p0.toString()}');

@@ -7,7 +7,7 @@ import 'package:front_android/src/view/user_mode/widget/make_room_full_dialog.da
 import 'package:front_android/util/route_path.dart';
 
 final userModeViewModelProvider =
-    ChangeNotifierProvider((ref) => UserModeViewModel());
+    ChangeNotifierProvider.autoDispose((ref) => UserModeViewModel());
 
 class UserModeViewModel with ChangeNotifier {
   List<UserModeRoom> _userModeRoomList = [];
@@ -122,8 +122,9 @@ class UserModeViewModel with ChangeNotifier {
   }
 
   UserModeRoomService userModeRoomService = UserModeRoomService();
-  void makeRoom() {
-    if (name.isEmpty) return;
+
+  Future<UserModeRoom?> makeRoom(BuildContext context) async {
+    if (name.isEmpty) return null;
     MakeRoomModel makeRoomModel = MakeRoomModel(
       name: name,
       capacity: capacity,
@@ -131,6 +132,9 @@ class UserModeViewModel with ChangeNotifier {
       password: password,
     );
 
-    userModeRoomService.makeRoom(makeRoomModel: makeRoomModel);
+    var response =
+        await userModeRoomService.makeRoom(makeRoomModel: makeRoomModel);
+
+    return response;
   }
 }
