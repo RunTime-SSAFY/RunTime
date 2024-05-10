@@ -91,7 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "runningTime": MessageLookupByLibrary.simpleMessage("Time Taken"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
         "semanticsButton": MessageLookupByLibrary.simpleMessage("Button"),
-        "statistics": MessageLookupByLibrary.simpleMessage("Statistics"),
+        "statistic": MessageLookupByLibrary.simpleMessage("Statistic"),
         "userMode": MessageLookupByLibrary.simpleMessage("User Mode"),
         "waiting": MessageLookupByLibrary.simpleMessage("Waiting"),
         "waitingOthers":

@@ -8,7 +8,7 @@ import 'package:front_android/src/view/matching/waiting_matching_view.dart';
 import 'package:front_android/src/view/profile/profile_edit_view.dart';
 import 'package:front_android/src/view/record/record_detail_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
-import 'package:front_android/src/view/record/statistics_view.dart';
+import 'package:front_android/src/view/record/statistic_view.dart';
 import 'package:front_android/src/view/record/widgets/map_test.dart';
 import 'package:front_android/src/view/run_main/run_main_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_search_view.dart';
@@ -50,7 +50,7 @@ interface class RoutePath {
   // 프로필
   static const String profile = 'profile';
   static const String recordDetail = 'recordDetail';
-  static const String statistics = 'statistics';
+  static const String statistic = 'statistic';
 
   // Test
   static const String mapTest = 'mapTest';
@@ -116,8 +116,8 @@ interface class RoutePath {
         // final args = settings.arguments as RecordDetailArguments;
         // page = RecordDetailView(record: args.record);
         break;
-      case RoutePath.statistics:
-        page = const StatisticsView();
+      case RoutePath.statistic:
+        page = const StatisticView();
         break;
     }
     return MaterialPageRoute(

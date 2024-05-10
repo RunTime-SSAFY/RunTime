@@ -18,7 +18,7 @@ class RecordDetailView extends ConsumerWidget {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            GoRouter.of(context).pop();
+            context.pop();
           },
           color: ref.color.black,
           icon: const Icon(Icons.arrow_back_ios_new),

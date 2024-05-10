@@ -90,7 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "runningTime": MessageLookupByLibrary.simpleMessage("달린 시간"),
         "search": MessageLookupByLibrary.simpleMessage("검색"),
         "semanticsButton": MessageLookupByLibrary.simpleMessage("버튼"),
-        "statistics": MessageLookupByLibrary.simpleMessage("통계"),
+        "statistic": MessageLookupByLibrary.simpleMessage("통계"),
         "userMode": MessageLookupByLibrary.simpleMessage("사용자 모드"),
         "waiting": MessageLookupByLibrary.simpleMessage("대기중"),
         "waitingOthers":
