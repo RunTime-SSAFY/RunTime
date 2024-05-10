@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
-import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
 import 'package:front_android/util/route_path.dart';
 
 final matchingViewModelProvider =
@@ -49,24 +48,14 @@ class MatchingViewModel with ChangeNotifier {
   }
 
   // 매칭 중 취소하기
-  void onPressCancelDuringMatching(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return CancelDialog(
-          onAcceptCancel: () async {
-            // 취소하면 소켓 연결 해제
-            try {
-              await apiInstance.patch('api/matchings/cancel');
-              _battleData.stompInstance.disconnect();
-              Navigator.pop(context);
-            } catch (error) {
-              // 에러 토스트 메세지
-            }
-          },
-        );
-      },
-    );
+  void onPressCancelDuringMatching(BuildContext context) async {
+    try {
+      await apiInstance.patch('api/matchings/cancel');
+      _battleData.stompInstance.disconnect();
+      Navigator.pop(context);
+    } catch (error) {
+      // 에러 토스트 메세지
+    }
   }
 
   Timer? _timer;

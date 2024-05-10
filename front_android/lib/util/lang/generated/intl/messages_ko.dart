@@ -25,8 +25,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "EnterSearchTerm": MessageLookupByLibrary.simpleMessage("검색어 입력"),
         "ReallyCancelQuestion":
             MessageLookupByLibrary.simpleMessage("정말로 취소하시겠습니까?"),
-        "ReallyGiveUpQuestion": MessageLookupByLibrary.simpleMessage(
-            "정말로 포기하시겠습니까?\n완료 보상을 획득할 수 없습니다."),
+        "ReallyGiveUpQuestion":
+            MessageLookupByLibrary.simpleMessage("정말로 포기하시겠습니까?"),
         "accept": MessageLookupByLibrary.simpleMessage("수락"),
         "achievement": MessageLookupByLibrary.simpleMessage("도전과제"),
         "avgPace": MessageLookupByLibrary.simpleMessage("평균페이스"),

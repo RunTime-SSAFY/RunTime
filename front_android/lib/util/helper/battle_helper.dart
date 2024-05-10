@@ -3,7 +3,7 @@ interface class DestinationHelper {
   static String getForSub(String type, String uuid) => '/topic/$type/$uuid';
 
   static String getBattleDestination(String mode, String roomId) {
-    if (mode == BattleModeHelper.practiceMode) {
+    if (mode == BattleModeHelper.matching) {
       return _getForSend('matchingRoom', roomId);
     }
     if (mode == BattleModeHelper.userMode) {
