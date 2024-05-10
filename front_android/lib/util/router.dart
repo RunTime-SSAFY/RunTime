@@ -29,6 +29,11 @@ final router = GoRouter(
   initialLocation: '/login', // 초기 경로
   routes: [
     GoRoute(
+      path: '/',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (_, __) => const RunMainView(),
+    ),
+    GoRoute(
       path: '/login',
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const LoginView(),
