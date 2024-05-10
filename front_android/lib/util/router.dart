@@ -14,6 +14,7 @@ import 'package:front_android/src/view/user_mode/user_mode_search_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_view.dart';
 import 'package:front_android/src/view/waiting_room/waiting_room_view.dart';
 import 'package:front_android/theme/components/scaffold_with_nav_bar.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:go_router/go_router.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -32,43 +33,43 @@ final router = GoRouter(
       builder: (_, __) => const RunMainView(),
     ),
     GoRoute(
-      path: '/login',
+      path: RoutePathHelper.login,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const LoginView(),
     ),
     GoRoute(
-      path: '/matching',
+      path: RoutePathHelper.matching,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const WaitingMatching(),
     ),
     GoRoute(
-      path: '/beforeMatching',
+      path: RoutePathHelper.beforeMatching,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const StartMatchingView(),
     ),
     GoRoute(
-      path: '/matched',
+      path: RoutePathHelper.matched,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const Matched(),
     ),
     GoRoute(
-      path: '/battle',
+      path: RoutePathHelper.battle,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const BattleResultView(),
     ),
     GoRoute(
-      path: '/userMode',
+      path: RoutePathHelper.userMode,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const UserModeView(),
     ),
     GoRoute(
-      path: '/waitingRoom/:roomId',
+      path: RoutePathHelper.waitingRoom,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, state) =>
           WaitingRoom(roomId: int.parse(state.pathParameters['roomId']!)),
     ),
     GoRoute(
-      path: '/userModeSearch',
+      path: RoutePathHelper.userModeSearch,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const UserModeSearchView(),
     ),

@@ -41,6 +41,18 @@ class _StartMatchingViewState extends ConsumerState<StartMatchingView> {
     MatchingViewModel viewModel = ref.watch(matchingViewModelProvider);
 
     return MatchingLayoutView(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: Icon(
+            Icons.clear,
+            color: ref.color.onBackground,
+          ),
+          onPressed: () {
+            context.pop();
+          },
+        ),
+      ),
       image: 'beforeMatching',
       mainMessage: S.current.beforeMatching,
       button: Button(

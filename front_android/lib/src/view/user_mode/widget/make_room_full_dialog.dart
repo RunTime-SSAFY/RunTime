@@ -9,9 +9,9 @@ import 'package:front_android/src/view/waiting_room/waiting_room_view.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/theme/components/image_background.dart';
 import 'package:front_android/theme/components/keyboard_hiding.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/helper/text_input_format_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
-import 'package:front_android/util/route_path.dart';
 
 class MakeRoomFullDialog extends ConsumerWidget {
   const MakeRoomFullDialog({super.key});
@@ -117,7 +117,7 @@ class MakeRoomFullDialog extends ConsumerWidget {
                       if (!context.mounted) return;
                       Navigator.popAndPushNamed(
                         context,
-                        RoutePath.waitingRoom,
+                        RoutePathHelper.waitingRoom,
                         arguments: WaitingRoomArguments(roomId: room.roomId),
                       );
                     }

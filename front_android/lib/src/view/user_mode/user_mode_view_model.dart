@@ -4,7 +4,8 @@ import 'package:front_android/src/model/user_mode_room.dart';
 import 'package:front_android/src/repository/user_mode_room_repository.dart';
 import 'package:front_android/src/service/user_mode_room_service.dart';
 import 'package:front_android/src/view/user_mode/widget/make_room_full_dialog.dart';
-import 'package:front_android/util/route_path.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
+import 'package:go_router/go_router.dart';
 
 final userModeViewModelProvider =
     ChangeNotifierProvider.autoDispose((ref) => UserModeViewModel());
@@ -55,7 +56,7 @@ class UserModeViewModel with ChangeNotifier {
   }
 
   void moveToSearch(BuildContext context) {
-    Navigator.pushNamed(context, RoutePath.userModeSearch);
+    context.go(RoutePathHelper.userModeSearch);
   }
 
   final TextEditingController textController = TextEditingController();

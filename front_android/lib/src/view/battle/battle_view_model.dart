@@ -9,8 +9,9 @@ import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
 import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/extension.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
-import 'package:front_android/util/route_path.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 final battleViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
@@ -108,7 +109,7 @@ class BattleViewModel with ChangeNotifier {
       builder: (context) {
         return CancelDialog(
           onAcceptCancel: () {
-            Navigator.popAndPushNamed(context, RoutePath.battleResult);
+            context.pushReplacement(RoutePathHelper.battleResult);
             _timer.cancel();
             distanceService.cancelListen();
             _battleData.disconnect();
@@ -124,11 +125,11 @@ class BattleViewModel with ChangeNotifier {
     _timer.cancel();
     distanceService.cancelListen();
     _battleData.disconnect();
-    Navigator.popAndPushNamed(context, RoutePath.battleResult);
+    context.pushReplacement(RoutePathHelper.battleResult);
   }
 
   void onResultDone(BuildContext context) {
-    Navigator.popAndPushNamed(context, RoutePath.runMain);
+    context.pushReplacement(RoutePathHelper.runMain);
   }
 
   void getResult() async {}

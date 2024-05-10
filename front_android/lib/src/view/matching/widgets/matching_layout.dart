@@ -12,6 +12,7 @@ class MatchingLayoutView extends ConsumerWidget {
     required this.mainMessage,
     this.middleWidget,
     this.hintMessage,
+    this.appBar,
   });
 
   final Widget button;
@@ -19,11 +20,13 @@ class MatchingLayoutView extends ConsumerWidget {
   final Widget? hintMessage;
   final String image;
   final String mainMessage;
+  final AppBar? appBar;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BattleImageBackground(
       child: Scaffold(
+        appBar: appBar,
         backgroundColor: Colors.transparent,
         body: Center(
           child: Column(

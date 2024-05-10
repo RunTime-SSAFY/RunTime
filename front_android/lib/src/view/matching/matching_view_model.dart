@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
-import 'package:front_android/util/route_path.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
+import 'package:go_router/go_router.dart';
 
 final matchingViewModelProvider =
     ChangeNotifierProvider.autoDispose<MatchingViewModel>((ref) {
@@ -28,7 +29,7 @@ class MatchingViewModel with ChangeNotifier {
 
   // 매칭을 시작하기
   void onMatchingStart(BuildContext context) async {
-    Navigator.popAndPushNamed(context, RoutePath.matching);
+    context.pushReplacement(RoutePathHelper.matching);
     _battleData.targetDistance = 3000;
 
     // 매칭 시작하라는 요청
@@ -81,7 +82,7 @@ class MatchingViewModel with ChangeNotifier {
           // 클라이언트가 거절 누른 경우
           _matchedState = MatchedState.noResponse;
           _canStart = false;
-          Navigator.popAndPushNamed(context, RoutePath.beforeMatching);
+          context.pushReplacement(RoutePathHelper.beforeMatching);
         }
       }
       notifyListeners();
@@ -122,14 +123,13 @@ class MatchingViewModel with ChangeNotifier {
   void startBattle(BuildContext context) {
     if (_canStart) {
       // 상대도 수락한 경우
-      Navigator.popAndPushNamed(
-        context,
-        RoutePath.battle,
+      context.pushReplacement(
+        RoutePathHelper.battle,
       );
     } else {
       /// 상대가 거절한 경우
       _matchedState = MatchedState.noResponse;
-      Navigator.popAndPushNamed(context, RoutePath.matching);
+      context.pushReplacement(RoutePathHelper.matching);
     }
   }
 }
