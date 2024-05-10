@@ -8,7 +8,7 @@ class UserModeRoomRepository {
   final api = apiInstance;
 
   bool hasNext = true;
-  int lastId = 0;
+  int? lastId;
 
   Future<List<UserModeRoom>> getUserModeRoomList(
       {int? lastId, String? searchWord, bool? isSecret}) async {

@@ -5,11 +5,13 @@ import 'package:front_android/src/view/user_mode/user_mode_view_model.dart';
 import 'package:front_android/src/view/user_mode/widget/number_button.dart';
 import 'package:front_android/src/view/user_mode/widget/text_input.dart';
 import 'package:front_android/src/view/user_mode/widget/toggle_button.dart';
+import 'package:front_android/src/view/waiting_room/waiting_room_view.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/theme/components/image_background.dart';
 import 'package:front_android/theme/components/keyboard_hiding.dart';
 import 'package:front_android/util/helper/text_input_format_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
+import 'package:front_android/util/route_path.dart';
 
 class MakeRoomFullDialog extends ConsumerWidget {
   const MakeRoomFullDialog({super.key});
@@ -109,7 +111,17 @@ class MakeRoomFullDialog extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.all(15),
                 child: Button(
-                  onPressed: viewModel.makeRoom,
+                  onPressed: () async {
+                    var room = await viewModel.makeRoom(context);
+                    if (room != null) {
+                      if (!context.mounted) return;
+                      Navigator.popAndPushNamed(
+                        context,
+                        RoutePath.waitingRoom,
+                        arguments: WaitingRoomArguments(roomId: room.roomId),
+                      );
+                    }
+                  },
                   text: S.current.create,
                   backGroundColor: ref.color.accept,
                   fontColor: ref.color.onAccept,
