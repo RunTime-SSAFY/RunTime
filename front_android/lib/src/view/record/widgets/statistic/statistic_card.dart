@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 
-class StatisticsCard1 extends ConsumerWidget {
-  const StatisticsCard1({super.key});
+class StatisticCard1 extends ConsumerWidget {
+  const StatisticCard1({super.key});
   // 데이터
 
   @override
@@ -40,7 +40,7 @@ class StatisticsCard1 extends ConsumerWidget {
                 children: [
                   Expanded(
                     flex: 5,
-                    child: StatisticsInfoItem(
+                    child: StatisticInfoItem(
                       title: '달린 일수',
                       value: '448 일',
                       titleColor: ref.palette.gray600,
@@ -49,7 +49,7 @@ class StatisticsCard1 extends ConsumerWidget {
                   ),
                   Expanded(
                     flex: 5,
-                    child: StatisticsInfoItem(
+                    child: StatisticInfoItem(
                       title: '총 칼로리',
                       value: '80,361 kcal',
                       titleColor: ref.palette.gray600,
@@ -65,7 +65,7 @@ class StatisticsCard1 extends ConsumerWidget {
                 children: [
                   Expanded(
                     flex: 5,
-                    child: StatisticsInfoItem(
+                    child: StatisticInfoItem(
                       title: '총 거리',
                       value: '8,872 km',
                       titleColor: ref.palette.gray600,
@@ -74,7 +74,7 @@ class StatisticsCard1 extends ConsumerWidget {
                   ),
                   Expanded(
                     flex: 5,
-                    child: StatisticsInfoItem(
+                    child: StatisticInfoItem(
                       title: '총 시간',
                       value: '5일 3시간',
                       titleColor: ref.palette.gray600,
@@ -91,8 +91,8 @@ class StatisticsCard1 extends ConsumerWidget {
   }
 }
 
-class StatisticsCard2 extends ConsumerWidget {
-  const StatisticsCard2({super.key});
+class StatisticCard2 extends ConsumerWidget {
+  const StatisticCard2({super.key});
   // 데이터
 
   @override
@@ -128,7 +128,7 @@ class StatisticsCard2 extends ConsumerWidget {
                 children: [
                   Expanded(
                     flex: 5,
-                    child: StatisticsInfoItem(
+                    child: StatisticInfoItem(
                       title: '달린 일수',
                       value: '448 일',
                       titleColor: ref.palette.gray600,
@@ -137,7 +137,7 @@ class StatisticsCard2 extends ConsumerWidget {
                   ),
                   Expanded(
                     flex: 5,
-                    child: StatisticsInfoItem(
+                    child: StatisticInfoItem(
                       title: '총 칼로리',
                       value: '80,361 kcal',
                       titleColor: ref.palette.gray600,
@@ -153,7 +153,7 @@ class StatisticsCard2 extends ConsumerWidget {
                 children: [
                   Expanded(
                     flex: 5,
-                    child: StatisticsInfoItem(
+                    child: StatisticInfoItem(
                       title: '총 거리',
                       value: '8,872 km',
                       titleColor: ref.palette.gray600,
@@ -162,7 +162,7 @@ class StatisticsCard2 extends ConsumerWidget {
                   ),
                   Expanded(
                     flex: 5,
-                    child: StatisticsInfoItem(
+                    child: StatisticInfoItem(
                       title: '총 시간',
                       value: '5일 3시간',
                       titleColor: ref.palette.gray600,
@@ -179,8 +179,8 @@ class StatisticsCard2 extends ConsumerWidget {
   }
 }
 
-class StatisticsCard3 extends ConsumerWidget {
-  const StatisticsCard3({super.key});
+class StatisticCard3 extends ConsumerWidget {
+  const StatisticCard3({super.key});
   // 데이터
 
   @override
@@ -222,7 +222,7 @@ class StatisticsCard3 extends ConsumerWidget {
                 children: [
                   Expanded(
                     flex: 5,
-                    child: StatisticsInfoItem(
+                    child: StatisticInfoItem(
                       title: '달린 일수',
                       value: '448 일',
                       titleColor: ref.palette.gray600,
@@ -231,7 +231,7 @@ class StatisticsCard3 extends ConsumerWidget {
                   ),
                   Expanded(
                     flex: 5,
-                    child: StatisticsInfoItem(
+                    child: StatisticInfoItem(
                       title: '총 칼로리',
                       value: '80,361 kcal',
                       titleColor: ref.palette.gray600,
@@ -247,7 +247,7 @@ class StatisticsCard3 extends ConsumerWidget {
                 children: [
                   Expanded(
                     flex: 5,
-                    child: StatisticsInfoItem(
+                    child: StatisticInfoItem(
                       title: '총 거리',
                       value: '8,872 km',
                       titleColor: ref.palette.gray600,
@@ -256,7 +256,7 @@ class StatisticsCard3 extends ConsumerWidget {
                   ),
                   Expanded(
                     flex: 5,
-                    child: StatisticsInfoItem(
+                    child: StatisticInfoItem(
                       title: '총 시간',
                       value: '5일 3시간',
                       titleColor: ref.palette.gray600,
@@ -273,8 +273,8 @@ class StatisticsCard3 extends ConsumerWidget {
   }
 }
 
-class StatisticsInfoItem extends ConsumerWidget {
-  const StatisticsInfoItem({
+class StatisticInfoItem extends ConsumerWidget {
+  const StatisticInfoItem({
     required this.title,
     required this.value,
     this.titleColor,
