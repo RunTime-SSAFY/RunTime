@@ -6,6 +6,7 @@ import 'package:front_android/src/view/matching/matching_view_model.dart';
 import 'package:front_android/src/view/matching/widgets/matching_layout.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 
 class StartMatchingView extends ConsumerStatefulWidget {
   const StartMatchingView({super.key});
@@ -25,7 +26,7 @@ class _StartMatchingViewState extends ConsumerState<StartMatchingView> {
       if (!mounted) return;
 
       if (!locationPermission) {
-        Navigator.pop(context);
+        context.pop();
       }
       if (mounted) {
         setState(() {});

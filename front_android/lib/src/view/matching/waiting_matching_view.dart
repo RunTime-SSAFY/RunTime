@@ -6,7 +6,7 @@ import 'package:front_android/src/view/matching/widgets/matching_layout.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/theme/components/svg_icon.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
-import 'package:front_android/util/route_path.dart';
+import 'package:go_router/go_router.dart';
 
 class WaitingMatching extends ConsumerWidget {
   const WaitingMatching({super.key});
@@ -18,7 +18,7 @@ class WaitingMatching extends ConsumerWidget {
     if (viewModel.isMatched) {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         viewModel.isMatched = false;
-        Navigator.popAndPushNamed(context, RoutePath.matched);
+        context.pushReplacement('/matching');
       });
     }
 

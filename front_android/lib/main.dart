@@ -5,7 +5,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:front_android/src/repository/secure_storage_repository.dart';
 import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
@@ -61,9 +60,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // 초기 경로 값
-  String initialRoute = '/main';
-
   // 인터셉터
   apiInstance.interceptors.add(CustomInterceptor(
     authService: AuthService.instance,
@@ -73,7 +69,6 @@ void main() async {
   try {
     final refreshToken = await SecureStorageRepository.instance.refreshToken;
     if (refreshToken == null) {
-      initialRoute = '/login';
     } else {
       try {
         await UserService.instance.getUserInfor();
@@ -88,13 +83,11 @@ void main() async {
   var key = await KakaoSdk.origin;
   print(key);
 
-  runApp(ProviderScope(child: MyApp(initialRoute: initialRoute)));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
-  const MyApp({super.key, required this.initialRoute});
-
-  final String initialRoute;
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

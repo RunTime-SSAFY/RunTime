@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/view/battle/battle_result_view.dart';
 import 'package:front_android/src/view/login/login_view.dart';
@@ -21,12 +20,10 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 // enum type에 값을 줄 수도 있어?
 
-final authState = Provider((ref) => AuthService.instance);
-
 final router = GoRouter(
   debugLogDiagnostics: true, // 디버깅 로그 출력
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/login', // 초기 경로
+  initialLocation: '/main', // 초기 경로
   routes: [
     GoRoute(
       path: '/login',
@@ -59,9 +56,10 @@ final router = GoRouter(
       builder: (_, __) => const UserModeView(),
     ),
     GoRoute(
-      path: '/waitingRoom :roomId',
+      path: '/waitingRoom/:roomId',
       parentNavigatorKey: _rootNavigatorKey,
-      builder: (_, __) => const WaitingRoom(roomId: 0),
+      builder: (_, state) =>
+          WaitingRoom(roomId: int.parse(state.pathParameters['roomId']!)),
     ),
     GoRoute(
       path: '/userModeSearch',
@@ -121,12 +119,11 @@ final router = GoRouter(
       ],
     )
   ],
-  // refreshListenable: authState,
-  // redirect: (context, state) {
-  //   if (!authState.) {
-  //     return '/signin';
-  //   } else {
-  //     return null;
-  //   }
-  // },
+  redirect: (context, state) {
+    if (AuthService.instance.accessToken == null) {
+      return '/login';
+    } else {
+      return null;
+    }
+  },
 );
