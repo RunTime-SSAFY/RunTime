@@ -2,12 +2,16 @@ package org.example.back.friend.service;
 
 import static org.example.back.db.entity.QFriend.*;
 
+import java.util.List;
+
 import org.example.back.db.entity.Friend;
 import org.example.back.db.entity.Member;
+import org.example.back.db.entity.Tier;
 import org.example.back.db.enums.AlertType;
 import org.example.back.db.enums.FriendStatusType;
 import org.example.back.db.repository.FriendRepository;
 import org.example.back.db.repository.MemberRepository;
+import org.example.back.db.repository.TierRepository;
 import org.example.back.exception.FriendAlreadyExistException;
 import org.example.back.exception.MemberNotFoundException;
 import org.example.back.friend.dto.FriendListResponseDto;
@@ -29,6 +33,7 @@ public class FriendService {
 
 	private final FriendRepository friendRepository;
 	private final MemberRepository memberRepository;
+	private final TierRepository tierRepository;
 
 	private final FcmUtil fcmUtil;
 
@@ -75,6 +80,16 @@ public class FriendService {
 	public FriendListResponseDto findAllFriends(Pageable pageable, Long lastId) {
 		Long id = SecurityUtil.getCurrentMemberId();
 		Slice<FriendResponseDto> result = memberRepository.findAllFriends(pageable, id, lastId);
+		List<Tier> tierList = tierRepository.findAll();
+		for (FriendResponseDto friendResponseDto : result.getContent()) {
+			int score = friendResponseDto.getTierScore();
+			for (Tier tier : tierList) {
+				if (score >= tier.getScoreMin() && score <= tier.getScoreMax()) {
+					friendResponseDto.setTierImgUrl(tier.getImgUrl());
+					System.out.println(tier.getImgUrl());
+				}
+			}
+		}
 
 		return FriendListResponseDto.builder()
 			.friendList(result.getContent())

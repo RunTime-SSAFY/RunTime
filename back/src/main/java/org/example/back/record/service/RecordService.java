@@ -1,26 +1,23 @@
 package org.example.back.record.service;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.EnumUtils;
 import org.example.back.db.entity.Member;
 import org.example.back.db.entity.Record;
 import org.example.back.db.enums.GameMode;
+import org.example.back.db.enums.StatisticsType;
 import org.example.back.db.repository.MemberRepository;
 import org.example.back.db.repository.RecordRepository;
-import org.example.back.exception.EnumBadRequestException;
 import org.example.back.exception.MemberNotFoundException;
 import org.example.back.exception.RecordNotFoundException;
-import org.example.back.record.dto.RecordDto;
-import org.example.back.record.dto.RecordListResponseDto;
-import org.example.back.record.dto.RecordResponseDto;
-import org.example.back.record.dto.StatisticsResponseDto;
+import org.example.back.record.dto.*;
+import org.example.back.util.EnumUtils;
 import org.example.back.util.SecurityUtil;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,11 +30,7 @@ public class RecordService {
         Member member = getMember();
 
         // String으로 들어온 열거값을 대소문자 구분하지 않고 찾아준다.
-        GameMode gameMode = EnumUtils.getEnumIgnoreCase(GameMode.class, gameModeStr);
-
-        // 잘못된 gameMode가 입력되면 exception 처리한다.
-        gameMode = Optional.ofNullable(gameMode)
-                .orElseThrow(EnumBadRequestException::new);
+        GameMode gameMode = EnumUtils.getIgnoreCaseOrThrow(GameMode.class, gameModeStr);
 
         // Slice로 데이터들을 받아온다.
         Slice<RecordDto> recordSlice = recordRepository.findAll(lastId, pageSize, member, gameMode);
@@ -53,11 +46,10 @@ public class RecordService {
     public RecordResponseDto getRecord(Long recordId) {
         Record record = recordRepository.findById(recordId)
                 .orElseThrow(RecordNotFoundException::new);
-
-        // coordinates 데이터는 어떻게 받아올 것인가?
+        // 빨리 엔티티 수정하고 url dto에 매핑해야됨
 
         return RecordResponseDto.builder()
-                .coordinates(null)
+                .courseImgUrl("코스 이미지 url 주소(S3)")
                 .recordId(record.getId())
                 .runStartTime(record.getRunStartTime())
                 .runEndTime(record.getRunEndTime())
@@ -70,21 +62,59 @@ public class RecordService {
     }
 
     @Transactional(readOnly = true)
-    public StatisticsResponseDto getStatistics(Integer year, Integer month) {
+    public StatisticsResponseDto getStatistics(String typeStr, LocalDate selectedDate) {
         Member member = getMember();
-        // 테이블을 만들 것인가, 아니면 조회할떄마다 계산할 것인가.
 
-        return null;
+        // enum type 조회
+        StatisticsType type = EnumUtils.getIgnoreCaseOrThrow(StatisticsType.class, typeStr);
+
+        StatisticsDto statisticsDto;
+        return switch (type) {
+            case MONTH -> {
+                statisticsDto = recordRepository.getStatisticsByMonth(member, selectedDate);
+                yield StatisticsResponseDto.builder()
+                        .type(type)
+                        .countDay(statisticsDto.getCountDay())
+                        .calorie(statisticsDto.getCalorie())
+                        .distance(statisticsDto.getDistance())
+                        .duration(statisticsDto.getDuration())
+                        .build();
+            }
+            case YEAR -> {
+                statisticsDto = recordRepository.getStatisticsByYear(member, selectedDate);
+                yield StatisticsResponseDto.builder()
+                        .type(type)
+                        .countDay(statisticsDto.getCountDay())
+                        .calorie(statisticsDto.getCalorie())
+                        .distance(statisticsDto.getDistance())
+                        .duration(statisticsDto.getDuration())
+                        .build();
+            }
+            case ALL -> {
+                statisticsDto = recordRepository.getStatisticsByAll(member);
+                yield StatisticsResponseDto.builder()
+                        .type(type)
+                        .countDay(statisticsDto.getCountDay())
+                        .calorie(statisticsDto.getCalorie())
+                        .distance(statisticsDto.getDistance())
+                        .duration(statisticsDto.getDuration())
+                        .build();
+            }
+            default -> null;
+        };
+
     }
 
-
-
-
-
-
-
-
-
+    // 함수로 빼봤는데, 별로인거 같아요.. 가독성이 매우 떨어짐
+//    StatisticsResponseDto statisticsDtoToResponseDtoWithType(StatisticsDto from, StatisticsResponseDto to, StatisticsType type) {
+//        return StatisticsResponseDto.builder()
+//                .type(type)
+//                .countDay(from.getCountDay())
+//                .calorie(from.getCalorie())
+//                .distance(from.getDistance())
+//                .duration(from.getDuration())
+//                .build();
+//    }
 
     private Member getMember() {
         return memberRepository.findById(SecurityUtil.getCurrentMemberId())

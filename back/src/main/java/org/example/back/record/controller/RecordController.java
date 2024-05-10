@@ -8,6 +8,8 @@ import org.example.back.record.service.RecordService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/records")
@@ -34,12 +36,12 @@ public class RecordController {
     }
 
     // 통계 조회
-    @GetMapping("/statistics/{year}/{month}")
+    @GetMapping({"/statistics/{type}", "/statistics/{type}/{selectedDate}"})
     public ResponseEntity<StatisticsResponseDto> getStatistics(
-            @PathVariable int year,
-            @PathVariable int month
+            @PathVariable String type,
+            @PathVariable LocalDate selectedDate
     ) {
-        StatisticsResponseDto statisticsResponseDto = recordService.getStatistics(year, month);
+        StatisticsResponseDto statisticsResponseDto = recordService.getStatistics(type, selectedDate);
         return ResponseEntity.ok(statisticsResponseDto);
     }
 

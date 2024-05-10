@@ -70,8 +70,4 @@ public class Record extends BaseEntity {
 				.build();
 	}
 
-
-
-
-
 }
