@@ -14,12 +14,14 @@ public class ProfileResponseDto {
 	private String nickname;
 	private Float weight;
 	private Long characterId;
+	private Integer tierScore;
 
 	@Builder
-	public ProfileResponseDto(String nickname, Float weight, Long characterId) {
+	public ProfileResponseDto(String nickname, Float weight, Long characterId, Integer tierScore) {
 		this.nickname = nickname;
 		this.weight = weight;
 		this.characterId = characterId;
+		this.tierScore = tierScore;
 	}
 
 	@Builder
@@ -27,5 +29,6 @@ public class ProfileResponseDto {
 		this.nickname = member.getNickname();
 		this.weight = member.getWeight();
 		this.characterId = member.getCharacter().getId();
+		this.tierScore = member.getTierScore();
 	}
 }

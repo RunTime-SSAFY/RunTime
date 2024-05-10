@@ -24,6 +24,7 @@ public class MemberService{
 			.nickname(member.getNickname())
 			.weight(member.getWeight())
 			.characterId(member.getCharacter().getId())
+			.tierScore(member.getTierScore())
 			.build();
 	}
 
