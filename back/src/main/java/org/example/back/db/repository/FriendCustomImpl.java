@@ -17,9 +17,9 @@ public class FriendCustomImpl implements FriendCustom{
 	private final QFriend friend = QFriend.friend;
 
 	@Override
-	public Friend searchFriendRequest(Long memberId){
+	public Friend searchFriendRequest(Long requesterId, Long adderesseeId){
 		return query.selectFrom(friend)
-			.where(friend.requester.id.eq(memberId).or(friend.addressee.id.eq(memberId)))
+			.where(friend.requester.id.eq(requesterId).and(friend.addressee.id.eq(adderesseeId)).or(friend.addressee.id.eq(requesterId).and(friend.requester.id.eq(adderesseeId))))
 			.fetchFirst();
 	}
 }
