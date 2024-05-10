@@ -282,7 +282,6 @@ public class RoomService {
             }
         }
 
-
         List<MemberResDto> memberResDtos = room.getRoomMembers().stream().map(RoomMember::toMemberResDto).toList();
 
         String uuid = redisTemplate.opsForValue().get("uuid_roomId:" + roomId);
@@ -325,7 +324,7 @@ public class RoomService {
             }
         }
 
-        // socket으로 방의 멤버들에게 멤버들의 리스트를 보내준다
+        // TODO 게임 시작 전인 경우 socket으로 방의 멤버들에게 멤버들의 리스트를 보내준다
         if (!roomMembers.isEmpty()) {
             List<MemberResDto> memberResDtos = roomMembers.stream().map(RoomMember::toMemberResDto).toList();
             memberResDtos.get(0).setManager();
@@ -337,6 +336,8 @@ public class RoomService {
 
             messagingTemplate.convertAndSend("/topic/room/" + uuid, stompResDto);
         }
+
+        // TODO 게임 진행 중인 경우 socket으로 방의 멤버들에게 나간 멤버의 id를 알려준다
 
         return RoomMemberResDto.builder().roomMemberId(roomMemberOptional.get().getId()).build();
 
