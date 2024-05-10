@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
 
@@ -50,15 +51,15 @@ class BottomNavigationWidget extends ConsumerWidget {
         ref.read(currentIndexProvider.notifier).update((state) => index);
         switch (index) {
           case 0:
-            context.go('/main');
+            context.go(RoutePathHelper.runMain);
           case 1:
-            context.go('/statistic');
+            context.go(RoutePathHelper.achievement);
           case 2:
-            context.go('/character');
+            context.go(RoutePathHelper.character);
           case 3:
-            context.go('/record');
+            context.go(RoutePathHelper.record);
           case 4:
-            context.go('/profile');
+            context.go(RoutePathHelper.profile);
         }
       },
     );

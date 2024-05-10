@@ -25,7 +25,7 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 final router = GoRouter(
   debugLogDiagnostics: true, // 디버깅 로그 출력
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/main', // 초기 경로
+  initialLocation: RoutePathHelper.runMain, // 초기 경로
   routes: [
     GoRoute(
       path: '/',
@@ -80,25 +80,25 @@ final router = GoRouter(
       builder: (_, __, child) => ScaffoldWithNavBar(child: child),
       routes: [
         GoRoute(
-          path: '/main',
+          path: RoutePathHelper.runMain,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               const NoTransitionPage(child: RunMainView()),
         ),
         GoRoute(
-          path: '/achievement',
+          path: RoutePathHelper.achievement,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               const NoTransitionPage(child: AchievementView()),
         ),
         GoRoute(
-          path: '/character',
+          path: RoutePathHelper.character,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               const NoTransitionPage(child: RunMainView()),
         ),
         GoRoute(
-          path: '/record',
+          path: RoutePathHelper.record,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               const NoTransitionPage(child: RecordView()),
@@ -118,7 +118,7 @@ final router = GoRouter(
           ],
         ),
         GoRoute(
-          path: '/profile',
+          path: RoutePathHelper.profile,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               const NoTransitionPage(child: RunMainView()),
@@ -128,7 +128,7 @@ final router = GoRouter(
   ],
   redirect: (context, state) {
     if (AuthService.instance.accessToken == null) {
-      return '/login';
+      return RoutePathHelper.login;
     } else {
       return null;
     }
