@@ -40,8 +40,6 @@ public class MatchingService {
 
             String[] membersId = new String[2];
 
-            log.info(Arrays.toString(membersId));
-
             Set<String> range = redisTemplate.opsForZSet().range("matching",0, 1);
             Iterator<String> iterator = range.iterator();
 
