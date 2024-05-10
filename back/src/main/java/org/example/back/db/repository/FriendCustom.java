@@ -4,5 +4,5 @@ import org.example.back.db.entity.Friend;
 
 public interface FriendCustom {
 
-	Friend searchFriendRequest(Long memberId);
+	Friend searchFriendRequest(Long requesterId, Long addresseeId);
 }
