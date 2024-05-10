@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "431723769722",
+    "project_id": "ssafy-run-mate",
+    "storage_bucket": "ssafy-run-mate.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:431723769722:android:0d978d8c248a8ceb3c30c3",
+        "android_client_info": {
+          "package_name": "com.ssafy.front_android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMsNiYF9sz1d-OyEd4Jcb2yr-_meo2bOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
