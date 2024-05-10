@@ -65,9 +65,6 @@ class _BattleState extends ConsumerState<Battle> {
   @override
   Widget build(BuildContext context) {
     BattleViewModel viewModel = ref.watch(battleViewModelProvider);
-    // final args = ModalRoute.of(context)!.settings.arguments
-    //     as Map<RouteParameter, dynamic>;
-    // viewModel.targetDistance = args[RouteParameter.targetDistance];
 
     return PopScope(
       canPop: false,

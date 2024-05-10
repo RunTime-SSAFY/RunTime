@@ -7,18 +7,17 @@ import 'package:front_android/src/repository/stomp_repository.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/src/service/user_service.dart';
 import 'package:front_android/util/helper/battle_helper.dart';
-import 'package:front_android/util/route_path.dart';
 import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 final battleDataServiceProvider = Provider.autoDispose((ref) {
   StompRepository stompRepository = ref.watch(stompInstanceProvider);
-  return SocketService(stompRepository);
+  return BattleDataService(stompRepository);
 });
 
-class SocketService with ChangeNotifier {
+class BattleDataService with ChangeNotifier {
   StompRepository stompInstance;
 
-  SocketService(this.stompInstance);
+  BattleDataService(this.stompInstance);
 
   late int roomId;
 
@@ -35,19 +34,45 @@ class SocketService with ChangeNotifier {
       )
       .nickname;
 
-  List<BattleRecordOfParticipant> battleData = [];
-
   void setParticipants(List<Participant> newParticipants) {
     participants = newParticipants;
   }
 
-  void updateBattleDataSortByDistance(List<BattleRecordOfParticipant> data) {
-    battleData = data.toList()
+  List<Participant> getBattleDataSortByDistance() {
+    return participants.toList()
       ..sort(((a, b) => b.distance.compareTo(a.distance)));
   }
 
-  Future<void> matchingStart(
-      void Function(bool canStart) startChanger, BuildContext context) async {
+  void changeParticipantsDistance(Participant newParticipantsData) {
+    participants.removeWhere(
+        (element) => element.memberId == newParticipantsData.memberId);
+    participants.add(newParticipantsData);
+  }
+
+  bool canStart = false;
+
+  void subReady() {
+    stompInstance.subScribe(
+      destination: DestinationHelper.getMatchingReady(uuid),
+      callback: (p0) {
+        var json = jsonDecode(p0.body!);
+        if (json['action'] == ActionHelper.battleStartAction) {
+          canStart = true;
+        } else if (json['action'] == ActionHelper.battleRealTimeAction) {
+          var data = json['data'];
+          var target = participants
+              .firstWhere((element) => element.memberId == data['memberId']);
+          var time = DateTime.parse(data['currentTime']);
+          if (time.isAfter(target.lastDateTime)) {
+            target.distance = data['distance'];
+            target.lastDateTime = DateTime.parse(data['currentTime']);
+          }
+        }
+      },
+    );
+  }
+
+  Future<void> matchingStart(void Function(bool canStart) startChanger) async {
     // 매칭이 시작된 상태 아직 매칭이 되지는 않음 구독
     stompInstance.subScribe(
       destination:
@@ -64,7 +89,7 @@ class SocketService with ChangeNotifier {
             _uuid = battleData.uuid;
             try {
               participants = [
-                Participant.fromJson(json),
+                Participant.fromJson(json['data']),
                 Participant(
                   memberId: -1,
                   nickname: UserService.instance.nickname,
@@ -73,8 +98,7 @@ class SocketService with ChangeNotifier {
                   isReady: false,
                 ),
               ];
-              print('참가자 정보 됨');
-              Navigator.pushNamed(context, RoutePath.matched);
+              startChanger(false);
             } catch (error) {
               print('잘못된 참가자 정보\n$error');
               rethrow;

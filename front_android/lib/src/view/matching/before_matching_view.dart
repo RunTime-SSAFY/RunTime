@@ -43,7 +43,7 @@ class _StartMatchingViewState extends ConsumerState<StartMatchingView> {
       image: 'beforeMatching',
       mainMessage: S.current.beforeMatching,
       button: Button(
-        onPressed: () => viewModel.toMatchingStartView(context),
+        onPressed: () => viewModel.onMatchingStart(context),
         text: S.current.beforeMatchingButton,
         backGroundColor: ref.color.accept,
         fontColor: ref.color.onAccept,

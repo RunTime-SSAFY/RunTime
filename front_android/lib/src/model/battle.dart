@@ -1,3 +1,4 @@
+import 'package:front_android/src/service/user_service.dart';
 import 'package:geolocator/geolocator.dart';
 
 class BattleSocketData {
@@ -12,12 +13,11 @@ class BattleSocketData {
   });
 
   Map<String, dynamic> toJson() => {
-        'position': {
-          'lng': position.longitude,
-          'lat': position.latitude,
-        },
+        'lng': position.longitude,
+        'lat': position.latitude,
         'currentDistance': currentDistance,
-        'index': index,
+        'idx': index,
+        'nickname': UserService.instance.nickname,
       };
 }
 
@@ -44,6 +44,8 @@ class Participant {
   final int memberId;
   final String nickname, characterImgUrl;
   final bool isManager, isReady;
+  double distance = 0;
+  DateTime lastDateTime;
 
   Participant({
     required this.memberId,
@@ -51,25 +53,13 @@ class Participant {
     required this.characterImgUrl,
     required this.isManager,
     required this.isReady,
-  });
+  }) : lastDateTime = DateTime.now();
 
   factory Participant.fromJson(Map<String, dynamic> json) => Participant(
-        memberId: json['memberId'],
+        memberId: json['memberId'] ?? -1,
         nickname: json['nickname'] ?? '',
         characterImgUrl: json['characterImgUrl'] ?? '',
         isManager: json['isManager'] ?? false,
         isReady: json['isReady'] ?? false,
       );
-}
-
-class BattleRecordOfParticipant {
-  final String nickname;
-  final String characterImgUrl;
-
-  BattleRecordOfParticipant({
-    required this.nickname,
-    required this.characterImgUrl,
-  });
-
-  double distance = 0;
 }

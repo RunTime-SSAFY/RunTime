@@ -9,7 +9,7 @@ final waitingViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
 });
 
 class WaitingViewModel with ChangeNotifier {
-  final SocketService battleData;
+  final BattleDataService battleData;
   WaitingViewModel(this.battleData);
 
   final String title = '제목';

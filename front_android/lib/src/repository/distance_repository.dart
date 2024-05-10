@@ -53,6 +53,7 @@ class DistanceRepository {
             index: index,
           ).toJson(),
         );
+        index++;
       }
     });
   }

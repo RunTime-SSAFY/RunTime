@@ -21,15 +21,15 @@ enum MatchedState {
 }
 
 class MatchingViewModel with ChangeNotifier {
-  final SocketService _battleData;
+  final BattleDataService _battleData;
 
   MatchingViewModel(this._battleData);
 
   int targetDistance = 3;
+  bool isMatched = false;
 
   // 매칭을 시작하기
-  void toMatchingStartView(BuildContext context) async {
-    // 화면 이동
+  void onMatchingStart(BuildContext context) async {
     Navigator.popAndPushNamed(context, RoutePath.matching);
 
     // 매칭 시작하라는 요청
@@ -37,9 +37,9 @@ class MatchingViewModel with ChangeNotifier {
       await _battleData.matchingStart(
         (bool startResponse) {
           _canStart = true;
-          Navigator.pushNamed(context, RoutePath.matched);
+          isMatched = true;
+          notifyListeners();
         },
-        context,
       );
     } catch (error) {
       // 에러 토스트 메세지
@@ -77,10 +77,10 @@ class MatchingViewModel with ChangeNotifier {
   // 매칭되고 나서 시작되는 제한시간 타이머
   // 타이머가 종료되면 응답에 따라 배틀 시작 또는 다시 매칭화면으로 이동
   void startTimer(BuildContext context) {
+    _battleData.subReady();
     _timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
       if (_timerTime > 0) {
         _timerTime -= 50;
-        notifyListeners();
       } else {
         _timer?.cancel();
         _timerTime = 5000;
@@ -95,13 +95,14 @@ class MatchingViewModel with ChangeNotifier {
           Navigator.popAndPushNamed(context, RoutePath.beforeMatching);
         }
       }
+      notifyListeners();
     });
   }
 
   // matched의 수락 상태
   MatchedState _matchedState = MatchedState.noResponse;
   bool get isResponded => _matchedState != MatchedState.noResponse;
-  bool _canStart = false;
+  late bool _canStart = _battleData.canStart;
 
   void onMatchingResponse(bool response) async {
     if (response) {
@@ -111,11 +112,12 @@ class MatchingViewModel with ChangeNotifier {
       // 매칭 시작에 대한 소켓 구독 취소
       _battleData.disconnect();
     }
+    notifyListeners();
 
-    // 매칭이 되면 수락 여부 전송, _matchedState == MatchedState.accept
+    // 매칭 수락 여부 전송, _matchedState == MatchedState.accept
     try {
       await apiInstance.patch(
-        'api/matchings/${_battleData.uuid}/ready',
+        'api/matchings/${_battleData.roomId}/ready',
         data: {
           'ready': _matchedState == MatchedState.accept,
         },
@@ -123,7 +125,7 @@ class MatchingViewModel with ChangeNotifier {
     } catch (error) {
       // 오류 토스트 메세지
       _matchedState = MatchedState.noResponse;
-      print(error);
+      print('에러 $error');
     }
     notifyListeners();
   }

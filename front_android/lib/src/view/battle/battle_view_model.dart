@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/model/battle.dart';
 import 'package:front_android/src/repository/distance_repository.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
@@ -17,7 +19,10 @@ final battleViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
 });
 
 class BattleViewModel with ChangeNotifier {
-  final SocketService _battleData;
+  final BattleDataService _battleData;
+
+  List<Participant> get participants =>
+      _battleData.getBattleDataSortByDistance();
 
   BattleViewModel(this._battleData) {
     _startTimer();
@@ -25,8 +30,14 @@ class BattleViewModel with ChangeNotifier {
 
     distanceService = DistanceRepository(
         sendDestination:
-            DestinationHelper.getBattleDestination(mode, _battleData.roomId),
+            DestinationHelper.getBattleDestination(mode, _battleData.uuid),
         socket: _battleData.stompInstance);
+    _battleData.stompInstance.subScribe(
+        destination: DestinationHelper.getForSub(mode, _battleData.uuid),
+        callback: (p0) {
+          var newParticipantsData = Participant.fromJson(jsonDecode(p0.body!));
+          _battleData.changeParticipantsDistance(newParticipantsData);
+        });
   }
 
   late final DistanceRepository distanceService;
@@ -64,7 +75,7 @@ class BattleViewModel with ChangeNotifier {
       var seconds = _currentTime.difference(_startTime).inSeconds;
       _avgPace =
           (currentDistance * 10000 / (((seconds == 0 ? 1 : seconds) / 60))) ~/
-              1000000;
+              100000;
       var velocity = distanceService.instantaneousVelocity;
       _calory +=
           157 * ((0.1 * velocity + (velocity == 0 ? 0 : 3.5)) / 3.5) / 1000;
@@ -92,8 +103,6 @@ class BattleViewModel with ChangeNotifier {
   void onResultDone(BuildContext context) {
     Navigator.popAndPushNamed(context, RoutePath.runMain);
   }
-
-  void handlePopInBattle() {}
 
   @override
   void dispose() {

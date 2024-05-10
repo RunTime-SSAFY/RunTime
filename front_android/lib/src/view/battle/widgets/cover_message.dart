@@ -5,6 +5,13 @@ class CoverMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Expanded(child: Placeholder());
+    return const Expanded(
+      child: Center(
+        child: Placeholder(
+          fallbackHeight: 50,
+          fallbackWidth: 50,
+        ),
+      ),
+    );
   }
 }
