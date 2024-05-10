@@ -71,12 +71,6 @@ void main() async {
       initialRoute = RoutePath.login;
     } else {
       try {
-        var response = await apiInstance.get('api/members');
-        var data = response.data;
-        var userService = UserService.instance;
-        userService.nickname = data['nickname'] ?? '';
-        userService.characterImgUrl = data['characterImgUrl'] ?? '';
-        userService.weight = data['weight'] ?? '';
         await UserService.instance.getUserInfor();
       } catch (error) {
         debugPrint(error.toString());

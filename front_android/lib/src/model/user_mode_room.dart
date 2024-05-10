@@ -15,7 +15,7 @@ class UserModeRoom {
   // 목표 거리
   final double distance;
   // 방의 상태 대기 중: WAITING, 게임 진행 중: IN_PROGRESS
-  final UserModeRoomStatus status;
+  final String status;
   // 현재 방의 정원
   final int headcount;
 
@@ -29,11 +29,12 @@ class UserModeRoom {
   });
 
   factory UserModeRoom.fromJson(Map<String, dynamic> json) {
+    print(json);
     return UserModeRoom(
       roomId: json['roomId'] ?? 0,
       name: json['name'] ?? '',
       capacity: json['capacity'] ?? 0,
-      distance: (json['distance'] as int).toDouble() ?? 0,
+      distance: (json['distance'] as double).toDouble() ?? 0,
       status: json['status'] ?? UserModeRoomStatus.IN_PROGRESS,
       headcount: json['headcount'] ?? 1,
     );

@@ -25,6 +25,7 @@ class BattleDataService with ChangeNotifier {
 
   late String _uuid;
   String get uuid => _uuid;
+  double targetDistance = 3000;
 
   String mode = BattleModeHelper.matching;
 

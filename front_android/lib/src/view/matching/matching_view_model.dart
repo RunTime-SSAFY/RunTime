@@ -24,12 +24,12 @@ class MatchingViewModel with ChangeNotifier {
 
   MatchingViewModel(this._battleData);
 
-  int targetDistance = 3;
   bool isMatched = false;
 
   // 매칭을 시작하기
   void onMatchingStart(BuildContext context) async {
     Navigator.popAndPushNamed(context, RoutePath.matching);
+    _battleData.targetDistance = 3000;
 
     // 매칭 시작하라는 요청
     try {
@@ -125,9 +125,6 @@ class MatchingViewModel with ChangeNotifier {
       Navigator.popAndPushNamed(
         context,
         RoutePath.battle,
-        arguments: {
-          RouteParameter.targetDistance: targetDistance,
-        },
       );
     } else {
       /// 상대가 거절한 경우

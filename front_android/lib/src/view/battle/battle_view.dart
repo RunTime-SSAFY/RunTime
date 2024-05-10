@@ -65,6 +65,11 @@ class _BattleState extends ConsumerState<Battle> {
   @override
   Widget build(BuildContext context) {
     BattleViewModel viewModel = ref.watch(battleViewModelProvider);
+    if (viewModel.currentDistance > viewModel.targetDistance) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        viewModel.onBattleDone(context);
+      });
+    }
 
     return PopScope(
       canPop: false,

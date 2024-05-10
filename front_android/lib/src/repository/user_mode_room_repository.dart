@@ -18,7 +18,7 @@ class UserModeRoomRepository {
         '/api/rooms',
         queryParameters: {
           if (lastId != null) 'lastId': lastId,
-          if (searchWord != null) 'searchWord': searchWord,
+          if (searchWord != null && searchWord != '') 'searchWord': searchWord,
           'isSecret': isSecret ?? false,
           'pageSize': 5,
         },

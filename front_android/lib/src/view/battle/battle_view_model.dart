@@ -53,7 +53,7 @@ class BattleViewModel with ChangeNotifier {
   final int _point = 30;
   String get point => _point > 0 ? '+$_point' : '$_point';
   final String character = 'mainCharacter';
-  double targetDistance = 1000;
+  double get targetDistance => _battleData.targetDistance;
 
   double _avgPace = 0;
   double get avgPace => _avgPace;
@@ -120,9 +120,18 @@ class BattleViewModel with ChangeNotifier {
     );
   }
 
+  void onBattleDone(BuildContext context) {
+    _timer.cancel();
+    distanceService.cancelListen();
+    _battleData.disconnect();
+    Navigator.popAndPushNamed(context, RoutePath.battleResult);
+  }
+
   void onResultDone(BuildContext context) {
     Navigator.popAndPushNamed(context, RoutePath.runMain);
   }
+
+  void getResult() async {}
 
   @override
   void dispose() {
