@@ -49,7 +49,7 @@ public class RecordService {
         // 빨리 엔티티 수정하고 url dto에 매핑해야됨
 
         return RecordResponseDto.builder()
-                .courseImgUrl("코스 이미지 url 주소(S3)")
+                .courseImgUrl(record.getCourseImgUrl())
                 .recordId(record.getId())
                 .runStartTime(record.getRunStartTime())
                 .runEndTime(record.getRunEndTime())
