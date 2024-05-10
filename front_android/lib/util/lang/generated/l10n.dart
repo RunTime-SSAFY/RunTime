@@ -160,11 +160,11 @@ class S {
     );
   }
 
-  /// `Statistics`
-  String get statistics {
+  /// `Statistic`
+  String get statistic {
     return Intl.message(
-      'Statistics',
-      name: 'statistics',
+      'Statistic',
+      name: 'statistic',
       desc: '',
       args: [],
     );

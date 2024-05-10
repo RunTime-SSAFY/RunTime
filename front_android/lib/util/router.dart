@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/auth_service.dart';
+import 'package:front_android/src/view/achievement/achievement_view.dart';
 import 'package:front_android/src/view/battle/battle_result_view.dart';
 import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/matching/before_matching_view.dart';
@@ -8,7 +9,7 @@ import 'package:front_android/src/view/matching/matched.dart';
 import 'package:front_android/src/view/matching/waiting_matching_view.dart';
 import 'package:front_android/src/view/record/record_detail_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
-import 'package:front_android/src/view/record/statistics_view.dart';
+import 'package:front_android/src/view/record/statistic_view.dart';
 import 'package:front_android/src/view/run_main/run_main_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_search_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_view.dart';
@@ -89,10 +90,10 @@ final router = GoRouter(
           path: '/achievement',
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
-              const NoTransitionPage(child: RunMainView()),
+              const NoTransitionPage(child: AchievementView()),
         ),
         GoRoute(
-          path: '/characters',
+          path: '/character',
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               const NoTransitionPage(child: RunMainView()),
@@ -110,10 +111,10 @@ final router = GoRouter(
                   const CupertinoPage(child: RecordDetailView()),
             ),
             GoRoute(
-              path: 'statistics',
+              path: 'statistic',
               parentNavigatorKey: _rootNavigatorKey,
               pageBuilder: (BuildContext context, GoRouterState state) =>
-                  const CupertinoPage(child: StatisticsView()),
+                  const CupertinoPage(child: StatisticView()),
             ),
           ],
         ),
