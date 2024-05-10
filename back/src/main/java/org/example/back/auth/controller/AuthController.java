@@ -2,6 +2,7 @@ package org.example.back.auth.controller;
 
 import org.example.back.auth.dto.JoinResponseDto;
 import org.example.back.auth.dto.LoginDto;
+import org.example.back.auth.dto.TokenRequestDto;
 import org.example.back.auth.dto.TokenResponseDto;
 import org.example.back.auth.service.AuthService;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 	private final AuthService authService;
+
 	@PostMapping("/login")
-	public ResponseEntity<TokenResponseDto> login(@RequestBody LoginDto loginDto){
+	public ResponseEntity<TokenResponseDto> login(@RequestBody LoginDto loginDto) {
 
 		TokenResponseDto token = authService.login(loginDto);
 		return ResponseEntity.ok(token);
@@ -32,4 +34,9 @@ public class AuthController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(tokenResponseDto);
 	}
 
+	@PostMapping("/logout")
+	public void logout(@RequestBody TokenRequestDto tokenRequestDto) {
+		authService.logout(tokenRequestDto);
+
+	}
 }
