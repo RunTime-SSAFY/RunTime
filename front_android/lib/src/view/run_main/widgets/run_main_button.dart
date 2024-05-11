@@ -21,7 +21,7 @@ class RunMainButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void onPressed() {
-      context.go(modeRoute);
+      context.push(modeRoute);
     }
 
     return GestureDetector(

@@ -22,7 +22,7 @@ class UserModeRoomCard extends ConsumerWidget {
 
     return GestureDetector(
       onTapUp: (details) {
-        context.go(
+        context.push(
           RoutePathHelper.waitingRoom,
           extra: {
             'roomId': room.roomId,

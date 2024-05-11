@@ -6,6 +6,7 @@ import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/theme/components/dialog/base_dialog.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 
 class CancelDialog extends ConsumerWidget {
   const CancelDialog({
@@ -27,7 +28,7 @@ class CancelDialog extends ConsumerWidget {
           Expanded(
             child: Button(
               onPressed: () {
-                Navigator.pop(context);
+                context.pop();
               },
               text: S.current.cancel,
               backGroundColor: ref.color.deny,
@@ -38,7 +39,7 @@ class CancelDialog extends ConsumerWidget {
           Expanded(
             child: Button(
               onPressed: () {
-                Navigator.pop(context);
+                context.pop();
                 onAcceptCancel();
               },
               text: S.current.giveUp,

@@ -44,7 +44,8 @@ class MatchingViewModel with ChangeNotifier {
     } catch (error) {
       // 에러 토스트 메세지
       print(error.toString());
-      Navigator.pop(context);
+      if (!context.mounted) return;
+      context.pop();
     }
   }
 
@@ -53,7 +54,8 @@ class MatchingViewModel with ChangeNotifier {
     try {
       await apiInstance.patch('api/matchings/cancel');
       _battleData.stompInstance.disconnect();
-      Navigator.pop(context);
+      if (!context.mounted) return;
+      context.pop();
     } catch (error) {
       // 에러 토스트 메세지
     }
