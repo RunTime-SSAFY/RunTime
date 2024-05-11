@@ -3,7 +3,7 @@ package org.example.back.record.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.back.record.dto.RecordListResponseDto;
 import org.example.back.record.dto.RecordResponseDto;
-import org.example.back.record.dto.StatisticsResponseDto;
+import org.example.back.record.dto.StatisticResponseDto;
 import org.example.back.record.service.RecordService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,12 +37,12 @@ public class RecordController {
 
     // 통계 조회
     @GetMapping({"/statistics/{type}", "/statistics/{type}/{selectedDate}"})
-    public ResponseEntity<StatisticsResponseDto> getStatistics(
+    public ResponseEntity<StatisticResponseDto> getStatistic(
             @PathVariable String type,
             @PathVariable LocalDate selectedDate
     ) {
-        StatisticsResponseDto statisticsResponseDto = recordService.getStatistics(type, selectedDate);
-        return ResponseEntity.ok(statisticsResponseDto);
+        StatisticResponseDto statisticResponseDto = recordService.getStatistic(type, selectedDate);
+        return ResponseEntity.ok(statisticResponseDto);
     }
 
 }

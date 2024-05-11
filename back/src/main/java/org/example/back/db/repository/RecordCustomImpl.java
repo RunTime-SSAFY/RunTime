@@ -11,7 +11,7 @@ import org.example.back.db.entity.QRecord;
 import org.example.back.db.entity.Record;
 import org.example.back.db.enums.GameMode;
 import org.example.back.record.dto.RecordDto;
-import org.example.back.record.dto.StatisticsDto;
+import org.example.back.record.dto.StatisticDto;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -74,11 +74,11 @@ public class RecordCustomImpl implements RecordCustom {
     }
 
     @Override
-    public StatisticsDto getStatisticsByMonth(Member member, LocalDate selectedDate) {
+    public StatisticDto getStatisticByMonth(Member member, LocalDate selectedDate) {
         LocalDate startDate = selectedDate.withDayOfMonth(1);
         LocalDate endDate = startDate.plusMonths(1).minusDays(1);
         return query
-                .select(Projections.constructor(StatisticsDto.class,
+                .select(Projections.constructor(StatisticDto.class,
                         record.count(),
                         record.calorie.sum(),
                         record.distance.sum(),
@@ -90,11 +90,11 @@ public class RecordCustomImpl implements RecordCustom {
     }
 
     @Override
-    public StatisticsDto getStatisticsByYear(Member member, LocalDate selectedDate) {
+    public StatisticDto getStatisticByYear(Member member, LocalDate selectedDate) {
         LocalDate startDate = selectedDate.withDayOfYear(1);
         LocalDate endDate = startDate.plusYears(1).minusDays(1);
         return query
-                .select(Projections.constructor(StatisticsDto.class,
+                .select(Projections.constructor(StatisticDto.class,
                         record.count(),
                         record.calorie.sum(),
                         record.distance.sum(),
@@ -106,9 +106,9 @@ public class RecordCustomImpl implements RecordCustom {
     }
 
     @Override
-    public StatisticsDto getStatisticsByAll(Member member) {
+    public StatisticDto getStatisticByAll(Member member) {
         return query
-                .select(Projections.constructor(StatisticsDto.class,
+                .select(Projections.constructor(StatisticDto.class,
                         record.count(),
                         record.calorie.sum(),
                         record.distance.sum(),
