@@ -56,7 +56,7 @@ class UserModeViewModel with ChangeNotifier {
   }
 
   void moveToSearch(BuildContext context) {
-    context.go(RoutePathHelper.userModeSearch);
+    context.push(RoutePathHelper.userModeSearch);
   }
 
   final TextEditingController textController = TextEditingController();
