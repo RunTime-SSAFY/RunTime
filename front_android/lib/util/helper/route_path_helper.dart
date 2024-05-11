@@ -28,13 +28,20 @@ interface class RoutePathHelper {
   // 랭킹
   static const String ranking = '/ranking';
 
+  // 도전 과제
+  static const String achievement = '/achievement';
+
+  // 캐릭터
+  static const String character = '/character';
+
   // 기록
   static const String record = '/record';
+  static const String recordDetail = '/record/detail';
+  static const String statistic = '/record/statistic';
 
   // 프로필
   static const String profile = '/profile';
-  static const String recordDetail = '/recordDetail';
-  static const String statistic = '/statistic';
+  static const String profileEdit = '/profile/edit';
 
   // Test
   static const String mapTest = 'mapTest';
