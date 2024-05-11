@@ -29,6 +29,8 @@ class BattleDataService with ChangeNotifier {
 
   String mode = BattleModeHelper.matching;
 
+  int result = 0;
+
   void setParticipants(List<Participant> newParticipants) {
     participants = newParticipants;
   }
