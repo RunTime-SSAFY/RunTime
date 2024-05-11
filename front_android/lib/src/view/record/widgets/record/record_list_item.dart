@@ -40,7 +40,8 @@ class RecordListItem extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  date.split(" ")[0] + " " + date.split(" ")[1],
+                  // '2024년 5월' 표시
+                  "${date.split(" ")[0]} ${date.split(" ")[1]}",
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -130,7 +131,6 @@ class RecordListItemCard extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // <Widget> 은 무엇을 의미하는가?
                 Row(
                   children: [
                     Text(mode,
