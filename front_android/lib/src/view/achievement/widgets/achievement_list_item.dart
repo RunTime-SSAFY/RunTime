@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/achievement/widgets/achievement_animated_progress_bar.dart';
+import 'package:go_router/go_router.dart';
 
 class AchievementListItem extends ConsumerWidget {
   const AchievementListItem({
@@ -195,35 +197,42 @@ class AchievementListItem extends ConsumerWidget {
 
           // Stack 위젯 크기 만큼 버튼을 덮어씌워서 버튼을 누르면 도전과제 완료 표시
           if (isShowRewardButton)
-            Positioned.fill(
+            Positioned(
+              bottom: 0,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      width: double.infinity,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            ref.color.achievementRewardButtonGradient1,
-                            ref.color.achievementRewardButtonGradient2,
-                          ],
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '보상받기',
-                          style: ref.typo.subTitle3.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                child: CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    context.push('/achievement/reward');
+                  },
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        width: double.infinity,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              ref.color.achievementRewardButtonGradient1,
+                              ref.color.achievementRewardButtonGradient2,
+                            ],
                           ),
                         ),
-                      ),
-                    )),
+                        child: Center(
+                          child: Text(
+                            '보상받기',
+                            style: ref.typo.subTitle3.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )),
+                ),
               ),
             ),
         ], // Stack children
