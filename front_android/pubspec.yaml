@@ -54,6 +54,7 @@ dependencies:
   firebase_core: ^2.31.0
   firebase_messaging: ^14.9.2
   flutter_local_notifications: ^17.1.2
+  confetti: ^0.7.0
 
 dev_dependencies:
   flutter_test:
