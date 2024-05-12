@@ -2,9 +2,11 @@ package org.example.back.member.service;
 
 import org.example.back.db.entity.Member;
 import org.example.back.db.repository.MemberRepository;
+import org.example.back.db.repository.RankerRepository;
 import org.example.back.exception.MemberNotFoundException;
 import org.example.back.member.dto.ProfileResponseDto;
 import org.example.back.member.dto.ProfileUpdateRequestDto;
+import org.example.back.ranking.dto.RankerResDto;
 import org.example.back.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +17,20 @@ import lombok.RequiredArgsConstructor;
 public class MemberService{
 
 	private final MemberRepository memberRepository;
+	private final RankerRepository rankerRepository;
 
 	public ProfileResponseDto findById() {
 
 		Member member = getMember();
+		RankerResDto rankInfo = rankerRepository.getRankWithTierInfo(member.getId());  // 티어 정보 반환
 
 		return ProfileResponseDto.builder()
 			.nickname(member.getNickname())
 			.weight(member.getWeight())
 			.characterId(member.getCharacter().getId())
+			.tierScore(member.getTierScore())
+			.tierName(rankInfo.getTierName())
+			.tierImage(rankInfo.getTierImage())
 			.build();
 	}
 
