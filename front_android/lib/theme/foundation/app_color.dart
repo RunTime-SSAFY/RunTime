@@ -33,6 +33,8 @@ class AppColor {
     required this.battleBackground2,
     required this.onBackground,
     required this.userModeBackground,
+    required this.achievementRewardButtonGradient1,
+    required this.achievementRewardButtonGradient2,
     required this.achievementLevel,
     required this.counterAchievementLevel,
     required this.surface,
@@ -88,6 +90,8 @@ class AppColor {
   final Color userModeBackground;
 
   // achievement
+  final Color achievementRewardButtonGradient1;
+  final Color achievementRewardButtonGradient2;
   final Color achievementLevel;
   final Color counterAchievementLevel;
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:front_android/src/service/auth_service.dart';
+import 'package:front_android/src/view/achievement/achievement_reward_view.dart';
 import 'package:front_android/src/view/achievement/achievement_view.dart';
 import 'package:front_android/src/view/battle/battle_result_view.dart';
 import 'package:front_android/src/view/login/login_view.dart';
@@ -73,6 +74,7 @@ final router = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const UserModeSearchView(),
     ),
+    // 도전과제 보상 화면
 
     // 바텀내비게이션
     ShellRoute(
@@ -90,6 +92,14 @@ final router = GoRouter(
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               const NoTransitionPage(child: AchievementView()),
+          routes: [
+            GoRoute(
+              path: 'reward',
+              parentNavigatorKey: _rootNavigatorKey,
+              pageBuilder: (BuildContext context, GoRouterState state) =>
+                  const CupertinoPage(child: AchievementRewardView()),
+            ),
+          ],
         ),
         GoRoute(
           path: RoutePathHelper.character,

@@ -30,6 +30,7 @@ interface class RoutePathHelper {
 
   // 도전 과제
   static const String achievement = '/achievement';
+  static const String achievementReward = '/achievement/reward';
 
   // 캐릭터
   static const String character = '/character';
