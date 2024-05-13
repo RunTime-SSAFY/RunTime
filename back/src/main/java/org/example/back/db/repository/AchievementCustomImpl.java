@@ -39,12 +39,13 @@ public class AchievementCustomImpl implements AchievementCustom{
 		result.forEach(el->{
 			System.out.println(el.get(prevGoalPath));
 			list.add(AchievementResDto.builder()
-					.currentAchievement(el.get(currentAchievement))
-					.achievement(el.get(achievement))
-					.character(el.get(character))
-					.achievementType(el.get(achievementType))
-					.prevGoal(el.get(prevGoalPath))
+				.currentAchievement(el.get(currentAchievement))
+				.achievement(el.get(achievement))
+				.character(el.get(character))
+				.achievementType(el.get(achievementType))
+				.prevGoal(el.get(prevGoalPath) == null ? 0.0f : el.get(prevGoalPath))
 				.build());
+
 		});
 
 		return list;

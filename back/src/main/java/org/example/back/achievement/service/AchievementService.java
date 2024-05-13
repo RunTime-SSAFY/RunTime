@@ -103,6 +103,7 @@ public class AchievementService {
 		return resDto;
 	}
 
+	@Transactional
 	public AchievementResDto receiveReward(Long achievementTypeId) {
 
 		Long memberId = SecurityUtil.getCurrentMemberId();
