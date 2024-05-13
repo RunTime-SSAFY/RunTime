@@ -21,7 +21,7 @@ class _LoadingAnimatedBarsState extends ConsumerState<LoadingAnimatedBars>
     super.initState();
     for (int i = 0; i < numberOfBars; i++) {
       final controller = AnimationController(
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 600),
         vsync: this,
       )..repeat(reverse: true);
 
