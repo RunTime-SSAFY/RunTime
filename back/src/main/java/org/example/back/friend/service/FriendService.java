@@ -109,12 +109,20 @@ public class FriendService {
 
 		//사용자의 id, requester는 친구 요청을 보낸 사람
 		Long id = SecurityUtil.getCurrentMemberId();
+		Member requester = memberRepository.findById(requesterId).orElseThrow(MemberNotFoundException::new);
+		Member addressee = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
 
 		// 해당 친구요청 정보를 찾아 status를 accepted로 변경
 		Friend friend = friendRepository.findByRequesterIdAndAddresseeId(requesterId, id)
 			.orElseThrow(MemberNotFoundException::new);
 		friend.updateStatus(FriendStatusType.accepted);
 		friendRepository.save(friend);
+
+		// 친구요청 수락했다는 알림 전송
+		String messageBody = addressee.getNickname() + "님이 친구요청을 수락하셨습니다.";
+
+		fcmUtil.sendAlert(AlertType.FRIEND, "친구 수락", messageBody, requester, addressee.getId());
+
 		return requesterId;
 
 	}
