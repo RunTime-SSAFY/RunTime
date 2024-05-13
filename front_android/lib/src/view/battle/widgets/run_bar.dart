@@ -26,17 +26,20 @@ class RunBar extends ConsumerWidget {
                 return Positioned(
                   left: viewModel.participants[index].distance /
                       viewModel.targetDistance *
-                      (screenWidth - 50),
+                      (screenWidth - 100),
                   child: SizedBox(
                     width: 50,
                     height: 80,
                     child: Column(
                       children: [
-                        FittedBox(
-                          child: Text(
-                            viewModel.participants[index].nickname,
-                            style: ref.typo.subTitle5.copyWith(
-                              color: ref.color.onBackground,
+                        SizedBox(
+                          height: 20,
+                          child: FittedBox(
+                            child: Text(
+                              viewModel.participants[index].nickname,
+                              style: ref.typo.subTitle5.copyWith(
+                                color: ref.color.onBackground,
+                              ),
                             ),
                           ),
                         ),

@@ -48,13 +48,16 @@ class BattleDataService with ChangeNotifier {
 
   bool canStart = false;
 
-  void subReady() {
+  void subReady(void Function() responded) {
     stompInstance.subScribe(
       destination: DestinationHelper.getMatchingReady(uuid),
       callback: (p0) {
         var json = jsonDecode(p0.body!);
         if (json['action'] == ActionHelper.battleStartAction) {
-          canStart = true;
+          canStart = json['data'];
+          if (json['data'] == false) {
+            responded();
+          }
         } else if (json['action'] == ActionHelper.battleRealTimeAction) {
           var data = json['data'];
           var target = participants
@@ -69,7 +72,10 @@ class BattleDataService with ChangeNotifier {
     );
   }
 
-  Future<void> matchingStart(void Function(bool canStart) startChanger) async {
+  Future<void> matchingStart(
+    void Function(bool canStart) startChanger,
+    void Function() matchedNotifier,
+  ) async {
     // 매칭이 시작된 상태 아직 매칭이 되지는 않음 구독
     stompInstance.subScribe(
       destination:
@@ -96,7 +102,7 @@ class BattleDataService with ChangeNotifier {
                   lastDateTime: DateTime.now(),
                 ),
               ];
-              startChanger(false);
+              matchedNotifier();
             } catch (error) {
               print('잘못된 참가자 정보\n$error');
               rethrow;
@@ -112,7 +118,7 @@ class BattleDataService with ChangeNotifier {
     );
 
     try {
-      await apiInstance.patch('api/matchings', data: {'difference': 1000});
+      await apiInstance.patch('api/matchings', data: {'difference': 200});
     } catch (error) {
       rethrow;
     }

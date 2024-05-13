@@ -34,13 +34,18 @@ class MatchingViewModel with ChangeNotifier {
 
     // 매칭 시작하라는 요청
     try {
-      await _battleData.matchingStart(
-        (bool startResponse) {
+      await _battleData.matchingStart((bool startResponse) {
+        if (startResponse) {
           _canStart = true;
-          isMatched = true;
-          notifyListeners();
-        },
-      );
+        } else {
+          _canStart = false;
+          _matchedState = MatchedState.deny;
+        }
+        notifyListeners();
+      }, () {
+        isMatched = true;
+        notifyListeners();
+      });
     } catch (error) {
       // 에러 토스트 메세지
       print(error.toString());
@@ -69,22 +74,23 @@ class MatchingViewModel with ChangeNotifier {
   // 매칭되고 나서 시작되는 제한시간 타이머
   // 타이머가 종료되면 응답에 따라 배틀 시작 또는 다시 매칭화면으로 이동
   void startTimer(BuildContext context) {
-    _battleData.subReady();
+    _battleData.subReady(() {
+      _matchedState = MatchedState.deny;
+    });
     _timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
       if (_timerTime > 0) {
         _timerTime -= 50;
       } else {
         _timer?.cancel();
-        _timerTime = 5000;
         // 클라이언트가 수락 누른 경우
+        _timerTime = 5000;
         if (_matchedState == MatchedState.accept) {
-          _matchedState = MatchedState.noResponse;
           startBattle(context);
         } else {
           // 클라이언트가 거절 누른 경우
-          _matchedState = MatchedState.noResponse;
           _canStart = false;
           context.pushReplacement(RoutePathHelper.beforeMatching);
+          _matchedState = MatchedState.noResponse;
         }
       }
       notifyListeners();
@@ -102,7 +108,7 @@ class MatchingViewModel with ChangeNotifier {
     } else {
       _matchedState = MatchedState.deny;
       // 매칭 시작에 대한 소켓 구독 취소
-      _battleData.disconnect();
+      // _battleData.disconnect();
     }
     notifyListeners();
 
@@ -130,8 +136,8 @@ class MatchingViewModel with ChangeNotifier {
       );
     } else {
       /// 상대가 거절한 경우
-      _matchedState = MatchedState.noResponse;
       context.pushReplacement(RoutePathHelper.matching);
+      _matchedState = MatchedState.noResponse;
     }
   }
 }

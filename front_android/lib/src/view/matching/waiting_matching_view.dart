@@ -23,27 +23,18 @@ class WaitingMatching extends ConsumerWidget {
       });
     }
 
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (bool didPop) {
-        if (didPop) {
-          return;
-        }
-        viewModel.onPressCancelDuringMatching(context);
-      },
-      child: MatchingLayoutView(
-        image: 'matching',
-        mainMessage: S.current.matching,
-        button: Button(
-          onPressed: () {
-            viewModel.onPressCancelDuringMatching(context);
-          },
-          text: S.current.cancel,
-          backGroundColor: ref.color.deny,
-          fontColor: ref.color.onDeny,
-        ),
-        middleWidget: const LoadingAnimatedBars(),
+    return MatchingLayoutView(
+      image: 'matching',
+      mainMessage: S.current.matching,
+      button: Button(
+        onPressed: () {
+          viewModel.onPressCancelDuringMatching(context);
+        },
+        text: S.current.cancel,
+        backGroundColor: ref.color.deny,
+        fontColor: ref.color.onDeny,
       ),
+      middleWidget: const LoadingAnimatedBars(),
     );
   }
 }
