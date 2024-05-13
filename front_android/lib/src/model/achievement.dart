@@ -6,6 +6,7 @@ class Achievement {
   String? criteria;
   int? grade;
   double? goal;
+  double? prevGoal;
   double? progress;
   String? characterName;
   String? characterImgUrl;
@@ -21,6 +22,7 @@ class Achievement {
       this.criteria,
       this.grade,
       this.goal,
+      this.prevGoal,
       this.progress,
       this.characterName,
       this.characterImgUrl,
@@ -47,10 +49,13 @@ class Achievement {
     if (json["grade"] is int) {
       grade = json["grade"];
     }
-    if (json["goal"] is int) {
+    if (json["goal"] is double) {
       goal = json["goal"];
     }
-    if (json["progress"] is int) {
+    if (json["prevGoal"] is double) {
+      prevGoal = json["prevGoal"];
+    }
+    if (json["progress"] is double) {
       progress = json["progress"];
     }
     if (json["characterName"] is String) {
@@ -79,6 +84,7 @@ class Achievement {
     _data["criteria"] = criteria;
     _data["grade"] = grade;
     _data["goal"] = goal;
+    _data["prevGoal"] = prevGoal;
     _data["progress"] = progress;
     _data["characterName"] = characterName;
     _data["characterImgUrl"] = characterImgUrl;

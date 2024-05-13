@@ -4,6 +4,24 @@ import 'package:front_android/src/model/achievement.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/achievement/widgets/achievement_list_item.dart';
 
+// DISTANCE인 경우 km 출력하기 위한 함수
+String getUnit(String criteria) {
+  switch (criteria) {
+    case "DISTANCE":
+      return 'km';
+    case "TIME":
+      return '분';
+    case "SPEED":
+      return 'km/h';
+    case "CALORIE":
+      return 'kcal';
+    case "COUNT":
+      return '회';
+    default:
+      return '';
+  }
+}
+
 class AchievementList extends ConsumerWidget {
   const AchievementList({
     required this.achievementList,
@@ -36,14 +54,16 @@ class AchievementList extends ConsumerWidget {
         return AchievementListItem(
           id: achievement.id ?? 0,
           type: achievement.type ?? 0,
-          name: achievement.name ?? '',
-          detail: achievement.detail ?? '',
-          criteria: achievement.criteria ?? '',
-          grade: achievement.grade ?? 0,
-          goal: achievement.goal ?? 0,
-          progress: achievement.progress ?? 0,
+          name: achievement.name ?? '지금까지 얼마나 달렸나요?',
+          detail: achievement.detail ?? '총 달린 거리',
+          criteria: getUnit(achievement.criteria ?? "DISTANCE"),
+          grade: achievement.grade ?? 1,
+          goal: achievement.goal ?? 1,
+          prevGoal: achievement.prevGoal ?? 0,
+          progress: achievement.progress = 0.3,
           characterName: achievement.characterName ?? '',
-          characterImgUrl: achievement.characterImgUrl ?? '',
+          characterImgUrl: achievement.characterImgUrl =
+              'assets/images/mainCharacter.png',
           isFinal: achievement.isFinal ?? false,
           isComplete: achievement.isComplete ?? false,
           isReceive: achievement.isReceive ?? false,
@@ -53,34 +73,5 @@ class AchievementList extends ConsumerWidget {
         );
       },
     );
-
-    // return ListView(
-    //   // 아이템 10개 생성
-    //   children: List.generate(5, (index) {
-    //     // colors 배열을 순환하면서 컬러를 보내준다.
-    //     final cardColorsIndex = index == 0 ? 0 : index % cardColors.length;
-    //     return AchievementListItem(
-    //       id: index + 1,
-    //       typeId: index + 1,
-    //       name: '지금까지 얼마나 달렸나요?',
-    //       detail: '총 달린 거리',
-    //       criteria: "km",
-    //       grade: 1,
-    //       goal: index == 1 ? 3.0 : 2.0 * (index + 1),
-    //       current: index == 1
-    //           ? 3.0
-    //           : (Random().nextDouble() + 1.0) *
-    //               (index + 1), // 0이면 0.01로 만들어주는 로직 필요함 (0이면 에러남)
-    //       characterName: '기르핀',
-    //       characterImgUrl: 'assets/images/mainCharacter.png',
-    //       isFinal: false,
-    //       isComplete: index == 1 ? true : false,
-    //       isReceived: false,
-    //       cardBackgroundGradient1: cardColors[cardColorsIndex][0],
-    //       cardBackgroundGradient2: cardColors[cardColorsIndex][1],
-    //       cardTextColor: cardColors[cardColorsIndex][2],
-    //     );
-    //   }),
-    // );
   }
 }

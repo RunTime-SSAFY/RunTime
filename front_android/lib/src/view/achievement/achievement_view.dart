@@ -21,6 +21,7 @@ class _AchievementViewState extends ConsumerState<AchievementView> {
     // 위젯 빌드 후 실행(viewModel 받와야 사용 가능)
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       viewModel.fetchAchievementList();
+      print(viewModel.achievementList);
     });
   }
 

@@ -9,7 +9,7 @@ class AchievementRepository {
   Future<void> getAchievementList() async {
     try {
       var response = await api.get('/api/achievements');
-      print("-----------[repository]-----------");
+      print("--------[AchievementRepository]--------");
       print(response.data);
       achievementList = (response.data as List)
           .map((achievement) => Achievement.fromJson(achievement))
