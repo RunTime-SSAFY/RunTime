@@ -4,9 +4,11 @@ import 'package:front_android/src/service/theme_service.dart';
 
 class AchievementAnimatedProgressBar extends ConsumerWidget {
   final double goal;
+  final double prevGoal;
   final double current;
 
   const AchievementAnimatedProgressBar({
+    required this.prevGoal,
     required this.goal,
     required this.current,
     super.key,
@@ -14,7 +16,7 @@ class AchievementAnimatedProgressBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    double percentage = (current / goal) * 100;
+    double percentage = current == 0 ? 0 : (current / (goal - prevGoal)) * 100;
 
     return Expanded(
       child: TweenAnimationBuilder<double>(
@@ -24,7 +26,6 @@ class AchievementAnimatedProgressBar extends ConsumerWidget {
           return Container(
             alignment: Alignment.centerLeft,
             height: 12,
-            margin: const EdgeInsets.only(left: 10),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),

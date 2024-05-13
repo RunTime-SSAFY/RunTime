@@ -4,49 +4,53 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/achievement/widgets/achievement_animated_progress_bar.dart';
 import 'package:go_router/go_router.dart';
+import 'package:overflow_text_animated/overflow_text_animated.dart';
 
 class AchievementListItem extends ConsumerWidget {
   const AchievementListItem({
     required this.id,
-    required this.typeId,
+    required this.type,
     required this.name,
     required this.detail,
     required this.criteria,
     required this.grade,
     required this.goal,
-    required this.current,
+    required this.prevGoal,
+    required this.progress,
     required this.characterName,
     required this.characterImgUrl,
     required this.isFinal,
     required this.isComplete,
-    required this.isReceived,
+    required this.isReceive,
     required this.cardBackgroundGradient1,
     required this.cardBackgroundGradient2,
     required this.cardTextColor,
     super.key,
   });
 
-  final int id; // 이건 없어도 되지 않을까요?
-  final int typeId; // 도전과제 분류 id
-  final String name; // 도전과제 이름
-  final String detail; // 도전과제 상세 내용
-  final String criteria; // 수치의 단위
-  final int grade; // 도전과제 단계
-  final double goal; // 도전과제가 완료되는 기준
-  final double current; // 진행도
-  final String characterName; // 보상으로 받는 캐릭터 이름
-  final String characterImgUrl; // 보상으로 받는 캐릭터 이미지
-  final bool isFinal; // 마지막 단계인지
-  final bool isComplete; // 완료했는지
-  final bool isReceived; // 수령했는지
+  final int id;
+  final int type;
+  final String name;
+  final String detail;
+  final String criteria;
+  final int grade;
+  final double goal;
+  final double prevGoal;
+  final double progress;
+  final String characterName;
+  final String characterImgUrl;
+  final bool isFinal;
+  final bool isComplete;
+  final bool isReceive;
 
   // !isComplete && !isReceived && !isFinal 인 경우에만 보상받기 표시
-  bool get isShowRewardButton => isComplete && !isReceived;
 
   // 색상
   final Color cardBackgroundGradient1;
   final Color cardBackgroundGradient2;
   final Color cardTextColor;
+
+  bool get isShowRewardButton => isComplete && !isReceive && !isFinal;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -79,13 +83,62 @@ class AchievementListItem extends ConsumerWidget {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  // 제목
+                  Row(
+                    children: [
+                      // 제목
+                      SizedBox(
+                        // 화면 전체 너비 - 페이지 좌우 패딩값 - 카드 좌우 패딩값 - 레벨 박스 아이콘의 크기
+                        width: MediaQuery.of(context).size.width - 40 - 40 - 46,
+                        // 텍스트가 오버플로우 되면 애니메이션으로 스크롤되도록 함
+                        child: OverflowTextAnimated(
+                          // text: isFinal ? 'MAX' : 'LV.$grade',
+                          text: name,
+                          style: ref.typo.headline2.copyWith(
+                            color: ref.color.white,
+                          ),
+                          curve: Curves.fastEaseInToSlowEaseOut,
+                          animation: OverFlowTextAnimations.scrollOpposite,
+                          animateDuration: const Duration(milliseconds: 1500),
+                          delay: const Duration(milliseconds: 500),
+                        ),
+                      ),
+
+                      // Text(
+                      //   name,
+                      //   style: ref.typo.headline2.copyWith(
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
+                      // 레벨 박스 아이콘
+                      Container(
+                        width: 46,
+                        decoration: BoxDecoration(
+                          color: cardTextColor,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 1, bottom: 1),
+                          child: Center(
+                            child: Text(
+                              isFinal ? 'MAX' : 'LV.$grade',
+                              style: ref.typo.subTitle3.copyWith(
+                                color: ref.color.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  // 부제목
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      name,
-                      style: ref.typo.headline2.copyWith(
-                        color: Colors.white,
+                      detail, // 도전과제 상세 내용
+                      style: ref.typo.subTitle4.copyWith(
+                        color: cardTextColor,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -130,29 +183,27 @@ class AchievementListItem extends ConsumerWidget {
                   // isComplete이 true이고, isReceive가 false이고, isFinal이 false 인 경우 위젯 숨기기
                   // 조건에 따라 위젯을 투명하게 만들기
 
-                  // 부제목 및 과제 달성 수치
+                  // 과제 달성 수치
                   Opacity(
                     opacity: !isShowRewardButton ? 1.0 : 0.0,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // 부제목
+                        // 이전 목표수치
                         Text(
-                          detail, // 도전과제 상세 내용
-                          style: ref.typo.subTitle4.copyWith(
-                            color: cardTextColor,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          prevGoal.toStringAsFixed(1) + criteria,
+                          style: ref.typo.subTitle4
+                              .copyWith(color: ref.palette.yellow400),
                         ),
 
-                        // 과제 달성 수치
+                        // 현재 수치와 목표 수치
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             // 현재 수치
                             Text(
                               // 소수점 첫째 자리까지 표시
-                              current.toStringAsFixed(1).toString(),
+                              progress.toStringAsFixed(1).toString(),
                               style: ref.typo.subTitle3
                                   .copyWith(color: ref.palette.yellow400),
                             ),
@@ -170,24 +221,15 @@ class AchievementListItem extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  // 단계 및 수치 그래프
+                  // 수치 그래프
                   Opacity(
                     opacity: !isShowRewardButton ? 1.0 : 0.0,
-                    child: Row(
-                      children: [
-                        // 단계
-                        Text(
-                          'LV.$grade',
-                          style: ref.typo.subTitle3.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
+                    child:
                         // 가로 막대형 수치 그래프(0부터 현재 수치까지 증가하는 애니메이션 포함)
                         AchievementAnimatedProgressBar(
-                            current: current, goal: goal)
-                      ],
+                      current: progress,
+                      goal: goal,
+                      prevGoal: prevGoal,
                     ),
                   ),
                 ],
@@ -197,17 +239,17 @@ class AchievementListItem extends ConsumerWidget {
 
           // Stack 위젯 크기 만큼 버튼을 덮어씌워서 버튼을 누르면 도전과제 완료 표시
           if (isShowRewardButton)
-            Positioned(
+            Positioned.fill(
               bottom: 0,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {
-                    context.push('/achievement/reward');
-                  },
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CupertinoButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        context.push('/achievement/reward');
+                      },
                       child: Container(
                         width: double.infinity,
                         height: 40,
