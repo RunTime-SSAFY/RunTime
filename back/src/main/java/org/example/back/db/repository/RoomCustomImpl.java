@@ -3,6 +3,7 @@ package org.example.back.db.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.back.db.entity.QRoom;
 import org.example.back.db.entity.Room;
 import org.example.back.room.dto.RoomResDto;
@@ -13,9 +14,11 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class RoomCustomImpl implements RoomCustom {
 
     private final JPAQueryFactory query;
@@ -32,7 +35,7 @@ public class RoomCustomImpl implements RoomCustom {
                 .limit(pageSize + 1)
                 .fetch();
 
-        List<RoomResDto> roomResDtos = rooms.stream().map(Room::toRoomResDto).toList();
+        List<RoomResDto> roomResDtos = rooms.stream().map(Room::toRoomResDto).collect(Collectors.toList());
 
         return checkLastPage(pageable, roomResDtos);
     }
@@ -55,7 +58,9 @@ public class RoomCustomImpl implements RoomCustom {
         boolean hasNext = false;
 
         if (results.size() > pageable.getPageSize()) {
+            log.info(results.toString());
             hasNext = true;
+            log.info(String.valueOf(pageable.getPageSize()));
             results.remove(pageable.getPageSize());
         }
 

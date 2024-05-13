@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:go_router/go_router.dart';
 
 class RecordListItem extends ConsumerWidget {
@@ -39,7 +40,8 @@ class RecordListItem extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  date.split(" ")[0] + " " + date.split(" ")[1],
+                  // '2024년 5월' 표시
+                  "${date.split(" ")[0]} ${date.split(" ")[1]}",
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -106,7 +108,7 @@ class RecordListItemCard extends ConsumerWidget {
     return CupertinoButton(
       padding: EdgeInsets.zero,
       onPressed: () {
-        context.push('/record/detail');
+        context.push(RoutePathHelper.recordDetail);
       },
       child: Padding(
         // Navigator.pushNamed(context, RoutePath.recordDetail);
@@ -129,7 +131,6 @@ class RecordListItemCard extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // <Widget> 은 무엇을 의미하는가?
                 Row(
                   children: [
                     Text(mode,

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:front_android/src/service/auth_service.dart';
+import 'package:front_android/src/view/achievement/achievement_reward_view.dart';
 import 'package:front_android/src/view/achievement/achievement_view.dart';
 import 'package:front_android/src/view/battle/battle_result_view.dart';
 import 'package:front_android/src/view/battle/battle_view.dart';
@@ -28,7 +29,7 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 final router = GoRouter(
   debugLogDiagnostics: true, // 디버깅 로그 출력
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/main', // 초기 경로
+  initialLocation: RoutePathHelper.runMain, // 초기 경로
   routes: [
     GoRoute(
       path: '/',
@@ -81,11 +82,14 @@ final router = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const UserModeSearchView(),
     ),
+
     GoRoute(
       path: RoutePathHelper.practiceMode,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const Practice(),
     ),
+
+    // 도전과제 보상 화면
 
     // 바텀내비게이션
     ShellRoute(
@@ -93,25 +97,33 @@ final router = GoRouter(
       builder: (_, __, child) => ScaffoldWithNavBar(child: child),
       routes: [
         GoRoute(
-          path: '/main',
+          path: RoutePathHelper.runMain,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               const NoTransitionPage(child: RunMainView()),
         ),
         GoRoute(
-          path: '/achievement',
+          path: RoutePathHelper.achievement,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               const NoTransitionPage(child: AchievementView()),
+          routes: [
+            GoRoute(
+              path: 'reward',
+              parentNavigatorKey: _rootNavigatorKey,
+              pageBuilder: (BuildContext context, GoRouterState state) =>
+                  const CupertinoPage(child: AchievementRewardView()),
+            ),
+          ],
         ),
         GoRoute(
-          path: '/character',
+          path: RoutePathHelper.character,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               const NoTransitionPage(child: RunMainView()),
         ),
         GoRoute(
-          path: '/record',
+          path: RoutePathHelper.record,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               const NoTransitionPage(child: RecordView()),
@@ -131,24 +143,25 @@ final router = GoRouter(
           ],
         ),
         GoRoute(
-            path: '/profile',
-            parentNavigatorKey: _shellNavigatorKey,
-            pageBuilder: (BuildContext context, GoRouterState state) =>
-                const NoTransitionPage(child: RunMainView()),
-            routes: [
-              GoRoute(
-                path: 'nickname',
-                parentNavigatorKey: _rootNavigatorKey,
-                pageBuilder: (context, state) =>
-                    const NoTransitionPage(child: ProfileEditView()),
-              )
-            ]),
+          path: '/profile',
+          parentNavigatorKey: _shellNavigatorKey,
+          pageBuilder: (BuildContext context, GoRouterState state) =>
+              const NoTransitionPage(child: RunMainView()),
+          routes: [
+            GoRoute(
+              path: 'nickname',
+              parentNavigatorKey: _rootNavigatorKey,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: ProfileEditView()),
+            )
+          ],
+        ),
       ],
     )
   ],
   redirect: (context, state) {
     if (AuthService.instance.accessToken == null) {
-      return '/login';
+      return RoutePathHelper.login;
     } else {
       return null;
     }

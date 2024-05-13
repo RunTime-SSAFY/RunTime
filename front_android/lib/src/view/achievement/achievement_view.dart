@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/src/view/achievement/widgets/achievement_list.dart';
 import 'package:front_android/theme/components/svg_icon.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
@@ -12,7 +13,7 @@ class AchievementView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          S.current.record,
+          S.current.achievement,
           style: ref.typo.appBarMainTitle,
         ),
         actions: const [
@@ -22,7 +23,7 @@ class AchievementView extends ConsumerWidget {
           ),
         ],
       ),
-      body: const Column(),
+      body: const Expanded(child: AchievementList()),
     );
   }
 }
