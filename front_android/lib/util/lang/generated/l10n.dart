@@ -709,6 +709,36 @@ class S {
       args: [],
     );
   }
+
+  /// `연습모드는 나의 최고기록과 대결합니다`
+  String get practiceExplanation {
+    return Intl.message(
+      '연습모드는 나의 최고기록과 대결합니다',
+      name: 'practiceExplanation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `연습시작`
+  String get practiceStart {
+    return Intl.message(
+      '연습시작',
+      name: 'practiceStart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `선택한 기록으로 연습을 시작합니다`
+  String get practiceAdditionalExplanation {
+    return Intl.message(
+      '선택한 기록으로 연습을 시작합니다',
+      name: 'practiceAdditionalExplanation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

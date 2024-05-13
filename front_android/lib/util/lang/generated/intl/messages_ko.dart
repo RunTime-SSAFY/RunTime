@@ -71,7 +71,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("닉네임은 4 ~ 12자 이내로 작성해주세요"),
         "nicknameSetting": MessageLookupByLibrary.simpleMessage("닉네임 설정"),
         "password": MessageLookupByLibrary.simpleMessage("비밀번호"),
+        "practiceAdditionalExplanation":
+            MessageLookupByLibrary.simpleMessage("선택한 기록으로 연습을 시작합니다"),
+        "practiceExplanation":
+            MessageLookupByLibrary.simpleMessage("연습모드는 나의 최고기록과 대결합니다"),
         "practiceMode": MessageLookupByLibrary.simpleMessage("연습 모드"),
+        "practiceStart": MessageLookupByLibrary.simpleMessage("연습시작"),
         "privateRoom": MessageLookupByLibrary.simpleMessage("비밀방"),
         "profile": MessageLookupByLibrary.simpleMessage("프로필"),
         "profileEdit": MessageLookupByLibrary.simpleMessage("프로필 수정"),

@@ -42,11 +42,6 @@ class WaitingMatching extends ConsumerWidget {
           fontColor: ref.color.onDeny,
         ),
         middleWidget: const LoadingAnimatedBars(),
-        // SvgIcon(
-        //   'matching/waitingIcon',
-        //   color: ref.color.onBackground,
-        //   size: 100,
-        // ),
       ),
     );
   }

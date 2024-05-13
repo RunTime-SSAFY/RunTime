@@ -6,6 +6,7 @@ import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';
 import 'package:front_android/src/view/matching/waiting_matching_view.dart';
+import 'package:front_android/src/view/practice/practice_view.dart';
 import 'package:front_android/src/view/profile/profile_edit_view.dart';
 import 'package:front_android/src/view/record/record_detail_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
@@ -73,6 +74,11 @@ final router = GoRouter(
       path: RoutePathHelper.userModeSearch,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const UserModeSearchView(),
+    ),
+    GoRoute(
+      path: RoutePathHelper.practiceMode,
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (_, __) => const Practice(),
     ),
 
     // 바텀내비게이션
