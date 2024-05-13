@@ -1,5 +1,7 @@
 package org.example.back.room.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.back.common.CustomException;
 import org.example.back.db.entity.Member;
@@ -10,9 +12,11 @@ import org.example.back.db.repository.RoomMemberRepository;
 import org.example.back.db.repository.RoomRepository;
 import org.example.back.db.enums.Status;
 import org.example.back.exception.*;
+import org.example.back.realtime_record.dto.StompRealtimeReqDto;
 import org.example.back.room.dto.*;
 import org.example.back.util.SecurityUtil;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -31,6 +35,7 @@ public class RoomService {
     private final SimpMessagingTemplate messagingTemplate;
     private final PasswordEncoder passwordEncoder;
     private final RedisTemplate<String, String> redisTemplate;
+    private final ObjectMapper objectMapper;
 
     @Transactional
     public PostRoomResDto postRoom(PostRoomReqDto postRoomReqDto) {
@@ -108,7 +113,7 @@ public class RoomService {
         // 요청자가 방장인지 확인한다
         Long myMemberId = SecurityUtil.getCurrentMemberId();
 
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(roomId));
 
         if (!myMemberId.equals(room.getManager().getId())) {
             throw new NotManagerException(HttpStatus.BAD_REQUEST, myMemberId + "는 " + roomId + "의 방장이 아닙니다");
@@ -135,7 +140,7 @@ public class RoomService {
         // 요청자가 방장인지 확인한다
         Long myMemberId = SecurityUtil.getCurrentMemberId();
 
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(roomId));
 
         if (!myMemberId.equals(room.getManager().getId())) {
             throw new NotManagerException(HttpStatus.BAD_REQUEST, myMemberId + "는 " + roomId + "의 방장이 아닙니다");
@@ -163,7 +168,7 @@ public class RoomService {
         // 요청자가 방장인지 확인한다
         Long myMemberId = SecurityUtil.getCurrentMemberId();
 
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(roomId));
 
         if (!myMemberId.equals(room.getManager().getId())) {
             throw new NotManagerException(HttpStatus.BAD_REQUEST, myMemberId + "는 " + roomId + "의 방장이 아닙니다");
@@ -186,7 +191,7 @@ public class RoomService {
         // 요청자가 방장인지 확인한다
         Long myMemberId = SecurityUtil.getCurrentMemberId();
 
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(roomId));
 
         if (!myMemberId.equals(room.getManager().getId())) {
             throw new NotManagerException(HttpStatus.BAD_REQUEST, myMemberId + "는 " + roomId + "의 방장이 아닙니다");
@@ -209,24 +214,44 @@ public class RoomService {
     }
 
     @Transactional
-    public RoomMemberResDto enterRoom(Long roomId, String password) {
+    public EnterRoomResDto enterRoom(Long roomId, String password) throws JsonProcessingException {
         Long myMemberId = SecurityUtil.getCurrentMemberId();
         Member me =  memberRepository.findById(myMemberId).orElseThrow(MemberNotFoundException::new);
+        int lastIdx = 0;
+        double lastDistance = 0;
 
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(roomId));
         Optional<RoomMember> roomMember = roomMemberRepository.findByRoomIdAndMemberId(roomId, myMemberId);
         // 이미 입장해 있다면 에러 발생
         if (roomMember.isPresent()) {
             throw new RoomMemberExistsException(HttpStatus.CONFLICT, roomId + "를 방 id로, " + myMemberId +"를 memberId로 지닌 roomMember가 존재합니다");
         }
-        // 게임이 진행 중이라면 에러 발생 TODO 재입장인 경우 수정 필요:
-        if (room.getStatus().name().equals("IN_PROGRESS")) throw new CustomException(HttpStatus.NOT_MODIFIED, room.getId() + "방은 게임이 진행 중이므로 입장할 수 없습니다");
 
         // 비밀방이라면 비밀번호가 일치해야 한다
         if (password != null) {
             if (!passwordEncoder.matches(password, room.getPassword())) {
-                throw new CustomException(HttpStatus.BAD_REQUEST, roomId +"방의 비밀번호가 일치하지 않습니다");
+                throw new CustomException(HttpStatus.BAD_REQUEST, roomId + "방의 비밀번호가 일치하지 않습니다");
             }
+        }
+
+        // 방이 꽉 차 있으면 입장할 수 없다
+        int roomMembersNum = room.getRoomMembers().size();
+        if (room.getCapacity() == roomMembersNum) throw new CustomException(HttpStatus.BAD_REQUEST, roomId + "를 아이디로 지닌 방은 정원이 다 차서 입장할 수 없습니다");
+
+        // 게임이 진행 중이고, 재입장을 할 수 없다면 에러 발생:
+        if (room.getStatus().name().equals("IN_PROGRESS")) {
+            // 재입장을 할 수 있는 경우
+            if (redisTemplate.hasKey("realtime_roomId:" + roomId + "memberId:" + myMemberId)) {
+                StompRealtimeReqDto stompRealtimeReqDto = objectMapper.readValue(redisTemplate.opsForList().range("realtime_roomId:" + roomId + "memberId:" + myMemberId, -1, -1).get(0), StompRealtimeReqDto.class);
+                lastIdx = stompRealtimeReqDto.getIdx();
+                lastDistance = stompRealtimeReqDto.getLon();
+            }
+
+            // 재입장을 할 수 없는 경우
+            else {
+                throw new CustomException(HttpStatus.NOT_MODIFIED, room.getId() + "방은 게임이 진행 중이므로 입장할 수 없습니다");
+            }
+
         }
 
         // roomMember 만들기
@@ -256,7 +281,7 @@ public class RoomService {
                         .action("member").data(memberResDtos).build();
         messagingTemplate.convertAndSend("/topic/room/" + uuid, stompResDto);
 
-        return RoomMemberResDto.builder().roomMemberId(savedRoomMember.getId()).uuid(uuid).build();
+        return EnterRoomResDto.builder().roomMemberId(savedRoomMember.getId()).uuid(uuid).lastIdx(lastIdx).lastDistance(lastDistance).data(memberResDtos).build();
 
     }
 
@@ -265,7 +290,7 @@ public class RoomService {
         Long myMemberId = SecurityUtil.getCurrentMemberId();
         Member me =  memberRepository.findById(myMemberId).orElseThrow(MemberNotFoundException::new);
 
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(roomId));
         Optional<RoomMember> roomMemberOptional = roomMemberRepository.findByRoomIdAndMemberId(roomId, myMemberId);
 
         if (roomMemberOptional.isEmpty()) {
@@ -300,7 +325,7 @@ public class RoomService {
         Long myMemberId = SecurityUtil.getCurrentMemberId();
         Member me =  memberRepository.findById(myMemberId).orElseThrow(MemberNotFoundException::new);
 
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(roomId));
         Optional<RoomMember> roomMemberOptional = roomMemberRepository.findByRoomIdAndMemberId(roomId, myMemberId);
         // 입장해 있지 않다면 error 발생
         if (roomMemberOptional.isEmpty()) {
@@ -324,20 +349,23 @@ public class RoomService {
             }
         }
 
-        // TODO 게임 시작 전인 경우 socket으로 방의 멤버들에게 멤버들의 리스트를 보내준다
-        if (!roomMembers.isEmpty()) {
+        //  게임 시작 전인 경우 socket으로 방의 멤버들에게 멤버들의 리스트를 보내준다
+        String uuid = redisTemplate.opsForValue().get("uuid_roomId:" + roomId);
+        if (!roomMembers.isEmpty() && room.getStatus().name().equals("WAITING")) {
             List<MemberResDto> memberResDtos = roomMembers.stream().map(RoomMember::toMemberResDto).toList();
             memberResDtos.get(0).setManager();
 
             StompResDto stompResDto = StompResDto.builder()
                     .action("member").data(memberResDtos).build();
 
-            String uuid = redisTemplate.opsForValue().get("uuid_roomId:" + roomId);
-
             messagingTemplate.convertAndSend("/topic/room/" + uuid, stompResDto);
         }
 
-        // TODO 게임 진행 중인 경우 socket으로 방의 멤버들에게 나간 멤버의 id를 알려준다
+        // 게임 진행 중인 경우 socket으로 방의 멤버들에게 나간 멤버의 id를 알려준다
+        else if (!roomMembers.isEmpty() && room.getStatus().name().equals("IN_PROGRESS")) {
+            StompExitRoomResDto stompExitRoomResDto = StompExitRoomResDto.builder().nickname(me.getNickname()).build();
+            messagingTemplate.convertAndSend("/topic/room/" + uuid, stompExitRoomResDto);
+        }
 
         return RoomMemberResDto.builder().roomMemberId(roomMemberOptional.get().getId()).build();
 
@@ -345,7 +373,7 @@ public class RoomService {
 
     @Transactional
     public void removeRoom(Long roomId) { // 방 삭제
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(roomId));
 
         redisTemplate.delete("uuid_roomId:" + roomId); // uuid 삭제
 
@@ -358,7 +386,7 @@ public class RoomService {
         // 요청자가 방장인지 확인한다
         Long myMemberId = SecurityUtil.getCurrentMemberId();
 
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(HttpStatus.NOT_FOUND, roomId + "를 id로 가진 방이 존재하지 않습니다"));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(roomId));
 
         if (!myMemberId.equals(room.getManager().getId())) {
             throw new NotManagerException(HttpStatus.BAD_REQUEST, myMemberId + "는 " + roomId + "의 방장이 아닙니다");
@@ -377,6 +405,32 @@ public class RoomService {
         StompResDto stompResDto = StompResDto.builder()
                         .action("start").data(null).build();
         messagingTemplate.convertAndSend("/topic/room/" + roomId, stompResDto);
+
+    }
+
+    public RoomRankingResDto getRanking(Long roomId) throws JsonProcessingException {
+        // 나의 id 가져오기
+        Long myMemberId = SecurityUtil.getCurrentMemberId();
+
+        // 방의 거리 가져오기
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(roomId));
+        double distance = room.getDistance();
+
+        // 멤버가 완주했는 지 확인한다
+        ListOperations<String, String> listOperations = redisTemplate.opsForList();
+        List<String> stompRealtimeReqDtoList =  listOperations.range("realtime_roomId:" + roomId + "memberId:" + myMemberId, -1, -1);
+        if (stompRealtimeReqDtoList == null || stompRealtimeReqDtoList.isEmpty()) throw new CustomException(HttpStatus.BAD_REQUEST, myMemberId + "는 " + roomId + "단체전을 완주하지 못했습니다");
+
+        StompRealtimeReqDto stompRealtimeReqDto = objectMapper.readValue(stompRealtimeReqDtoList.get(0), StompRealtimeReqDto.class);
+        if (stompRealtimeReqDto.getDistance() < distance) throw new CustomException(HttpStatus.BAD_REQUEST, roomId + "단체전을 완주하지 못했습니다");
+
+        // 멤버를 완주한 목록에 추가한다
+        redisTemplate.opsForList().rightPush("ranking_roomId:" + roomId, String.valueOf(myMemberId));
+
+        // 등수를 가져온다
+        Long ranking = redisTemplate.opsForList().size("ranking_roomId:" + roomId);
+
+        return RoomRankingResDto.builder().ranking(ranking).build();
 
     }
 

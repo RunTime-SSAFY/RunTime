@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front_android/util/route_path.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
+import 'package:go_router/go_router.dart';
 
 final battleModeProvider =
     ChangeNotifierProvider((ref) => BattleModeViewModel());
@@ -17,6 +18,6 @@ class BattleModeViewModel with ChangeNotifier {
   String get percent => _percent.toString();
 
   void onPress(BuildContext context) {
-    Navigator.pushNamed(context, RoutePath.beforeMatching);
+    context.push(RoutePathHelper.beforeMatching);
   }
 }

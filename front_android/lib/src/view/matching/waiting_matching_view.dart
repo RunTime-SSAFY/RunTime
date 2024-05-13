@@ -5,7 +5,9 @@ import 'package:front_android/src/view/matching/matching_view_model.dart';
 import 'package:front_android/src/view/matching/widgets/matching_layout.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/theme/components/svg_icon.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 
 class WaitingMatching extends ConsumerWidget {
   const WaitingMatching({super.key});
@@ -13,6 +15,13 @@ class WaitingMatching extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     MatchingViewModel viewModel = ref.watch(matchingViewModelProvider);
+
+    if (viewModel.isMatched) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        viewModel.isMatched = false;
+        context.pushReplacement(RoutePathHelper.matching);
+      });
+    }
 
     return PopScope(
       canPop: false,

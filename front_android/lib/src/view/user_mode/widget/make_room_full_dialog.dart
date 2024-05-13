@@ -8,8 +8,10 @@ import 'package:front_android/src/view/user_mode/widget/toggle_button.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/theme/components/image_background.dart';
 import 'package:front_android/theme/components/keyboard_hiding.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/helper/text_input_format_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 
 class MakeRoomFullDialog extends ConsumerWidget {
   const MakeRoomFullDialog({super.key});
@@ -26,7 +28,7 @@ class MakeRoomFullDialog extends ConsumerWidget {
             backgroundColor: Colors.transparent,
             leading: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                context.pop();
               },
               icon: Icon(
                 Icons.arrow_back_ios,
@@ -109,7 +111,15 @@ class MakeRoomFullDialog extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.all(15),
                 child: Button(
-                  onPressed: viewModel.makeRoom,
+                  onPressed: () async {
+                    var room = await viewModel.makeRoom(context);
+                    if (room != null) {
+                      if (!context.mounted) return;
+                      context.pushReplacement(
+                        RoutePathHelper.waitingRoomWithId(room.roomId),
+                      );
+                    }
+                  },
                   text: S.current.create,
                   backGroundColor: ref.color.accept,
                   fontColor: ref.color.onAccept,

@@ -5,11 +5,14 @@ import 'package:front_android/src/service/https_request_service.dart';
 class UserModeRoomService {
   var api = apiInstance;
 
-  Future<void> makeRoom({required MakeRoomModel makeRoomModel}) async {
+  Future<UserModeRoom> makeRoom({required MakeRoomModel makeRoomModel}) async {
     try {
-      await api.post('/api/rooms', data: makeRoomModel.toJson());
+      var response = await api.post('/api/rooms', data: makeRoomModel.toJson());
+
+      return UserModeRoom.fromJson(response.data);
     } catch (error, stackTrace) {
       debugPrint('$error, $stackTrace');
+      throw Error();
     }
   }
 }

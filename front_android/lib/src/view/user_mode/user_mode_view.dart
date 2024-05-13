@@ -9,6 +9,7 @@ import 'package:front_android/src/view/user_mode/widget/user_mode_room.dart';
 import 'package:front_android/theme/components/circular_indicator.dart';
 import 'package:front_android/theme/components/image_background.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 
 class UserModeView extends ConsumerStatefulWidget {
   const UserModeView({super.key});
@@ -39,7 +40,7 @@ class _UserModeViewState extends ConsumerState<UserModeView> {
             appBar: AppBar(
               leading: IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  context.pop();
                 },
                 icon: Icon(
                   Icons.close,

@@ -4,10 +4,11 @@ import 'package:front_android/src/model/user_mode_room.dart';
 import 'package:front_android/src/repository/user_mode_room_repository.dart';
 import 'package:front_android/src/service/user_mode_room_service.dart';
 import 'package:front_android/src/view/user_mode/widget/make_room_full_dialog.dart';
-import 'package:front_android/util/route_path.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
+import 'package:go_router/go_router.dart';
 
 final userModeViewModelProvider =
-    ChangeNotifierProvider((ref) => UserModeViewModel());
+    ChangeNotifierProvider.autoDispose((ref) => UserModeViewModel());
 
 class UserModeViewModel with ChangeNotifier {
   List<UserModeRoom> _userModeRoomList = [];
@@ -55,7 +56,7 @@ class UserModeViewModel with ChangeNotifier {
   }
 
   void moveToSearch(BuildContext context) {
-    Navigator.pushNamed(context, RoutePath.userModeSearch);
+    context.push(RoutePathHelper.userModeSearch);
   }
 
   final TextEditingController textController = TextEditingController();
@@ -122,8 +123,9 @@ class UserModeViewModel with ChangeNotifier {
   }
 
   UserModeRoomService userModeRoomService = UserModeRoomService();
-  void makeRoom() {
-    if (name.isEmpty) return;
+
+  Future<UserModeRoom?> makeRoom(BuildContext context) async {
+    if (name.isEmpty) return null;
     MakeRoomModel makeRoomModel = MakeRoomModel(
       name: name,
       capacity: capacity,
@@ -131,6 +133,9 @@ class UserModeViewModel with ChangeNotifier {
       password: password,
     );
 
-    userModeRoomService.makeRoom(makeRoomModel: makeRoomModel);
+    var response =
+        await userModeRoomService.makeRoom(makeRoomModel: makeRoomModel);
+
+    return response;
   }
 }

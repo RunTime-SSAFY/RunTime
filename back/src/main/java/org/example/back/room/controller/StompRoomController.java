@@ -39,7 +39,7 @@ public class StompRoomController {
         Long memberId = member.getId();
 
         ListOperations<String, Object> listOperations = redisTemplate.opsForList();
-        listOperations.rightPush("realtime_room:" + roomId + "memberId:" + memberId, objectMapper.writeValueAsString(stompRealtimeReqDto));
+        listOperations.rightPush("realtime_roomId:" + roomId + "memberId:" + memberId, objectMapper.writeValueAsString(stompRealtimeReqDto));
 
         // stomp로 보내준다
         RealtimeDto dataDto = RealtimeDto.builder().nickname(nickname).distance(distance).idx(idx).currentTime(LocalDateTime.now()).build();

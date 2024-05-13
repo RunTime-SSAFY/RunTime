@@ -20,8 +20,8 @@ class Matched extends ConsumerStatefulWidget {
 
 class _Matched extends ConsumerState<Matched> {
   late MatchingViewModel viewModel;
-  late String image = 'matched';
-  late String mainMessage = S.current.matched;
+  late String image;
+  late String mainMessage;
 
   @override
   void initState() {
@@ -38,6 +38,9 @@ class _Matched extends ConsumerState<Matched> {
     if (viewModel.isResponded) {
       image = 'waitingOthers';
       mainMessage = S.current.waitingOthers;
+    } else {
+      image = 'matched';
+      mainMessage = S.current.matched;
     }
 
     return PopScope(

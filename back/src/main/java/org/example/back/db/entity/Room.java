@@ -20,7 +20,7 @@ public class Room extends BaseEntity {
     private Long id;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
     private Member manager; // 방장 id
 

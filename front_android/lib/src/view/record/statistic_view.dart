@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/view/record/widgets/statistics/statistics_card.dart';
+import 'package:front_android/src/view/record/widgets/statistic/statistic_card.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
 
-class StatisticsView extends ConsumerWidget {
-  const StatisticsView({super.key});
+class StatisticView extends ConsumerWidget {
+  const StatisticView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,7 +21,7 @@ class StatisticsView extends ConsumerWidget {
         ),
         centerTitle: true,
         title: Text(
-          S.current.statistics,
+          S.current.statistic,
           style: ref.typo.appBarSubTitle,
         ),
         actions: [],
@@ -29,13 +29,13 @@ class StatisticsView extends ConsumerWidget {
       body: Expanded(
         child: ListView(
           children: const [
-            StatisticsCalendar(),
+            StatisticCalendar(),
             SizedBox(height: 20),
-            StatisticsCard1(),
+            StatisticCard1(),
             SizedBox(height: 20),
-            StatisticsCard2(),
+            StatisticCard2(),
             SizedBox(height: 20),
-            StatisticsCard3(),
+            StatisticCard3(),
             SizedBox(height: 20),
           ],
         ),
@@ -45,8 +45,8 @@ class StatisticsView extends ConsumerWidget {
 }
 
 // 달력
-class StatisticsCalendar extends ConsumerWidget {
-  const StatisticsCalendar({super.key});
+class StatisticCalendar extends ConsumerWidget {
+  const StatisticCalendar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

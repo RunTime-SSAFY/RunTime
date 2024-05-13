@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/view/record/statistics_view.dart';
 import 'package:front_android/theme/components/svg_icon.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
@@ -26,12 +26,7 @@ class RecordTop extends ConsumerWidget {
               CupertinoButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
-                  GoRouter.of(context).push('/record/statistics');
-                  // Navigator.push(
-                  //   context,
-                  //   CupertinoPageRoute(
-                  //       builder: (context) => const StatisticsView()),
-                  // );
+                  context.push(RoutePathHelper.statistic);
                 },
                 child: Row(
                   // 오른쪽 정렬
@@ -39,7 +34,7 @@ class RecordTop extends ConsumerWidget {
                   children: [
                     // 아이콘 추가
                     SvgIcon(
-                      'statistics',
+                      'statistic',
                       color: ref.color.accept,
                       size: 28,
                     ),
