@@ -6,6 +6,7 @@ import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';
 import 'package:front_android/src/view/matching/waiting_matching_view.dart';
+import 'package:front_android/src/view/profile/profile_edit_view.dart';
 import 'package:front_android/src/view/record/record_detail_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
 import 'package:front_android/src/view/record/statistic_view.dart';
@@ -118,11 +119,18 @@ final router = GoRouter(
           ],
         ),
         GoRoute(
-          path: '/profile',
-          parentNavigatorKey: _shellNavigatorKey,
-          pageBuilder: (BuildContext context, GoRouterState state) =>
-              const NoTransitionPage(child: RunMainView()),
-        ),
+            path: '/profile',
+            parentNavigatorKey: _shellNavigatorKey,
+            pageBuilder: (BuildContext context, GoRouterState state) =>
+                const NoTransitionPage(child: RunMainView()),
+            routes: [
+              GoRoute(
+                path: 'nickname',
+                parentNavigatorKey: _rootNavigatorKey,
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: ProfileEditView()),
+              )
+            ]),
       ],
     )
   ],

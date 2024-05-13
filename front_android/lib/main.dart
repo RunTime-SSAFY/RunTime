@@ -64,6 +64,7 @@ void main() async {
   apiInstance.interceptors.add(CustomInterceptor(
     authService: AuthService.instance,
   ));
+  noAuthApi.interceptors.add(CustomInterceptorForNoAuth());
 
   // refreshToken이 있는지 확인
   try {

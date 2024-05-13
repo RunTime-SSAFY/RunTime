@@ -9,7 +9,7 @@ class RunMainViewModel with ChangeNotifier {
   void noNickName(BuildContext context) {
     if (UserService.instance.nickname == '') {
       // Navigator.popAndPushNamed(context, RoutePath.profile);
-      context.push('/nickname');
+      context.go('/profile/nickname');
     }
   }
 }
