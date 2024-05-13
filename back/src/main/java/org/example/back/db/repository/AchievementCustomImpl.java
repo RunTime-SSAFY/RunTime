@@ -11,6 +11,10 @@ import org.example.back.db.entity.QCurrentAchievement;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -30,13 +34,16 @@ public class AchievementCustomImpl implements AchievementCustom{
 		List<Tuple> result = findAchievementQuery(memberId);
 
 		List<AchievementResDto> list = new ArrayList<>();
+		NumberPath<Float> prevGoalPath = Expressions.numberPath(Float.class, "prev_goal");
+		// 별칭을 사용한 prev_grade 필드를 위한 Path 정의
 		result.forEach(el->{
-			System.out.println(el.get(character).getId());
+			System.out.println(el.get(prevGoalPath));
 			list.add(AchievementResDto.builder()
 					.currentAchievement(el.get(currentAchievement))
 					.achievement(el.get(achievement))
 					.character(el.get(character))
 					.achievementType(el.get(achievementType))
+					.prevGoal(el.get(prevGoalPath))
 				.build());
 		});
 
@@ -46,13 +53,22 @@ public class AchievementCustomImpl implements AchievementCustom{
 
 
 	private List<Tuple> findAchievementQuery(Long memberId) {
-		return query.select(achievement, currentAchievement, achievementType, character)
+		return query.select(achievement, currentAchievement, achievementType, character,
+				Expressions.as(
+					JPAExpressions.select(achievement.goal.coalesce(0.0f))
+					.from(achievement)
+					.where(achievement.achievementType.id.eq(currentAchievement.achievementType.id)
+						.and(achievement.grade.eq(currentAchievement.currentGrade.subtract(1))))
+				, "prev_goal")
+
+			)
 			.from(achievement)
-			.join(currentAchievement).on(achievement.achievementType.id.eq(currentAchievement.achievementType.id))
-			.join(achievementType).on(achievement.achievementType.id.eq(achievementType.id))
-			.join(character).on(character.achievement.id.eq(achievement.id))
-			.where(achievement.grade.eq(currentAchievement.currentGrade),
-				currentAchievement.member.id.eq(memberId))
+			.innerJoin(currentAchievement)
+			.on(achievement.achievementType.id.eq(currentAchievement.achievementType.id)
+				.and(currentAchievement.member.id.eq(memberId))
+				.and(achievement.grade.eq(currentAchievement.currentGrade))
+			).innerJoin(achievement.achievementType, achievementType)
+			.innerJoin(achievement.character, character)
 			.fetch();
 	}
 }
