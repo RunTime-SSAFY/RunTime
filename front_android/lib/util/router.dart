@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/view/achievement/achievement_view.dart';
 import 'package:front_android/src/view/battle/battle_result_view.dart';
+import 'package:front_android/src/view/battle/battle_view.dart';
 import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';
@@ -56,6 +57,11 @@ final router = GoRouter(
     ),
     GoRoute(
       path: RoutePathHelper.battle,
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (_, __) => const Battle(),
+    ),
+    GoRoute(
+      path: RoutePathHelper.battleResult,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const BattleResultView(),
     ),
