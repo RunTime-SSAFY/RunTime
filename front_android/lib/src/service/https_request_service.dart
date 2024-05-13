@@ -50,8 +50,8 @@ class CustomInterceptor extends Interceptor {
         var response = await getNewAccessToken();
         originalRequest.headers['Authorization'] =
             'Bearer ${response.data['accessToken']}';
-
-        noAuthApi.request(originalRequest.path, data: originalRequest.data);
+        var newResponse = await noAuthApi.fetch(originalRequest);
+        return handler.resolve(newResponse);
       } catch (error) {
         debugPrint('토큰 재발급 실패: $error');
         AuthService.instance.setRefreshToken(null);
@@ -63,8 +63,7 @@ class CustomInterceptor extends Interceptor {
   }
 }
 
-final noAuthApi = Dio(BaseOptions(baseUrl: dotenv.get('BASE_URL')))
-  ..interceptors.add(CustomInterceptorForNoAuth());
+final noAuthApi = Dio(BaseOptions(baseUrl: dotenv.get('BASE_URL')));
 
 Future<Response> getNewAccessToken() async {
   try {

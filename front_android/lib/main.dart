@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/repository/secure_storage_repository.dart';
 import 'package:front_android/src/service/auth_service.dart';
@@ -48,9 +49,12 @@ void initializeNotification() async {
 void main() async {
   await dotenv.load(fileName: ".env");
 
-  // Kakao SDK
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
+  // splash screen
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  // Kakao SDK
   KakaoSdk.init(
     nativeAppKey: dotenv.get("KAKAO_NATIVE_APP_KEY"),
     javaScriptAppKey: dotenv.get("KAKAO_JAVASCRIPT_KEY"),
@@ -64,6 +68,7 @@ void main() async {
   apiInstance.interceptors.add(CustomInterceptor(
     authService: AuthService.instance,
   ));
+  noAuthApi.interceptors.add(CustomInterceptorForNoAuth());
 
   // refreshToken이 있는지 확인
   try {
@@ -80,8 +85,7 @@ void main() async {
     debugPrint(error.toString());
   }
 
-  var key = await KakaoSdk.origin;
-  print(key);
+  FlutterNativeSplash.remove();
 
   runApp(const ProviderScope(child: MyApp()));
 }
