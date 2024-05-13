@@ -1,17 +1,18 @@
 package org.example.back.friend.service;
 
-import static org.example.back.db.entity.QFriend.*;
-
 import java.util.List;
 import java.util.Objects;
 
 import org.example.back.db.entity.Friend;
 import org.example.back.db.entity.Member;
+import org.example.back.db.entity.Notification;
 import org.example.back.db.entity.Tier;
-import org.example.back.db.enums.AlertType;
+import org.example.back.db.enums.NotificationStatusType;
+import org.example.back.db.enums.NotificationType;
 import org.example.back.db.enums.FriendStatusType;
 import org.example.back.db.repository.FriendRepository;
 import org.example.back.db.repository.MemberRepository;
+import org.example.back.db.repository.NotificationRepository;
 import org.example.back.db.repository.TierRepository;
 import org.example.back.exception.FriendAlreadyExistException;
 import org.example.back.exception.MemberNotFoundException;
@@ -35,6 +36,7 @@ public class FriendService {
 	private final FriendRepository friendRepository;
 	private final MemberRepository memberRepository;
 	private final TierRepository tierRepository;
+	private final NotificationRepository notificationRepository;
 
 	private final FcmUtil fcmUtil;
 
@@ -77,9 +79,20 @@ public class FriendService {
 		}
 		friendRepository.save(friend);
 
+		// FCM 알림 전송
 		String messageBody = requester.getNickname() + "님이 친구요청을 보내셨습니다.";
 
-		fcmUtil.sendAlert(AlertType.FRIEND, "친구 요청", messageBody, addressee, requesterId);
+		fcmUtil.sendAlert(NotificationType.FRIEND, "친구 요청", messageBody, addressee, requesterId);
+
+		// 알림 정보 저장
+		Notification notification = Notification.builder()
+			.member(addressee)
+			.type(NotificationType.FRIEND)
+			.targetId(requesterId)
+			.detail(messageBody)
+			.status(NotificationStatusType.UNREAD)
+			.build();
+		notificationRepository.save(notification);
 
 		return addresseeId;
 	}
@@ -121,7 +134,17 @@ public class FriendService {
 		// 친구요청 수락했다는 알림 전송
 		String messageBody = addressee.getNickname() + "님이 친구요청을 수락하셨습니다.";
 
-		fcmUtil.sendAlert(AlertType.FRIEND, "친구 수락", messageBody, requester, addressee.getId());
+		fcmUtil.sendAlert(NotificationType.FRIEND, "친구 수락", messageBody, requester, addressee.getId());
+
+		// 알림 정보 저장
+		Notification notification = Notification.builder()
+			.member(requester)
+			.type(NotificationType.FRIEND)
+			.targetId(addressee.getId())
+			.detail(messageBody)
+			.status(NotificationStatusType.UNREAD)
+			.build();
+		notificationRepository.save(notification);
 
 		return requesterId;
 
