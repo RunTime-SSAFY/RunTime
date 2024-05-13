@@ -22,6 +22,7 @@ class ThemeService with ChangeNotifier {
 
       /// AppBar
       appBarTheme: AppBarTheme(
+        titleSpacing: 20,
         backgroundColor: theme.color.surface,
         elevation: 0,
         // Android, IOS 다르게 작동하여 false
