@@ -80,21 +80,20 @@ public class AchievementService {
 			float progress = 0.0f;
 			switch (achievement.getCriteria()) {
 				case DISTANCE -> {
-					progress = recordSummary.getTotalDistance() / achievement.getGoal() * 100;
+					progress = recordSummary.getTotalDistance();
 				}
 				case DURATION -> {
-					progress = recordSummary.getTotalDuration() / achievement.getGoal() * 100;
+					progress = recordSummary.getTotalDuration();
 				}
 				case COUNT_WINS -> {
-					progress = recordSummary.getCountWins() / achievement.getGoal() * 100;
+					progress = recordSummary.getCountWins();
 				}
 				case COUNT_FRIENDS -> {
-					progress = countFriends / achievement.getGoal() * 100;
+					progress = countFriends;
 				}
 			}
-			currentAchievement.updateProgress(progress>100.0?100.0f:progress);
-			if (currentAchievement.getProgress() >= 100.0) {
-				currentAchievement.updateProgress(100.0f);
+			currentAchievement.updateProgress(progress);
+			if (currentAchievement.getProgress() >= achievement.getGoal()) {
 				if (!currentAchievement.getIsReceived()) {
 					resDto.setHasReward(true);
 				}
@@ -104,6 +103,7 @@ public class AchievementService {
 		return resDto;
 	}
 
+	@Transactional
 	public AchievementResDto receiveReward(Long achievementTypeId) {
 
 		Long memberId = SecurityUtil.getCurrentMemberId();
@@ -121,8 +121,12 @@ public class AchievementService {
 		CurrentAchievement currentAchievement = currentAchievementRepository.findById(id).orElseThrow(
 			AchievementNotFoundException::new);
 
+		Achievement achievement = achievementRepository.findByAchievementTypeIdAndGrade(achievementTypeId,
+				currentAchievement.getCurrentGrade())
+			.orElseThrow(AchievementNotFoundException::new);
+
 		// 	해당 도전과제의 progress가 100인지 확인
-		if (currentAchievement.getProgress() < 100.0) {
+		if (currentAchievement.getProgress() < achievement.getGoal()) {
 			// 완료되지 않은 도전과제라는 에러 출력
 			throw new AchievementNotCompletedException();
 		}else if(currentAchievement.getIsReceived()){
@@ -171,19 +175,19 @@ public class AchievementService {
 			float progress = 0.0f;
 			switch (achievementType.getCriteria()) {
 				case DISTANCE -> {
-					progress = recordSummary.getTotalDistance() / nextAchievement.getGoal() * 100;
+					progress = recordSummary.getTotalDistance();
 				}
 				case DURATION -> {
-					progress = recordSummary.getTotalDuration() / nextAchievement.getGoal() * 100;
+					progress = recordSummary.getTotalDuration();
 				}
 				case COUNT_WINS -> {
-					progress = recordSummary.getCountWins() / nextAchievement.getGoal() * 100;
+					progress = recordSummary.getCountWins();
 				}
 				case COUNT_FRIENDS -> {
-					progress = countFriends / nextAchievement.getGoal() * 100;
+					progress = countFriends;
 				}
 			}
-			currentAchievement.updateProgress(progress>100.0?100.0f:progress);
+			currentAchievement.updateProgress(progress);
 		}
 		currentAchievementRepository.save(currentAchievement);
 
