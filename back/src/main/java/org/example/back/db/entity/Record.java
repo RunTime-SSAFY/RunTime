@@ -2,6 +2,7 @@ package org.example.back.db.entity;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -52,6 +53,9 @@ public class Record extends BaseEntity {
 
 	@Column(name="duration")
 	private Integer duration;
+
+	@OneToMany(mappedBy = "record")
+	private List<RealtimeRecord> realtimeRecords;
 
 	@Column(name="course_img_url")
 	private String courseImgUrl;

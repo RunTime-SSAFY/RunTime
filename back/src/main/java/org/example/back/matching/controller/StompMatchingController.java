@@ -43,7 +43,7 @@ public class StompMatchingController {
 
         // redis에 저장
         ListOperations<String, Object> listOperations = redisTemplate.opsForList();
-        listOperations.rightPush("realtime_matchingRoom:" + roomId + "memberId:" + memberId, objectMapper.writeValueAsString(stompRealtimeReqDto));
+        listOperations.rightPush("realtime_matchingRoomId:" + roomId + "memberId:" + memberId, objectMapper.writeValueAsString(stompRealtimeReqDto));
 
 //        List<Object> stompRealtimeReqDtoList =  listOperations.range("matchingRoom:" + matchingRoomId + ":" + memberId, 0, -1);
 //        for (Object o: stompRealtimeReqDtoList) {

@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoomMemberResDto {
-    private Long roomMemberId;
+public class RoomRankingResDto {
+    private Long ranking;
 }

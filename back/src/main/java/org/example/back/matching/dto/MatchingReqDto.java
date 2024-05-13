@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StompMatchingSuccessResDto {
-    private String action; // 매칭이 성사된 경우 matching
-    private OpponentResDto data;
+public class MatchingReqDto {
+    private int difference;
 }

@@ -14,7 +14,14 @@ public interface RecordCustom {
 
     RecordSummaryResDto getSummary(Long memberId);
 
+    StatisticsDto getStatisticsByMonth(Member member, LocalDate selectedDate);
+    StatisticsDto getStatisticsByYear(Member member, LocalDate selectedDate);
+    StatisticsDto getStatisticsByAll(Member member);
+
+    Long getBestRecordFromLastTenRecords(Long myMemberId); // 나의 최근 10개의 기록 중 페이스가 가장 좋은 것을 가져온다.
+
     StatisticDto getStatisticByMonth(Member member, LocalDate selectedDate);
     StatisticDto getStatisticByYear(Member member, LocalDate selectedDate);
     StatisticDto getStatisticByAll(Member member);
+
 }
