@@ -197,17 +197,17 @@ class AchievementListItem extends ConsumerWidget {
 
           // Stack 위젯 크기 만큼 버튼을 덮어씌워서 버튼을 누르면 도전과제 완료 표시
           if (isShowRewardButton)
-            Positioned(
+            Positioned.fill(
               bottom: 0,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {
-                    context.push('/achievement/reward');
-                  },
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CupertinoButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        context.push('/achievement/reward');
+                      },
                       child: Container(
                         width: double.infinity,
                         height: 40,
