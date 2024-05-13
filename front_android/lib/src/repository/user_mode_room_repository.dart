@@ -8,7 +8,7 @@ class UserModeRoomRepository {
   final api = apiInstance;
 
   bool hasNext = true;
-  int lastId = 0;
+  int? lastId;
 
   Future<List<UserModeRoom>> getUserModeRoomList(
       {int? lastId, String? searchWord, bool? isSecret}) async {
@@ -18,7 +18,7 @@ class UserModeRoomRepository {
         '/api/rooms',
         queryParameters: {
           if (lastId != null) 'lastId': lastId,
-          if (searchWord != null) 'searchWord': searchWord,
+          if (searchWord != null && searchWord != '') 'searchWord': searchWord,
           'isSecret': isSecret ?? false,
           'pageSize': 5,
         },

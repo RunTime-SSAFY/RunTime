@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
-import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
-import 'package:front_android/util/route_path.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
+import 'package:go_router/go_router.dart';
 
 final matchingViewModelProvider =
     ChangeNotifierProvider.autoDispose<MatchingViewModel>((ref) {
@@ -21,50 +21,44 @@ enum MatchedState {
 }
 
 class MatchingViewModel with ChangeNotifier {
-  final SocketService _battleData;
+  final BattleDataService _battleData;
 
   MatchingViewModel(this._battleData);
 
-  int targetDistance = 3;
+  bool isMatched = false;
 
   // 매칭을 시작하기
-  void toMatchingStartView(BuildContext context) async {
-    // 화면 이동
-    Navigator.popAndPushNamed(context, RoutePath.matching);
+  void onMatchingStart(BuildContext context) async {
+    context.pushReplacement(RoutePathHelper.matching);
+    _battleData.targetDistance = 3000;
 
     // 매칭 시작하라는 요청
     try {
       await _battleData.matchingStart(
         (bool startResponse) {
-          _canStart = startResponse;
+          _canStart = true;
+          isMatched = true;
+          notifyListeners();
         },
       );
     } catch (error) {
       // 에러 토스트 메세지
       print(error.toString());
-      Navigator.pop(context);
+      if (!context.mounted) return;
+      context.pop();
     }
   }
 
   // 매칭 중 취소하기
-  void onPressCancelDuringMatching(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return CancelDialog(
-          onAcceptCancel: () async {
-            // 취소하면 소켓 연결 해제
-            try {
-              await apiInstance.patch('api/matchings/cancel');
-              _battleData.stompInstance.disconnect();
-              Navigator.pop(context);
-            } catch (error) {
-              // 에러 토스트 메세지
-            }
-          },
-        );
-      },
-    );
+  void onPressCancelDuringMatching(BuildContext context) async {
+    try {
+      await apiInstance.patch('api/matchings/cancel');
+      _battleData.stompInstance.disconnect();
+      if (!context.mounted) return;
+      context.pop();
+    } catch (error) {
+      // 에러 토스트 메세지
+    }
   }
 
   Timer? _timer;
@@ -75,10 +69,10 @@ class MatchingViewModel with ChangeNotifier {
   // 매칭되고 나서 시작되는 제한시간 타이머
   // 타이머가 종료되면 응답에 따라 배틀 시작 또는 다시 매칭화면으로 이동
   void startTimer(BuildContext context) {
+    _battleData.subReady();
     _timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
       if (_timerTime > 0) {
         _timerTime -= 50;
-        notifyListeners();
       } else {
         _timer?.cancel();
         _timerTime = 5000;
@@ -90,16 +84,17 @@ class MatchingViewModel with ChangeNotifier {
           // 클라이언트가 거절 누른 경우
           _matchedState = MatchedState.noResponse;
           _canStart = false;
-          Navigator.popAndPushNamed(context, RoutePath.beforeMatching);
+          context.pushReplacement(RoutePathHelper.beforeMatching);
         }
       }
+      notifyListeners();
     });
   }
 
   // matched의 수락 상태
   MatchedState _matchedState = MatchedState.noResponse;
   bool get isResponded => _matchedState != MatchedState.noResponse;
-  bool _canStart = false;
+  late bool _canStart = _battleData.canStart;
 
   void onMatchingResponse(bool response) async {
     if (response) {
@@ -109,8 +104,9 @@ class MatchingViewModel with ChangeNotifier {
       // 매칭 시작에 대한 소켓 구독 취소
       _battleData.disconnect();
     }
+    notifyListeners();
 
-    // 매칭이 되면 수락 여부 전송, _matchedState == MatchedState.accept
+    // 매칭 수락 여부 전송, _matchedState == MatchedState.accept
     try {
       await apiInstance.patch(
         'api/matchings/${_battleData.roomId}/ready',
@@ -121,7 +117,7 @@ class MatchingViewModel with ChangeNotifier {
     } catch (error) {
       // 오류 토스트 메세지
       _matchedState = MatchedState.noResponse;
-      print(error);
+      print('에러 $error');
     }
     notifyListeners();
   }
@@ -129,17 +125,13 @@ class MatchingViewModel with ChangeNotifier {
   void startBattle(BuildContext context) {
     if (_canStart) {
       // 상대도 수락한 경우
-      Navigator.popAndPushNamed(
-        context,
-        RoutePath.battle,
-        arguments: {
-          RouteParameter.targetDistance: targetDistance,
-        },
+      context.pushReplacement(
+        RoutePathHelper.battle,
       );
     } else {
       /// 상대가 거절한 경우
       _matchedState = MatchedState.noResponse;
-      Navigator.popAndPushNamed(context, RoutePath.matching);
+      context.pushReplacement(RoutePathHelper.matching);
     }
   }
 }

@@ -36,7 +36,7 @@ class PaceCalory extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: Text(
-                    ' 분/km',
+                    ' min/km',
                     style: ref.typo.body1.copyWith(
                       color: ref.color.inactive,
                     ),

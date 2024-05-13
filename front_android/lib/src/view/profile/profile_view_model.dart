@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/user_service.dart';
-import 'package:front_android/util/route_path.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
+import 'package:go_router/go_router.dart';
 
 final profileProvider = ChangeNotifierProvider((ref) => ProfileViewModel());
 
@@ -24,7 +25,7 @@ class ProfileViewModel with ChangeNotifier {
         .changeUserInfor(newNickname: nickname, newWeight: weight);
 
     if (result) {
-      Navigator.pushNamed(context, RoutePath.runMain);
+      context.go(RoutePathHelper.runMain);
     }
   }
 }

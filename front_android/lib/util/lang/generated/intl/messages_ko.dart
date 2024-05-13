@@ -25,8 +25,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "EnterSearchTerm": MessageLookupByLibrary.simpleMessage("검색어 입력"),
         "ReallyCancelQuestion":
             MessageLookupByLibrary.simpleMessage("정말로 취소하시겠습니까?"),
-        "ReallyGiveUpQuestion": MessageLookupByLibrary.simpleMessage(
-            "정말로 포기하시겠습니까?\n완료 보상을 획득할 수 없습니다."),
+        "ReallyGiveUpQuestion":
+            MessageLookupByLibrary.simpleMessage("정말로 포기하시겠습니까?"),
         "accept": MessageLookupByLibrary.simpleMessage("수락"),
         "achievement": MessageLookupByLibrary.simpleMessage("도전과제"),
         "avgPace": MessageLookupByLibrary.simpleMessage("평균페이스"),
@@ -90,7 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "runningTime": MessageLookupByLibrary.simpleMessage("달린 시간"),
         "search": MessageLookupByLibrary.simpleMessage("검색"),
         "semanticsButton": MessageLookupByLibrary.simpleMessage("버튼"),
-        "statistics": MessageLookupByLibrary.simpleMessage("통계"),
+        "statistic": MessageLookupByLibrary.simpleMessage("통계"),
         "userMode": MessageLookupByLibrary.simpleMessage("사용자 모드"),
         "waiting": MessageLookupByLibrary.simpleMessage("대기중"),
         "waitingOthers":

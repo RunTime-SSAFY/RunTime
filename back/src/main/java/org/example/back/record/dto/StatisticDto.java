@@ -4,17 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.back.db.enums.StatisticsType;
-
-import java.util.List;
-import java.util.Map;
 
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StatisticsResponseDto {
-    private StatisticsType type;
+public class StatisticDto {
     private int countDay;
     private int calorie;
     private float distance;

@@ -14,6 +14,7 @@ class BattleResultView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     BattleViewModel viewModel = ref.watch(battleViewModelProvider);
+    viewModel.getResult();
 
     return BattleBackground(
       child: Column(

@@ -1,9 +1,9 @@
 interface class DestinationHelper {
-  static String _getForSend(String type, int roomId) => '/pub/$type/$roomId';
-  static String getForSub(String type, int roomId) => '/topic/$type/$roomId';
+  static String _getForSend(String type, String uuid) => '/pub/$type/$uuid';
+  static String getForSub(String type, String uuid) => '/topic/$type/$uuid';
 
-  static String getBattleDestination(String mode, int roomId) {
-    if (mode == BattleModeHelper.practiceMode) {
+  static String getBattleDestination(String mode, String roomId) {
+    if (mode == BattleModeHelper.matching) {
       return _getForSend('matchingRoom', roomId);
     }
     if (mode == BattleModeHelper.userMode) {
@@ -14,6 +14,7 @@ interface class DestinationHelper {
   }
 
   static String getStartMatching(String userId) => '/queue/member/$userId';
+  static String getMatchingReady(String uuid) => '/topic/matchingRoom/$uuid';
 }
 
 interface class BattleModeHelper {
@@ -28,4 +29,5 @@ interface class ActionHelper {
   static get battleRejectedAction => 'notstart';
   static get battleGiveUpAction => 'exit';
   static get roomInforAction => 'member';
+  static get battleRealTimeAction => 'realtime';
 }

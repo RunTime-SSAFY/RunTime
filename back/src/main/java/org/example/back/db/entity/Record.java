@@ -57,6 +57,9 @@ public class Record extends BaseEntity {
 	@OneToMany(mappedBy = "record")
 	private List<RealtimeRecord> realtimeRecords;
 
+	@Column(name="course_img_url")
+	private String courseImgUrl;
+
 	public Long getDuration() {
 		if (runStartTime != null && runEndTime != null) {
 			return Duration.between(runStartTime, runEndTime).toMillis();

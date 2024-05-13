@@ -1,65 +1,192 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
+import 'package:go_router/go_router.dart';
 
 class RecordListItem extends ConsumerWidget {
-  const RecordListItem({super.key});
+  final String mode;
+  final String date;
+  final String type;
+  final String status;
+  final String distance;
+  final String duration;
+  final Color backgroundColor;
+  final Color textColor;
+
+  const RecordListItem({
+    super.key,
+    required this.mode,
+    required this.date,
+    required this.type,
+    required this.status,
+    required this.distance,
+    required this.duration,
+    required this.backgroundColor,
+    required this.textColor,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: Center(
-        child: Container(
-          width: 400, // 전체 컨테이너의 가로 길이
-          height: 100, // 전체 컨테이너의 세로 길이
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.white, width: 3), // 테두리 색상 및 두께
-            color: Colors.black, // 배경 색상
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              // 왼쪽 큰 사각형
-              Container(
-                width: 90,
-                height: 90,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 2),
-                  color: Colors.grey[800], // 버튼 색상
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 2,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 30, right: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  // '2024년 5월' 표시
+                  "${date.split(" ")[0]} ${date.split(" ")[1]}",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              // 오른쪽 세 개의 사각형
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    width: 180,
-                    height: 25,
-                    margin: EdgeInsets.only(bottom: 5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white, width: 2),
-                      color: Colors.grey[800],
+                Text(
+                  date.split(" ")[2],
+                  style: ref.typo.subTitle4.copyWith(
+                    color: ref.palette.gray600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 8,
+          child: Container(
+            // 왼쪽에 선을 그어주기 위한 코드
+            decoration: BoxDecoration(
+                border: Border(left: BorderSide(color: ref.palette.gray400))),
+            // 기록 카드 위젯
+            child: RecordListItemCard(
+              mode: mode,
+              date: date,
+              type: type,
+              status: status,
+              distance: distance,
+              duration: duration,
+              backgroundColor: backgroundColor,
+              textColor: textColor,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class RecordListItemCard extends ConsumerWidget {
+  final String mode;
+  final String date;
+  final String type;
+  final String status;
+  final String distance;
+  final String duration;
+  final Color backgroundColor;
+  final Color textColor;
+
+  const RecordListItemCard({
+    super.key,
+    required this.mode,
+    required this.date,
+    required this.type,
+    required this.status,
+    required this.distance,
+    required this.duration,
+    required this.backgroundColor,
+    required this.textColor,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return CupertinoButton(
+      padding: EdgeInsets.zero,
+      onPressed: () {
+        context.push(RoutePathHelper.recordDetail);
+      },
+      child: Padding(
+        // Navigator.pushNamed(context, RoutePath.recordDetail);
+        padding:
+            const EdgeInsets.only(left: 10, right: 20, top: 10, bottom: 10),
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: backgroundColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 2,
+                  offset: const Offset(1, 2),
+                ),
+              ]),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(mode,
+                        style: ref.typo.headline2.copyWith(
+                          color: textColor,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    const SizedBox(width: 10),
+
+                    // status가 존재하면 상태를 표시
+                    status.isNotEmpty
+                        ? Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: ref.color.accept,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                right: 10,
+                                left: 10,
+                                top: 3,
+                                bottom: 5,
+                              ),
+                              child: Text(
+                                status,
+                                style: ref.typo.subTitle4.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: ref.color.white,
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    distance,
+                    style: ref.typo.headline2.copyWith(
+                      color: textColor,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Container(
-                    width: 180,
-                    height: 25,
-                    margin: EdgeInsets.only(bottom: 5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white, width: 2),
-                      color: Colors.grey[800],
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    duration,
+                    style: ref.typo.subTitle3.copyWith(
+                      color: textColor,
                     ),
                   ),
-                  Container(
-                    width: 180,
-                    height: 25,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white, width: 2),
-                      color: Colors.grey[800],
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

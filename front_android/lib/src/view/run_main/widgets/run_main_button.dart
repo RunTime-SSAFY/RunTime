@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/theme/components/png_image.dart';
+import 'package:go_router/go_router.dart';
 
 class RunMainButton extends ConsumerWidget {
   const RunMainButton({
@@ -20,7 +21,7 @@ class RunMainButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void onPressed() {
-      Navigator.pushNamed(context, modeRoute);
+      context.push(modeRoute);
     }
 
     return GestureDetector(
@@ -48,7 +49,7 @@ class RunMainButton extends ConsumerWidget {
                 ],
               ),
               PngImage(
-                modeRoute,
+                modeRoute.substring(1, modeRoute.length),
                 size: 70,
               ),
               Row(

@@ -3,6 +3,7 @@ package org.example.back.friend.service;
 import static org.example.back.db.entity.QFriend.*;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.example.back.db.entity.Friend;
 import org.example.back.db.entity.Member;
@@ -44,6 +45,10 @@ public class FriendService {
 	public Long request(Long addresseeId) {
 		Long requesterId = SecurityUtil.getCurrentMemberId();
 
+		if (Objects.equals(addresseeId, requesterId)) {
+			throw new MemberNotFoundException();
+		}
+
 		// // 사용자가 친구 요청, 별도의 검증 하지 않고 proxy 객체 사용
 		// Member requester = entityManager.getReference(Member.class, requesterId);
 
@@ -51,7 +56,8 @@ public class FriendService {
 		// 요청 받는 사용자.  db에 존재하는지 확인
 		Member addressee = memberRepository.findById(addresseeId).orElseThrow(MemberNotFoundException::new);
 
-		Friend friend = friendRepository.searchFriendRequest(requesterId);
+		Friend friend = friendRepository.searchFriendRequest(requesterId, addresseeId);
+
 		// 아직 친구 요청을 보낸 적이 없다면 새로 생성
 		if (friend == null) {
 			friend = Friend.builder()
@@ -60,6 +66,7 @@ public class FriendService {
 				.status(FriendStatusType.pending)
 				.build();
 		}else{
+			System.out.println("친구 있음: "+friend.getAddressee().getId()+" "+ friend.getRequester().getId());
 			// 친구요청을 보낸 적이 있고 거절당했다면 새로 신청
 			if(friend.getStatus().equals(FriendStatusType.rejected)){
 				friend.updateStatus(FriendStatusType.pending);
@@ -118,7 +125,7 @@ public class FriendService {
 		Long id = SecurityUtil.getCurrentMemberId();
 
 		// 해당 친구요청 정보를 찾아 status를 rejected로 변경
-		Friend friend = friendRepository.searchFriendRequest(requesterId);
+		Friend friend = friendRepository.searchFriendRequest(requesterId, id);
 		if (friend == null) {
 			throw new MemberNotFoundException();
 		}

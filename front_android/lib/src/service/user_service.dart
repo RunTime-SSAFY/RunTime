@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 
 class UserService {
@@ -9,6 +10,7 @@ class UserService {
   String nickname = '';
   String email = '';
   String characterImgUrl = '';
+  int characterId = -1;
   double weight = 65;
 
   Future<bool> changeUserInfor({
@@ -28,16 +30,17 @@ class UserService {
     }
   }
 
-  Future<bool> getUserInfor() async {
+  Future<void> getUserInfor() async {
     try {
       var response = await apiInstance.get('api/members');
       print(response);
       var data = response.data;
       nickname = data['nickname'];
       weight = data['weight'];
-      return true;
+      characterId = data['characterId'];
+      characterImgUrl = data['characterImgUrl'];
     } catch (error) {
-      return false;
+      debugPrint(error.toString());
     }
   }
 }

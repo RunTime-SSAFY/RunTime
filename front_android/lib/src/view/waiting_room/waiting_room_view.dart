@@ -6,6 +6,7 @@ import 'package:front_android/src/view/waiting_room/widget/participants_grid.dar
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/theme/components/image_background.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 
 class WaitingRoomArguments {
   WaitingRoomArguments({required this.roomId});
@@ -32,7 +33,7 @@ class WaitingRoom extends ConsumerWidget {
           backgroundColor: Colors.transparent,
           leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              context.pop();
             },
             icon: Icon(
               Icons.arrow_back_ios,
