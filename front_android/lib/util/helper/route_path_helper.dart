@@ -5,7 +5,7 @@ enum RouteParameter {
 interface class RoutePathHelper {
   // 로그인 & 메인
   static const String login = '/login';
-  static const String runMain = '/runMain';
+  static const String runMain = '/main';
 
   // 배틀
   static const String battle = '/battle';

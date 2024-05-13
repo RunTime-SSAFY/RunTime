@@ -19,7 +19,6 @@ class ProfileViewModel with ChangeNotifier {
     if (nickname.length < 4) {
       return;
     }
-    print('입력 $weight');
 
     var result = await UserService.instance
         .changeUserInfor(newNickname: nickname, newWeight: weight);

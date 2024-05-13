@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/battle.dart';
 import 'package:front_android/src/repository/distance_repository.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
+import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
 import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/extension.dart';
@@ -49,7 +50,13 @@ class BattleViewModel with ChangeNotifier {
 
   double get currentDistance => distanceService.currentDistance;
 
-  final bool result = true;
+  String get result {
+    if (_battleData.mode != BattleModeHelper.userMode) {
+      return _battleData.result == 1 ? S.current.win : S.current.lose;
+    } else {
+      return '${_battleData.result.toString()}등';
+    }
+  }
 
   final int _point = 30;
   String get point => _point > 0 ? '+$_point' : '$_point';
@@ -132,7 +139,16 @@ class BattleViewModel with ChangeNotifier {
     context.pushReplacement(RoutePathHelper.runMain);
   }
 
-  void getResult() async {}
+  // 배틀 결과
+  void getResult() async {
+    try {
+      var response =
+          await apiInstance.get('api/matchings/${_battleData.roomId}/ranking');
+      _battleData.result = response.data['ranking'];
+    } catch (error) {
+      print(error);
+    }
+  }
 
   @override
   void dispose() {

@@ -15,7 +15,7 @@ class DistanceRepository {
     listenLocation();
   }
 
-  int index = 0;
+  int index = 1;
 
   StreamSubscription<Position>? _positionStream;
   late Position _lastPosition;

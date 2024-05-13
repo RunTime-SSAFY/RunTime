@@ -54,6 +54,8 @@ dependencies:
   firebase_core: ^2.31.0
   firebase_messaging: ^14.9.2
   flutter_local_notifications: ^17.1.2
+  flutter_native_splash: ^2.4.0
+  flutter_launcher_icons: ^0.13.1
   confetti: ^0.7.0
 
 dev_dependencies:
@@ -127,3 +129,16 @@ flutter_intl:
   enabled: true
   arb_dir: lib/util/lang/l10n
   output_dir: lib/util/lang/generated
+
+flutter_native_splash:
+  color: "#ffffff"
+  background_image: assets/images/splash.png
+  android_12:
+    color: "#ffffff"
+    image: assets/images/splash.png
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icon.png"
+  min_sdk_android: 21
