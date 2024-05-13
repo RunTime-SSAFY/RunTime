@@ -62,6 +62,7 @@ public class AuthService {
 			member = Member.builder()
 				.email(email)
 				.character(defaultCharacter)
+				.consecutiveGames(0)
 				.build();
 			// 신규 회원 저장
 			Long id = memberRepository.save(member).getId();
