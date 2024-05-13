@@ -29,6 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("정말로 포기하시겠습니까?"),
         "accept": MessageLookupByLibrary.simpleMessage("수락"),
         "achievement": MessageLookupByLibrary.simpleMessage("도전과제"),
+        "amateur": MessageLookupByLibrary.simpleMessage("아마추어"),
         "avgPace": MessageLookupByLibrary.simpleMessage("평균페이스"),
         "battleMode": MessageLookupByLibrary.simpleMessage("배틀모드"),
         "beforeMatching":
@@ -37,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("대결 상대 찾기"),
         "beforeMatchingHint":
             MessageLookupByLibrary.simpleMessage("지금 바로 실시간으로 대결할 상대를 찾습니다"),
+        "beginner": MessageLookupByLibrary.simpleMessage("비기너"),
         "bestRecord": MessageLookupByLibrary.simpleMessage("최고 기록"),
         "caloryBurn": MessageLookupByLibrary.simpleMessage("소모칼로리"),
         "cancel": MessageLookupByLibrary.simpleMessage("취소하기"),
@@ -78,6 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "practiceMode": MessageLookupByLibrary.simpleMessage("연습 모드"),
         "practiceStart": MessageLookupByLibrary.simpleMessage("연습시작"),
         "privateRoom": MessageLookupByLibrary.simpleMessage("비밀방"),
+        "pro": MessageLookupByLibrary.simpleMessage("프로"),
         "profile": MessageLookupByLibrary.simpleMessage("프로필"),
         "profileEdit": MessageLookupByLibrary.simpleMessage("프로필 수정"),
         "publicRoom": MessageLookupByLibrary.simpleMessage("공개방"),
@@ -104,6 +107,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "weight": MessageLookupByLibrary.simpleMessage("몸무게(선택사항)"),
         "weightRule":
             MessageLookupByLibrary.simpleMessage("입력한 몸무게는 칼로리 계산에만 사용됩니다."),
-        "win": MessageLookupByLibrary.simpleMessage("승리")
+        "win": MessageLookupByLibrary.simpleMessage("승리"),
+        "worldClass": MessageLookupByLibrary.simpleMessage("월드 클래스")
       };
 }

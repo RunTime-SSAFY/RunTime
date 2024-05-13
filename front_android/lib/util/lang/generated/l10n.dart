@@ -739,6 +739,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Amateur`
+  String get amateur {
+    return Intl.message(
+      'Amateur',
+      name: 'amateur',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Beginner`
+  String get beginner {
+    return Intl.message(
+      'Beginner',
+      name: 'beginner',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pro`
+  String get pro {
+    return Intl.message(
+      'Pro',
+      name: 'pro',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `World Class`
+  String get worldClass {
+    return Intl.message(
+      'World Class',
+      name: 'worldClass',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

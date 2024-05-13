@@ -83,12 +83,13 @@ class BattleModeButton extends ConsumerWidget {
                                         color: ref.color.onBackground,
                                       ),
                                     ),
-                                    Text(
-                                      '상위 ${viewModel.percent} %',
-                                      style: ref.typo.body2.copyWith(
-                                        color: ref.color.lightText,
-                                      ),
-                                    )
+                                    const SizedBox(height: 15),
+                                    // Text(
+                                    //   '상위 ${viewModel.percent} %',
+                                    //   style: ref.typo.body2.copyWith(
+                                    //     color: ref.color.lightText,
+                                    //   ),
+                                    // )
                                   ],
                                 ),
                               ),

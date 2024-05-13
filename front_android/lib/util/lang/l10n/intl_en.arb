@@ -68,5 +68,9 @@
   "editProfileDone": "Done",
   "practiceExplanation": "연습모드는 나의 최고기록과 대결합니다",
   "practiceStart": "연습시작",
-  "practiceAdditionalExplanation": "선택한 기록으로 연습을 시작합니다"
+  "practiceAdditionalExplanation": "선택한 기록으로 연습을 시작합니다",
+  "amateur": "Amateur",
+  "beginner": "Beginner",
+  "pro": "Pro",
+  "worldClass": "World Class"
 }
