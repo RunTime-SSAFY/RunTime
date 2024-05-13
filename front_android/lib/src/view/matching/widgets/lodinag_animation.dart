@@ -21,16 +21,16 @@ class _LoadingAnimatedBarsState extends ConsumerState<LoadingAnimatedBars>
     super.initState();
     for (int i = 0; i < numberOfBars; i++) {
       final controller = AnimationController(
-        duration: const Duration(milliseconds: 600),
+        duration: const Duration(milliseconds: 800),
         vsync: this,
-      )..repeat(reverse: true);
+      );
 
       // 각 애니메이션 컨트롤러에 대해 0.2초씩 지연 시작
-      Future.delayed(Duration(milliseconds: i * 200), () {
+      Future.delayed(Duration(milliseconds: i * 350), () {
         controller.repeat(reverse: true);
       });
 
-      final animation = Tween<double>(begin: 50, end: 80).animate(controller);
+      final animation = Tween<double>(begin: 10, end: 80).animate(controller);
       controllers.add(controller);
       animations.add(animation);
     }
@@ -46,6 +46,7 @@ class _LoadingAnimatedBarsState extends ConsumerState<LoadingAnimatedBars>
 
   @override
   Widget build(BuildContext context) {
+    print(animations);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,

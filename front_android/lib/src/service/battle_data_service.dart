@@ -112,7 +112,7 @@ class BattleDataService with ChangeNotifier {
     );
 
     try {
-      await apiInstance.patch('api/matchings', data: {'difference': 200});
+      await apiInstance.patch('api/matchings', data: {'difference': 1000});
     } catch (error) {
       rethrow;
     }
