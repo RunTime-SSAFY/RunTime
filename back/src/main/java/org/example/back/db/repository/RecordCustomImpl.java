@@ -119,4 +119,14 @@ public class RecordCustomImpl implements RecordCustom {
 
     }
 
+    @Override
+    public Long getBestRecordFromLastTenRecords(Long myMemberId) {
+        return query
+                .select(record.id)
+                .from(record)
+                .where(record.member.id.eq(myMemberId))
+                .orderBy(record.createdAt.desc(), record.pace.desc())
+                .fetchOne();
+    }
+
 }

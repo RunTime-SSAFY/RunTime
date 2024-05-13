@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoomMemberResDto {
-    private Long roomMemberId;
+public class StompExitRoomResDto {
+    private final String action = "exit"; // 항상 exit
+    private String nickname; // 나간 유저의 닉네임
 }

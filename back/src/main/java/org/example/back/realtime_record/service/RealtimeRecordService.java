@@ -20,6 +20,7 @@ import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class RealtimeRecordService {
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper;
 
+    @Transactional
     public List<StompRealtimeReqDto> saveRealtimeRecord(SaveRealtimeRecordReqDto saveRealtimeRecordReqDto) throws JsonProcessingException {
         Long myMemberId = SecurityUtil.getCurrentMemberId();
         Long roomId = saveRealtimeRecordReqDto.getRoomId();
@@ -49,7 +51,7 @@ public class RealtimeRecordService {
         // 매칭전(배틀)
         if (gameModeEnum.name().equals("BATTLE")) {
 
-            List<Object> stompRealtimeReqDtoList =  listOperations.range("realtime_matchingRoom:" + roomId + "memberId:" + myMemberId, 0, -1);
+            List<Object> stompRealtimeReqDtoList =  listOperations.range("realtime_matchingRoomId:" + roomId + "memberId:" + myMemberId, 0, -1);
             for (Object o: stompRealtimeReqDtoList) {
                 StompRealtimeReqDto s = objectMapper.readValue((String) o, StompRealtimeReqDto.class);
                 list.add(s);

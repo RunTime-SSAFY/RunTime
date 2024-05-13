@@ -1,19 +1,23 @@
 package org.example.back.matching.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.back.common.CustomException;
 import org.example.back.db.entity.Member;
 import org.example.back.db.enums.Status;
 import org.example.back.db.repository.MemberRepository;
 import org.example.back.exception.MemberNotFoundException;
-import org.example.back.matching.dto.OpponentResDto;
-import org.example.back.matching.dto.StompGameExitResDto;
-import org.example.back.matching.dto.StompGameStartResDto;
-import org.example.back.matching.dto.StompMatchingSuccessResDto;
+import org.example.back.matching.dto.*;
+import org.example.back.realtime_record.dto.StompRealtimeReqDto;
 import org.example.back.redis.entity.MatchingRoom;
 import org.example.back.redis.repository.MatchingRoomRepository;
 import org.example.back.util.SecurityUtil;
+import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -27,33 +31,53 @@ public class MatchingService {
     private final MatchingRoomRepository matchingRoomRepository;
     private final MemberRepository memberRepository;
     private final SimpMessagingTemplate messagingTemplate;
+    private final ObjectMapper objectMapper;
 
-    public void match() { // 매칭 대기열에 나를 추가한다
-        // 나의 id 가져오기
+    public void match(int difference) { // 매칭 대기열에 나를 추가한다
+        // 로그인 된 멤버 가져오기
         Long myMemberId = SecurityUtil.getCurrentMemberId();
+        Member me = memberRepository.findById(myMemberId).orElseThrow(MemberNotFoundException::new);
 
-        redisTemplate.opsForZSet().add("matching", String.valueOf(myMemberId), System.currentTimeMillis());
-
-        // matching sorted set의 크기가 2이상일 때, 맨 앞 두명을 매칭시킨다
-        Long waitingNum = redisTemplate.opsForZSet().zCard("matching");
-        if (waitingNum >= 2) {
-
-            String[] membersId = new String[2];
-
-            Set<String> range = redisTemplate.opsForZSet().range("matching",0, 1);
-            Iterator<String> iterator = range.iterator();
-
-            int idx = 0;
-            while (iterator.hasNext()) {
-                String next = iterator.next();
-                redisTemplate.opsForZSet().remove("matching", next);
-                membersId[idx] = next;
-                idx++;
+        int tierScore = me.getTierScore();
+        int consecutiveGames = me.getConsecutiveGames();
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
+        // 로그인 된 멤버가 세 번 이상으로 연속 승리하고 있는 경우
+        Long opponentMemberId = null;
+        if (consecutiveGames >= 3) {
+            Set<String> values = zSetOperations.reverseRangeByScore("matching", tierScore - difference, tierScore + difference);
+            if (!values.isEmpty()) {
+                opponentMemberId = Long.parseLong(values.iterator().next());
             }
 
-            // toMatchUsers들에게 matching이 성사되었다고 알려준다.
+            else {
+                log.info("opponentMemberId is null");
+            }
+        }
+
+        // 로그인 된 멤버가 세 번 이상으로 연속승리하고 있지 않은 경우
+        else {
+            Set<String> values = zSetOperations.rangeByScore("matching", tierScore - difference, tierScore + difference);
+            if (!values.isEmpty()) {
+                opponentMemberId = Long.parseLong(values.iterator().next());
+            }
+
+            else {
+                log.info("opponentMemberId is null");
+            }
+        }
+
+        // 상대방이랑 매칭이 된 경우
+        if (opponentMemberId != null) {
+
+            // 그 사람을 매칭 대기열에서 제거한다.
+            redisTemplate.opsForZSet().remove("matching", String.valueOf(opponentMemberId));
+
+            Set<String> members = new HashSet<>();
+            members.add(String.valueOf(myMemberId));
+            members.add(String.valueOf(opponentMemberId));
+
             MatchingRoom matchingRoom = MatchingRoom.builder()
-                    .members(range)
+                    .members(members)
                     .status(Status.WAITING)
                     .build();
 
@@ -62,13 +86,14 @@ public class MatchingService {
             UUID uuid = UUID.randomUUID(); // 방의 stomp 연결을 위한 랜덤 스트링
             redisTemplate.opsForValue().set("uuid_matchingRoomId:" + savedMatchingRoom.getId(), uuid.toString()) ; // uuid 저장
 
-            Member secondMember = memberRepository.findById(Long.parseLong(membersId[1])).orElseThrow(MemberNotFoundException::new);
+            Member opponent = memberRepository.findById(opponentMemberId).orElseThrow(MemberNotFoundException::new);
+
             OpponentResDto firstOpponentResDto = OpponentResDto.builder()
                     .matchingRoomId(matchingRoom.getId())
                     .uuid(uuid)
-                    .memberId(Long.parseLong(membersId[1]))
-                    .nickname(secondMember.getNickname())
-                    .characterImgUrl(secondMember.getCharacter().getImgUrl()) // TODO 추후 주석 해제
+                    .memberId(opponentMemberId)
+                    .nickname(opponent.getNickname())
+                    .characterImgUrl(opponent.getCharacter().getImgUrl())
                     .build();
 
             StompMatchingSuccessResDto firstStompMatchingSuccessResDto = StompMatchingSuccessResDto.builder()
@@ -76,28 +101,29 @@ public class MatchingService {
                     .data(firstOpponentResDto)
                     .build();
 
-            Member firstMember = memberRepository.findById(Long.parseLong(membersId[0])).orElseThrow(MemberNotFoundException::new);
-
             OpponentResDto secondOpponentResDto = OpponentResDto.builder()
                     .matchingRoomId(matchingRoom.getId())
                     .uuid(uuid)
-                    .memberId(Long.parseLong(membersId[0]))
-                    .nickname(firstMember.getNickname())
-                    .characterImgUrl(firstMember.getCharacter().getImgUrl()) // TODO 추후 주석 해제
+                    .memberId(myMemberId)
+                    .nickname(me.getNickname())
+                    .characterImgUrl(me.getCharacter().getImgUrl())
                     .build();
             StompMatchingSuccessResDto secondStompMatchingSuccessResDto = StompMatchingSuccessResDto.builder()
                     .data(secondOpponentResDto)
                     .action("matching")
                     .build();
 
-//            String firstMatchingResDtoJson = objectMapper.writeValueAsString(firstMatchingResDto);
-//            String secondMatchingResDtoJson = objectMapper.writeValueAsString(secondMatchingResDto);
+            messagingTemplate.convertAndSend("/queue/member/" + me.getNickname(), firstStompMatchingSuccessResDto);
+            messagingTemplate.convertAndSend("/queue/member/" + opponent.getNickname(), secondStompMatchingSuccessResDto);
 
-            messagingTemplate.convertAndSend("/queue/member/" + firstMember.getNickname(), firstStompMatchingSuccessResDto);
-            log.info(firstMember.getNickname());
-            messagingTemplate.convertAndSend("/queue/member/" + secondMember.getNickname(), secondStompMatchingSuccessResDto);
-            log.info(secondMember.getNickname());
         }
+
+        // 상대방이랑 매칭이 되지 않은 경우: 자신을 매칭 대기열에 추가한다.
+        else {
+            redisTemplate.opsForZSet().add("matching", String.valueOf(myMemberId), tierScore);
+        }
+
+
 
     }
 
@@ -193,6 +219,28 @@ public class MatchingService {
                 .action("exit").build();
 
         messagingTemplate.convertAndSend("/topic/matchingRoom/" + uuid, stompGameExitResDto);
+
+    }
+
+    public MatchingRankingResDto getRanking(Long matchingRoomId) throws JsonProcessingException {
+        // 나의 id 가져오기
+        Long myMemberId = SecurityUtil.getCurrentMemberId();
+
+        // 멤버가 완주했는 지 확인한다
+        ListOperations<String, String> listOperations = redisTemplate.opsForList();
+        List<String> stompRealtimeReqDtoList =  listOperations.range("realtime_matchingRoomId:" + matchingRoomId + "memberId:" + myMemberId, -1, -1);
+        if (stompRealtimeReqDtoList == null || stompRealtimeReqDtoList.isEmpty()) throw new CustomException(HttpStatus.BAD_REQUEST, myMemberId + "는 " + matchingRoomId + "매칭전을 완주하지 못했습니다");
+
+        StompRealtimeReqDto stompRealtimeReqDto = objectMapper.readValue(stompRealtimeReqDtoList.get(0), StompRealtimeReqDto.class);
+        if (stompRealtimeReqDto.getDistance() < 3000) throw new CustomException(HttpStatus.BAD_REQUEST, matchingRoomId + "매칭전을 완주하지 못했습니다"); // 매칭전은 3KM 고정
+
+        // 멤버를 완주한 목록에 추가한다
+        redisTemplate.opsForList().rightPush("ranking_matchingRoomId:" + matchingRoomId, String.valueOf(myMemberId));
+
+        // 등수를 가져온다
+        Long ranking = redisTemplate.opsForList().size("ranking_matchingRoomId:" + matchingRoomId);
+
+        return MatchingRankingResDto.builder().ranking(ranking).build();
 
     }
 
