@@ -62,6 +62,7 @@ public class Member extends BaseEntity {
 	private Integer tierScore;
 
 	@Column(name = "weight")
+	@ColumnDefault("65")
 	private Float weight;
 
 	@Column(name = "is_deleted")
