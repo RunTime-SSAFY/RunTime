@@ -54,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "enter": MessageLookupByLibrary.simpleMessage("Enter"),
         "findRoom": MessageLookupByLibrary.simpleMessage("Finding Room"),
         "gameStart": MessageLookupByLibrary.simpleMessage("Game Start"),
+        "getReady": MessageLookupByLibrary.simpleMessage("get Ready"),
         "giveUp": MessageLookupByLibrary.simpleMessage("giving up"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "inProgress": MessageLookupByLibrary.simpleMessage("In Progress"),

@@ -35,9 +35,11 @@ void initializeNotification() async {
           'high_importance_channel', 'high_importance_notification',
           importance: Importance.max));
 
-  await flutterLocalNotificationsPlugin.initialize(const InitializationSettings(
-    android: AndroidInitializationSettings("@mipmap/ic_launcher"),
-  ));
+  await flutterLocalNotificationsPlugin.initialize(
+    const InitializationSettings(
+      android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+    ),
+  );
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,

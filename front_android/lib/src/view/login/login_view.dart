@@ -4,7 +4,6 @@ import 'package:front_android/src/service/lang_service.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/login/widgets/kakao_login_button.dart';
 import 'package:front_android/theme/components/bottom_sheet/bottom_sheet_setting.dart';
-import 'package:front_android/theme/components/png_image.dart';
 
 class LoginView extends ConsumerWidget {
   const LoginView({super.key});
@@ -47,7 +46,7 @@ class LoginView extends ConsumerWidget {
                         const Spacer(
                           flex: 2,
                         ),
-                        const PngImage("mainCharacter"),
+                        Image.asset("assets/images/mainCharacter.gif"),
                         const Spacer(
                           flex: 1,
                         ),

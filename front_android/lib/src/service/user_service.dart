@@ -8,7 +8,6 @@ class UserService {
   static UserService get instance => _instance;
 
   late String nickname;
-  late String email;
   late String characterImgUrl;
   late int characterId;
   double weight = 65;
@@ -35,14 +34,13 @@ class UserService {
   Future<void> getUserInfor() async {
     try {
       var response = await apiInstance.get('api/members');
-      print(response);
       var data = response.data;
-      nickname = data['nickname'];
-      weight = data['weight'];
-      characterId = data['characterId'];
+      nickname = data['nickname'] ?? '';
+      weight = data['weight'] ?? weight;
+      characterId = data['characterId'] ?? 1;
       characterImgUrl = data['characterImgUrl'] ?? '';
-      tierScore = data['tierScore'];
-      tierName = data['tierName'];
+      tierScore = data['tierScore'] ?? 0;
+      tierName = data['tierName'] ?? tierName;
     } catch (error) {
       debugPrint(error.toString());
     }
