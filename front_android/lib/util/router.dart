@@ -160,7 +160,7 @@ final router = GoRouter(
     )
   ],
   redirect: (context, state) {
-    if (AuthService.instance.accessToken == null) {
+    if (AuthService.instance.refreshToken == null) {
       return RoutePathHelper.login;
     } else {
       return null;

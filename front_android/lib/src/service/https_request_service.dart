@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:front_android/src/repository/secure_storage_repository.dart';
 import 'package:front_android/src/service/auth_service.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
+import 'package:front_android/util/router.dart';
 
 final apiInstance = Dio(
   BaseOptions(
@@ -55,6 +58,10 @@ class CustomInterceptor extends Interceptor {
       } catch (error) {
         debugPrint('토큰 재발급 실패: $error');
         AuthService.instance.setRefreshToken(null);
+        await SecureStorageRepository.instance.setRefreshToken(null);
+        await SecureStorageRepository.instance.setAccessToken(null);
+        // 나중에 확인 필수
+        router.go(RoutePathHelper.login);
       }
     } else {
       debugPrint('에러 메세지 ${err.message}');
@@ -86,8 +93,6 @@ Future<Response> getNewAccessToken() async {
 }
 
 class CustomInterceptorForNoAuth extends Interceptor {
-  CustomInterceptorForNoAuth();
-
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
@@ -111,7 +116,6 @@ class CustomInterceptorForNoAuth extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     debugPrint('noAuth $err');
-
     super.onError(err, handler);
   }
 }
