@@ -16,7 +16,16 @@ class AchievementAnimatedProgressBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    double percentage = current == 0 ? 0 : (current / (goal - prevGoal)) * 100;
+    // 현재 진행률 계산
+    double percentage;
+
+    if (current <= prevGoal) {
+      percentage = 0;
+    } else if (current >= goal) {
+      percentage = 100;
+    } else {
+      percentage = current / (goal - prevGoal) * 100;
+    }
 
     return Expanded(
       child: TweenAnimationBuilder<double>(

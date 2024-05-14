@@ -20,7 +20,9 @@ final class AchievementViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  // 업적 보상 받기
   void getReward(int typeId) async {
+    print('viewModel - typeId : $typeId');
     await achievementRepository.getReward(typeId);
     notifyListeners();
   }

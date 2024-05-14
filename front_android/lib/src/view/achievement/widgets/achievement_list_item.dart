@@ -58,6 +58,7 @@ class AchievementListItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(achievementProvider);
+
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
       // 실제 보이는 카드 모양 시작
@@ -151,8 +152,9 @@ class AchievementListItem extends ConsumerWidget {
                     padding: const EdgeInsets.all(10),
                     child: Column(
                       children: [
-                        // 캐릭터 이미지
-                        Image.asset(
+                        // 캐릭터 이미지 (온라인 사진 가져와서 이미지 자르기(x: 460, y: 40, w: 1000, x: 1000))
+
+                        Image.network(
                           characterImgUrl,
                           width: 80,
                           height: 80,

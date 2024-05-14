@@ -25,8 +25,8 @@ class AchievementRepository {
   // 보상받기 함수
   Future<void> getReward(int typeId) async {
     try {
-      var response = await api.fetch(RequestOptions(
-          path: '/api/achievements/$typeId')); // Use RequestOptions
+      var response =
+          await api.patch('/api/achievements/$typeId'); // Use RequestOptions
       newAchievement = Achievement.fromJson(response.data);
       print("--------[AchievementRepository] getReward --------");
       print(response.data);

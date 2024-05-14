@@ -61,12 +61,12 @@ class AchievementList extends ConsumerWidget {
           grade: achievement.grade ?? 1,
           goal: achievement.goal ?? 1,
           prevGoal: achievement.prevGoal ?? 0,
-          progress: achievement.progress ?? 0,
+          progress: achievement.progress = 1,
           characterName: achievement.characterName ?? '',
-          characterImgUrl: achievement.characterImgUrl =
-              'assets/images/mainCharacter.png',
+          characterImgUrl:
+              achievement.characterImgUrl ?? 'assets/images/mainCharacter.png',
           isFinal: achievement.isFinal ?? false,
-          isComplete: achievement.isComplete ?? false,
+          isComplete: achievement.isComplete = true,
           isReceive: achievement.isReceive ?? false,
           cardBackgroundGradient1: cardColors[cardColorsIndex][0],
           cardBackgroundGradient2: cardColors[cardColorsIndex][1],
