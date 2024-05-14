@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:front_android/src/model/achievement.dart';
 import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/view/achievement/achievement_reward_view.dart';
 import 'package:front_android/src/view/achievement/achievement_view.dart';
@@ -111,8 +113,13 @@ final router = GoRouter(
             GoRoute(
               path: 'reward',
               parentNavigatorKey: _rootNavigatorKey,
-              pageBuilder: (BuildContext context, GoRouterState state) =>
-                  const CupertinoPage(child: AchievementRewardView()),
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return CupertinoPage(
+                  child: AchievementRewardView(
+                    data: state.extra as AchievementRewardRequest,
+                  ),
+                );
+              },
             ),
           ],
         ),

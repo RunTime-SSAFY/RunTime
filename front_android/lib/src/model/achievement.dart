@@ -94,3 +94,20 @@ class Achievement {
     return _data;
   }
 }
+
+// 리워드 파라미터
+class AchievementRewardRequest {
+  final int id;
+  final int typeId;
+  final bool isFinal;
+  final String characterName;
+  final String characterImgUrl;
+
+  AchievementRewardRequest({
+    required this.id,
+    required this.typeId,
+    required this.isFinal,
+    required this.characterName,
+    required this.characterImgUrl,
+  });
+}
