@@ -23,10 +23,7 @@ class UserModeRoomCard extends ConsumerWidget {
     return GestureDetector(
       onTapUp: (details) {
         context.push(
-          RoutePathHelper.waitingRoom,
-          extra: {
-            'roomId': room.roomId,
-          },
+          RoutePathHelper.waitingRoomWithId(room.roomId),
         );
       },
       child: Container(
@@ -86,10 +83,12 @@ class UserModeRoomList extends ConsumerWidget {
   const UserModeRoomList({
     super.key,
     required this.userModeRoomList,
+    required this.canFetchMore,
     required this.getRoomList,
   });
 
   final List<UserModeRoom> userModeRoomList;
+  final bool canFetchMore;
   final void Function() getRoomList;
 
   @override
@@ -98,7 +97,8 @@ class UserModeRoomList extends ConsumerWidget {
       onNotification: (notification) {
         if (notification is ScrollUpdateNotification &&
             notification.metrics.pixels >=
-                notification.metrics.maxScrollExtent) {
+                notification.metrics.maxScrollExtent &&
+            canFetchMore) {
           getRoomList();
         }
         return false;

@@ -1,6 +1,9 @@
 package org.example.back.matching.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import org.example.back.matching.dto.MatchingReqDto;
+import org.example.back.matching.dto.MatchingRankingResDto;
 import org.example.back.matching.dto.ReadyReqDto;
 import org.example.back.matching.service.MatchingService;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +16,9 @@ public class MatchingController {
 
     private final MatchingService matchingService;
     @PatchMapping("")
-    public ResponseEntity<Void> matchingRequest(){
-        matchingService.match();
+    public ResponseEntity<Void> matchingRequest(@RequestBody MatchingReqDto matchingReqDto){
+        int difference = matchingReqDto.getDifference();
+        matchingService.match(difference);
 
         return ResponseEntity.ok().build();
     }
@@ -43,5 +47,12 @@ public class MatchingController {
 
         return ResponseEntity.ok().build();
 
+    }
+
+    @GetMapping("/{matchingRoomId}/ranking")
+    public ResponseEntity<MatchingRankingResDto> ranking(@PathVariable Long matchingRoomId) throws JsonProcessingException {
+        MatchingRankingResDto rankingResDto = matchingService.getRanking(matchingRoomId);
+
+        return ResponseEntity.ok().body(rankingResDto);
     }
 }

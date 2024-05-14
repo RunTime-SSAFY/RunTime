@@ -7,15 +7,17 @@ import 'package:geolocator/geolocator.dart';
 class DistanceRepository {
   final StompRepository socket;
   final String sendDestination;
+  final int roomId;
 
   DistanceRepository({
     required this.socket,
     required this.sendDestination,
+    required this.roomId,
   }) {
     listenLocation();
   }
 
-  int index = 0;
+  int index = 1;
 
   StreamSubscription<Position>? _positionStream;
   late Position _lastPosition;
@@ -25,6 +27,7 @@ class DistanceRepository {
   bool get isNotListening => _positionStream == null;
   double instantaneousVelocity = 0;
   late double _distanceBetween;
+  bool reenter = false;
 
   Future<void> listenLocation() async {
     _lastPosition = await Geolocator.getCurrentPosition();
@@ -51,6 +54,8 @@ class DistanceRepository {
             position: position,
             currentDistance: _currentDistance,
             index: index,
+            roomId: roomId,
+            reenter: reenter,
           ).toJson(),
         );
         index++;

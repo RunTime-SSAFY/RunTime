@@ -3,12 +3,18 @@ package org.example.back.util;
 import java.security.Key;
 import java.util.Date;
 
+import org.example.back.redis.repository.BlackListRepository;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class JWTUtil {
 
+
 	private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24*4;  // 4일
+
 	public static String getId(String token, String secretKey) {
 		return Jwts.parser()
 			.setSigningKey(secretKey)
@@ -47,5 +53,16 @@ public class JWTUtil {
 			.expiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
 			.signWith(SignatureAlgorithm.HS512, secretKey)
 			.compact();
+	}
+
+	public static Long getExpiration(String token, String secretKey) {
+		long expiration = Jwts.parser()
+			.setSigningKey(secretKey)
+			.build()
+			.parseClaimsJws(token)
+			.getBody()
+			.getExpiration().getTime();
+		Long now = new Date().getTime();
+		return expiration-now;
 	}
 }

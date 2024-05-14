@@ -7,11 +7,12 @@ class UserService {
   static final _instance = UserService._();
   static UserService get instance => _instance;
 
-  String nickname = '';
-  String email = '';
-  String characterImgUrl = '';
-  int characterId = -1;
+  late String nickname;
+  late String characterImgUrl;
+  late int characterId;
   double weight = 65;
+  late int tierScore;
+  late String tierName = 'beginner_1';
 
   Future<bool> changeUserInfor({
     required String newNickname,
@@ -33,12 +34,13 @@ class UserService {
   Future<void> getUserInfor() async {
     try {
       var response = await apiInstance.get('api/members');
-      print(response);
       var data = response.data;
-      nickname = data['nickname'];
-      weight = data['weight'];
-      characterId = data['characterId'];
-      characterImgUrl = data['characterImgUrl'];
+      nickname = data['nickname'] ?? '';
+      weight = data['weight'] ?? weight;
+      characterId = data['characterId'] ?? 1;
+      characterImgUrl = data['characterImgUrl'] ?? '';
+      tierScore = data['tierScore'] ?? 0;
+      tierName = data['tierName'] ?? tierName;
     } catch (error) {
       debugPrint(error.toString());
     }

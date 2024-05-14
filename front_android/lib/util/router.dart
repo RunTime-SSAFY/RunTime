@@ -3,10 +3,13 @@ import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/view/achievement/achievement_reward_view.dart';
 import 'package:front_android/src/view/achievement/achievement_view.dart';
 import 'package:front_android/src/view/battle/battle_result_view.dart';
+import 'package:front_android/src/view/battle/battle_view.dart';
 import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';
 import 'package:front_android/src/view/matching/waiting_matching_view.dart';
+import 'package:front_android/src/view/practice/practice_view.dart';
+import 'package:front_android/src/view/profile/profile_edit_view.dart';
 import 'package:front_android/src/view/record/record_detail_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
 import 'package:front_android/src/view/record/statistic_view.dart';
@@ -56,6 +59,11 @@ final router = GoRouter(
     GoRoute(
       path: RoutePathHelper.battle,
       parentNavigatorKey: _rootNavigatorKey,
+      builder: (_, __) => const Battle(),
+    ),
+    GoRoute(
+      path: RoutePathHelper.battleResult,
+      parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const BattleResultView(),
     ),
     GoRoute(
@@ -74,6 +82,13 @@ final router = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const UserModeSearchView(),
     ),
+
+    GoRoute(
+      path: RoutePathHelper.practiceMode,
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (_, __) => const Practice(),
+    ),
+
     // 도전과제 보상 화면
 
     // 바텀내비게이션
@@ -128,16 +143,24 @@ final router = GoRouter(
           ],
         ),
         GoRoute(
-          path: RoutePathHelper.profile,
+          path: '/profile',
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               const NoTransitionPage(child: RunMainView()),
+          routes: [
+            GoRoute(
+              path: 'nickname',
+              parentNavigatorKey: _rootNavigatorKey,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: ProfileEditView()),
+            )
+          ],
         ),
       ],
     )
   ],
   redirect: (context, state) {
-    if (AuthService.instance.accessToken == null) {
+    if (AuthService.instance.refreshToken == null) {
       return RoutePathHelper.login;
     } else {
       return null;

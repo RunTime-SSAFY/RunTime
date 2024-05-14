@@ -1,6 +1,8 @@
 package org.example.back.config;
 
 import org.example.back.auth.service.AuthService;
+import org.example.back.db.repository.MemberRepository;
+import org.example.back.redis.repository.BlackListRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +25,8 @@ public class SecurityConfig {
 
 
 	private final AuthService memberService;
+	private final BlackListRepository blackListRepository;
+	private final MemberRepository memberRepository;
 
 	@Value("${jwt.secret}")
 	private String secretKey;
@@ -40,7 +44,7 @@ public class SecurityConfig {
 			.sessionManagement(
 				sessionManagement->sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) //세션 stateless -> 세션 안 쓴다는 뜻
 			)
-			.addFilterBefore(new JwtFilter(memberService, secretKey), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(new JwtFilter(memberService, blackListRepository, memberRepository, secretKey), UsernamePasswordAuthenticationFilter.class)
 			.build();
 	}
 

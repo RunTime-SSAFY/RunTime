@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class StompMatchingSuccessResDto {
-    private String action; // 매칭이 성사된 경우 matching, 게임이 시작된 경우 start,
+    private String action; // 매칭이 성사된 경우 matching
     private OpponentResDto data;
 }

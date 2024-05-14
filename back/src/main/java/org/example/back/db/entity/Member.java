@@ -3,6 +3,8 @@ package org.example.back.db.entity;
 import org.example.back.common.BaseEntity;
 import org.example.back.db.enums.RoleType;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,6 +30,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 public class Member extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,13 +57,16 @@ public class Member extends BaseEntity {
 	private String email;
 
 	@Column(name = "tier_score")
+	@ColumnDefault("0")
 	private Integer tierScore;
 
 	@Column(name = "weight")
+	@ColumnDefault("65")
 	private Float weight;
 
 	@Column(name = "is_deleted")
-	private Byte isDeleted;
+	@ColumnDefault("0")
+	private Boolean isDeleted;
 
 	@Column(name = "consecutive_games")
 	@ColumnDefault("0")

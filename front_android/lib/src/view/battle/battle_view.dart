@@ -66,6 +66,8 @@ class _BattleState extends ConsumerState<Battle> {
   Widget build(BuildContext context) {
     BattleViewModel viewModel = ref.watch(battleViewModelProvider);
     if (viewModel.currentDistance > viewModel.targetDistance) {
+      print(
+          '.현재 거리 ${viewModel.currentDistance}, 목표 거리 ${viewModel.targetDistance}');
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         viewModel.onBattleDone(context);
       });

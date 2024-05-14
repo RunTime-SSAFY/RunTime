@@ -79,17 +79,13 @@ interface class KakaoService {
   static Future<String> _getOurToken(OAuthToken token) async {
     var fcmToken = await FirebaseMessaging.instance.getToken();
     try {
-      User user = await UserApi.instance.me();
       var response = await noAuthApi.post(
         'api/auth/login',
         data: {
-          "email": user.kakaoAccount?.email,
+          "accessToken": token.accessToken,
           'fcmToken': fcmToken,
         },
       );
-      if (user.kakaoAccount?.email != null) {
-        UserService.instance.email = user.kakaoAccount!.email!;
-      }
 
       var ourToken = response.data;
       await _saveToken(ourToken);

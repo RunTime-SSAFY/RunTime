@@ -30,6 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "정말로 포기하시겠습니까?\n완료 보상을 획득할 수 없습니다."),
         "accept": MessageLookupByLibrary.simpleMessage("accept"),
         "achievement": MessageLookupByLibrary.simpleMessage("Achievement"),
+        "amateur": MessageLookupByLibrary.simpleMessage("Amateur"),
         "avgPace": MessageLookupByLibrary.simpleMessage("Avg. Pace"),
         "battleMode": MessageLookupByLibrary.simpleMessage("Battle Mode"),
         "beforeMatching":
@@ -38,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("대결 상대 찾기"),
         "beforeMatchingHint":
             MessageLookupByLibrary.simpleMessage("지금 바로 실시간으로 대결할 상대를 찾습니다"),
+        "beginner": MessageLookupByLibrary.simpleMessage("Beginner"),
         "bestRecord": MessageLookupByLibrary.simpleMessage("Best Record"),
         "caloryBurn": MessageLookupByLibrary.simpleMessage("Burned Calory"),
         "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
@@ -52,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "enter": MessageLookupByLibrary.simpleMessage("Enter"),
         "findRoom": MessageLookupByLibrary.simpleMessage("Finding Room"),
         "gameStart": MessageLookupByLibrary.simpleMessage("Game Start"),
+        "getReady": MessageLookupByLibrary.simpleMessage("get Ready"),
         "giveUp": MessageLookupByLibrary.simpleMessage("giving up"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "inProgress": MessageLookupByLibrary.simpleMessage("In Progress"),
@@ -72,8 +75,14 @@ class MessageLookup extends MessageLookupByLibrary {
             "nickname should be 4 ~ 12 length"),
         "nicknameSetting": MessageLookupByLibrary.simpleMessage("set nickname"),
         "password": MessageLookupByLibrary.simpleMessage("password"),
+        "practiceAdditionalExplanation":
+            MessageLookupByLibrary.simpleMessage("선택한 기록으로 연습을 시작합니다"),
+        "practiceExplanation":
+            MessageLookupByLibrary.simpleMessage("연습모드는 나의 최고기록과 대결합니다"),
         "practiceMode": MessageLookupByLibrary.simpleMessage("Practice Mode"),
+        "practiceStart": MessageLookupByLibrary.simpleMessage("연습시작"),
         "privateRoom": MessageLookupByLibrary.simpleMessage("Private Room"),
+        "pro": MessageLookupByLibrary.simpleMessage("Pro"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "profileEdit": MessageLookupByLibrary.simpleMessage("Edit Profile"),
         "publicRoom": MessageLookupByLibrary.simpleMessage("Public Room"),
@@ -100,6 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "weight": MessageLookupByLibrary.simpleMessage("Weight(optional)"),
         "weightRule":
             MessageLookupByLibrary.simpleMessage("입력한 몸무게는 칼로리 계산에만 사용됩니다."),
-        "win": MessageLookupByLibrary.simpleMessage("Win")
+        "win": MessageLookupByLibrary.simpleMessage("Win"),
+        "worldClass": MessageLookupByLibrary.simpleMessage("World Class")
       };
 }

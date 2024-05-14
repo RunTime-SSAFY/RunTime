@@ -26,7 +26,7 @@ class BattleResultView extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  viewModel.result ? S.current.win : S.current.lose,
+                  viewModel.result,
                   style: ref.typo.mainTitle.copyWith(
                     color: ref.color.onBackground,
                   ),

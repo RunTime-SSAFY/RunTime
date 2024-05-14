@@ -24,6 +24,7 @@ public class AchievementResDto {
 	private AchievementCriteriaType criteria;
 	private Integer grade;
 	private Float goal;
+	private Float prevGoal;
 	private Float progress;
 	private String characterName;
 	private String characterImgUrl;
@@ -34,7 +35,7 @@ public class AchievementResDto {
 
 	@Builder
 	public AchievementResDto(Achievement achievement, CurrentAchievement currentAchievement,
-		AchievementType achievementType, Character character) {
+		AchievementType achievementType, Character character, float prevGoal) {
 
 		this.id = achievement.getId();
 		this.type = achievementType.getId();
@@ -47,8 +48,9 @@ public class AchievementResDto {
 		this.characterImgUrl = character.getImgUrl();
 		this. characterName = character.getName();
 		this.isFinal = Objects.equals(achievement.getGrade(), achievementType.getFinalGrade());
-		this.isComplete = currentAchievement.getProgress()==100.0;
+		this.isComplete = currentAchievement.getProgress()>=achievement.getGoal();
 		this.isReceive = currentAchievement.getIsReceived();
+		this.prevGoal = prevGoal;
 	}
 
 

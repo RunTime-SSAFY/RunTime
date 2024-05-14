@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/battle.dart';
 import 'package:front_android/src/repository/distance_repository.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
+import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
 import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/extension.dart';
@@ -30,9 +31,11 @@ class BattleViewModel with ChangeNotifier {
 
     // DistanceRepository 시작 - 거리 측정 및 서버에 보내기 시작
     distanceService = DistanceRepository(
-        sendDestination:
-            DestinationHelper.getBattleDestination(mode, _battleData.uuid),
-        socket: _battleData.stompInstance);
+      sendDestination:
+          DestinationHelper.getBattleDestination(mode, _battleData.uuid),
+      socket: _battleData.stompInstance,
+      roomId: _battleData.roomId,
+    );
 
     // 데이터 구독 시작
     _battleData.stompInstance.subScribe(
@@ -49,7 +52,13 @@ class BattleViewModel with ChangeNotifier {
 
   double get currentDistance => distanceService.currentDistance;
 
-  final bool result = true;
+  String get result {
+    if (_battleData.mode != BattleModeHelper.userMode) {
+      return _battleData.result == 1 ? S.current.win : S.current.lose;
+    } else {
+      return '${_battleData.result.toString()}등';
+    }
+  }
 
   final int _point = 30;
   String get point => _point > 0 ? '+$_point' : '$_point';
@@ -132,7 +141,20 @@ class BattleViewModel with ChangeNotifier {
     context.pushReplacement(RoutePathHelper.runMain);
   }
 
-  void getResult() async {}
+  // 배틀 결과
+  void getResult() async {
+    if (_battleData.result != 0) return;
+    distanceService.cancelListen();
+    try {
+      await Future.delayed(const Duration(microseconds: 500));
+      var response =
+          await apiInstance.get('api/matchings/${_battleData.roomId}/ranking');
+      _battleData.result = response.data['ranking'];
+      notifyListeners();
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+  }
 
   @override
   void dispose() {

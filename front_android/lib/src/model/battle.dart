@@ -5,11 +5,15 @@ class BattleSocketData {
   final Position position;
   final double currentDistance;
   final int index;
+  final int roomId;
+  final bool reenter;
 
   const BattleSocketData({
     required this.position,
     required this.currentDistance,
     required this.index,
+    required this.roomId,
+    required this.reenter,
   });
 
   Map<String, dynamic> toJson() => {
@@ -18,6 +22,8 @@ class BattleSocketData {
         'distance': currentDistance,
         'idx': index,
         'nickname': UserService.instance.nickname,
+        'roomId': roomId,
+        'reenter': reenter,
       };
 }
 

@@ -59,11 +59,19 @@
   "invite": "invite",
   "manager": "manager",
   "ready": "ready",
+  "getReady": "get Ready",
   "nickname": "nickName",
   "nicknameSetting": "set nickname",
   "profileEdit": "Edit Profile",
   "weight": "Weight(optional)",
   "nicknameRule": "nickname should be 4 ~ 12 length",
   "weightRule": "입력한 몸무게는 칼로리 계산에만 사용됩니다.",
-  "editProfileDone": "Done"
+  "editProfileDone": "Done",
+  "practiceExplanation": "연습모드는 나의 최고기록과 대결합니다",
+  "practiceStart": "연습시작",
+  "practiceAdditionalExplanation": "선택한 기록으로 연습을 시작합니다",
+  "amateur": "Amateur",
+  "beginner": "Beginner",
+  "pro": "Pro",
+  "worldClass": "World Class"
 }

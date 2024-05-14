@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.List;
 
 import org.example.back.auth.service.AuthService;
+import org.example.back.db.entity.Member;
+import org.example.back.db.repository.MemberRepository;
+import org.example.back.exception.MemberNotFoundException;
+import org.example.back.redis.repository.BlackListRepository;
 import org.example.back.util.JWTUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtFilter extends OncePerRequestFilter {
 
 	private final AuthService memberService;
+	private final BlackListRepository blackListRepository;
+	private final MemberRepository memberRepository;
 
 	private final String secretKey;
 
@@ -46,15 +52,23 @@ public class JwtFilter extends OncePerRequestFilter {
 
 		String token = authorization.split(" ")[1];
 
+		String memberId = JWTUtil.getId(token, secretKey);
+		log.info("memberId: {}", memberId);
+		if(blackListRepository.existsById(token)){
+			log.error("로그아웃한 사용자");
+			filterChain.doFilter(request, response);
+			return;
+		}
+
+
 		// Token Expired 여부 확인
 		if (JWTUtil.isExpired(token, secretKey)&& !request.getRequestURI().equals("/api/auth/reissue")) {
 			log.error("토큰 만료되었음.");
 			filterChain.doFilter(request,response);
 			return;
 		}
+		Member member = memberRepository.findById(Long.valueOf(memberId)).orElseThrow(MemberNotFoundException::new);
 
-		String memberId = JWTUtil.getId(token, secretKey);
-		log.info("memberId: {}", memberId);
 
 		UsernamePasswordAuthenticationToken authenticationToken =
 			new UsernamePasswordAuthenticationToken(memberId, null, List.of(new SimpleGrantedAuthority("USER")));
