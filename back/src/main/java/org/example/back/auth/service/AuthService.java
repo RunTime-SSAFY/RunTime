@@ -3,6 +3,7 @@ package org.example.back.auth.service;
 import java.util.List;
 
 import org.example.back.auth.dto.JoinResponseDto;
+import org.example.back.auth.dto.TokenRequestDto;
 import org.example.back.auth.dto.TokenResponseDto;
 import org.example.back.db.entity.AchievementType;
 import org.example.back.db.entity.Character;
@@ -17,13 +18,17 @@ import org.example.back.db.repository.CurrentAchievementRepository;
 import org.example.back.db.repository.MemberRepository;
 import org.example.back.db.repository.UnlockedCharacterRepository;
 import org.example.back.exception.CharacterNotFoundException;
-import org.example.back.exception.EmailExistsException;
 import org.example.back.auth.dto.LoginDto;
 import org.example.back.exception.RefreshTokenNotFoundException;
+import org.example.back.redis.entity.BlackList;
 import org.example.back.redis.entity.RefreshToken;
+import org.example.back.redis.repository.BlackListRepository;
 import org.example.back.redis.repository.RefreshTokenRepository;
 import org.example.back.util.JWTUtil;
+import org.example.back.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +44,7 @@ public class AuthService {
 	private final AchievementTypeRepository achievementTypeRepository;
 	private final UnlockedCharacterRepository unlockedCharacterRepository;
 	private final RefreshTokenRepository refreshTokenRepository;
+	private final BlackListRepository blackListRepository;
 
 	@Value("${jwt.secret}")
 	private String secretKey;
@@ -47,7 +53,7 @@ public class AuthService {
 	private Long expiredMs;
 
 	@Transactional
-	public TokenResponseDto login(LoginDto loginDto){
+	public TokenResponseDto login(LoginDto loginDto) {
 
 		String email = loginDto.getEmail();
 		String fcmToken = loginDto.getFcmToken();
@@ -55,22 +61,16 @@ public class AuthService {
 		Member member = memberRepository.findByEmail(email);
 		boolean isNewMember = false;
 		// 회원이 없음 -> 회원가입.
-		if(member==null){
+		if (member == null) {
 			// 기본 캐릭터 지급
 			Character defaultCharacter = characterRepository.findById(1L).orElseThrow(CharacterNotFoundException::new);
 
-			member = Member.builder()
-				.email(email)
-				.character(defaultCharacter)
-				.build();
+			member = Member.builder().email(email).character(defaultCharacter).build();
 			// 신규 회원 저장
 			Long id = memberRepository.save(member).getId();
 			// 보유 캐릭터에 기본 캐릭터 추가
 			UnlockedCharacter unlockedCharacter = UnlockedCharacter.builder()
-				.id(UnlockedCharacterId.builder()
-					.characterId(1L)
-					.memberId(id)
-					.build())
+				.id(UnlockedCharacterId.builder().characterId(1L).memberId(id).build())
 				.build();
 			unlockedCharacterRepository.save(unlockedCharacter);
 
@@ -94,7 +94,7 @@ public class AuthService {
 		}
 
 		// 아직 닉네임을 설정하지 않았다면 최초 로그인.
-		if(member.getNickname()==null){
+		if (member.getNickname() == null) {
 			isNewMember = true;
 		}
 		member.updateFcmToken(fcmToken);
@@ -115,23 +115,16 @@ public class AuthService {
 	}
 
 	public JoinResponseDto join(String email) {
-		Member member = Member.builder()
-			.email(email)
-			.build();
+		Member member = Member.builder().email(email).build();
 		Long id = memberRepository.save(member).getId();
 
 		String accessToken = JWTUtil.createJwt(id, secretKey, expiredMs);
 		String refreshToken = JWTUtil.createRefreshToken(secretKey);
 
-
-
 		return JoinResponseDto.builder()
 			.id(id)
 			.email(email)
-			.tokenResponseDto(TokenResponseDto.builder()
-				.accessToken(accessToken)
-				.refreshToken(refreshToken)
-				.build())
+			.tokenResponseDto(TokenResponseDto.builder().accessToken(accessToken).refreshToken(refreshToken).build())
 			.build();
 
 	}
@@ -142,18 +135,28 @@ public class AuthService {
 
 	public TokenResponseDto reissueToken(String refreshToken) {
 		System.out.println(refreshToken);
-		RefreshToken redisToken = refreshTokenRepository.findById(refreshToken).orElseThrow(
-			RefreshTokenNotFoundException::new);
+		RefreshToken redisToken = refreshTokenRepository.findById(refreshToken)
+			.orElseThrow(RefreshTokenNotFoundException::new);
 		String accessToken = JWTUtil.createJwt(redisToken.getMemberId(), secretKey, expiredMs);
 		String newRefreshToken = JWTUtil.createRefreshToken(secretKey);
 		RefreshToken redis = new RefreshToken(newRefreshToken, redisToken.getMemberId());
 		refreshTokenRepository.save(redis);
+		refreshTokenRepository.delete(redisToken);
 
 		return TokenResponseDto.builder()
 			.accessToken(accessToken)
 			.refreshToken(newRefreshToken)
 			.isNewMember(false)
 			.build();
+	}
+
+	public void logout(TokenRequestDto tokenRequestDto) {
+		Long memberId = SecurityUtil.getCurrentMemberId();
+
+		refreshTokenRepository.deleteById(tokenRequestDto.getRefreshToken());
+		BlackList blackList = new BlackList(tokenRequestDto.getAccessToken(), memberId,
+			JWTUtil.getExpiration(tokenRequestDto.getAccessToken(), secretKey)/1000);
+		blackListRepository.save(blackList);
 
 	}
 }
