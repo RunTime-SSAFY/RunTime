@@ -37,6 +37,7 @@ class UserModeViewModel with ChangeNotifier {
 
   final userModeRoomRepository = UserModeRoomRepository();
 
+  bool get canFetchMore => !userModeRoomRepository.hasNext;
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
@@ -46,7 +47,8 @@ class UserModeViewModel with ChangeNotifier {
 
     final results = await Future.wait([
       userModeRoomRepository.getUserModeRoomList(
-          lastId: userModeRoomRepository.lastId),
+        lastId: userModeRoomRepository.lastId,
+      ),
       Future.delayed(const Duration(milliseconds: 500)),
     ]);
     _userModeRoomList = results[0];
@@ -129,7 +131,7 @@ class UserModeViewModel with ChangeNotifier {
     MakeRoomModel makeRoomModel = MakeRoomModel(
       name: name,
       capacity: capacity,
-      distance: distance.toDouble(),
+      distance: distance.toDouble() * 1000,
       password: password,
     );
 

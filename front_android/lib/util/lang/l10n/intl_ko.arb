@@ -59,6 +59,7 @@
   "invite": "초대",
   "manager": "방장",
   "ready": "준비완료",
+  "getReady": "준비하기",
   "nickname": "닉네임",
   "nicknameSetting": "닉네임 설정",
   "profileEdit": "프로필 수정",

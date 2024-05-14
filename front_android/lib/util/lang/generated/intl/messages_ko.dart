@@ -53,6 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "enter": MessageLookupByLibrary.simpleMessage("입장"),
         "findRoom": MessageLookupByLibrary.simpleMessage("방찾기"),
         "gameStart": MessageLookupByLibrary.simpleMessage("게임시작"),
+        "getReady": MessageLookupByLibrary.simpleMessage("준비하기"),
         "giveUp": MessageLookupByLibrary.simpleMessage("포기하기"),
         "home": MessageLookupByLibrary.simpleMessage("홈"),
         "inProgress": MessageLookupByLibrary.simpleMessage("게임 진행 중"),
