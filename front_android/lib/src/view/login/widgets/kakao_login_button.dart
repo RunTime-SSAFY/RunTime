@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:front_android/src/service/kakao_service.dart';
 import 'package:front_android/theme/components/png_image.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
-import 'package:front_android/util/route_path.dart';
+import 'package:go_router/go_router.dart';
 
 class KakaoLoginButton extends StatelessWidget {
   const KakaoLoginButton(
@@ -19,7 +20,8 @@ class KakaoLoginButton extends StatelessWidget {
       try {
         await KakaoService.kakaoLogin();
         if (!context.mounted) return;
-        Navigator.popAndPushNamed(context, RoutePath.runMain);
+        // Navigator.popAndPushNamed(context, RoutePath.runMain);
+        context.go(RoutePathHelper.runMain);
       } catch (error) {
         debugPrint(error.toString());
       }

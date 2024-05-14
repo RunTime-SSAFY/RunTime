@@ -65,9 +65,13 @@ class _BattleState extends ConsumerState<Battle> {
   @override
   Widget build(BuildContext context) {
     BattleViewModel viewModel = ref.watch(battleViewModelProvider);
-    // final args = ModalRoute.of(context)!.settings.arguments
-    //     as Map<RouteParameter, dynamic>;
-    // viewModel.targetDistance = args[RouteParameter.targetDistance];
+    if (viewModel.currentDistance > viewModel.targetDistance) {
+      print(
+          '.현재 거리 ${viewModel.currentDistance}, 목표 거리 ${viewModel.targetDistance}');
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        viewModel.onBattleDone(context);
+      });
+    }
 
     return PopScope(
       canPop: false,

@@ -11,7 +11,7 @@
   "character": "캐릭터",
   "record": "기록",
   "recordDetail": "기록상세",
-  "statistics": "통계",
+  "statistic": "통계",
   "profile": "프로필",
   "kakaoLogin": "카카오 로그인",
   "semanticsButton": "버튼",
@@ -37,7 +37,7 @@
   "bestRecord": "최고 기록",
   "done": "확인",
   "ReallyCancelQuestion": "정말로 취소하시겠습니까?",
-  "ReallyGiveUpQuestion": "정말로 포기하시겠습니까?\n완료 보상을 획득할 수 없습니다.",
+  "ReallyGiveUpQuestion": "정말로 포기하시겠습니까?",
   "roomEmpty": "현재 대기 방이 없습니다.\n오른쪽 아래 버튼으로 방을 직접 만들어 보세요",
   "makeRoom": "방 생성",
   "search": "검색",
@@ -65,5 +65,12 @@
   "weight": "몸무게(선택사항)",
   "nicknameRule": "닉네임은 4 ~ 12자 이내로 작성해주세요",
   "weightRule": "입력한 몸무게는 칼로리 계산에만 사용됩니다.",
-  "editProfileDone": "수정 완료"
+  "editProfileDone": "수정 완료",
+  "practiceExplanation": "연습모드는 나의 최고기록과 대결합니다",
+  "practiceStart": "연습시작",
+  "practiceAdditionalExplanation": "선택한 기록으로 연습을 시작합니다",
+  "amateur": "아마추어",
+  "beginner": "비기너",
+  "pro": "프로",
+  "worldClass": "월드 클래스"
 }

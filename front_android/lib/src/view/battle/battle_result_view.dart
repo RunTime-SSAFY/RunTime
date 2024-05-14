@@ -14,6 +14,7 @@ class BattleResultView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     BattleViewModel viewModel = ref.watch(battleViewModelProvider);
+    viewModel.getResult();
 
     return BattleBackground(
       child: Column(
@@ -25,7 +26,7 @@ class BattleResultView extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  viewModel.result ? S.current.win : S.current.lose,
+                  viewModel.result,
                   style: ref.typo.mainTitle.copyWith(
                     color: ref.color.onBackground,
                   ),

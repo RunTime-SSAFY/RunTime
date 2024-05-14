@@ -1,5 +1,6 @@
 package org.example.back.room.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.example.back.room.dto.*;
 import org.example.back.room.service.RoomService;
@@ -58,9 +59,9 @@ public class RoomController {
     }
 
     @PostMapping("/{roomId}/enter")
-    public ResponseEntity<RoomMemberResDto> enterRoom(@PathVariable Long roomId, @RequestBody EnterRoomReqDto enterRoomReqDto) {
+    public ResponseEntity<EnterRoomResDto> enterRoom(@PathVariable Long roomId, @RequestBody EnterRoomReqDto enterRoomReqDto) throws JsonProcessingException {
         String password = enterRoomReqDto.getPassword();
-        RoomMemberResDto roomMemberResDto = roomService.enterRoom(roomId, password);
+        EnterRoomResDto roomMemberResDto = roomService.enterRoom(roomId, password);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(roomMemberResDto);
     }
@@ -85,6 +86,13 @@ public class RoomController {
 
         return ResponseEntity.ok().build();
 
+    }
+
+    @GetMapping("/{roomId}/ranking")
+    public ResponseEntity<RoomRankingResDto> getRanking(@PathVariable Long roomId) throws JsonProcessingException {
+        RoomRankingResDto roomRankingResDto = roomService.getRanking(roomId);
+
+        return ResponseEntity.ok().body(roomRankingResDto);
     }
 
 

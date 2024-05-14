@@ -44,3 +44,9 @@ app.*.map.json
 
 *.env
 .vscode/
+
+# 필요 없는 프로젝트 정리
+windows/
+macos/
+linux/
+web/

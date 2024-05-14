@@ -77,6 +77,9 @@ public class AuthService {
 			// 도전과제 분류별 최초 단계 추가
 			List<AchievementType> achievementTypeList = achievementTypeRepository.findAll();
 			for (AchievementType achievementType : achievementTypeList) {
+				if (achievementType.getId() == 1000L) {
+					continue;
+				}
 				CurrentAchievement currentAchievement = CurrentAchievement.builder()
 					.id(CurrentAchievementId.builder()
 						.achievementTypeId(achievementType.getId())

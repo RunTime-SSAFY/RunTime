@@ -9,8 +9,8 @@ import 'package:front_android/src/view/run_main/widgets/run_main_button.dart';
 import 'package:front_android/theme/components/keyboard_hiding.dart';
 import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/theme/components/svg_icon.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
-import 'package:front_android/util/route_path.dart';
 
 class RunMainView extends ConsumerStatefulWidget {
   const RunMainView({super.key});
@@ -81,14 +81,14 @@ class _RunMainViewState extends ConsumerState<RunMainView> {
                         Expanded(
                           child: RunMainButton(
                             modeName: S.current.userMode,
-                            modeRoute: RoutePath.userMode,
+                            modeRoute: RoutePathHelper.userMode,
                             color: ref.color.userMode,
                           ),
                         ),
                         Expanded(
                           child: RunMainButton(
                             modeName: S.current.practiceMode,
-                            modeRoute: RoutePath.practiceMode,
+                            modeRoute: RoutePathHelper.practiceMode,
                             color: ref.color.practiceMode,
                           ),
                         ),
@@ -101,7 +101,7 @@ class _RunMainViewState extends ConsumerState<RunMainView> {
                         Expanded(
                           child: RunMainButton(
                             modeName: S.current.ranking,
-                            modeRoute: RoutePath.ranking,
+                            modeRoute: RoutePathHelper.ranking,
                             color: ref.color.rankingButton,
                           ),
                         )

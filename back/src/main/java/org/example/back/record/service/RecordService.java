@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.example.back.db.entity.Member;
 import org.example.back.db.entity.Record;
 import org.example.back.db.enums.GameMode;
-import org.example.back.db.enums.StatisticsType;
+import org.example.back.db.enums.StatisticType;
 import org.example.back.db.repository.MemberRepository;
 import org.example.back.db.repository.RecordRepository;
 import org.example.back.exception.MemberNotFoundException;
 import org.example.back.exception.RecordNotFoundException;
+import org.example.back.exception.StatisticBadRequestException;
 import org.example.back.record.dto.*;
 import org.example.back.util.EnumUtils;
 import org.example.back.util.SecurityUtil;
@@ -49,7 +50,7 @@ public class RecordService {
         // 빨리 엔티티 수정하고 url dto에 매핑해야됨
 
         return RecordResponseDto.builder()
-                .courseImgUrl("코스 이미지 url 주소(S3)")
+                .courseImgUrl(record.getCourseImgUrl())
                 .recordId(record.getId())
                 .runStartTime(record.getRunStartTime())
                 .runEndTime(record.getRunEndTime())
@@ -62,42 +63,45 @@ public class RecordService {
     }
 
     @Transactional(readOnly = true)
-    public StatisticsResponseDto getStatistics(String typeStr, LocalDate selectedDate) {
+    public StatisticResponseDto getStatistic(String typeStr, LocalDate selectedDate) {
         Member member = getMember();
 
-        // enum type 조회
-        StatisticsType type = EnumUtils.getIgnoreCaseOrThrow(StatisticsType.class, typeStr);
 
-        StatisticsDto statisticsDto;
+        // enum type 조회
+        StatisticType type = EnumUtils.getIgnoreCaseOrThrow(StatisticType.class, typeStr);
+
+        StatisticDto statisticDto;
         return switch (type) {
             case MONTH -> {
-                statisticsDto = recordRepository.getStatisticsByMonth(member, selectedDate);
-                yield StatisticsResponseDto.builder()
+                if (selectedDate == null) throw new StatisticBadRequestException();
+                statisticDto = recordRepository.getStatisticByMonth(member, selectedDate);
+                yield StatisticResponseDto.builder()
                         .type(type)
-                        .countDay(statisticsDto.getCountDay())
-                        .calorie(statisticsDto.getCalorie())
-                        .distance(statisticsDto.getDistance())
-                        .duration(statisticsDto.getDuration())
+                        .countDay(statisticDto.getCountDay())
+                        .calorie(statisticDto.getCalorie())
+                        .distance(statisticDto.getDistance())
+                        .duration(statisticDto.getDuration())
                         .build();
             }
             case YEAR -> {
-                statisticsDto = recordRepository.getStatisticsByYear(member, selectedDate);
-                yield StatisticsResponseDto.builder()
+                if (selectedDate == null) throw new StatisticBadRequestException();
+                statisticDto = recordRepository.getStatisticByYear(member, selectedDate);
+                yield StatisticResponseDto.builder()
                         .type(type)
-                        .countDay(statisticsDto.getCountDay())
-                        .calorie(statisticsDto.getCalorie())
-                        .distance(statisticsDto.getDistance())
-                        .duration(statisticsDto.getDuration())
+                        .countDay(statisticDto.getCountDay())
+                        .calorie(statisticDto.getCalorie())
+                        .distance(statisticDto.getDistance())
+                        .duration(statisticDto.getDuration())
                         .build();
             }
             case ALL -> {
-                statisticsDto = recordRepository.getStatisticsByAll(member);
-                yield StatisticsResponseDto.builder()
+                statisticDto = recordRepository.getStatisticByAll(member);
+                yield StatisticResponseDto.builder()
                         .type(type)
-                        .countDay(statisticsDto.getCountDay())
-                        .calorie(statisticsDto.getCalorie())
-                        .distance(statisticsDto.getDistance())
-                        .duration(statisticsDto.getDuration())
+                        .countDay(statisticDto.getCountDay())
+                        .calorie(statisticDto.getCalorie())
+                        .distance(statisticDto.getDistance())
+                        .duration(statisticDto.getDuration())
                         .build();
             }
             default -> null;

@@ -1,11 +1,9 @@
 package org.example.back.util;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.example.back.db.entity.Member;
-import org.example.back.db.enums.AlertType;
+import org.example.back.db.enums.NotificationType;
 import org.springframework.stereotype.Component;
 
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -20,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FcmUtil {
 
-	public void sendAlert(AlertType alertType, String title, String body, Member receiver, Long targetId)
+	public void sendAlert(NotificationType notificationType, String title, String body, Member receiver, Long targetId)
 		 {
 		try{
 			String fcmToken = receiver.getFcmToken();
@@ -30,7 +28,7 @@ public class FcmUtil {
 			Message message = Message.builder()
 				.putData("targetId", targetId.toString())
 				.putData("time", currentTime)
-				.putData("type", alertType.toString())
+				.putData("type", notificationType.toString())
 				.setToken(fcmToken)
 				.build();
 			System.out.println("?????머고");

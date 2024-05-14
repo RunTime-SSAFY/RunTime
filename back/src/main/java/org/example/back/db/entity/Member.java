@@ -43,6 +43,7 @@ public class Member extends BaseEntity {
 	private RoleType role;
 
 	@Column(name = "nickname", length = 30)
+	@ColumnDefault("이름없음")
 	private String nickname;
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -53,13 +54,15 @@ public class Member extends BaseEntity {
 	private String email;
 
 	@Column(name = "tier_score")
+	@ColumnDefault("0")
 	private Integer tierScore;
 
 	@Column(name = "weight")
 	private Float weight;
 
 	@Column(name = "is_deleted")
-	private Byte isDeleted;
+	@ColumnDefault("0")
+	private Boolean isDeleted;
 
 	@Column(name = "consecutive_games")
 	@ColumnDefault("0")

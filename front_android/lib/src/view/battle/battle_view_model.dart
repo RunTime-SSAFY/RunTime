@@ -1,14 +1,17 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/model/battle.dart';
 import 'package:front_android/src/repository/distance_repository.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
+import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
 import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/extension.dart';
+import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
-import 'package:front_android/util/route_path.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
@@ -18,31 +21,50 @@ final battleViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
 });
 
 class BattleViewModel with ChangeNotifier {
-  final SocketService _battleData;
+  final BattleDataService _battleData;
+
+  List<Participant> get participants =>
+      _battleData.getBattleDataSortByDistance();
 
   BattleViewModel(this._battleData) {
-    _startTimer();
     var mode = _battleData.mode;
 
+    // DistanceRepository 시작 - 거리 측정 및 서버에 보내기 시작
     distanceService = DistanceRepository(
         sendDestination:
-            DestinationHelper.getBattleDestination(mode, _battleData.roomId),
+            DestinationHelper.getBattleDestination(mode, _battleData.uuid),
         socket: _battleData.stompInstance);
+
+    // 데이터 구독 시작
+    _battleData.stompInstance.subScribe(
+        destination: DestinationHelper.getForSub(mode, _battleData.uuid),
+        callback: (p0) {
+          var newParticipantsData =
+              Participant.fromJson(jsonDecode(p0.body!)['data']);
+          _battleData.changeParticipantsDistance(newParticipantsData);
+        });
+    _startTimer();
   }
 
   late final DistanceRepository distanceService;
 
   double get currentDistance => distanceService.currentDistance;
 
-  final bool result = true;
+  String get result {
+    if (_battleData.mode != BattleModeHelper.userMode) {
+      return _battleData.result == 1 ? S.current.win : S.current.lose;
+    } else {
+      return '${_battleData.result.toString()}등';
+    }
+  }
 
   final int _point = 30;
   String get point => _point > 0 ? '+$_point' : '$_point';
   final String character = 'mainCharacter';
-  double targetDistance = 1000;
+  double get targetDistance => _battleData.targetDistance;
 
-  int _avgPace = 0;
-  int get avgPace => _avgPace;
+  double _avgPace = 0;
+  double get avgPace => _avgPace;
 
   double _calory = 0;
 
@@ -63,14 +85,29 @@ class BattleViewModel with ChangeNotifier {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _currentTime = DateTime.now();
       var seconds = _currentTime.difference(_startTime).inSeconds;
-      _avgPace =
-          (currentDistance * 10000 / (((seconds == 0 ? 1 : seconds) / 60))) ~/
-              1000000;
+      _avgPace = _calculateTimePerKilometer(currentDistance, seconds);
       var velocity = distanceService.instantaneousVelocity;
       _calory +=
           157 * ((0.1 * velocity + (velocity == 0 ? 0 : 3.5)) / 3.5) / 1000;
       notifyListeners();
     });
+  }
+
+  double _calculateTimePerKilometer(
+      double distanceInMeters, int elapsedTimeInSeconds) {
+    if (elapsedTimeInSeconds == 0) {
+      return 0;
+    }
+
+    double secondsPerMeter = distanceInMeters / elapsedTimeInSeconds;
+    if (secondsPerMeter == 0) {
+      return 0;
+    }
+    double timeForOneKilometerInSeconds = 1000 / secondsPerMeter;
+    double timeForOneKilometerInMinutes =
+        (timeForOneKilometerInSeconds / 6).round() / 10;
+
+    return timeForOneKilometerInMinutes;
   }
 
   void onGiveUp(BuildContext context) {
@@ -79,9 +116,10 @@ class BattleViewModel with ChangeNotifier {
       builder: (context) {
         return CancelDialog(
           onAcceptCancel: () {
-            Navigator.popAndPushNamed(context, RoutePath.battleResult);
+            context.pushReplacement(RoutePathHelper.battleResult);
             _timer.cancel();
             distanceService.cancelListen();
+            _battleData.disconnect();
           },
           title: S.current.giveUp,
           content: S.current.ReallyGiveUpQuestion,
@@ -90,11 +128,27 @@ class BattleViewModel with ChangeNotifier {
     );
   }
 
-  void onResultDone(BuildContext context) {
-    Navigator.popAndPushNamed(context, RoutePath.runMain);
+  void onBattleDone(BuildContext context) {
+    _timer.cancel();
+    distanceService.cancelListen();
+    _battleData.disconnect();
+    context.pushReplacement(RoutePathHelper.battleResult);
   }
 
-  void handlePopInBattle() {}
+  void onResultDone(BuildContext context) {
+    context.pushReplacement(RoutePathHelper.runMain);
+  }
+
+  // 배틀 결과
+  void getResult() async {
+    try {
+      var response =
+          await apiInstance.get('api/matchings/${_battleData.roomId}/ranking');
+      _battleData.result = response.data['ranking'];
+    } catch (error) {
+      print(error);
+    }
+  }
 
   @override
   void dispose() {

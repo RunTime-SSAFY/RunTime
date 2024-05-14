@@ -1,6 +1,6 @@
 package org.example.back.db.enums;
 
-public enum AlertType {
+public enum NotificationType {
 	FRIEND, INVITE
 
 }

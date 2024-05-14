@@ -9,6 +9,7 @@ import 'package:front_android/theme/components/circular_indicator.dart';
 import 'package:front_android/theme/components/image_background.dart';
 import 'package:front_android/util/helper/text_input_format_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 
 class UserModeSearchView extends ConsumerWidget {
   const UserModeSearchView({super.key});
@@ -25,7 +26,7 @@ class UserModeSearchView extends ConsumerWidget {
             appBar: AppBar(
               leading: IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  context.pop();
                 },
                 icon: Icon(
                   Icons.arrow_back_ios,

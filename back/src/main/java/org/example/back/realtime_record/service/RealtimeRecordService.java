@@ -20,6 +20,7 @@ import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +35,14 @@ public class RealtimeRecordService {
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper;
 
+    @Transactional
     public List<StompRealtimeReqDto> saveRealtimeRecord(SaveRealtimeRecordReqDto saveRealtimeRecordReqDto) throws JsonProcessingException {
         Long myMemberId = SecurityUtil.getCurrentMemberId();
         Long roomId = saveRealtimeRecordReqDto.getRoomId();
         Long recordId = saveRealtimeRecordReqDto.getRecordId();
 
         Record record = recordRepository.findById(recordId).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, recordId + "를 id로 지닌 기록이 존재하지 않습니다" ));
-        Enum<GameMode> gameModeEnum = record.getGameMode();
+        GameMode gameModeEnum = record.getGameMode();
 
         List<StompRealtimeReqDto> list = new ArrayList<>();
 
@@ -49,17 +51,17 @@ public class RealtimeRecordService {
         // 매칭전(배틀)
         if (gameModeEnum.name().equals("BATTLE")) {
 
-            List<Object> stompRealtimeReqDtoList =  listOperations.range("realtime_matchingRoom:" + roomId + "memberId:" + myMemberId, 0, -1);
+            List<Object> stompRealtimeReqDtoList =  listOperations.range("realtime_matchingRoomId:" + roomId + "memberId:" + myMemberId, 0, -1);
             for (Object o: stompRealtimeReqDtoList) {
                 StompRealtimeReqDto s = objectMapper.readValue((String) o, StompRealtimeReqDto.class);
                 list.add(s);
-                Long memberId = s.getMemberId();
+                String nickname = s.getNickname();
                 double lon = s.getLon();
                 double lat = s.getLat();
                 double distance = s.getDistance();
                 int idx = s.getIdx();
 
-                Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+                Member member = memberRepository.findByNickname(nickname).orElseThrow(MemberNotFoundException::new);
 
                 RealtimeRecord realtimeRecord = RealtimeRecord.builder()
                         .member(member)

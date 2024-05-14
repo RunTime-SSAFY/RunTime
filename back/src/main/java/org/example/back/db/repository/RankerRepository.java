@@ -3,6 +3,7 @@ package org.example.back.db.repository;
 import java.util.List;
 
 import org.example.back.db.entity.Member;
+import org.example.back.ranking.dto.RankerResDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,4 +17,11 @@ public interface RankerRepository extends JpaRepository<Member, Long> {
 			+ "ON m.tier_score BETWEEN t.score_min AND t.score_max",
 		nativeQuery = true)
 	List<Tuple> getTopMembersWithTierInfo();
+
+	@Query("SELECT new org.example.back.ranking.dto.RankerResDto(m.nickname, m.tierScore, t.name, t.imgUrl) "
+			+ "FROM Member m "
+			+ "JOIN Tier t "
+			+ "ON m.tierScore BETWEEN t.scoreMin AND t.scoreMax "
+			+ "WHERE m.id = :id")
+	RankerResDto getRankWithTierInfo(Long id);
 }
