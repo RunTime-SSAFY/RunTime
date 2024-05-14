@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/user_mode_room.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/util/helper/extension.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
@@ -46,7 +47,7 @@ class UserModeRoomCard extends ConsumerWidget {
                   ),
                 ),
                 Text(
-                  '${room.distance}km',
+                  room.distance.toKilometer(),
                   style: ref.typo.headline1.copyWith(
                     color: ref.color.onBackground,
                   ),
