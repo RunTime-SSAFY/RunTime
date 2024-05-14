@@ -1,23 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/model/achievement.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/src/view/achievement/achievement_view_model.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:go_router/go_router.dart';
 
-class AchievementRewardView extends ConsumerWidget {
+class AchievementRewardView extends ConsumerStatefulWidget {
   const AchievementRewardView({
+    required this.data,
     super.key,
   });
 
-  // 레벨업 정보
-  static Map<String, dynamic> data = {
-    'name': 'LV.2',
-    'characterName': '기르핀',
-    'characterImgUrl': 'assets/images/mainCharacter.png',
-  };
+  final AchievementRewardRequest data;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _AchievementRewardViewState();
+}
+
+class _AchievementRewardViewState extends ConsumerState<AchievementRewardView> {
+  late AchievementViewModel viewModel;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      viewModel.getReward(widget.data.typeId);
+      print(viewModel.achievementList);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    viewModel = ref.watch(achievementProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -37,20 +52,30 @@ class AchievementRewardView extends ConsumerWidget {
                     style: ref.typo.mainTitle.copyWith(fontSize: 42),
                   ),
                   // LV.2 로 레벨업
-                  Row(
-                    children: [
-                      Text(
-                        data['name'],
-                        style: ref.typo.headline1
-                            .copyWith(color: ref.color.accept),
-                      ),
-                      Text(
-                        ' 로 레벨업!',
-                        style: ref.typo.headline1
-                            .copyWith(color: ref.palette.gray600),
-                      ),
-                    ],
-                  ),
+
+                  // 이미 최종 레벨이면 MAX로 표시
+                  widget.data.isFinal
+                      ? Text(
+                          '이미 최고 레벨입니다!',
+                          style: ref.typo.headline1
+                              .copyWith(color: ref.palette.gray600),
+                        )
+                      : Row(
+                          children: [
+                            Text(
+                              viewModel.newAchievement.isFinal!
+                                  ? 'MAX'
+                                  : 'LV.${viewModel.newAchievement.grade.toString()}',
+                              style: ref.typo.headline1
+                                  .copyWith(color: ref.color.accept),
+                            ),
+                            Text(
+                              ' 로 레벨업!',
+                              style: ref.typo.headline1
+                                  .copyWith(color: ref.palette.gray600),
+                            ),
+                          ],
+                        )
                 ],
               ),
 
@@ -66,13 +91,13 @@ class AchievementRewardView extends ConsumerWidget {
                     ),
                     // 캐릭터 이미지
                     Image.asset(
-                      data['characterImgUrl'],
+                      widget.data.characterImgUrl,
                       width: 200,
                       height: 200,
                     ),
                     // 캐릭터 이름
                     Text(
-                      data['characterName'],
+                      widget.data.characterName,
                       style: ref.typo.headline1
                           .copyWith(fontSize: 36, fontWeight: FontWeight.bold),
                     ),

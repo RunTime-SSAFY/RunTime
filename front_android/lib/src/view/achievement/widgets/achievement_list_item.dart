@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/model/achievement.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/src/view/achievement/achievement_view_model.dart';
 import 'package:front_android/src/view/achievement/widgets/achievement_animated_progress_bar.dart';
 import 'package:front_android/util/helper/number_format_helper.dart';
 import 'package:go_router/go_router.dart';
@@ -55,6 +57,7 @@ class AchievementListItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(achievementProvider);
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
       // 실제 보이는 카드 모양 시작
@@ -213,7 +216,7 @@ class AchievementListItem extends ConsumerWidget {
                             Text(
                               ' / ' +
                                   //소수점 첫째자리가 0이라면 소수점을 표시하지 않음
-                                  NumberFormatHelper.floatTrunk(prevGoal) +
+                                  NumberFormatHelper.floatTrunk(goal) +
                                   criteria,
                               style: ref.typo.subTitle4
                                   .copyWith(color: ref.palette.yellow400),
@@ -250,7 +253,21 @@ class AchievementListItem extends ConsumerWidget {
                   child: CupertinoButton(
                       padding: EdgeInsets.zero,
                       onPressed: () {
-                        context.push('/achievement/reward');
+                        viewModel.fetchAchievementList();
+                        print(
+                            'id : ${id}, typeId: ${type}, isFinal : $isFinal, characterName : $characterName, characterImgUrl : $characterImgUrl');
+                        AchievementRewardRequest request =
+                            AchievementRewardRequest(
+                          id: id,
+                          typeId: type,
+                          isFinal: isFinal,
+                          characterName: characterName,
+                          characterImgUrl: characterImgUrl,
+                        );
+                        print(
+                            '----------AchievementRewardRequest request -------');
+                        print(request.toString());
+                        context.push('/achievement/reward', extra: request);
                       },
                       child: Container(
                         width: double.infinity,
