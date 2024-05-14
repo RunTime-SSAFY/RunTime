@@ -1,8 +1,6 @@
-enum UserModeRoomStatus {
-  // ignore: constant_identifier_names
-  WAITING,
-  // ignore: constant_identifier_names
-  IN_PROGRESS;
+interface class UserModeRoomStatusHelper {
+  static const waiting = 'WAITING';
+  static const inProgress = 'IN_PROGRESS';
 }
 
 class UserModeRoom {
@@ -38,7 +36,7 @@ class UserModeRoom {
       name: json['name'] ?? '',
       capacity: json['capacity'] ?? 0,
       distance: json['distance'].toDouble() ?? 0,
-      status: json['status'] ?? UserModeRoomStatus.IN_PROGRESS,
+      status: json['status'] ?? UserModeRoomStatusHelper.inProgress,
       headcount: json['headcount'] ?? 1,
       isSecret: json['isSecret'] ?? false,
     );

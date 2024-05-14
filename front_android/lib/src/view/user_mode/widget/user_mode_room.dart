@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/user_mode_room.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/util/helper/extension.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +16,7 @@ class UserModeRoomCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var status = room.status == UserModeRoomStatus.WAITING
+    var status = room.status == UserModeRoomStatusHelper.waiting
         ? S.current.waiting
         : S.current.inProgress;
 
@@ -57,7 +56,7 @@ class UserModeRoomCard extends ConsumerWidget {
                   ],
                 ),
                 Text(
-                  room.distance.toKilometer(),
+                  '${room.distance ~/ 1000}km',
                   style: ref.typo.headline1.copyWith(
                     color: ref.color.onBackground,
                   ),
