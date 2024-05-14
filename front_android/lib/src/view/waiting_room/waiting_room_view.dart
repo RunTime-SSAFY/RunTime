@@ -25,6 +25,7 @@ class WaitingRoom extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     WaitingViewModel viewModel = ref.watch(waitingViewModelProvider);
+    viewModel.userModeRoomRepository.getRoomInfo(roomId);
 
     return BattleImageBackground(
       child: Scaffold(
