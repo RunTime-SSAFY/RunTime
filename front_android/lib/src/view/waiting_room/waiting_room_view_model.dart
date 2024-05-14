@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/battle.dart';
+import 'package:front_android/src/repository/user_mode_room_repository.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
 
 final waitingViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
@@ -9,8 +10,10 @@ final waitingViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
 });
 
 class WaitingViewModel with ChangeNotifier {
-  final BattleDataService battleData;
-  WaitingViewModel(this.battleData);
+  final BattleDataService _battleData;
+  WaitingViewModel(this._battleData);
+
+  final userModeRoomRepository = UserModeRoomRepository();
 
   final String title = '제목';
 
