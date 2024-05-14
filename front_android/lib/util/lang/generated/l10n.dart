@@ -640,6 +640,16 @@ class S {
     );
   }
 
+  /// `get Ready`
+  String get getReady {
+    return Intl.message(
+      'get Ready',
+      name: 'getReady',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `nickName`
   String get nickname {
     return Intl.message(

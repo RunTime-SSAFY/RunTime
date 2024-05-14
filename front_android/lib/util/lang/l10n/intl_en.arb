@@ -59,6 +59,7 @@
   "invite": "invite",
   "manager": "manager",
   "ready": "ready",
+  "getReady": "get Ready",
   "nickname": "nickName",
   "nicknameSetting": "set nickname",
   "profileEdit": "Edit Profile",

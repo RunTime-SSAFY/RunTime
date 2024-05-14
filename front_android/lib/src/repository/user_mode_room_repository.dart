@@ -11,6 +11,9 @@ class UserModeRoomRepository {
   bool hasNext = true;
   int? lastId;
 
+  String roomTitle = '';
+  double distance = 3;
+
   Future<List<UserModeRoom>> getUserModeRoomList(
       {int? lastId, String? searchWord, bool? isSecret}) async {
     if (!hasNext) return [];
@@ -37,15 +40,16 @@ class UserModeRoomRepository {
     }
   }
 
-  Future<void> getRoomInfo(int roomId) async {
+  Future<List<Participant>> fetchingParticipants(int roomId) async {
     try {
       final room = await apiInstance.get('rooms/$roomId/enter');
-
       final data = jsonDecode(room.data);
       print(data);
-      List<Participant> participants =
-          data['data'].map((element) => Participant.fromJson(element));
-    } catch (error) {}
+      return data['data'].map((element) => Participant.fromJson(element));
+    } catch (error) {
+      debugPrint(error.toString());
+      throw Error();
+    }
   }
 
   Future<List<UserModeRoom>> getMoreRoomList() {
