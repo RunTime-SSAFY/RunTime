@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/achievement/widgets/achievement_animated_progress_bar.dart';
+import 'package:front_android/util/helper/number_format_helper.dart';
 import 'package:go_router/go_router.dart';
 import 'package:overflow_text_animated/overflow_text_animated.dart';
 
@@ -191,7 +192,8 @@ class AchievementListItem extends ConsumerWidget {
                       children: [
                         // 이전 목표수치
                         Text(
-                          prevGoal.toStringAsFixed(1) + criteria,
+                          NumberFormatHelper.floatTrunk(prevGoal),
+                          // '${prevGoal.toStringAsFixed(1).split('.')[1] == '0' ? prevGoal.toStringAsFixed(0) : prevGoal.toStringAsFixed(1)}',
                           style: ref.typo.subTitle4
                               .copyWith(color: ref.palette.yellow400),
                         ),
@@ -211,7 +213,7 @@ class AchievementListItem extends ConsumerWidget {
                             Text(
                               ' / ' +
                                   //소수점 첫째자리가 0이라면 소수점을 표시하지 않음
-                                  '${goal.toStringAsFixed(1).split('.')[1] == '0' ? goal.toStringAsFixed(0) : goal.toStringAsFixed(1)}' +
+                                  NumberFormatHelper.floatTrunk(prevGoal) +
                                   criteria,
                               style: ref.typo.subTitle4
                                   .copyWith(color: ref.palette.yellow400),
