@@ -72,7 +72,6 @@ public class AuthService {
 
 		String kakaoToken = loginDto.getAccessToken();
 		String fcmToken = loginDto.getFcmToken();
-
 		KakaoInfoResponse kakaoInfoResponse = getKakaoInfo(kakaoToken);
 
 		Member member = memberRepository.findByEmail(kakaoInfoResponse.getEmail());
