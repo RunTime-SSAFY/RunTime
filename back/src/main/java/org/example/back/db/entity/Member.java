@@ -69,7 +69,7 @@ public class Member extends BaseEntity {
 	@ColumnDefault("0")
 	private Boolean isDeleted;
 
-	@Column(name = "consecutive_games", nullable = false)
+	@Column(name = "consecutive_games")
 	@ColumnDefault("0")
 	private Integer consecutiveGames;
 
