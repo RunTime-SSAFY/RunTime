@@ -141,6 +141,7 @@ public class AuthService {
 		String newRefreshToken = JWTUtil.createRefreshToken(secretKey);
 		RefreshToken redis = new RefreshToken(newRefreshToken, redisToken.getMemberId());
 		refreshTokenRepository.save(redis);
+		refreshTokenRepository.delete(redisToken);
 
 		return TokenResponseDto.builder()
 			.accessToken(accessToken)
