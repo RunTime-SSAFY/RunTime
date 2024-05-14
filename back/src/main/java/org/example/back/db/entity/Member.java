@@ -47,7 +47,6 @@ public class Member extends BaseEntity {
 	private RoleType role;
 
 	@Column(name = "nickname", length = 30)
-	@ColumnDefault("\"이름없음\"")
 	private String nickname;
 
 	@ManyToOne(fetch = FetchType.EAGER)
