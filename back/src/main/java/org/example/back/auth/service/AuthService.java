@@ -3,6 +3,7 @@ package org.example.back.auth.service;
 import java.util.List;
 
 import org.example.back.auth.dto.JoinResponseDto;
+import org.example.back.auth.dto.KakaoInfoResponse;
 import org.example.back.auth.dto.TokenRequestDto;
 import org.example.back.auth.dto.TokenResponseDto;
 import org.example.back.db.entity.AchievementType;
@@ -27,10 +28,16 @@ import org.example.back.redis.repository.RefreshTokenRepository;
 import org.example.back.util.JWTUtil;
 import org.example.back.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,20 +59,30 @@ public class AuthService {
 	@Value("${jwt.expiration_time}")
 	private Long expiredMs;
 
+	@Value("${oauth.kakao.client_id}")
+	private String API_KEY;
+
+	@Value("${oauth.kakao.redirect_uri}")
+	private String REDIRECT_URI;
+
+	private final RestTemplate restTemplate;
+
 	@Transactional
 	public TokenResponseDto login(LoginDto loginDto) {
 
-		String email = loginDto.getEmail();
+		String kakaoToken = loginDto.getAccessToken();
 		String fcmToken = loginDto.getFcmToken();
 
-		Member member = memberRepository.findByEmail(email);
+		KakaoInfoResponse kakaoInfoResponse = getKakaoInfo(kakaoToken);
+
+		Member member = memberRepository.findByEmail(kakaoInfoResponse.getEmail());
 		boolean isNewMember = false;
 		// 회원이 없음 -> 회원가입.
 		if (member == null) {
 			// 기본 캐릭터 지급
 			Character defaultCharacter = characterRepository.findById(1L).orElseThrow(CharacterNotFoundException::new);
 
-			member = Member.builder().email(email).character(defaultCharacter).build();
+			member = Member.builder().email(kakaoInfoResponse.getEmail()).character(defaultCharacter).build();
 			// 신규 회원 저장
 			member = memberRepository.save(member);
 			Long id = member.getId();
@@ -158,6 +175,20 @@ public class AuthService {
 		BlackList blackList = new BlackList(tokenRequestDto.getAccessToken(), memberId,
 			JWTUtil.getExpiration(tokenRequestDto.getAccessToken(), secretKey)/1000);
 		blackListRepository.save(blackList);
+	}
 
+	public KakaoInfoResponse getKakaoInfo(String accessToken) {
+		String url = "https://kapi.kakao.com/v2/user/me";
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		httpHeaders.set("Authorization", "Bearer " + accessToken);
+
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+		body.add("property_keys", "[\"kakao_account.email\", \"kakao_account.profile\"]");
+
+		HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
+
+		return restTemplate.postForObject(url, request, KakaoInfoResponse.class);
 	}
 }
