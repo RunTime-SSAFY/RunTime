@@ -67,7 +67,8 @@ public class AuthService {
 
 			member = Member.builder().email(email).character(defaultCharacter).build();
 			// 신규 회원 저장
-			Long id = memberRepository.save(member).getId();
+			member = memberRepository.save(member);
+			Long id = member.getId();
 			// 보유 캐릭터에 기본 캐릭터 추가
 			UnlockedCharacter unlockedCharacter = UnlockedCharacter.builder()
 				.id(UnlockedCharacterId.builder().characterId(1L).memberId(id).build())
@@ -97,8 +98,8 @@ public class AuthService {
 		if (member.getNickname() == null) {
 			isNewMember = true;
 		}
-		member.updateFcmToken(fcmToken);
 
+		member.updateFcmToken(fcmToken);
 		memberRepository.save(member);
 
 		String accessToken = JWTUtil.createJwt(member.getId(), secretKey, expiredMs);
