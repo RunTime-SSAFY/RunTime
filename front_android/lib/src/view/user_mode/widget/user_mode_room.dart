@@ -40,11 +40,21 @@ class UserModeRoomCard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  room.name,
-                  style: ref.typo.bigRegular.copyWith(
-                    color: ref.color.onBackground,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      '${room.name}  ',
+                      style: ref.typo.bigRegular.copyWith(
+                        color: ref.color.onBackground,
+                      ),
+                    ),
+                    if (room.isSecret)
+                      Icon(
+                        Icons.lock,
+                        color: ref.color.onBackground,
+                        size: 20,
+                      ),
+                  ],
                 ),
                 Text(
                   room.distance.toKilometer(),

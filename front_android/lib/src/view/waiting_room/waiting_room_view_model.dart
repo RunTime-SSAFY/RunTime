@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/battle.dart';
 import 'package:front_android/src/repository/user_mode_room_repository.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
+import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/src/service/user_service.dart';
 import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/extension.dart';
@@ -51,4 +52,13 @@ class WaitingViewModel with ChangeNotifier {
           return element.isReady || element.isManager;
         },
       );
+
+  Future<bool> roomOut() async {
+    try {
+      apiInstance.delete('api/rooms/${_battleData.roomId}/exit');
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }

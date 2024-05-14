@@ -25,15 +25,11 @@ class BattleDataService with ChangeNotifier {
 
   late String _uuid;
   String get uuid => _uuid;
-  double targetDistance = 3000;
+  double targetDistance = 1000;
 
   String mode = BattleModeHelper.matching;
 
   int result = 0;
-
-  void setParticipants(List<Participant> newParticipants) {
-    participants = newParticipants;
-  }
 
   List<Participant> getBattleDataSortByDistance() {
     return participants.toList()

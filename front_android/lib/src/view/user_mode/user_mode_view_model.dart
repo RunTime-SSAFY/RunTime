@@ -126,8 +126,9 @@ class UserModeViewModel with ChangeNotifier {
 
   UserModeRoomService userModeRoomService = UserModeRoomService();
 
-  Future<UserModeRoom?> makeRoom(BuildContext context) async {
+  Future<UserModeRoom?> makeRoom() async {
     if (name.isEmpty) return null;
+    print('fawwfa');
     MakeRoomModel makeRoomModel = MakeRoomModel(
       name: name,
       capacity: capacity,
