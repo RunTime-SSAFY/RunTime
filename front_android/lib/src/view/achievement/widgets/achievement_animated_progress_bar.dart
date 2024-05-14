@@ -27,30 +27,28 @@ class AchievementAnimatedProgressBar extends ConsumerWidget {
       percentage = current / (goal - prevGoal) * 100;
     }
 
-    return Expanded(
-      child: TweenAnimationBuilder<double>(
-        tween: Tween<double>(begin: 0, end: percentage),
-        duration: const Duration(milliseconds: 1000),
-        builder: (BuildContext context, double value, Widget? child) {
-          return Container(
-            alignment: Alignment.centerLeft,
-            height: 12,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: FractionallySizedBox(
-              widthFactor: value / 100,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: ref.palette.yellow400,
-                  borderRadius: BorderRadius.circular(10),
-                ),
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(begin: 0, end: percentage),
+      duration: const Duration(milliseconds: 1000),
+      builder: (BuildContext context, double value, Widget? child) {
+        return Container(
+          alignment: Alignment.centerLeft,
+          height: 12,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: FractionallySizedBox(
+            widthFactor: value / 100,
+            child: Container(
+              decoration: BoxDecoration(
+                color: ref.palette.yellow400,
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

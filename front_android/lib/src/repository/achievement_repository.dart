@@ -35,4 +35,15 @@ class AchievementRepository {
       throw Error();
     }
   }
+
+  Future<void> updateAchievement() async {
+    try {
+      var response = await api.patch('/api/achievements');
+      print("--------[AchievementRepository] updateAchievement --------");
+      print(response.data);
+    } catch (e, s) {
+      debugPrint('$e, $s');
+      throw Error();
+    }
+  }
 }

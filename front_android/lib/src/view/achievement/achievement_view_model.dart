@@ -16,6 +16,7 @@ final class AchievementViewModel with ChangeNotifier {
 
   // 업적 리스트 가져오기
   void fetchAchievementList() async {
+    updateAchievement();
     await achievementRepository.getAchievementList();
     notifyListeners();
   }
@@ -24,6 +25,11 @@ final class AchievementViewModel with ChangeNotifier {
   void getReward(int typeId) async {
     print('viewModel - typeId : $typeId');
     await achievementRepository.getReward(typeId);
+    notifyListeners();
+  }
+
+  void updateAchievement() async {
+    await achievementRepository.updateAchievement();
     notifyListeners();
   }
 }
