@@ -141,12 +141,15 @@ class BattleViewModel with ChangeNotifier {
 
   // 배틀 결과
   void getResult() async {
+    distanceService.cancelListen();
     try {
+      await Future.delayed(const Duration(microseconds: 500));
       var response =
           await apiInstance.get('api/matchings/${_battleData.roomId}/ranking');
       _battleData.result = response.data['ranking'];
+      notifyListeners();
     } catch (error) {
-      print(error);
+      debugPrint(error.toString());
     }
   }
 
