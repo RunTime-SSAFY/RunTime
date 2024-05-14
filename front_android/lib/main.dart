@@ -73,8 +73,7 @@ void main() async {
   // refreshToken이 있는지 확인
   try {
     final refreshToken = await SecureStorageRepository.instance.refreshToken;
-    if (refreshToken == null) {
-    } else {
+    if (refreshToken != null) {
       try {
         await UserService.instance.getUserInfor();
       } catch (error) {

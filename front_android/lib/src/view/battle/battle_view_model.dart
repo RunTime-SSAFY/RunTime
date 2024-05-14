@@ -31,9 +31,11 @@ class BattleViewModel with ChangeNotifier {
 
     // DistanceRepository 시작 - 거리 측정 및 서버에 보내기 시작
     distanceService = DistanceRepository(
-        sendDestination:
-            DestinationHelper.getBattleDestination(mode, _battleData.uuid),
-        socket: _battleData.stompInstance);
+      sendDestination:
+          DestinationHelper.getBattleDestination(mode, _battleData.uuid),
+      socket: _battleData.stompInstance,
+      roomId: _battleData.roomId,
+    );
 
     // 데이터 구독 시작
     _battleData.stompInstance.subScribe(
@@ -141,12 +143,16 @@ class BattleViewModel with ChangeNotifier {
 
   // 배틀 결과
   void getResult() async {
+    if (_battleData.result != 0) return;
+    distanceService.cancelListen();
     try {
+      await Future.delayed(const Duration(microseconds: 500));
       var response =
           await apiInstance.get('api/matchings/${_battleData.roomId}/ranking');
       _battleData.result = response.data['ranking'];
+      notifyListeners();
     } catch (error) {
-      print(error);
+      debugPrint(error.toString());
     }
   }
 
