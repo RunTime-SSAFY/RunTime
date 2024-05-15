@@ -9,13 +9,13 @@ String getUnit(String criteria) {
   switch (criteria) {
     case "DISTANCE":
       return 'km';
-    case "TIME":
+    case "DURATION":
       return '분';
     case "SPEED":
       return 'km/h';
     case "CALORIE":
       return 'kcal';
-    case "COUNT":
+    case "COUNT_FRIENDS":
       return '회';
     default:
       return '';
@@ -51,6 +51,7 @@ class AchievementList extends ConsumerWidget {
       itemBuilder: (context, index) {
         final cardColorsIndex = index == 0 ? 0 : index % cardColors.length;
         final achievement = achievementList[index];
+
         return AchievementListItem(
           id: achievement.id ?? 0,
           type: achievement.type ?? 0,
@@ -60,12 +61,12 @@ class AchievementList extends ConsumerWidget {
           grade: achievement.grade ?? 1,
           goal: achievement.goal ?? 1,
           prevGoal: achievement.prevGoal ?? 0,
-          progress: achievement.progress = 0.3,
+          progress: achievement.progress ?? 1,
           characterName: achievement.characterName ?? '',
-          characterImgUrl: achievement.characterImgUrl =
-              'assets/images/mainCharacter.png',
+          characterImgUrl:
+              achievement.characterImgUrl ?? 'assets/images/mainCharacter.png',
           isFinal: achievement.isFinal ?? false,
-          isComplete: achievement.isComplete ?? false,
+          isComplete: achievement.isComplete ?? true,
           isReceive: achievement.isReceive ?? false,
           cardBackgroundGradient1: cardColors[cardColorsIndex][0],
           cardBackgroundGradient2: cardColors[cardColorsIndex][1],

@@ -26,9 +26,9 @@ class CustomInterceptor extends Interceptor {
     options.headers['Authorization'] = 'Bearer $accessToken';
 
     debugPrint(
-        '요청\nREQUEST[${options.method}] => PATH: ${options.uri.toString()}');
+        '--------요청--------\nREQUEST[${options.method}] => PATH: ${options.uri.toString()}');
     debugPrint('쿼리 파라미터 ${options.queryParameters}');
-    debugPrint('요청 데이터\n${options.data}');
+    debugPrint('요청 데이터 ${options.data}');
     handler.next(options);
   }
 
@@ -38,7 +38,7 @@ class CustomInterceptor extends Interceptor {
     ResponseInterceptorHandler handler,
   ) {
     debugPrint(
-        '응답\nRESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}');
+        '--------응답--------\nRESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}');
     handler.next(response);
   }
 
@@ -97,9 +97,9 @@ class CustomInterceptorForNoAuth extends Interceptor {
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     debugPrint(
-        'noAuth 요청\nREQUEST[${options.method}] => PATH: ${options.uri.toString()}');
+        '--------noAuth 요청--------\nREQUEST[${options.method}] => PATH: ${options.uri.toString()}');
     debugPrint('쿼리 파라미터 ${options.queryParameters}');
-    debugPrint('요청 데이터\n${options.data}');
+    debugPrint('요청 데이터 ${options.data}');
     handler.next(options);
   }
 
@@ -109,7 +109,7 @@ class CustomInterceptorForNoAuth extends Interceptor {
     ResponseInterceptorHandler handler,
   ) {
     debugPrint(
-        'noAuth 응답\nRESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}');
+        '--------noAuth 응답--------\nRESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}');
     handler.next(response);
   }
 

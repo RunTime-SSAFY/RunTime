@@ -11,8 +11,6 @@ import org.springframework.messaging.MessageDeliveryException;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
-import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,7 +33,7 @@ public class StompHandler implements ChannelInterceptor {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 String token = authorizationHeader.substring(7);
 
-                if (JWTUtil.isExpired(token, secretKey)) { // TODO 이 부분을 토큰의 검증으로 대체
+                if (JWTUtil.validateToken(token, secretKey)) { // TODO 이 부분을 토큰의 검증으로 대체
                     log.info("socket interceptor jwt token invalid");
                     throw new MessageDeliveryException("WebSocket Interceptor: UNAUTHORIZED");
                 }

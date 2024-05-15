@@ -42,11 +42,9 @@ class _AchievementViewState extends ConsumerState<AchievementView> {
           ),
         ],
       ),
-      body: Expanded(
-        child: AchievementList(
-          achievementList: viewModel.achievementList,
-          achievementCount: viewModel.achievementCount,
-        ),
+      body: AchievementList(
+        achievementList: viewModel.achievementList,
+        achievementCount: viewModel.achievementCount,
       ),
     );
   }
