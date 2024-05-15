@@ -27,6 +27,7 @@ public class SecurityConfig {
 	private final AuthService memberService;
 	private final BlackListRepository blackListRepository;
 	private final MemberRepository memberRepository;
+	private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
 	@Value("${jwt.secret}")
 	private String secretKey;
@@ -41,10 +42,11 @@ public class SecurityConfig {
 					.anyRequest().authenticated();//login, join은 전부 허용
 					// websocket 허용
 			})
+			.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(restAuthenticationEntryPoint))
 			.sessionManagement(
 				sessionManagement->sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) //세션 stateless -> 세션 안 쓴다는 뜻
 			)
-			.addFilterBefore(new JwtFilter(memberService, blackListRepository, memberRepository, secretKey), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(new JwtFilter(blackListRepository, memberRepository, secretKey), UsernamePasswordAuthenticationFilter.class)
 			.build();
 	}
 
