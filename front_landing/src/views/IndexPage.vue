@@ -33,7 +33,7 @@ body {
 
 .qr img {
   width: 200px;
-  margin-bottom: 25px;
+  margin-bottom: 40px;
 }
 
 .gradient-button {
