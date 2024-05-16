@@ -35,7 +35,7 @@ class KakaoLoginButton extends StatelessWidget {
         child: PngImage(
           'kakaoLogin_$locale',
           // 화면 전체 크기에서 양쪽 20씩 뺸 크기
-          // width: MediaQuery.of(context).size.width - 40,
+          width: MediaQuery.of(context).size.width - 40,
         ),
       ),
     );
