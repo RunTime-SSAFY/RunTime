@@ -5,6 +5,7 @@ import 'package:front_android/src/view/battle/battle_view_model.dart';
 import 'package:front_android/src/view/battle/widgets/result_box.dart';
 import 'package:front_android/theme/components/battle_background.dart';
 import 'package:front_android/theme/components/button.dart';
+import 'package:front_android/theme/components/circular_indicator.dart';
 import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
@@ -51,7 +52,9 @@ class BattleResultView extends ConsumerWidget {
             text: S.current.done,
             backGroundColor: ref.color.accept,
             fontColor: ref.color.onAccept,
-          )
+          ),
+          if (viewModel.isLoading)
+            CircularIndicator(isLoading: viewModel.isLoading),
         ],
       ),
     );

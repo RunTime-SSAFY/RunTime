@@ -128,7 +128,6 @@ class UserModeViewModel with ChangeNotifier {
 
   Future<UserModeRoom?> makeRoom() async {
     if (name.isEmpty) return null;
-    print('fawwfa');
     MakeRoomModel makeRoomModel = MakeRoomModel(
       name: name,
       capacity: capacity,

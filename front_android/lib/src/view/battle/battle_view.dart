@@ -91,7 +91,7 @@ class _BattleState extends ConsumerState<Battle> {
             const SizedBox(height: 20),
             const PaceCalory(),
             const SizedBox(height: 20),
-            const CoverMessage(),
+            const Map(),
             const SizedBox(height: 30),
             Button(
               onPressed: () => viewModel.onGiveUp(context),
