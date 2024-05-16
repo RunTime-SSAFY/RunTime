@@ -5,6 +5,8 @@
     "Geolocator",
     "Infor",
     "Kakao",
+    "Polyline",
+    "polylines",
     "Pretendard",
     "riverpod"
   ],
