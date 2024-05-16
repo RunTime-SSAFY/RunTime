@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/auth_service.dart';
@@ -14,7 +15,7 @@ final stompInstanceProvider = Provider.autoDispose((ref) {
   return stompRepository;
 });
 
-class StompRepository {
+class StompRepository with ChangeNotifier {
   late StompClient _client;
 
   StompRepository() {

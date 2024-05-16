@@ -9,6 +9,7 @@ import 'package:front_android/src/model/battle.dart';
 import 'package:front_android/src/repository/distance_repository.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
+import 'package:front_android/src/service/tts_service.dart';
 import 'package:front_android/src/service/user_service.dart';
 import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
 import 'package:front_android/util/helper/battle_helper.dart';
@@ -52,6 +53,9 @@ class BattleViewModel with ChangeNotifier {
           _battleData.changeParticipantsDistance(newParticipantsData);
         });
     _startTimer();
+
+    // TTS 시작
+    ttsService.startTts();
   }
 
   late final DistanceRepository distanceService;
@@ -100,6 +104,31 @@ class BattleViewModel with ChangeNotifier {
 
       addPolyLine();
 
+      if (ttsDuration > 10) {
+        ttsService.addMessage(
+          '도착까지 ${targetDistance.toInt() - distanceService.currentDistance.toInt()}m 남았습니다.',
+        );
+        ttsDuration = 0;
+      } else {
+        ttsDuration++;
+      }
+
+      var newLastRank = participants.indexWhere(
+              (element) => element.nickname == UserService.instance.nickname) +
+          1;
+      if (lastRank != 0) {
+        if (lastRank > newLastRank) {
+          ttsService.addMessage('${newLastRank - lastRank}명을 추월하였습니다.');
+        } else if (lastRank < newLastRank) {
+          ttsService.addMessage('추월 당하였습니다.');
+        }
+      } else {
+        lastRank = participants.indexWhere((element) =>
+                element.nickname == UserService.instance.nickname) +
+            1;
+      }
+
+      lastRank = newLastRank;
       notifyListeners();
     });
   }
@@ -141,6 +170,7 @@ class BattleViewModel with ChangeNotifier {
 
   void onBattleDone(BuildContext context) {
     _timer.cancel();
+    ttsService.endTts();
     distanceService.cancelListen();
     _battleData.disconnect();
     context.pushReplacement(RoutePathHelper.battleResult);
@@ -230,9 +260,15 @@ class BattleViewModel with ChangeNotifier {
   // widgetsToImage
   Uint8List? imageBytes;
 
+  // TTS
+  TtsService ttsService = TtsService();
+  int ttsDuration = 0;
+  int lastRank = 0;
+
   @override
   void dispose() {
     distanceService.cancelListen();
+    ttsService.endTts();
     _battleData.dispose();
     _battleData.stompInstance.disconnect();
     super.dispose();
