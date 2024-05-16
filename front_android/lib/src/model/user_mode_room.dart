@@ -1,8 +1,6 @@
-enum UserModeRoomStatus {
-  // ignore: constant_identifier_names
-  WAITING,
-  // ignore: constant_identifier_names
-  IN_PROGRESS;
+interface class UserModeRoomStatusHelper {
+  static const waiting = 'WAITING';
+  static const inProgress = 'IN_PROGRESS';
 }
 
 class UserModeRoom {
@@ -18,6 +16,8 @@ class UserModeRoom {
   final String status;
   // 현재 방의 정원
   final int headcount;
+  //
+  final bool isSecret;
 
   UserModeRoom({
     required this.roomId,
@@ -26,6 +26,7 @@ class UserModeRoom {
     required this.distance,
     required this.status,
     required this.headcount,
+    required this.isSecret,
   });
 
   factory UserModeRoom.fromJson(Map<String, dynamic> json) {
@@ -35,8 +36,9 @@ class UserModeRoom {
       name: json['name'] ?? '',
       capacity: json['capacity'] ?? 0,
       distance: json['distance'].toDouble() ?? 0,
-      status: json['status'] ?? UserModeRoomStatus.IN_PROGRESS,
+      status: json['status'] ?? UserModeRoomStatusHelper.inProgress,
       headcount: json['headcount'] ?? 1,
+      isSecret: json['isSecret'] ?? false,
     );
   }
 }
@@ -70,9 +72,13 @@ class MakeRoomModel {
   }
 
   String? _password;
-  String get password => _password ?? '';
+  String? get password => _password;
 
-  set password(String value) {
+  set password(String? value) {
+    if (value == null) {
+      _password = null;
+      return;
+    }
     if (value.length < 20) {
       _password = value;
     } else if (value.isEmpty) {

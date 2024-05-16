@@ -42,7 +42,7 @@ class UserModeRoomRepository {
 
   Future<List<Participant>> fetchingParticipants(int roomId) async {
     try {
-      final room = await apiInstance.get('rooms/$roomId/enter');
+      final room = await apiInstance.post('api/rooms/$roomId/enter');
       final data = jsonDecode(room.data);
       print(data);
       return data['data'].map((element) => Participant.fromJson(element));

@@ -39,7 +39,7 @@ public class MemberCustomImpl implements MemberCustom {
 				// 사용자 중 나와 친구 관계가 "accepted"인 모든 사용자
 				JPAExpressions.select(
 						new CaseBuilder()
-							.when(friend.requester.id.eq(1L)).then(friend.addressee.id)
+							.when(friend.requester.id.eq(id)).then(friend.addressee.id)
 							.otherwise(friend.requester.id)
 					).from(friend)
 					.where(friend.status.eq(FriendStatusType.accepted)
@@ -47,7 +47,7 @@ public class MemberCustomImpl implements MemberCustom {
 					))
 			)
 			// 마지막 조회된 id부터 조회
-			.where(ltMemberId(lastId))
+			.where(ltMemberId(lastId), member.id.ne(id))
 			.orderBy(member.id.desc())
 			.limit(pageable.getPageSize()+1)
 			.fetch();
@@ -59,6 +59,43 @@ public class MemberCustomImpl implements MemberCustom {
 				.build());
 		}
 		return checkLastPage(pageable, list);
+	}
+
+	@Override
+	public Slice<FriendResponseDto> findNotFriendMembers(Pageable pageable, Long id, Long lastId, String searchWord) {
+		// 나와 친구인 모든 사용자 반환
+		List<Member> results = query.selectFrom(member)
+			.where(member.id.notIn(
+				// 사용자 중 나와 친구 관계가 "accepted"인 모든 사용자
+				JPAExpressions.select(
+						new CaseBuilder()
+							.when(friend.requester.id.eq(id)).then(friend.addressee.id)
+							.otherwise(friend.requester.id)
+					).from(friend)
+					.where(friend.status.eq(FriendStatusType.accepted)
+						.and(friend.requester.id.eq(id).or(friend.addressee.id.eq(id)))
+					))
+			)
+			// 마지막 조회된 id부터 조회
+			.where(ltMemberId(lastId), member.id.ne(id), searchWord(searchWord))
+			.orderBy(member.id.desc())
+			.limit(pageable.getPageSize()+1)
+			.fetch();
+		// dto로 매핑
+		List<FriendResponseDto> list = new ArrayList<>();
+		for (Member member : results) {
+			list.add(FriendResponseDto.builder()
+				.member(member)
+				.build());
+		}
+		return checkLastPage(pageable, list);
+	}
+
+	private BooleanExpression searchWord(String searchWord) {
+		if (searchWord == null) {
+			return null;
+		}
+		return member.nickname.contains(searchWord);
 	}
 
 	private BooleanExpression ltMemberId(Long lastId) {

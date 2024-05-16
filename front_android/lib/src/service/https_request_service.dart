@@ -46,7 +46,7 @@ class CustomInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     debugPrint('에러 $err');
 
-    if (err.response?.statusCode == 403) {
+    if (err.response?.statusCode == 401) {
       final originalRequest = err.requestOptions;
       try {
         // 원래 요청에 새 토큰 설정

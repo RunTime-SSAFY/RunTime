@@ -4,8 +4,8 @@ import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/battle/battle_view_model.dart';
 import 'package:front_android/src/view/battle/widgets/battle_time.dart';
 import 'package:front_android/src/view/battle/widgets/count_down.dart';
-import 'package:front_android/src/view/battle/widgets/cover_message.dart';
 import 'package:front_android/src/view/battle/widgets/distance.dart';
+import 'package:front_android/src/view/battle/widgets/google_map.dart';
 import 'package:front_android/src/view/battle/widgets/pace_calory.dart';
 import 'package:front_android/src/view/battle/widgets/run_bar.dart';
 import 'package:front_android/theme/components/battle_background.dart';
@@ -91,7 +91,7 @@ class _BattleState extends ConsumerState<Battle> {
             const SizedBox(height: 20),
             const PaceCalory(),
             const SizedBox(height: 20),
-            const CoverMessage(),
+            const Map(),
             const SizedBox(height: 30),
             Button(
               onPressed: () => viewModel.onGiveUp(context),

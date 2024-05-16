@@ -42,59 +42,74 @@ class _WaitingRoomState extends ConsumerState<WaitingRoom> {
     viewModel = ref.watch(waitingViewModelProvider);
 
     return BattleImageBackground(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
+      child: PopScope(
+        canPop: true,
+        onPopInvoked: (didPop) async {
+          if (didPop) return;
+          var response = await viewModel.roomOut();
+          if (!context.mounted) return;
+          if (response) {
+            context.pop();
+          }
+        },
+        child: Scaffold(
           backgroundColor: Colors.transparent,
-          leading: IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: ref.color.onBackground,
-              size: 30,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            leading: IconButton(
+              onPressed: () async {
+                var response = await viewModel.roomOut();
+                if (!context.mounted) return;
+                if (response) {
+                  context.pop();
+                }
+              },
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: ref.color.onBackground,
+                size: 30,
+              ),
+            ),
+            centerTitle: true,
+            title: Text(
+              S.current.waitingRoom,
+              style: ref.typo.appBarMainTitle.copyWith(
+                color: ref.color.onBackground,
+              ),
             ),
           ),
-          centerTitle: true,
-          title: Text(
-            S.current.waitingRoom,
-            style: ref.typo.appBarMainTitle.copyWith(
-              color: ref.color.onBackground,
+          body: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  viewModel.title,
+                  style: ref.typo.bigRegular.copyWith(
+                    color: ref.color.onBackground,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  viewModel.distance,
+                  style: ref.typo.headline1.copyWith(
+                    color: ref.color.onBackground,
+                  ),
+                ),
+                ParticipantsCartGrid(
+                  participants: viewModel.participants,
+                ),
+                Button(
+                  onPressed: () {},
+                  text: viewModel.isManager
+                      ? S.current.gameStart
+                      : S.current.getReady,
+                  backGroundColor: ref.color.accept,
+                  fontColor: ref.color.onAccept,
+                  isInactive: viewModel.canStart,
+                )
+              ],
             ),
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                viewModel.title,
-                style: ref.typo.bigRegular.copyWith(
-                  color: ref.color.onBackground,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                viewModel.distance,
-                style: ref.typo.headline1.copyWith(
-                  color: ref.color.onBackground,
-                ),
-              ),
-              ParticipantsCartGrid(
-                participants: viewModel.participants,
-              ),
-              Button(
-                onPressed: () {},
-                text: viewModel.isManager
-                    ? S.current.gameStart
-                    : S.current.getReady,
-                backGroundColor: ref.color.accept,
-                fontColor: ref.color.onAccept,
-                isInactive: viewModel.canStart,
-              )
-            ],
           ),
         ),
       ),

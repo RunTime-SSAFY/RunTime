@@ -8,5 +8,7 @@ public interface MemberCustom {
 
 	Slice<FriendResponseDto> findAllFriends(Pageable pageable, Long id, Long lastId);
 
+	Slice<FriendResponseDto> findNotFriendMembers(Pageable pageable, Long id, Long lastId, String searchWord);
+
 	int countFriends(Long memberId);
 }

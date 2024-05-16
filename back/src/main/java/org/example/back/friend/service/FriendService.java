@@ -165,4 +165,24 @@ public class FriendService {
 		return requesterId;
 	}
 
+	public FriendListResponseDto findNotFriends(Pageable pageable, Long lastId, String searchWord) {
+
+		Long id = SecurityUtil.getCurrentMemberId();
+		Slice<FriendResponseDto> result = memberRepository.findNotFriendMembers(pageable, id, lastId, searchWord);
+		List<Tier> tierList = tierRepository.findAll();
+		for (FriendResponseDto friendResponseDto : result.getContent()) {
+			int score = friendResponseDto.getTierScore();
+			for (Tier tier : tierList) {
+				if (score >= tier.getScoreMin() && score <= tier.getScoreMax()) {
+					friendResponseDto.setTierImgUrl(tier.getImgUrl());
+					System.out.println(tier.getImgUrl());
+				}
+			}
+		}
+
+		return FriendListResponseDto.builder()
+			.friendList(result.getContent())
+			.hasNext(result.hasNext())
+			.build();
+	}
 }
