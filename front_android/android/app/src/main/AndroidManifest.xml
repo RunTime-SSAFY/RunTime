@@ -10,6 +10,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
 
+    <!-- video_player -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="런타임"
         android:name="${applicationName}"

@@ -58,6 +58,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   confetti: ^0.7.0
   overflow_text_animated: ^0.0.6
+  video_player: ^2.8.6
 
 dev_dependencies:
   flutter_test:
@@ -124,6 +125,8 @@ flutter:
     - assets/images/background/
     - assets/images/matching/
     - assets/images/tier/
+    - assets/images/logo/
+    - assets/videos/
     - .env
 
 flutter_intl:
