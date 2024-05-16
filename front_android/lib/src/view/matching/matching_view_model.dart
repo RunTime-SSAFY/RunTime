@@ -36,9 +36,9 @@ class MatchingViewModel with ChangeNotifier {
     try {
       await _battleData.matchingStart((bool startResponse) {
         if (startResponse) {
-          _canStart = true;
+          _battleData.canStart = true;
         } else {
-          _canStart = false;
+          _battleData.canStart = false;
           _matchedState = MatchedState.deny;
         }
         notifyListeners();
@@ -77,30 +77,33 @@ class MatchingViewModel with ChangeNotifier {
     _battleData.subReady(() {
       _matchedState = MatchedState.deny;
     });
-    _timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
-      if (_timerTime > 0) {
-        _timerTime -= 50;
-      } else {
-        _timer?.cancel();
-        // 클라이언트가 수락 누른 경우
-        _timerTime = 5000;
-        if (_matchedState == MatchedState.accept) {
-          startBattle(context);
+    _timer = Timer.periodic(
+      const Duration(milliseconds: 50),
+      (timer) {
+        if (_timerTime > 0) {
+          _timerTime -= 50;
         } else {
-          // 클라이언트가 거절 누른 경우
-          _canStart = false;
-          context.pushReplacement(RoutePathHelper.beforeMatching);
-          _matchedState = MatchedState.noResponse;
+          _timer?.cancel();
+          _timerTime = 5000;
+          // 클라이언트가 수락 누른 경우
+          if (_matchedState == MatchedState.accept) {
+            startBattle(context);
+          } else {
+            // 클라이언트가 거절 누른 경우
+            _battleData.canStart = false;
+            context.pushReplacement(RoutePathHelper.beforeMatching);
+            _matchedState = MatchedState.noResponse;
+          }
         }
-      }
-      notifyListeners();
-    });
+        notifyListeners();
+      },
+    );
   }
 
   // matched의 수락 상태
   MatchedState _matchedState = MatchedState.noResponse;
   bool get isResponded => _matchedState != MatchedState.noResponse;
-  late bool _canStart = _battleData.canStart;
+  late final bool _canStart = _battleData.canStart;
 
   void onMatchingResponse(bool response) async {
     if (response) {
@@ -123,21 +126,20 @@ class MatchingViewModel with ChangeNotifier {
     } catch (error) {
       // 오류 토스트 메세지
       _matchedState = MatchedState.noResponse;
-      print('에러 $error');
     }
     notifyListeners();
   }
 
   void startBattle(BuildContext context) {
+    _matchedState = MatchedState.noResponse;
     if (_canStart) {
       // 상대도 수락한 경우
       context.pushReplacement(
         RoutePathHelper.battle,
       );
     } else {
-      /// 상대가 거절한 경우
+      // 상대가 거절한 경우
       context.pushReplacement(RoutePathHelper.matching);
-      _matchedState = MatchedState.noResponse;
     }
   }
 }
