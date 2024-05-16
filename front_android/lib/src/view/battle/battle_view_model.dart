@@ -14,6 +14,7 @@ import 'package:front_android/util/helper/extension.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
 final battleViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
@@ -37,6 +38,8 @@ class BattleViewModel with ChangeNotifier {
       socket: _battleData.stompInstance,
       roomId: _battleData.roomId,
     );
+
+    distanceService.listenLocation();
 
     // 데이터 구독 시작
     _battleData.stompInstance.subScribe(
@@ -92,6 +95,9 @@ class BattleViewModel with ChangeNotifier {
       var velocity = distanceService.instantaneousVelocity;
       _calory +=
           velocity == 0 ? 0 : 157 * ((0.1 * velocity + 3.5) / 3.5) / 1000;
+
+      addPolyLine();
+
       notifyListeners();
     });
   }
@@ -147,6 +153,7 @@ class BattleViewModel with ChangeNotifier {
 
   // 배틀 결과
   void getResult() async {
+    distanceService.cancelListen();
     if (_battleData.result != 0) return;
 
     _isLoading = true;
@@ -167,13 +174,14 @@ class BattleViewModel with ChangeNotifier {
       final response = await apiInstance.post(
         'api/results',
         data: {
-          'type': _battleData.mode,
+          'gameMode': _battleData.mode,
+          'ranking': _battleData.result,
           'distance': currentDistance,
-          'duration': _currentTime.difference(_startTime).inSeconds,
-          'avgSpeed':
-              currentDistance / _currentTime.difference(_startTime).inMinutes,
+          'runStartTime': _startTime,
+          'runEndTime': _currentTime,
           'pace': avgPace,
           'calory': double.parse(calory),
+          'courseImgUrl': '0',
         },
       );
 
@@ -188,9 +196,32 @@ class BattleViewModel with ChangeNotifier {
     }
   }
 
+  Set<Polyline> polyLines = {};
+
+  List<LatLng> points = [];
+
+  void addPolyLine() {
+    if (distanceService.lastPosition != null) {
+      points.add(
+        LatLng(
+          distanceService.lastPosition!.latitude,
+          distanceService.lastPosition!.longitude,
+        ),
+      );
+      polyLines = {
+        Polyline(
+          polylineId: PolylineId('${polyLines.length}'),
+          points: points,
+          width: 4,
+        ),
+      };
+    }
+  }
+
   @override
   void dispose() {
     distanceService.cancelListen();
+    _battleData.dispose();
     _battleData.stompInstance.disconnect();
     super.dispose();
   }

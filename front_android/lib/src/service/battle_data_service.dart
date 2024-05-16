@@ -123,4 +123,10 @@ class BattleDataService with ChangeNotifier {
   void disconnect() {
     stompInstance.disconnect();
   }
+
+  @override
+  void dispose() {
+    disconnect();
+    super.dispose();
+  }
 }
