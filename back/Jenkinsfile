@@ -10,17 +10,27 @@ pipeline {
 
     stages {
         stage('Check Changes') {
-            steps {
-                script {
-                    def changes = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
-                    if (!changes.contains(env.CHANGED_FOLDER)) {
-                        currentBuild.result = 'SUCCESS'
-                        error("No changes in the back folder.")
+                    steps {
+                        dir('./back') {  // 'front' 디렉토리로 이동
+                            script {
+                                // 마지막 두 커밋 사이의 변경된 파일 목록을 가져옴
+                                def changes = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
+                                echo "Changed files: ${changes}"
+                                if (!changes.contains(env.CHANGED_FOLDER)) {
+                                    echo "No changes in the specified folder."
+                                    currentBuild.result = 'SUCCESS'
+                                    return
+                                } else {
+                                    echo "Changes detected in the specified folder."
+                                }
+                            }
+                        }
                     }
                 }
-            }
-        }
         stage('secret.yml download'){
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
             steps{
                 withCredentials([file(credentialsId: 'application-secret', variable: 'configFile')]){
                     script{
@@ -36,6 +46,9 @@ pipeline {
             }
         }
         stage('Build'){
+        when {
+                        expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                    }
             steps{
                 dir("./back"){
                     sh "chmod +x gradlew"
@@ -45,6 +58,9 @@ pipeline {
             }
         }
         stage("Build Image"){
+        when {
+                        expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                    }
             steps{
                 dir("./back"){
                     script{
@@ -64,6 +80,9 @@ pipeline {
 //             }
 //         }
          stage('stop prev container'){
+         when {
+                         expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                     }
             steps {
                 script {
                     try {
@@ -77,6 +96,9 @@ pipeline {
         }
 
         stage('Run Container') {
+        when {
+                        expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                    }
             steps {
                 script {
                     // 이미지를 기반으로 컨테이너 실행
@@ -85,6 +107,9 @@ pipeline {
             }
         }
         stage('Cleaning up'){
+        when {
+                        expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                    }
             steps{
                 script {
                     try{
