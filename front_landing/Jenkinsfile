@@ -25,6 +25,9 @@ pipeline {
             }
         }
          stage('Build'){
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
             steps{
                 nodejs(nodeJSInstallationName: 'nodejs') {
                     dir("./front_landing"){
@@ -36,6 +39,9 @@ pipeline {
             }
         }
         stage("Build Image"){
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
             steps{
                 dir("./front_landing"){
                     script{
@@ -45,6 +51,9 @@ pipeline {
             }
         }
         stage('stop prev conatiner'){
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
             steps {
                 script {
                     try {
@@ -58,6 +67,9 @@ pipeline {
         }
 
         stage('Run Container') {
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
             steps {
                 script {
                     // 이미지를 기반으로 컨테이너 실행
@@ -66,6 +78,9 @@ pipeline {
             }
         }
         stage('Cleaning up'){
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
             steps{
                 script {
                     try{
