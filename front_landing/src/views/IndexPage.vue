@@ -11,7 +11,7 @@
       <img src="/src/assets/qrcode.png" alt="QR Code" />
     </section>
     <section class="download">
-      <a href="https://dl06ulexuxmdt.cloudfront.net/app/app-release.apk" class="gradient-button">Download</a> 
+      <a href="https://dl06ulexuxmdt.cloudfront.net/app/app-release.apk" class="gradient-button">DOWNLOAD</a> 
     </section>
   </section>
 </template>
@@ -33,7 +33,7 @@ body {
 
 .qr img {
   width: 200px;
-  margin-bottom: 25px;
+  margin-bottom: 40px;
 }
 
 .gradient-button {
@@ -45,10 +45,16 @@ body {
   border: none;
   border-radius: 20px;
   color: white;
+  width: 200px;
+  display: inline-flex;
   padding: 15px 30px;
   font-size: 24px;
   font-weight: bold;
   text-decoration: none;
   cursor: pointer;
+}
+
+.gradient-button:hover {
+  transform: scale(1.1);
 }
 </style>

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/src/service/user_service.dart';
 import 'package:front_android/src/view/battle/battle_view_model.dart';
 import 'package:front_android/theme/components/progress_bar.dart';
 
@@ -18,43 +19,43 @@ class RunBar extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: 110,
+            height: 100,
             child: Stack(
               children: List.generate(viewModel.participants.length, (index) {
+                Widget myNickname;
+                if (viewModel.participants[index].nickname ==
+                    UserService.instance.nickname) {
+                  myNickname = Text(
+                    UserService.instance.nickname,
+                    style: ref.typo.body1.copyWith(
+                      color: ref.color.onBackground,
+                    ),
+                  );
+                } else {
+                  myNickname = Container();
+                }
                 return Positioned(
-                  left: viewModel.participants[index].distance /
-                      viewModel.targetDistance *
-                      (screenWidth - 200),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                        child: FittedBox(
-                          child: Text(
-                            viewModel.participants[index].nickname,
-                            style: ref.typo.subTitle5.copyWith(
-                              color: ref.color.onBackground,
-                              backgroundColor: Colors.transparent,
-                            ),
-                          ),
+                    left: viewModel.participants[index].distance /
+                        viewModel.targetDistance *
+                        (screenWidth - 200),
+                    child: Column(
+                      children: [
+                        myNickname,
+                        Image.network(
+                          viewModel.participants[index].characterImgUrl,
+                          height: 80,
+                          fit: BoxFit.contain,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'assets/images/mainCharacter.gif',
+                              fit: BoxFit.contain,
+                              height: 80,
+                              width: 100,
+                            );
+                          },
                         ),
-                      ),
-                      Image.network(
-                        viewModel.participants[index].characterImgUrl,
-                        height: 80,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.asset(
-                            'assets/images/mainCharacter.gif',
-                            fit: BoxFit.contain,
-                            height: 80,
-                            width: 100,
-                          );
-                        },
-                      )
-                    ],
-                  ),
-                );
+                      ],
+                    ));
               }),
             ),
           ),

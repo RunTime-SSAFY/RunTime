@@ -17,14 +17,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class ResultReqDto {
-	private Long memberId;
 	private GameMode gameMode;
 	private Integer ranking;
 	private Float distance;
 	private LocalDateTime runStartTime;
 	private LocalDateTime runEndTime;
-	private Integer duration;
-	private Float avgSpeed;
 	private Integer pace;
 	private Integer calorie;
+	private String courseImgUrl;
 }

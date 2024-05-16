@@ -16,7 +16,7 @@ class UserModeRoomCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var status = room.status == UserModeRoomStatus.WAITING
+    var status = room.status == UserModeRoomStatusHelper.waiting
         ? S.current.waiting
         : S.current.inProgress;
 
@@ -39,14 +39,24 @@ class UserModeRoomCard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  room.name,
-                  style: ref.typo.bigRegular.copyWith(
-                    color: ref.color.onBackground,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      '${room.name}  ',
+                      style: ref.typo.bigRegular.copyWith(
+                        color: ref.color.onBackground,
+                      ),
+                    ),
+                    if (room.isSecret)
+                      Icon(
+                        Icons.lock,
+                        color: ref.color.onBackground,
+                        size: 20,
+                      ),
+                  ],
                 ),
                 Text(
-                  '${room.distance}km',
+                  '${room.distance ~/ 1000}km',
                   style: ref.typo.headline1.copyWith(
                     color: ref.color.onBackground,
                   ),
