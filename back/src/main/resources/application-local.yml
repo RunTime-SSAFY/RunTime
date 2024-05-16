@@ -45,6 +45,11 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       group-id: gps-group
 
+  # aws
+s3:
+  bucket:
+    name: ssafyruntime
+
 logging:
   level:
     org:
