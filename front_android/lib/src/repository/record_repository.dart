@@ -7,15 +7,15 @@ class RecordRepository {
   var api = apiInstance;
 
   bool hasNext = true;
-  int lastId = 0;
+  int? lastId;
   List<Record> recordList = [];
 
   RecordListResponse recordListResponse = RecordListResponse();
 
   Future<void> fetchRecordList(
-      int pageSize, int lastId, String gameMode) async {
+      int pageSize, int? lastId, String? gameMode) async {
     try {
-      final response = await api.get("/records", queryParameters: {
+      final response = await api.get("/api/records", queryParameters: {
         "pageSize": pageSize,
         "lastId": lastId,
         "gameMode": gameMode,
@@ -33,5 +33,23 @@ class RecordRepository {
       debugPrint('에러 발생 $e, $s');
       throw Error();
     }
+  }
+
+  //record id로 record 조회
+  Future<Record> getRecordById(int recordId) async {
+    try {
+      final response = await api.get("/api/records/$recordId");
+      return Record.fromJson(response.data);
+    } catch (e, s) {
+      debugPrint('에러 발생 $e, $s');
+      throw Error();
+    }
+  }
+
+  // recordList 초기화
+  void clearRecordList() {
+    recordList = [];
+    hasNext = true;
+    lastId = null;
   }
 }

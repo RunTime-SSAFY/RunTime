@@ -4,6 +4,7 @@ import 'package:front_android/src/view/record/record_view_model.dart';
 import 'package:front_android/src/view/record/widgets/record/record_list.dart';
 import 'package:front_android/src/view/record/widgets/record/record_top.dart';
 import 'package:front_android/src/service/theme_service.dart'; // 테마 서비스를 위한 라이브러리
+import 'package:front_android/theme/components/circular_indicator.dart';
 
 // 사용자 정의 위젯 및 로컬라이제이션을 위한 import
 import 'package:front_android/theme/components/svg_icon.dart';
@@ -26,9 +27,9 @@ class _RecordViewState extends ConsumerState<RecordView> {
     // 위젯 빌드 후 실행(viewModel 받와야 사용 가능)
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       viewModel.fetchRecordList(
-        gameMode: "",
+        gameMode: viewModel.gameMode,
         pageSize: 10,
-        lastId: 0,
+        lastId: viewModel.lastId,
       );
       print("--------[RecordView] initState --------");
       print(viewModel.recordList);
@@ -51,20 +52,28 @@ class _RecordViewState extends ConsumerState<RecordView> {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
         children: [
-          const RecordTop(),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: RecordList(
-                recordList: viewModel.recordList,
-                hasNext: viewModel.hasNext,
-                lastId: viewModel.lastId,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const RecordTop(),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: RecordList(
+                    pageSize: 10,
+                    gameMode: viewModel.gameMode,
+                    recordList: viewModel.recordList,
+                    hasNext: viewModel.hasNext,
+                    lastId: viewModel.lastId,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
+          if (viewModel.isLoading)
+            CircularIndicator(isLoading: viewModel.isLoading),
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/record.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';
+import 'package:front_android/util/helper/time_format_helper.dart';
 import 'package:go_router/go_router.dart';
 
 class RecordListItem extends ConsumerWidget {
@@ -175,7 +176,7 @@ class RecordListItemCard extends ConsumerWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    "$distance",
+                    "${distance}km",
                     style: ref.typo.headline2.copyWith(
                       color: textColor,
                       fontWeight: FontWeight.bold,
@@ -185,7 +186,9 @@ class RecordListItemCard extends ConsumerWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    "$duration",
+                    TimeFormatHelper.formatMilliseconds(duration),
+                    // duration(milliseconds)을 시간, 분, 초로변환
+                    // duration을 '시간:분:초' 형식으로 변환
                     style: ref.typo.subTitle3.copyWith(
                       color: textColor,
                     ),
