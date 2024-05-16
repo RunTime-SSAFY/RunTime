@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/battle.dart';
@@ -171,18 +173,24 @@ class BattleViewModel with ChangeNotifier {
 
       _battleData.result = results[0].data['ranking'];
 
+      FormData formData = FormData.fromMap({
+        'gameMode': _battleData.mode,
+        'ranking': _battleData.result,
+        'distance': currentDistance,
+        'runStartTime': _startTime,
+        'runEndTime': _currentTime,
+        'pace': avgPace,
+        'calory': double.parse(calory),
+        'file': MultipartFile.fromBytes(
+          imageBytes ?? Uint8List(0),
+          filename:
+              '${UserService.instance.nickname}END${DateTime.now().toString()}',
+        ),
+      });
+
       final response = await apiInstance.post(
         'api/results',
-        data: {
-          'gameMode': _battleData.mode,
-          'ranking': _battleData.result,
-          'distance': currentDistance,
-          'runStartTime': _startTime,
-          'runEndTime': _currentTime,
-          'pace': avgPace,
-          'calory': double.parse(calory),
-          'courseImgUrl': '0',
-        },
+        data: formData,
       );
 
       var tierDto = jsonDecode(response.data)['tierDto'];
@@ -196,6 +204,7 @@ class BattleViewModel with ChangeNotifier {
     }
   }
 
+  // GoogleMap
   Set<Polyline> polyLines = {};
 
   List<LatLng> points = [];
@@ -217,6 +226,9 @@ class BattleViewModel with ChangeNotifier {
       };
     }
   }
+
+  // widgetsToImage
+  Uint8List? imageBytes;
 
   @override
   void dispose() {
