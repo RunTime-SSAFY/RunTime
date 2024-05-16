@@ -53,6 +53,7 @@ public class Room extends BaseEntity {
                 .capacity(capacity)
                 .distance(distance)
                 .status(status.name())
+                .isSecret(password != null)
                 .build();
     }
 

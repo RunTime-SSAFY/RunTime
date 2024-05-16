@@ -55,4 +55,13 @@ public class MatchingController {
 
         return ResponseEntity.ok().body(rankingResDto);
     }
+
+    @PatchMapping("/{matchingRoomId}/reenter")
+    public ResponseEntity<Void> reenter(@PathVariable Long matchingRoomId) throws JsonProcessingException {
+        matchingService.reenter(matchingRoomId);
+
+        return ResponseEntity.ok().build();
+
+    }
+
 }

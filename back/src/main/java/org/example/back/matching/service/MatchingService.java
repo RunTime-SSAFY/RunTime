@@ -8,7 +8,10 @@ import org.example.back.common.CustomException;
 import org.example.back.db.entity.Member;
 import org.example.back.db.enums.Status;
 import org.example.back.db.repository.MemberRepository;
+import org.example.back.exception.MatchingRoomNotFoundException;
 import org.example.back.exception.MemberNotFoundException;
+import org.example.back.exception.ReenterForbiddenException;
+import org.example.back.exception.RoomNotFoundException;
 import org.example.back.matching.dto.*;
 import org.example.back.realtime_record.dto.StompRealtimeReqDto;
 import org.example.back.redis.entity.MatchingRoom;
@@ -108,6 +111,7 @@ public class MatchingService {
                     .nickname(me.getNickname())
                     .characterImgUrl(me.getCharacter().getImgUrl())
                     .build();
+
             StompMatchingSuccessResDto secondStompMatchingSuccessResDto = StompMatchingSuccessResDto.builder()
                     .data(secondOpponentResDto)
                     .action("matching")
@@ -206,14 +210,22 @@ public class MatchingService {
         if (matchingRoom.getReadyMembers() != null) {
             matchingRoom.getReadyMembers().remove(String.valueOf(myMemberId));
         }
-        matchingRoom.getMembers().remove(String.valueOf(myMemberId));
 
-        //Iterator<String> iterator = matchingRoom.getMembers().iterator();
-        //String opponentId = iterator.next();
-        //OpponentResDto opponentResDto = OpponentResDto.builder().opponentId(Long.parseLong(opponentId)).build();
+        // 매칭방의 멤버들에서 나 삭제
+        matchingRoom.getMembers().remove(String.valueOf(myMemberId));
+        matchingRoom.getReadyMembers().remove(String.valueOf(myMemberId));
+
+        // 매칭방에 아무도 안 남아 있다면 매칭방 삭제
+        if (matchingRoom.getMembers().isEmpty()) {
+           deleteMatchingRoom(matchingRoomId);
+        }
 
         // matchingRoom update
         matchingRoomRepository.save(matchingRoom);
+
+        // 만약 lastIdx, lastDistance가 있다면, 삭제
+        redisTemplate.delete("lastIdx_memberId:" + myMemberId);
+        redisTemplate.delete("lastIdx_memberId:" + myMemberId);
 
         StompGameExitResDto stompGameExitResDto = StompGameExitResDto.builder()
                 .action("exit").build();
@@ -232,7 +244,7 @@ public class MatchingService {
         if (stompRealtimeReqDtoList == null || stompRealtimeReqDtoList.isEmpty()) throw new CustomException(HttpStatus.BAD_REQUEST, myMemberId + "는 " + matchingRoomId + "매칭전을 완주하지 못했습니다");
 
         StompRealtimeReqDto stompRealtimeReqDto = objectMapper.readValue(stompRealtimeReqDtoList.get(0), StompRealtimeReqDto.class);
-        if (stompRealtimeReqDto.getDistance() < 3000) throw new CustomException(HttpStatus.BAD_REQUEST, matchingRoomId + "매칭전을 완주하지 못했습니다"); // 매칭전은 3KM 고정
+        if (stompRealtimeReqDto.getDistance() < 1000) throw new CustomException(HttpStatus.BAD_REQUEST, matchingRoomId + "매칭전을 완주하지 못했습니다"); // 매칭전은 1KM 고정
 
         // 멤버를 완주한 목록에 추가한다
         redisTemplate.opsForList().rightPush("ranking_matchingRoomId:" + matchingRoomId, String.valueOf(myMemberId));
@@ -243,5 +255,67 @@ public class MatchingService {
         return MatchingRankingResDto.builder().ranking(ranking).build();
 
     }
+
+    public void reenter(Long matchingRoomId) throws JsonProcessingException {
+        // matchingRoom이 있는지 확인한다
+        MatchingRoom matchingRoom = matchingRoomRepository.findById(matchingRoomId).orElseThrow(() -> new MatchingRoomNotFoundException(matchingRoomId));
+
+        // 나의 id 가져오기
+        Long myMemberId = SecurityUtil.getCurrentMemberId();
+        Member me = memberRepository.findById(myMemberId).orElseThrow(MemberNotFoundException::new);
+        String myNickname = me.getNickname();
+
+        //  재입장 가능한지 확인한다
+        if (!matchingRoom.getStatus().name().equals("IN_PROGRESS") || !redisTemplate.hasKey("realtime_matchingRoomId:" + matchingRoomId + "memberId:" + myMemberId)) {
+            throw new ReenterForbiddenException(matchingRoomId);
+        }
+
+        // uuid를 가져온다
+        UUID uuid = UUID.fromString(Objects.requireNonNull(redisTemplate.opsForValue().get("uuid_matchingRoomId:" + matchingRoomId)));
+
+        // 상대방(이미 매칭방에서 게임을 진행하고 있는 멤버)의 id와 닉네임을 가져온다.
+        Long opponentId = Long.parseLong(new ArrayList<>(matchingRoom.getMembers()).get(0));
+        Member opponent = memberRepository.findById(opponentId).orElseThrow(MemberNotFoundException::new);
+        String opponentNickname = opponent.getNickname();
+
+        // redis의 matchingRoom에 나 추가한다
+        matchingRoom.getMembers().add(String.valueOf(myMemberId));
+        matchingRoom.getReadyMembers().add(String.valueOf(myMemberId));
+
+        matchingRoomRepository.save(matchingRoom);
+
+        // lastIdx와 lastDistance를 가져온다
+        StompRealtimeReqDto stompRealtimeReqDto = objectMapper.readValue(redisTemplate.opsForList().range("realtime_matchingRoomId:" + matchingRoomId + "memberId:" + myMemberId, -1, -1).get(0), StompRealtimeReqDto.class);
+        int lastIdx = stompRealtimeReqDto.getIdx();
+        double lastDistance = stompRealtimeReqDto.getLon();
+
+        // lastIdx와 lastDistance를 저장한다
+        redisTemplate.opsForValue().set("lastIdx_memberId:" + myMemberId, String.valueOf(lastIdx));
+        redisTemplate.opsForValue().set("lastDistance_memberId:" + myMemberId, String.valueOf(lastDistance));
+
+        // 나에게 stomp로 StompMatching SuccessResDto 보내한다
+        OpponentResDto opponentResDto = OpponentResDto.builder()
+                .matchingRoomId(matchingRoomId)
+                .uuid(uuid)
+                .memberId(opponentId)
+                .nickname(opponentNickname)
+                .characterImgUrl(opponent.getCharacter().getImgUrl())
+                .build();
+
+        StompMatchingSuccessResDto stompMatchingSuccessResDto = StompMatchingSuccessResDto.builder().action("matching").data(opponentResDto).build();
+
+        messagingTemplate.convertAndSend("/queue/member/" + myNickname, stompMatchingSuccessResDto);
+
+    }
+
+    public void deleteMatchingRoom(Long matchingRoomId) {
+        matchingRoomRepository.deleteById(matchingRoomId);
+
+        redisTemplate.delete("uuid_matchingRoomId:" + matchingRoomId);
+        redisTemplate.delete("ranking_matchingRoomId:" + matchingRoomId);
+
+    }
+
+
 
 }

@@ -23,6 +23,15 @@ public class PracticeController {
         PracticeResDto practiceResDto = practiceService.getPracticeResDto();
 
         return ResponseEntity.ok().body(practiceResDto);
+
+    }
+
+    @PatchMapping("/reenter")
+    public ResponseEntity<Void> reenter() throws JsonProcessingException {
+        practiceService.reenter();
+
+        return ResponseEntity.ok().build();
+
     }
 
 }
