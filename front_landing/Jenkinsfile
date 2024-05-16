@@ -2,9 +2,19 @@ pipeline {
     agent any
     environment{
         dockerImage = ''
+        CHANGED_FOLDER = './front_landing'
     }
 
     stages {
+        steps {
+                script {
+                    def changes = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
+                    if (!changes.contains(env.CHANGED_FOLDER)) {
+                        currentBuild.result = 'SUCCESS'
+                        error("No changes in the back folder.")
+                    }
+                }
+            }
          stage('Build'){
             steps{
                 nodejs(nodeJSInstallationName: 'nodejs') {

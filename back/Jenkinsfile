@@ -5,9 +5,21 @@ pipeline {
     }
     environment{
         dockerImage = ''
+        CHANGED_FOLDER = './back'
     }
 
     stages {
+        stage('Check Changes') {
+            steps {
+                script {
+                    def changes = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
+                    if (!changes.contains(env.CHANGED_FOLDER)) {
+                        currentBuild.result = 'SUCCESS'
+                        error("No changes in the back folder.")
+                    }
+                }
+            }
+        }
         stage('secret.yml download'){
             steps{
                 withCredentials([file(credentialsId: 'application-secret', variable: 'configFile')]){
