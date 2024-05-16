@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+    environment{
+        dockerImage = ''
+    }
+
+    stages {
+         stage('Build'){
+            steps{
+                nodejs(nodeJSInstallationName: 'nodejs') {
+                    dir("./Front"){
+                        // sh "npm run clean"
+                        sh "npm install"
+                        sh "npm run build -- --mode production"
+                    }
+                }
+            }
+        }
+        stage("Build Image"){
+            steps{
+                dir("./front_landing"){
+                    script{
+                        dockerImage = docker.build("landing"+":$BUILD_NUMBER")
+                      }
+                }
+            }
+        }
+        stage('stop prev conatiner'){
+            steps {
+                script {
+                    try {
+                        sh 'docker stop landing'
+                        sh 'docker rm landing'
+                    } catch (e) {
+                        echo 'no prev container'
+                    }
+                }
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                script {
+                    // 이미지를 기반으로 컨테이너 실행
+                    dockerImage.run("-p 9080:80 --name landing -d")
+                }
+            }
+        }
+        stage('Cleaning up'){
+            steps{
+                script {
+                    try{
+                        // 이전 빌드 번호 계산
+                        def previousBuildNumber = BUILD_NUMBER.toInteger() - 1
+                        // 이전 이미지 삭제
+                        sh "docker rmi landing:$previousBuildNumber"
+                    }catch(e){
+                        sh 'echo fail!!'
+                    }
+
+                }
+            }
+        }
+
+      
+    }
+}
