@@ -1,0 +1,101 @@
+pipeline {
+    agent any
+    environment{
+        dockerImage = ''
+        CHANGED_FOLDER = 'front_landing'
+    }
+
+    stages {
+        stage('Check Changes') {
+            steps {
+                dir('./front_landing') {  // 'front' 디렉토리로 이동
+                    script {
+                        // 마지막 두 커밋 사이의 변경된 파일 목록을 가져옴
+                        def changes = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
+                        echo "Changed files: ${changes}"
+                        if (!changes.contains(env.CHANGED_FOLDER)) {
+                            echo "No changes in the specified folder."
+                            currentBuild.result = 'SUCCESS'
+                            return
+                        } else {
+                            echo "Changes detected in the specified folder."
+                        }
+                    }
+                }
+            }
+        }
+         stage('Build'){
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
+            steps{
+                nodejs(nodeJSInstallationName: 'nodejs') {
+                    dir("./front_landing"){
+                        // sh "npm run clean"
+                        sh "npm install"
+                        sh "npm run build -- --mode production"
+                    }
+                }
+            }
+        }
+        stage("Build Image"){
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
+            steps{
+                dir("./front_landing"){
+                    script{
+                        dockerImage = docker.build("landing"+":$BUILD_NUMBER")
+                      }
+                }
+            }
+        }
+        stage('stop prev conatiner'){
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
+            steps {
+                script {
+                    try {
+                        sh 'docker stop landing'
+                        sh 'docker rm landing'
+                    } catch (e) {
+                        echo 'no prev container'
+                    }
+                }
+            }
+        }
+
+        stage('Run Container') {
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
+            steps {
+                script {
+                    // 이미지를 기반으로 컨테이너 실행
+                    dockerImage.run("-p 9080:80 --name landing -d")
+                }
+            }
+        }
+        stage('Cleaning up'){
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
+            steps{
+                script {
+                    try{
+                        // 이전 빌드 번호 계산
+                        def previousBuildNumber = BUILD_NUMBER.toInteger() - 1
+                        // 이전 이미지 삭제
+                        sh "docker rmi landing:$previousBuildNumber"
+                    }catch(e){
+                        sh 'echo fail!!'
+                    }
+
+                }
+            }
+        }
+
+      
+    }
+}

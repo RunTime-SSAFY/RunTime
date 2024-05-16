@@ -22,7 +22,7 @@ class SecureStorageRepository {
   Future<DateTime> get refreshTokenExpireDate async => DateTime.parse(
       await _storage.read(key: 'expireDate') ?? '2000-01-01T12:00:00.000Z');
 
-  Future<void> setAccessToken(String token) async {
+  Future<void> setAccessToken(String? token) async {
     await _storage.write(key: 'accessToken', value: token);
   }
 

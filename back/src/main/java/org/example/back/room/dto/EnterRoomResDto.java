@@ -15,7 +15,5 @@ import java.util.UUID;
 public class EnterRoomResDto {
     private Long roomMemberId;
     private UUID uuid;
-    private int lastIdx;
-    private double lastDistance;
     private List<MemberResDto> data;
 }

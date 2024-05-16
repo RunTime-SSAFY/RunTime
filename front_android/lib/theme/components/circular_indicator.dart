@@ -13,7 +13,7 @@ class CircularIndicator extends ConsumerWidget {
       ignoring: !isLoading,
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 250),
-        opacity: isLoading ? 1 : 0,
+        opacity: 1,
         child: Container(
           color: ref.color.black,
           alignment: Alignment.center,

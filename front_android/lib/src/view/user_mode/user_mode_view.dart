@@ -78,6 +78,7 @@ class _UserModeViewState extends ConsumerState<UserModeView> {
                         child: UserModeRoomList(
                         userModeRoomList: viewModel.userModeRoomList,
                         getRoomList: viewModel.getRoomList,
+                        canFetchMore: viewModel.canFetchMore,
                       )),
               ],
             ),
@@ -88,7 +89,8 @@ class _UserModeViewState extends ConsumerState<UserModeView> {
             ),
           ),
         ),
-        CircularIndicator(isLoading: viewModel.isLoading),
+        if (viewModel.isLoading)
+          CircularIndicator(isLoading: viewModel.isLoading),
       ],
     );
   }

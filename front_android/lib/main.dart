@@ -36,9 +36,11 @@ void initializeNotification() async {
           'high_importance_channel', 'high_importance_notification',
           importance: Importance.max));
 
-  await flutterLocalNotificationsPlugin.initialize(const InitializationSettings(
-    android: AndroidInitializationSettings("@mipmap/ic_launcher"),
-  ));
+  await flutterLocalNotificationsPlugin.initialize(
+    const InitializationSettings(
+      android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+    ),
+  );
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
@@ -74,8 +76,7 @@ void main() async {
   // refreshToken이 있는지 확인
   try {
     final refreshToken = await SecureStorageRepository.instance.refreshToken;
-    if (refreshToken == null) {
-    } else {
+    if (refreshToken != null) {
       try {
         await UserService.instance.getUserInfor();
       } catch (error) {

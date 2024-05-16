@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<<<<<<< HEAD
 
     <uses-feature android:name="android.hardware.bluetooth" android:required="false"/>
 
@@ -17,6 +18,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
+=======
+    <!-- GPS -->
+>>>>>>> 5078b8b04c87cf280bc37164f56cea56337713ce
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
@@ -28,10 +32,17 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
 
+    <!-- video_player -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="런타임"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="${googleApiKey}"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

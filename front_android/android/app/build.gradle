@@ -26,6 +26,7 @@ if (flutterVersionName == null) {
 }
 
 def kakaoappkey = localProperties.getProperty('kakaoAppKey')
+def googleApiKey = localProperties.getProperty('googleApiKey')
 
 android {
     namespace "com.ssafy.front_android"
@@ -55,7 +56,10 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        manifestPlaceholders += [kakaoappkey: kakaoappkey]
+        manifestPlaceholders += [
+          kakaoappkey: kakaoappkey,
+          googleApiKey: googleApiKey,
+          ]
     }
 
     buildTypes {

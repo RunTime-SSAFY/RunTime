@@ -5,10 +5,32 @@ pipeline {
     }
     environment{
         dockerImage = ''
+        CHANGED_FOLDER = 'back'
     }
 
     stages {
+        stage('Check Changes') {
+                    steps {
+                        dir('./back') {  // 'front' 디렉토리로 이동
+                            script {
+                                // 마지막 두 커밋 사이의 변경된 파일 목록을 가져옴
+                                def changes = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
+                                echo "Changed files: ${changes}"
+                                if (!changes.contains(env.CHANGED_FOLDER)) {
+                                    echo "No changes in the specified folder."
+                                    currentBuild.result = 'SUCCESS'
+                                    return
+                                } else {
+                                    echo "Changes detected in the specified folder."
+                                }
+                            }
+                        }
+                    }
+                }
         stage('secret.yml download'){
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
             steps{
                 withCredentials([file(credentialsId: 'application-secret', variable: 'configFile')]){
                     script{
@@ -24,6 +46,9 @@ pipeline {
             }
         }
         stage('Build'){
+        when {
+                        expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                    }
             steps{
                 dir("./back"){
                     sh "chmod +x gradlew"
@@ -33,10 +58,13 @@ pipeline {
             }
         }
         stage("Build Image"){
+        when {
+                        expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                    }
             steps{
                 dir("./back"){
                     script{
-                        dockerImage = docker.build("run-mate"+":$BUILD_NUMBER")
+                        dockerImage = docker.build("run-time"+":$BUILD_NUMBER")
                       }
                 }
             }
@@ -52,11 +80,14 @@ pipeline {
 //             }
 //         }
          stage('stop prev container'){
+         when {
+                         expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                     }
             steps {
                 script {
                     try {
-                        sh 'docker stop run-mate'
-                        sh 'docker rm run-mate'
+                        sh 'docker stop run-time'
+                        sh 'docker rm run-time'
                     } catch (e) {
                         echo 'no prev container'
                     }
@@ -65,21 +96,27 @@ pipeline {
         }
 
         stage('Run Container') {
+        when {
+                        expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                    }
             steps {
                 script {
                     // 이미지를 기반으로 컨테이너 실행
-                    dockerImage.run("-p 8000:8000 --name run-mate -d")
+                    dockerImage.run("-p 8000:8000 --name run-time -d")
                 }
             }
         }
         stage('Cleaning up'){
+        when {
+                        expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+                    }
             steps{
                 script {
                     try{
                         // 이전 빌드 번호 계산
                         def previousBuildNumber = BUILD_NUMBER.toInteger() - 1
                         // 이전 이미지 삭제
-                        sh "docker rmi run-mate:$previousBuildNumber"
+                        sh "docker rmi run-time:$previousBuildNumber"
                     }catch(e){
                         sh 'echo fail!!'
                     }

@@ -52,7 +52,7 @@ public class Record extends BaseEntity {
 	private Integer calorie;
 
 	@Column(name="duration")
-	private Integer duration;
+	private Long duration;
 
 	@OneToMany(mappedBy = "record")
 	private List<RealtimeRecord> realtimeRecords;
@@ -60,12 +60,10 @@ public class Record extends BaseEntity {
 	@Column(name="course_img_url")
 	private String courseImgUrl;
 
-	public Long getDuration() {
-		if (runStartTime != null && runEndTime != null) {
-			return Duration.between(runStartTime, runEndTime).toMillis();
-		} else {
-			return null;
-		}
+	public void updateDuration() {
+		duration = (runStartTime != null && runEndTime != null) ?
+			Duration.between(runStartTime, runEndTime).toMillis() :
+			null;
 	}
 	public RecordDto toRecordDto() {
 		return RecordDto.builder()

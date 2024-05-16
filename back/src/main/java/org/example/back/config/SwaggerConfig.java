@@ -29,7 +29,7 @@ public class SwaggerConfig {
 	}
 	private Info apiInfo() {
 		return new Info()
-			.title("RunMate") // API의 제목
+			.title("RunTime") // API의 제목
 			.description("swagger입니다요") // API에 대한 설명
 			.version("1.0.0"); // API의 버전
 	}

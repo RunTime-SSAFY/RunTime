@@ -112,7 +112,7 @@ class MakeRoomFullDialog extends ConsumerWidget {
                 padding: const EdgeInsets.all(15),
                 child: Button(
                   onPressed: () async {
-                    var room = await viewModel.makeRoom(context);
+                    var room = await viewModel.makeRoom();
                     if (room != null) {
                       if (!context.mounted) return;
                       context.pushReplacement(

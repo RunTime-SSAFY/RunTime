@@ -27,7 +27,7 @@ public class MemberService{
 		return ProfileResponseDto.builder()
 			.nickname(member.getNickname())
 			.weight(member.getWeight())
-			.characterId(member.getCharacter().getId())
+			.characterImgUrl(member.getCharacter().getImgUrl())
 			.tierScore(member.getTierScore())
 			.tierName(rankInfo.getTierName())
 			.tierImage(rankInfo.getTierImage())
@@ -54,7 +54,7 @@ public class MemberService{
 		return ProfileResponseDto.builder()
 			.nickname(member.getNickname())
 			.weight(member.getWeight())
-			.characterId(member.getCharacter().getId())
+			.characterImgUrl(member.getCharacter().getImgUrl())
 			.build();
 	}
 

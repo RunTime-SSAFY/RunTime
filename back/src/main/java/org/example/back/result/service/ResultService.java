@@ -2,6 +2,7 @@ package org.example.back.result.service;
 
 import org.example.back.db.entity.Member;
 import org.example.back.db.entity.Record;
+import org.example.back.db.enums.GameMode;
 import org.example.back.db.repository.MemberRepository;
 import org.example.back.db.repository.RecordRepository;
 import org.example.back.exception.MemberNotFoundException;
@@ -33,10 +34,11 @@ public class ResultService {
 		// 경기 결과 저장
 		saveRecord(member, record);
 
-		// 사용자 점수 갱신 및 저장
-		updateMemberScores(member, record);
+		// 사용자 점수 갱신 및 저장, 갱신되기 전 점수 반환
+		int beforeScore = updateMemberScores(member, record);
 
-		return createResultResDto(member);
+		// 갱신되기 전 점수를 이용해 갱신된 점수 반환
+		return createResultResDto(member, beforeScore);
 	}
 
 	private void saveRecord(Member member, ResultReqDto record) {
@@ -49,24 +51,27 @@ public class ResultService {
 			.runEndTime(record.getRunEndTime())
 			.pace(record.getPace())
 			.calorie(record.getCalorie())
-			.duration(record.getDuration())
+			.courseImgUrl(record.getCourseImgUrl())
 			.build();
+		result.updateDuration();
+
 		recordRepository.save(result);
 	}
 
-	private void updateMemberScores(Member member, ResultReqDto record) {
+	private int updateMemberScores(Member member, ResultReqDto record) {
 		int consecutive = record.getRanking().equals(1) ? member.getConsecutiveGames() + 1 : 0; // 연승 기록 갱신
-		int beforeScore = member.getTierScore();  // 갱신 전 점수
+		int beforeScore = member.getTierScore() != null ? member.getTierScore() : 0;  // 갱신 전 점수
 		int updateScore = beforeScore + (record.getRanking().equals(1) ? 30 * consecutive : -30);  // 점수 갱신
 		int afterScore = Math.min(Math.max(updateScore, 0), 1100);  // 점수 상한선 제한
 
 		member.updateTierScore(afterScore);
 		member.updateConsecutive(consecutive);
 		memberRepository.save(member);
+
+		return beforeScore;
 	}
 
-	private ResultResDto createResultResDto(Member member) {
-		int beforeScore = member.getTierScore();
+	private ResultResDto createResultResDto(Member member, int beforeScore) {
 		int status = Integer.compare(member.getTierScore() / 100, beforeScore / 100);
 		return new ResultResDto(beforeScore, member.getTierScore(), status, member.getConsecutiveGames());
 	}

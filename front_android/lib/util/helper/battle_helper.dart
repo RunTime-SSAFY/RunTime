@@ -2,14 +2,14 @@ interface class DestinationHelper {
   static String _getForSend(String type, String uuid) => '/pub/$type/$uuid';
   static String getForSub(String type, String uuid) => '/topic/$type/$uuid';
 
-  static String getBattleDestination(String mode, String roomId) {
+  static String getBattleDestination(String mode, String uuid) {
     if (mode == BattleModeHelper.matching) {
-      return _getForSend('matchingRoom', roomId);
+      return _getForSend('matchingRoom', uuid);
     }
     if (mode == BattleModeHelper.userMode) {
-      return _getForSend('room', roomId);
+      return _getForSend('room', uuid);
     } else {
-      return _getForSend('practice', roomId);
+      return _getForSend('practice', uuid);
     }
   }
 

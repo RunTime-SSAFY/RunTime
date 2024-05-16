@@ -116,7 +116,6 @@ public class RecordCustomImpl implements RecordCustom {
                 .from(record)
                 .where(record.member.eq(member))
                 .fetchOne();
-
     }
 
     @Override
@@ -124,8 +123,8 @@ public class RecordCustomImpl implements RecordCustom {
         return query
                 .select(record.id)
                 .from(record)
-                .where(record.member.id.eq(myMemberId))
-                .orderBy(record.createdAt.desc(), record.pace.desc())
+                .where(record.member.id.eq(myMemberId).and(record.gameMode.eq(GameMode.BATTLE)))
+                .orderBy(record.createdAt.desc(), record.pace.asc())
                 .fetchOne();
     }
 

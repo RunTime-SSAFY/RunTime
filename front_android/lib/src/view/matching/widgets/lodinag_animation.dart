@@ -39,7 +39,7 @@ class _LoadingAnimatedBarsState extends ConsumerState<LoadingAnimatedBars>
   @override
   void dispose() {
     for (var controller in controllers) {
-      controller.dispose();
+      controller.stop();
     }
     super.dispose();
   }
