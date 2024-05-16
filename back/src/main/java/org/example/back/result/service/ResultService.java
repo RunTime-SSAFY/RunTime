@@ -2,6 +2,7 @@ package org.example.back.result.service;
 
 import org.example.back.db.entity.Member;
 import org.example.back.db.entity.Record;
+import org.example.back.db.enums.GameMode;
 import org.example.back.db.repository.MemberRepository;
 import org.example.back.db.repository.RecordRepository;
 import org.example.back.exception.MemberNotFoundException;
@@ -50,8 +51,10 @@ public class ResultService {
 			.runEndTime(record.getRunEndTime())
 			.pace(record.getPace())
 			.calorie(record.getCalorie())
-			.duration(record.getDuration())
+			.courseImgUrl(record.getCourseImgUrl())
 			.build();
+		result.updateDuration();
+
 		recordRepository.save(result);
 	}
 
