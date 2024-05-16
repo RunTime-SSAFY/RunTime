@@ -95,6 +95,13 @@ public class RoomController {
         return ResponseEntity.ok().body(roomRankingResDto);
     }
 
+    @PatchMapping("/{roomId}/reenter")
+    public ResponseEntity<EnterRoomResDto> reenterRoom(@PathVariable Long roomId) throws JsonProcessingException {
+        EnterRoomResDto enterRoomResDto = roomService.reenterRoom(roomId);
+
+        return ResponseEntity.ok().body(enterRoomResDto);
+
+    }
 
 
 }
