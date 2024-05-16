@@ -9,6 +9,7 @@ class LookingFor extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return const BattleWait(
       comments: '상대를 찾았습니다',
+      
     );
   }
 }

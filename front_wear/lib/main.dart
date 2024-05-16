@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_wear/src/view/wearable/battle/battle_main.dart';
-import 'package:front_wear/src/view/wearable/battle/found.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   runApp(const ProviderScope(child: MyApp()));
@@ -25,7 +22,7 @@ class MyApp extends ConsumerWidget {
       //   '/practice_page': (context) => const PracticePage(),
       // },
       debugShowCheckedModeBanner: false,
-      home: LookingFor(),
+      home: BattleMain(),
     );
   }
 }
