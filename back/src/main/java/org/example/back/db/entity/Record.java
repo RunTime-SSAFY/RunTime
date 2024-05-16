@@ -69,6 +69,7 @@ public class Record extends BaseEntity {
 		return RecordDto.builder()
 				.id(getId())
 				.duration(getDuration())
+				.runStartTime(getRunStartTime())
 				.gameMode(getGameMode())
 				.ranking(getRanking())
 				.distance(getDistance())
