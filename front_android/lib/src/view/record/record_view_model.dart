@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front_android/src/model/record_list_model.dart';
+import 'package:front_android/src/model/record.dart';
 import 'package:front_android/src/repository/record_repository.dart';
 
 final recordViewModelProvider =
@@ -9,8 +9,17 @@ final recordViewModelProvider =
 class RecordViewModel extends ChangeNotifier {
   var recordRepository = RecordRepository();
 
-  RecordListModel get recordList => recordRepository.recordListModel;
-  // final RecordRepository recordRepository;
+  List<Record> get recordList => recordRepository.recordList;
+  int get lastId => recordRepository.lastId;
+  bool get hasNext => recordRepository.hasNext;
 
-  // getRecordList();
+  // 기록 리스트 가져오기
+  void fetchRecordList({
+    required int pageSize,
+    required int lastId,
+    required String gameMode,
+  }) async {
+    await recordRepository.fetchRecordList(pageSize, lastId, gameMode);
+    notifyListeners();
+  }
 }
