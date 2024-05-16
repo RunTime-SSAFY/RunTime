@@ -143,7 +143,6 @@ public class AuthService {
 			.email(email)
 			.tokenResponseDto(TokenResponseDto.builder().accessToken(accessToken).refreshToken(refreshToken).build())
 			.build();
-
 	}
 
 	public boolean isExistMember(String email) {

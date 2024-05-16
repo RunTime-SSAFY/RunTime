@@ -32,6 +32,13 @@ public class FriendController {
 		return ResponseEntity.ok(friendList);
 	}
 
+	@GetMapping("/others")
+	public ResponseEntity<FriendListResponseDto> getOtherMembers(Pageable pageable,
+		@RequestParam(required = false) Long lastId, @RequestParam(required = false) String searchWord) {
+		FriendListResponseDto otherList = friendService.findNotFriends(pageable, lastId, searchWord);
+		return ResponseEntity.ok(otherList);
+	}
+
 	@PostMapping("/{addresseeId}")
 	public ResponseEntity<Long> requestFriend(@PathVariable Long addresseeId) {
 		Long id = friendService.request(addresseeId);
