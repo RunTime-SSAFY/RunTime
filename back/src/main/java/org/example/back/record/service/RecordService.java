@@ -31,7 +31,9 @@ public class RecordService {
         Member member = getMember();
 
         // String으로 들어온 열거값을 대소문자 구분하지 않고 찾아준다.
-        GameMode gameMode = EnumUtils.getIgnoreCaseOrThrow(GameMode.class, gameModeStr);
+        GameMode gameMode = null;
+        System.out.println("gameModeStr: " + gameModeStr);
+        if(!gameModeStr.equals("")) gameMode = EnumUtils.getIgnoreCaseOrThrow(GameMode.class, gameModeStr);
 
         // Slice로 데이터들을 받아온다.
         Slice<RecordDto> recordSlice = recordRepository.findAll(lastId, pageSize, member, gameMode);

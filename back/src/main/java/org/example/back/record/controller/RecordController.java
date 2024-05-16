@@ -22,7 +22,7 @@ public class RecordController {
     public ResponseEntity<RecordListResponseDto> getAllRecords(
             @RequestParam(value = "lastId",required = false) Long lastId,
             @RequestParam("pageSize") Integer pageSize,
-            @RequestParam("gameMode") String gameModeStr
+            @RequestParam(value = "gameMode", required = false) String gameModeStr
     ) {
         RecordListResponseDto recordListResponseDto = recordService.getAllRecords(lastId, pageSize, gameModeStr);
         return ResponseEntity.ok(recordListResponseDto);
