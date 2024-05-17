@@ -35,7 +35,7 @@ public class CharacterService {
 
     public CharacterListResDto getCharacterList(Pageable page){
         Long memberId = getMember().getId();
-        Page<CharacterResDto> characterPage = characterRepository.findAll(memberId, page);  // 페이지 엔티티 조회
+         Page<CharacterResDto> characterPage = characterRepository.findAll(memberId, page);  // 페이지 엔티티 조회
         return new CharacterListResDto(
             characterPage.stream().toList(),  // 데이터
             characterPage.isLast()  // 페이지네이션 마지막 여부
