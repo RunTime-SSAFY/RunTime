@@ -1,4 +1,5 @@
 interface class DateTimeFormatHelper {
+  // 밀리초를 00:00 형식으로 변환
   static String formatMilliseconds(int milliseconds) {
     int seconds = (milliseconds / 1000).truncate();
     int minutes = (seconds / 60).truncate();
