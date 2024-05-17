@@ -1,7 +1,5 @@
 package org.example.back.result.service;
 
-import static org.example.back.util.SecurityUtil.*;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,7 +11,7 @@ import org.example.back.db.repository.RecordRepository;
 import org.example.back.exception.MemberNotFoundException;
 import org.example.back.result.dto.ResultReqDto;
 import org.example.back.result.dto.ResultResDto;
-import org.example.back.s3.service.S3Service;
+import org.example.back.util.S3Util;
 import org.example.back.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +25,7 @@ public class ResultService {
 
 	private final RecordRepository recordRepository;
 	private final MemberRepository memberRepository;
-	private final S3Service s3Service;
+	private final S3Util s3Util;
 
 	@Transactional
 	public ResultResDto getResult(ResultReqDto record) throws IOException {  // 경기 기록 저장 및 저장 결과 반환
@@ -93,6 +91,6 @@ public class ResultService {
 		file.transferTo(tempFile.toFile());
 
 		// 파일을 S3에 업로드하고 URL을 설정
-		return s3Service.uploadFile("user_track_img", tempFile, getMember().getId());
+		return s3Util.uploadFileOrImage("user_track_img", tempFile, getMember().getId());
 	}
 }

@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/achievement.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/view/achievement/achievement_view_model.dart';
 import 'package:front_android/src/view/achievement/widgets/achievement_animated_progress_bar.dart';
 import 'package:front_android/util/helper/number_format_helper.dart';
 import 'package:go_router/go_router.dart';
@@ -58,8 +56,6 @@ class AchievementListItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(achievementProvider);
-
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
       // 실제 보이는 카드 모양 시작
@@ -289,9 +285,9 @@ class AchievementListItem extends ConsumerWidget {
                           characterName: characterName,
                           characterImgUrl: characterImgUrl,
                         );
-                        print(
+                        debugPrint(
                             '----------AchievementRewardRequest request -------');
-                        print(request.toString());
+                        debugPrint(request.toString());
                         context.push('/achievement/reward', extra: request);
                       },
                       child: Container(
