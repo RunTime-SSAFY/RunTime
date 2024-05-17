@@ -6,7 +6,7 @@ import 'package:front_android/src/view/battle/widgets/battle_time.dart';
 import 'package:front_android/src/view/battle/widgets/count_down.dart';
 import 'package:front_android/src/view/battle/widgets/distance.dart';
 import 'package:front_android/src/view/battle/widgets/google_map.dart';
-import 'package:front_android/src/view/battle/widgets/pace_calory.dart';
+import 'package:front_android/src/view/battle/widgets/pace_calorie.dart';
 import 'package:front_android/src/view/battle/widgets/run_bar.dart';
 import 'package:front_android/theme/components/battle_background.dart';
 import 'package:front_android/theme/components/button.dart';
@@ -23,6 +23,7 @@ class Battle extends ConsumerStatefulWidget {
 
 class _BattleState extends ConsumerState<Battle> {
   OverlayEntry? _countDownOverlay;
+  late bool moved;
   // 초기 GPS 접근 시간 확보
   void _showOverlay() {
     _countDownOverlay = OverlayEntry(
@@ -59,18 +60,22 @@ class _BattleState extends ConsumerState<Battle> {
   @override
   void initState() {
     super.initState();
+    moved = false;
     WidgetsBinding.instance.addPostFrameCallback((_) => _showOverlay());
   }
 
   @override
   Widget build(BuildContext context) {
     BattleViewModel viewModel = ref.watch(battleViewModelProvider);
-    if (viewModel.currentDistance > viewModel.targetDistance) {
-      print(
-          '.현재 거리 ${viewModel.currentDistance}, 목표 거리 ${viewModel.targetDistance}');
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    if (viewModel.currentDistance > viewModel.targetDistance && !moved) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+        viewModel.distanceService.cancelListen();
+        viewModel.stopCamera = true;
+        await viewModel.captureImage();
+        if (!context.mounted) return;
         viewModel.onBattleDone(context);
       });
+      moved = true;
     }
 
     return PopScope(
@@ -89,7 +94,7 @@ class _BattleState extends ConsumerState<Battle> {
             const SizedBox(height: 20),
             const RunBar(),
             const SizedBox(height: 20),
-            const PaceCalory(),
+            const PaceCalorie(),
             const SizedBox(height: 20),
             const Map(),
             const SizedBox(height: 30),
