@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:front_android/src/model/achievement.dart';
 import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/view/achievement/achievement_reward_view.dart';
@@ -74,11 +73,12 @@ final router = GoRouter(
       builder: (_, __) => const UserModeView(),
     ),
     GoRoute(
-      path: RoutePathHelper.waitingRoom,
-      parentNavigatorKey: _rootNavigatorKey,
-      builder: (_, state) =>
-          WaitingRoom(roomId: int.parse(state.pathParameters['roomId']!)),
-    ),
+        path: RoutePathHelper.waitingRoom,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) {
+          final roomId = state.pathParameters['roomId']!;
+          return WaitingRoom(roomId: int.parse(roomId));
+        }),
     GoRoute(
       path: RoutePathHelper.userModeSearch,
       parentNavigatorKey: _rootNavigatorKey,

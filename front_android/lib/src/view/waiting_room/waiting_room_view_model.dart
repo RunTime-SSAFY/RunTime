@@ -9,6 +9,7 @@ import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/src/service/user_service.dart';
 import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/extension.dart';
+import 'package:go_router/go_router.dart';
 
 final waitingViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
   var battleData = ref.watch(battleDataServiceProvider);
@@ -26,10 +27,16 @@ class WaitingViewModel with ChangeNotifier {
   double get _distance => userModeRoomRepository.distance;
   String get distance => _distance.toKilometer();
 
-  bool get isManager => _battleData.participants
-      .firstWhere(
-          (element) => element.nickname == UserService.instance.nickname)
-      .isManager;
+  bool get isManager {
+    try {
+      return _battleData.participants
+          .firstWhere(
+              (element) => element.nickname == UserService.instance.nickname)
+          .isManager;
+    } catch (error) {
+      return false;
+    }
+  }
 
   List<Participant> get participants => _battleData.participants;
 
@@ -37,14 +44,16 @@ class WaitingViewModel with ChangeNotifier {
     _battleData.participants =
         await userModeRoomRepository.fetchingParticipants(_battleData.roomId);
     _battleData.stompInstance.subScribe(
-        destination: DestinationHelper.getForSub('room', _battleData.uuid),
-        callback: (p0) {
-          var json = jsonDecode(p0.body!);
-          if (json['action'] == 'member') {
-            _battleData.participants =
-                json['data'].map((element) => Participant.fromJson(element));
-          }
-        });
+      destination: DestinationHelper.getForSub('room', _battleData.uuid),
+      callback: (p0) {
+        var json = jsonDecode(p0.body!);
+        if (json['action'] == 'member') {
+          _battleData.participants =
+              json['data'].map((element) => Participant.fromJson(element));
+        }
+      },
+    );
+    notifyListeners();
   }
 
   bool get canStart => !participants.every(
@@ -53,12 +62,18 @@ class WaitingViewModel with ChangeNotifier {
         },
       );
 
-  Future<bool> roomOut() async {
+  Future<void> roomOut(BuildContext context) async {
     try {
-      apiInstance.delete('api/rooms/${_battleData.roomId}/exit');
-      return true;
+      await apiInstance.delete('api/rooms/${_battleData.roomId}/exit');
+      if (!context.mounted) return;
+      context.pop();
     } catch (error) {
-      return false;
+      debugPrint(error.toString());
     }
+  }
+
+  void fetchRoomInfor(int roomId) {
+    _battleData.roomId = roomId;
+    userModeRoomRepository.fetchingParticipants(roomId);
   }
 }
