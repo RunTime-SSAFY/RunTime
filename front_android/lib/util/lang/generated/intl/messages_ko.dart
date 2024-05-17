@@ -40,7 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("지금 바로 실시간으로 대결할 상대를 찾습니다"),
         "beginner": MessageLookupByLibrary.simpleMessage("비기너"),
         "bestRecord": MessageLookupByLibrary.simpleMessage("최고 기록"),
-        "caloryBurn": MessageLookupByLibrary.simpleMessage("소모칼로리"),
+        "calorieBurn": MessageLookupByLibrary.simpleMessage("소모칼로리"),
         "cancel": MessageLookupByLibrary.simpleMessage("취소하기"),
         "capacity": MessageLookupByLibrary.simpleMessage("인원 수"),
         "character": MessageLookupByLibrary.simpleMessage("캐릭터"),

@@ -48,7 +48,7 @@ class _CountDownState extends ConsumerState<CountDown> {
             ),
           ),
           Text(
-            '$_count',
+            '${_count == 0 ? 'Start' : _count}',
             style: ref.typo.mainTitle.copyWith(
               color: ref.color.onBackground,
               fontSize: 100,

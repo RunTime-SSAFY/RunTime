@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/auth_service.dart';
 import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 final stompInstanceProvider = Provider.autoDispose((ref) {
-  var stompRepository = StompRepository();
+  var stompRepository = StompRepository()..init();
   ref.onDispose(() {
     print('연결 종료');
     stompRepository.disconnect();
@@ -14,10 +15,12 @@ final stompInstanceProvider = Provider.autoDispose((ref) {
   return stompRepository;
 });
 
-class StompRepository {
+class StompRepository with ChangeNotifier {
   late StompClient _client;
 
-  StompRepository() {
+  StompRepository();
+
+  void init() {
     print('생성: StompRepository ${dotenv.get('SOCKET_URL')}');
     _client = StompClient(
       config: StompConfig.sockJS(

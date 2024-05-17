@@ -4,8 +4,8 @@ import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/battle/battle_view_model.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
-class PaceCalory extends ConsumerWidget {
-  const PaceCalory({super.key});
+class PaceCalorie extends ConsumerWidget {
+  const PaceCalorie({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,7 +28,7 @@ class PaceCalory extends ConsumerWidget {
               children: [
                 Text(
                   viewModel.avgPace.toString(),
-                  style: ref.typo.subTitle1.copyWith(
+                  style: ref.typo.subTitle2.copyWith(
                     color: ref.color.onBattleBox,
                     fontSize: 55,
                   ),
@@ -50,7 +50,7 @@ class PaceCalory extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              S.current.caloryBurn,
+              S.current.calorieBurn,
               style: ref.typo.subTitle3.copyWith(
                 color: ref.color.inactive,
               ),
@@ -59,8 +59,8 @@ class PaceCalory extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  viewModel.calory,
-                  style: ref.typo.subTitle1.copyWith(
+                  viewModel.calorie,
+                  style: ref.typo.subTitle2.copyWith(
                     color: ref.color.onBattleBox,
                     fontSize: 55,
                   ),

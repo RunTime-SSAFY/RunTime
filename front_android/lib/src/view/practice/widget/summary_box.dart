@@ -59,13 +59,13 @@ class SummaryBox extends ConsumerWidget {
               Column(
                 children: [
                   Text(
-                    S.current.caloryBurn,
+                    S.current.calorieBurn,
                     style: ref.typo.body1.copyWith(
                       color: ref.color.inactive,
                     ),
                   ),
                   Text(
-                    'calory',
+                    'calorie',
                     style: ref.typo.subTitle1.copyWith(
                       color: ref.color.onBattleBox,
                       fontSize: 35,

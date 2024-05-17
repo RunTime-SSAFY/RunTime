@@ -21,6 +21,17 @@ interface class BattleModeHelper {
   static String get matching => 'matching';
   static String get userMode => 'userMode';
   static String get practiceMode => 'practiceMode';
+
+  static String getModeName(String mode) {
+    switch (mode) {
+      case 'userMode':
+        return 'CUSTOM';
+      case 'practiceMode':
+        return 'PRACTICE';
+      default:
+        return 'BATTLE';
+    }
+  }
 }
 
 interface class ActionHelper {
