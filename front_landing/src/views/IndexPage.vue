@@ -11,7 +11,7 @@
       <img src="/src/assets/qrcode.png" alt="QR Code" />
     </section>
     <section class="download">
-      <a href="https://dl06ulexuxmdt.cloudfront.net/app/app-release.apk" class="gradient-button">DOWNLOAD</a> 
+      <a href="https://dl06ulexuxmdt.cloudfront.net/app/runTime.apk" class="gradient-button">DOWNLOAD</a> 
     </section>
   </section>
 </template>
