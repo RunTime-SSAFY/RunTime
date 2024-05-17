@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class StompGameStartResDto {
+
+    @Builder.Default
     private String action = "start"; // 항상 start
     private boolean data; // 매칭전 게임이 시작된다면 true, 그렇지 않다면 false
 }

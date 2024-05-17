@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class StompGameExitResDto {
+    @Builder.Default
     private String action = "exit";
 }
