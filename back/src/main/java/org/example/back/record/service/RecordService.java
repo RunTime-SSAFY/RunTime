@@ -53,13 +53,14 @@ public class RecordService {
 
         return RecordResponseDto.builder()
                 .courseImgUrl(record.getCourseImgUrl())
-                .recordId(record.getId())
+                .id(record.getId())
                 .runStartTime(record.getRunStartTime())
                 .runEndTime(record.getRunEndTime())
                 .gameMode(record.getGameMode())
                 .ranking(record.getRanking())
                 .distance(record.getDistance())
                 .averagePace(record.getPace())
+                .duration(record.getDuration())
                 .calorie(record.getCalorie())
                 .build();
     }
