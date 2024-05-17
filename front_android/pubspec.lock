@@ -790,7 +790,7 @@ packages:
     source: hosted
     version: "1.0.1"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       sha256: c9e7d3a4cd1410877472158bee69963a4579f78b68c65a2b7d40d1a7a88bb161
@@ -1250,6 +1250,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.13.0"
+  widgets_to_image:
+    dependency: "direct main"
+    description:
+      name: widgets_to_image
+      sha256: ed97b986af380a7eb9662b727d7ac610c3862c50bdc950346deea7a7eba12a84
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   win32:
     dependency: transitive
     description:

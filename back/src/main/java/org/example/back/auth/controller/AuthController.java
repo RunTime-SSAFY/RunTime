@@ -37,6 +37,5 @@ public class AuthController {
 	@PostMapping("/logout")
 	public void logout(@RequestBody TokenRequestDto tokenRequestDto) {
 		authService.logout(tokenRequestDto);
-
 	}
 }

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -33,15 +34,19 @@ public class RecordCustomImpl implements RecordCustom {
         Pageable pageable = PageRequest.of(1, pageSize);
         List<Record> records = query.selectFrom(record)
                 .where(record.member.eq(member))
-                .where(record.gameMode.stringValue().contains(gameMode.name()))
+                .where(isFilterGameMode(gameMode))
                 .where(ltRecordId(lastId))
                 .orderBy(record.id.desc())
                 .limit(pageSize + 1)
                 .fetch();
 
-        List<RecordDto> recordResponseDto = records.stream().map(Record::toRecordDto).toList();
+        List<RecordDto> recordResponseDto = records.stream().map(Record::toRecordDto).collect(Collectors.toList());
 
         return checkLastPage(pageable, recordResponseDto);
+    }
+    private BooleanExpression isFilterGameMode(GameMode gameMode) {
+        if(gameMode == null) return null;
+        return record.gameMode.stringValue().contains(gameMode.name());
     }
 
     private BooleanExpression ltRecordId(Long recordId) {

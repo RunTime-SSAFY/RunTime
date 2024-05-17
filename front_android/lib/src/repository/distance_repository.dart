@@ -31,7 +31,7 @@ class DistanceRepository {
     lastPosition = await Geolocator.getCurrentPosition();
     LocationSettings locationSettings = AndroidSettings(
       accuracy: LocationAccuracy.high,
-      intervalDuration: const Duration(seconds: 1),
+      intervalDuration: const Duration(milliseconds: 500),
       forceLocationManager: true,
     );
     _positionStream =

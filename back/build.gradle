@@ -60,6 +60,10 @@ dependencies {
 
 //   firebase
     implementation 'com.google.firebase:firebase-admin:9.2.0'
+
+//    aws s3
+    implementation platform('software.amazon.awssdk:bom:2.21.1')
+    implementation 'software.amazon.awssdk:s3'
 }
 
 tasks.named('test') {
