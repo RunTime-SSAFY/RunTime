@@ -68,7 +68,6 @@ public class AchievementCustomImpl implements AchievementCustom{
 				.and(achievement.grade.eq(currentAchievement.currentGrade))
 			).innerJoin(achievement.achievementType, achievementType)
 			.innerJoin(achievement.character, character)
-			.where(currentAchievement.achievementType.isHidden.and(currentAchievement.isReceived).not())
 			.fetch();
 	}
 }
