@@ -36,10 +36,10 @@ public class RecordController {
     }
 
     // 통계 조회
-    @GetMapping({"/statistics/{type}", "/statistics/{type}/{selectedDate}"})
+    @GetMapping("/statistics")
     public ResponseEntity<StatisticResponseDto> getStatistic(
-            @PathVariable String type,
-            @PathVariable LocalDate selectedDate
+            @RequestParam(value = "type") String type,
+            @RequestParam(value = "selectedDate", required = false) LocalDate selectedDate
     ) {
         StatisticResponseDto statisticResponseDto = recordService.getStatistic(type, selectedDate);
         return ResponseEntity.ok(statisticResponseDto);

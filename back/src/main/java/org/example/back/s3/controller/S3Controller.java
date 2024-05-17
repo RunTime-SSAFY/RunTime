@@ -3,8 +3,9 @@ package org.example.back.s3.controller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import org.example.back.s3.service.S3Service;
+import org.example.back.util.S3Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,15 +23,17 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/s3")
 public class S3Controller {
 
+	private final S3Util s3Util;
 	private static final Logger logger = LoggerFactory.getLogger(S3Controller.class);
-	private final S3Service s3Service;
 
 	@PostMapping("/upload")
-	public ResponseEntity<String> uploadFile(@RequestParam("result") MultipartFile file) {
+	public ResponseEntity<String> uploadFile(@RequestParam("app") MultipartFile file) {
 		try {
-			Path tempFile = Files.createTempFile("temp", file.getOriginalFilename());
+			String tempDir = System.getProperty("java.io.tmpdir");
+			Path tempFile = Paths.get(tempDir, file.getOriginalFilename());  // 원본 파일명
+
 			file.transferTo(tempFile.toFile());
-			String fileUrl = s3Service.uploadFile("user_track_img", tempFile);
+			String fileUrl = s3Util.uploadFileOrImage("app", tempFile, null);
 			return ResponseEntity.ok(fileUrl);
 		} catch (IOException e) {
 			logger.error("Failed to upload file", e);

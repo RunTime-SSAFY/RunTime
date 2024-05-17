@@ -33,7 +33,7 @@ public class RecordService {
         // String으로 들어온 열거값을 대소문자 구분하지 않고 찾아준다.
         GameMode gameMode = null;
         System.out.println("gameModeStr: " + gameModeStr);
-        if(!gameModeStr.equals("")) gameMode = EnumUtils.getIgnoreCaseOrThrow(GameMode.class, gameModeStr);
+        if(gameModeStr != null && !gameModeStr.isEmpty()) gameMode = EnumUtils.getIgnoreCaseOrThrow(GameMode.class, gameModeStr);
 
         // Slice로 데이터들을 받아온다.
         Slice<RecordDto> recordSlice = recordRepository.findAll(lastId, pageSize, member, gameMode);
@@ -49,17 +49,17 @@ public class RecordService {
     public RecordResponseDto getRecord(Long recordId) {
         Record record = recordRepository.findById(recordId)
                 .orElseThrow(RecordNotFoundException::new);
-        // 빨리 엔티티 수정하고 url dto에 매핑해야됨
 
         return RecordResponseDto.builder()
                 .courseImgUrl(record.getCourseImgUrl())
-                .recordId(record.getId())
+                .id(record.getId())
                 .runStartTime(record.getRunStartTime())
                 .runEndTime(record.getRunEndTime())
                 .gameMode(record.getGameMode())
                 .ranking(record.getRanking())
                 .distance(record.getDistance())
                 .averagePace(record.getPace())
+                .duration(record.getDuration())
                 .calorie(record.getCalorie())
                 .build();
     }
@@ -68,59 +68,41 @@ public class RecordService {
     public StatisticResponseDto getStatistic(String typeStr, LocalDate selectedDate) {
         Member member = getMember();
 
-
         // enum type 조회
         StatisticType type = EnumUtils.getIgnoreCaseOrThrow(StatisticType.class, typeStr);
 
+        // 타입에 따라 로직 처리 및 responseDto 반환
         StatisticDto statisticDto;
         return switch (type) {
             case MONTH -> {
                 if (selectedDate == null) throw new StatisticBadRequestException();
                 statisticDto = recordRepository.getStatisticByMonth(member, selectedDate);
-                yield StatisticResponseDto.builder()
-                        .type(type)
-                        .countDay(statisticDto.getCountDay())
-                        .calorie(statisticDto.getCalorie())
-                        .distance(statisticDto.getDistance())
-                        .duration(statisticDto.getDuration())
-                        .build();
+                yield buildStatisticResponseDto(statisticDto, type);
             }
             case YEAR -> {
                 if (selectedDate == null) throw new StatisticBadRequestException();
                 statisticDto = recordRepository.getStatisticByYear(member, selectedDate);
-                yield StatisticResponseDto.builder()
-                        .type(type)
-                        .countDay(statisticDto.getCountDay())
-                        .calorie(statisticDto.getCalorie())
-                        .distance(statisticDto.getDistance())
-                        .duration(statisticDto.getDuration())
-                        .build();
+                yield buildStatisticResponseDto(statisticDto, type);
             }
             case ALL -> {
                 statisticDto = recordRepository.getStatisticByAll(member);
-                yield StatisticResponseDto.builder()
-                        .type(type)
-                        .countDay(statisticDto.getCountDay())
-                        .calorie(statisticDto.getCalorie())
-                        .distance(statisticDto.getDistance())
-                        .duration(statisticDto.getDuration())
-                        .build();
+                yield buildStatisticResponseDto(statisticDto, type);
             }
-            default -> null;
         };
 
     }
 
-    // 함수로 빼봤는데, 별로인거 같아요.. 가독성이 매우 떨어짐
-//    StatisticsResponseDto statisticsDtoToResponseDtoWithType(StatisticsDto from, StatisticsResponseDto to, StatisticsType type) {
-//        return StatisticsResponseDto.builder()
-//                .type(type)
-//                .countDay(from.getCountDay())
-//                .calorie(from.getCalorie())
-//                .distance(from.getDistance())
-//                .duration(from.getDuration())
-//                .build();
-//    }
+    // 통계 responseDto 만드는 빌더 함수
+    private StatisticResponseDto buildStatisticResponseDto(StatisticDto from, StatisticType type) {
+        // query의 sum() 로직에서 null이 반환될 수 있음
+        return StatisticResponseDto.builder()
+                .type(type)
+                .countDay(from.getCountDay() == null ? 0 : from.getCountDay())
+                .calorie(from.getCalorie() == null ? 0 : from.getCalorie())
+                .distance(from.getDistance() == null ? 0.0f : from.getDistance())
+                .duration(from.getDuration() == null ? 0L : from.getDuration())
+                .build();
+    }
 
     private Member getMember() {
         return memberRepository.findById(SecurityUtil.getCurrentMemberId())

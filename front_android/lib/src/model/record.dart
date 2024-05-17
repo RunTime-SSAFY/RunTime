@@ -1,28 +1,39 @@
 class Record {
+  String? courseImgUrl;
   int? id;
   String? runStartTime;
-  int? duration;
+  String? runEndTime;
   String? gameMode;
   int? ranking;
   double? distance;
+  int? averagePace;
+  int? calorie;
+  int? duration;
 
   Record(
-      {this.id,
+      {this.courseImgUrl,
+      this.id,
       this.runStartTime,
-      this.duration,
+      this.runEndTime,
       this.gameMode,
       this.ranking,
-      this.distance});
+      this.distance,
+      this.averagePace,
+      this.calorie,
+      this.duration});
 
   Record.fromJson(Map<String, dynamic> json) {
+    if (json["courseImgUrl"] is String) {
+      courseImgUrl = json["courseImgUrl"];
+    }
     if (json["id"] is int) {
       id = json["id"];
     }
     if (json["runStartTime"] is String) {
       runStartTime = json["runStartTime"];
     }
-    if (json["duration"] is int) {
-      duration = json["duration"];
+    if (json["runEndTime"] is String) {
+      runEndTime = json["runEndTime"];
     }
     if (json["gameMode"] is String) {
       gameMode = json["gameMode"];
@@ -33,16 +44,29 @@ class Record {
     if (json["distance"] is double) {
       distance = json["distance"];
     }
+    if (json["averagePace"] is int) {
+      averagePace = json["averagePace"];
+    }
+    if (json["calorie"] is int) {
+      calorie = json["calorie"];
+    }
+    if (json["duration"] is int) {
+      duration = json["duration"];
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> _data = <String, dynamic>{};
+    _data["courseImgUrl"] = courseImgUrl;
     _data["id"] = id;
     _data["runStartTime"] = runStartTime;
-    _data["duration"] = duration;
+    _data["runEndTime"] = runEndTime;
     _data["gameMode"] = gameMode;
     _data["ranking"] = ranking;
     _data["distance"] = distance;
+    _data["averagePace"] = averagePace;
+    _data["calorie"] = calorie;
+    _data["duration"] = duration;
     return _data;
   }
 }

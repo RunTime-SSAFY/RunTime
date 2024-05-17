@@ -94,7 +94,7 @@ public class AuthService {
 			// 도전과제 분류별 최초 단계 추가
 			List<AchievementType> achievementTypeList = achievementTypeRepository.findAll();
 			for (AchievementType achievementType : achievementTypeList) {
-				if (achievementType.getId() == 1000L) {
+				if (achievementType.getId() == 0L) {
 					continue;
 				}
 				CurrentAchievement currentAchievement = CurrentAchievement.builder()
@@ -132,7 +132,10 @@ public class AuthService {
 	}
 
 	public JoinResponseDto join(String email) {
-		Member member = Member.builder().email(email).build();
+		// 기본 캐릭터 지급
+		Character defaultCharacter = characterRepository.findById(1L).orElseThrow(CharacterNotFoundException::new);
+
+		Member member = Member.builder().email(email).character(defaultCharacter).build();
 		Long id = memberRepository.save(member).getId();
 
 		String accessToken = JWTUtil.createJwt(id, secretKey, expiredMs);

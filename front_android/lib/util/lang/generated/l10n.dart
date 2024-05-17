@@ -370,11 +370,11 @@ class S {
     );
   }
 
-  /// `Burned Calory`
-  String get caloryBurn {
+  /// `Burned Calorie`
+  String get calorieBurn {
     return Intl.message(
-      'Burned Calory',
-      name: 'caloryBurn',
+      'Burned Calorie',
+      name: 'calorieBurn',
       desc: '',
       args: [],
     );

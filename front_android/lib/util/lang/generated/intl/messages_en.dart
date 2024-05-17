@@ -41,7 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("지금 바로 실시간으로 대결할 상대를 찾습니다"),
         "beginner": MessageLookupByLibrary.simpleMessage("Beginner"),
         "bestRecord": MessageLookupByLibrary.simpleMessage("Best Record"),
-        "caloryBurn": MessageLookupByLibrary.simpleMessage("Burned Calory"),
+        "calorieBurn": MessageLookupByLibrary.simpleMessage("Burned Calorie"),
         "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
         "capacity": MessageLookupByLibrary.simpleMessage("capacity"),
         "character": MessageLookupByLibrary.simpleMessage("Character"),

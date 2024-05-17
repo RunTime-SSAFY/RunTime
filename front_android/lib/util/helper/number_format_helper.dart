@@ -7,4 +7,10 @@ interface class NumberFormatHelper {
       return number.toStringAsFixed(1);
     }
   }
+
+  // 1000단위로 콤마 찍기
+  static String comma(int number) {
+    return number.toString().replaceAllMapped(
+        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},');
+  }
 }

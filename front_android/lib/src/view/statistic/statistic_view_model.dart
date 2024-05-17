@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/record.dart';
+import 'package:front_android/src/model/statistic.dart';
 import 'package:front_android/src/repository/record_repository.dart';
 
-final recordViewModelProvider =
-    ChangeNotifierProvider((ref) => RecordViewModel());
+final statisticViewModelProvider =
+    ChangeNotifierProvider((ref) => StatisticViewModel());
 
-class RecordViewModel extends ChangeNotifier {
+class StatisticViewModel extends ChangeNotifier {
   var recordRepository = RecordRepository();
 
   // 게임모드 getter, setter
@@ -19,10 +20,8 @@ class RecordViewModel extends ChangeNotifier {
   }
 
   // 받은 데이터
+  Map<String, Statistic>? get statistic => recordRepository.statisticMap;
   List<Record> get recordList => recordRepository.recordList;
-  int? get lastId => recordRepository.lastId;
-  bool get hasNext => recordRepository.hasNext;
-  Record? get record => recordRepository.record;
 
   // 로딩
   bool _isLoading = false;
@@ -37,6 +36,12 @@ class RecordViewModel extends ChangeNotifier {
     _isLoading = true;
     await recordRepository.fetchRecordList(pageSize, lastId, gameMode);
     _isLoading = false;
+    notifyListeners();
+  }
+
+  // 통계 가져오기
+  Future<void> fetchStatistic(String type, DateTime selectedDate) async {
+    await recordRepository.fetchStatistic(type, selectedDate);
     notifyListeners();
   }
 }
