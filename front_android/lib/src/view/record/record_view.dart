@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/view/record/record_view_model.dart';
-import 'package:front_android/src/view/record/widgets/record/record_list.dart';
-import 'package:front_android/src/view/record/widgets/record/record_top.dart';
+import 'package:front_android/src/view/record/widgets/record_list.dart';
+import 'package:front_android/src/view/record/widgets/record_top.dart';
 import 'package:front_android/src/service/theme_service.dart'; // 테마 서비스를 위한 라이브러리
 import 'package:front_android/theme/components/circular_indicator.dart';
 

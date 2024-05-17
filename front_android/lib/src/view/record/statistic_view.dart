@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/view/record/widgets/statistic/statistic_card.dart';
+import 'package:front_android/src/view/record/widgets/statistic_card.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
 
