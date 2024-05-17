@@ -124,6 +124,14 @@ public class RecordCustomImpl implements RecordCustom {
     }
 
     @Override
+    public boolean existsDoubleSevenDuration(Long memberId) {
+        return query.selectOne()
+            .from(record)
+            .where(record.duration.mod(100L).eq(77L), record.member.id.eq(memberId))
+            .fetchFirst()!=null;
+    }
+
+    @Override
     public Long getBestRecordFromLastTenRecords(Long myMemberId) {
         return query
                 .select(record.id)

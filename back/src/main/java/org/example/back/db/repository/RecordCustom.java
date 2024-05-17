@@ -20,4 +20,5 @@ public interface RecordCustom {
     StatisticDto getStatisticByYear(Member member, LocalDate selectedDate);
     StatisticDto getStatisticByAll(Member member);
 
+    boolean existsDoubleSevenDuration(Long memberId);
 }

@@ -34,10 +34,9 @@ public class AchievementCustomImpl implements AchievementCustom{
 		List<Tuple> result = findAchievementQuery(memberId);
 
 		List<AchievementResDto> list = new ArrayList<>();
-		NumberPath<Float> prevGoalPath = Expressions.numberPath(Float.class, "prev_goal");
 		// 별칭을 사용한 prev_grade 필드를 위한 Path 정의
+		NumberPath<Float> prevGoalPath = Expressions.numberPath(Float.class, "prev_goal");
 		result.forEach(el->{
-			System.out.println(el.get(prevGoalPath));
 			list.add(AchievementResDto.builder()
 				.currentAchievement(el.get(currentAchievement))
 				.achievement(el.get(achievement))
@@ -61,7 +60,6 @@ public class AchievementCustomImpl implements AchievementCustom{
 					.where(achievement.achievementType.id.eq(currentAchievement.achievementType.id)
 						.and(achievement.grade.eq(currentAchievement.currentGrade.subtract(1))))
 				, "prev_goal")
-
 			)
 			.from(achievement)
 			.innerJoin(currentAchievement)
@@ -70,6 +68,7 @@ public class AchievementCustomImpl implements AchievementCustom{
 				.and(achievement.grade.eq(currentAchievement.currentGrade))
 			).innerJoin(achievement.achievementType, achievementType)
 			.innerJoin(achievement.character, character)
+			.where(currentAchievement.achievementType.isHidden.and(currentAchievement.isReceived).not())
 			.fetch();
 	}
 }
