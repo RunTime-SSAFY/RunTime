@@ -2,6 +2,7 @@ package org.example.back.db.entity;
 
 import org.example.back.common.BaseEntity;
 import org.example.back.db.enums.AchievementCriteriaType;
+import org.hibernate.annotations.ColumnDefault;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,5 +32,8 @@ public class AchievementType extends BaseEntity {
 	private AchievementCriteriaType criteria;
 
 	private Integer finalGrade;
+	@Column(name = "is_hidden")
+	@ColumnDefault("0")
+	private Boolean isHidden;
 
 }

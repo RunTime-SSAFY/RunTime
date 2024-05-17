@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:front_android/src/model/achievement.dart';
 import 'package:front_android/src/service/https_request_service.dart';

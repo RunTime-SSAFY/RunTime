@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:front_android/src/model/achievement.dart';
-import 'package:front_android/src/model/record_detail.dart';
 import 'package:front_android/src/model/record_detail.dart';
 import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/view/achievement/achievement_reward_view.dart';
@@ -16,7 +14,7 @@ import 'package:front_android/src/view/practice/practice_view.dart';
 import 'package:front_android/src/view/profile/profile_edit_view.dart';
 import 'package:front_android/src/view/record_detail/record_detail_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
-import 'package:front_android/src/view/record/statistic_view.dart';
+import 'package:front_android/src/view/statistic/statistic_view.dart';
 import 'package:front_android/src/view/run_main/run_main_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_search_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_view.dart';

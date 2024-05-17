@@ -3,10 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/view/record/record_view_model.dart';
 import 'package:front_android/src/view/record/widgets/record_list.dart';
 import 'package:front_android/src/view/record/widgets/record_top.dart';
-import 'package:front_android/src/service/theme_service.dart'; // 테마 서비스를 위한 라이브러리
+import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/theme/components/circular_indicator.dart';
-
-// 사용자 정의 위젯 및 로컬라이제이션을 위한 import
 import 'package:front_android/theme/components/svg_icon.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
