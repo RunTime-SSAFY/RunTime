@@ -130,7 +130,7 @@ class MatchingViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void startBattle(BuildContext context) {
+  void startBattle(BuildContext context) async {
     _matchedState = MatchedState.noResponse;
     if (_canStart) {
       // 상대도 수락한 경우
@@ -140,6 +140,11 @@ class MatchingViewModel with ChangeNotifier {
     } else {
       // 상대가 거절한 경우
       context.pushReplacement(RoutePathHelper.matching);
+      try {
+        await apiInstance.patch('api/matchings', data: {'difference': 200});
+      } catch (error) {
+        rethrow;
+      }
     }
   }
 
