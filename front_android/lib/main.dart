@@ -17,6 +17,7 @@ import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/router.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:front_android/src/view/character/character_view.dart';
 
 import 'firebase_options.dart';
 
@@ -89,7 +90,8 @@ void main() async {
 
   FlutterNativeSplash.remove();
 
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(Character());
+  //runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
@@ -125,5 +127,5 @@ class MyApp extends ConsumerWidget {
   }
 }
 
-// 루트 네비게이터 키
+// // 루트 네비게이터 키
 
