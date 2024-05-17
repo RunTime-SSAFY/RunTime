@@ -49,6 +49,7 @@ public class AchievementService {
 
 		// 해당 사용자가 진행중인 도전과제 리스트.
 		List<AchievementResDto> list = achievementRepository.findOwnAchievement(memberId);
+		list.removeIf(achievementResDto -> achievementResDto.getIsHidden() && !achievementResDto.getIsComplete());
 
 		return list;
 	}
@@ -66,6 +67,7 @@ public class AchievementService {
 
 		// 히든 과제: Duration 마지막 자리 77
 		boolean isDoubleSevenDuration = recordRepository.existsDoubleSevenDuration(memberId);
+		System.out.println("히든 완료요 "+isDoubleSevenDuration);
 
 		// 수령하지 않은 도전과제가 있는가를 반환하는 dto
 		CheckAchievementResDto resDto = new CheckAchievementResDto(false);
@@ -79,6 +81,7 @@ public class AchievementService {
 				.isReceived(achievement.getIsReceive())
 				.currentGrade(achievement.getGrade())
 				.build();
+			System.out.println("진행중 도전과제 ID요 "+ achievement.getType());
 			// 현재 진행중인 도전과제의 기준항목에 따라
 			float progress = 0.0f;
 			switch (achievement.getCriteria()) {
