@@ -22,6 +22,7 @@ class RecordViewModel extends ChangeNotifier {
   List<Record> get recordList => recordRepository.recordList;
   int? get lastId => recordRepository.lastId;
   bool get hasNext => recordRepository.hasNext;
+  Record? get record => recordRepository.record;
 
   // 로딩
   bool _isLoading = false;
