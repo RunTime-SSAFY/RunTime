@@ -142,4 +142,10 @@ class MatchingViewModel with ChangeNotifier {
       context.pushReplacement(RoutePathHelper.matching);
     }
   }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 }
