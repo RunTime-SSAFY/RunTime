@@ -1,13 +1,10 @@
 package org.example.back.s3.service;
 
-import static org.example.back.util.SecurityUtil.*;
-
 import java.nio.file.Path;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -29,10 +26,8 @@ public class S3Service {
 	@Value("${cloudfront.url}")
 	private String cloudFrontUrl;
 
-	public String uploadFile(String folder, Path filePath) {
-		Long memberId = getCurrentMemberId();
+	public String uploadFile(String folder, Path filePath, Long memberId) {
 		String memberFolder = folder + "/" + memberId;
-
 		int fileCount = getFileCount(memberFolder);
 		String fileName = String.valueOf(fileCount + 1);  // 멤버 폴더의 파일 수에 따라 이름 지정
 		String fullPath = memberFolder + "/" + fileName;

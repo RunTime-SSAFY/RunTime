@@ -132,7 +132,10 @@ public class AuthService {
 	}
 
 	public JoinResponseDto join(String email) {
-		Member member = Member.builder().email(email).build();
+		// 기본 캐릭터 지급
+		Character defaultCharacter = characterRepository.findById(1L).orElseThrow(CharacterNotFoundException::new);
+
+		Member member = Member.builder().email(email).character(defaultCharacter).build();
 		Long id = memberRepository.save(member).getId();
 
 		String accessToken = JWTUtil.createJwt(id, secretKey, expiredMs);
