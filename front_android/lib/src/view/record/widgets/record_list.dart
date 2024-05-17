@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/record.dart';
 import 'package:front_android/src/view/record/record_view_model.dart';
-import 'package:front_android/src/view/record/widgets/record/record_list_item.dart';
+import 'package:front_android/src/view/record/widgets/record_list_item.dart';
 
 class RecordList extends ConsumerStatefulWidget {
   const RecordList({

@@ -1,4 +1,4 @@
-package org.example.back.s3.service;
+package org.example.back.util;
 
 import java.nio.file.Path;
 
@@ -16,9 +16,9 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 @Service
 @RequiredArgsConstructor
-public class S3Service {
+public class S3Util {
 
-	private static final Logger logger = LoggerFactory.getLogger(S3Service.class);
+	private static final Logger logger = LoggerFactory.getLogger(S3Util.class);
 
 	private final S3Client s3Client;
 	@Value("${s3.bucket.name}")
@@ -26,12 +26,26 @@ public class S3Service {
 	@Value("${cloudfront.url}")
 	private String cloudFrontUrl;
 
-	public String uploadFile(String folder, Path filePath, Long memberId) {
+	public String uploadFileOrImage(String folder, Path filePath, Long memberId) {
+		String fullPath;
+
+		if (memberId != null) {
+			fullPath = getMemberFolderPath(folder, memberId);
+		} else {
+			fullPath = folder + "/" + filePath.getFileName().toString(); // 파일 이름 그대로 사용
+		}
+
+		return uploadFileToS3(fullPath, filePath);
+	}
+
+	private String getMemberFolderPath(String folder, Long memberId) {
 		String memberFolder = folder + "/" + memberId;
 		int fileCount = getFileCount(memberFolder);
 		String fileName = String.valueOf(fileCount + 1);  // 멤버 폴더의 파일 수에 따라 이름 지정
-		String fullPath = memberFolder + "/" + fileName;
+		return memberFolder + "/" + fileName;
+	}
 
+	private String uploadFileToS3(String fullPath, Path filePath) {
 		try {
 			PutObjectRequest putObjectRequest = PutObjectRequest.builder()
 				.bucket(bucketName)

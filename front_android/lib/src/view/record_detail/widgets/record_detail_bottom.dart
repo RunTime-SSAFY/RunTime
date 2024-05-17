@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/src/model/record.dart';
+import 'package:front_android/util/helper/date_time_format_helper.dart';
+import 'package:front_android/util/helper/number_format_helper.dart';
 
-class RecordDetailResultCard extends ConsumerWidget {
-  const RecordDetailResultCard({super.key});
+class RecordDetailBottom extends ConsumerWidget {
+  final Record record;
+  const RecordDetailBottom({super.key, required this.record});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -12,13 +16,18 @@ class RecordDetailResultCard extends ConsumerWidget {
         // 지도
         Positioned.fill(
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.asset(
-              'assets/images/record_course.png', // 임시 이미지
-              fit: BoxFit.cover, // 이미지 크기 조정 => cover: 이미지가 잘리지 않고 꽉 채움
-              alignment: const Alignment(0.0, 9.0), // 이미지 위치 조정
-            ),
-          ),
+              borderRadius: BorderRadius.circular(20),
+              child: (record.courseImgUrl == null) ||
+                      (record.courseImgUrl != '/')
+                  ? Image.network(
+                      record.courseImgUrl!, // 임시 이미지
+                      fit: BoxFit.cover, // 이미지 크기 조정 => cover: 이미지가 잘리지 않고 꽉 채움
+                    )
+                  : Image.asset(
+                      'assets/images/record_course.png', // 임시 이미지
+                      fit: BoxFit.cover, // 이미지 크기 조정 => cover: 이미지가 잘리지 않고 꽉 채움
+                      alignment: const Alignment(0.0, 9.0), // 이미지 위치 조정
+                    )),
         ),
         // Overlay 검은색 배경
         Positioned.fill(
@@ -53,14 +62,19 @@ class RecordDetailResultCard extends ConsumerWidget {
                         // 요소 간격 줄이기
                         children: [
                           Text(
-                            '1km',
+                            record.distance != null
+                                ? '${NumberFormatHelper.floatTrunk(record.distance!)}km'
+                                : '없음',
                             style: ref.typo.subTitle1.copyWith(
                               fontSize: 34,
                               color: ref.color.white,
                             ),
                           ),
                           Text(
-                            '2024. 4. 26. 19:20',
+                            record.runStartTime != null
+                                ? DateTimeFormatHelper.formatDateTime(
+                                    DateTime.parse(record.runStartTime!))
+                                : '없음',
                             style: ref.typo.subTitle4.copyWith(
                               color: ref.palette.gray300,
                             ),
@@ -78,7 +92,9 @@ class RecordDetailResultCard extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            '630',
+                            record.averagePace != null
+                                ? '${record.averagePace}'
+                                : '없음',
                             style: ref.typo.subTitle1.copyWith(
                               fontSize: 30,
                               color: ref.color.white,
@@ -97,7 +113,9 @@ class RecordDetailResultCard extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            '157kcal',
+                            record.calorie != null
+                                ? '${record.calorie}kcal'
+                                : "없음",
                             style: ref.typo.subTitle1.copyWith(
                               fontSize: 30,
                               color: ref.color.white,
@@ -120,7 +138,10 @@ class RecordDetailResultCard extends ConsumerWidget {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      '6분 30초',
+                      record.duration != null
+                          ? DateTimeFormatHelper.formatMilliseconds(
+                              record.duration!)
+                          : "없음",
                       style: ref.typo.headline1.copyWith(
                         fontSize: 50,
                         fontWeight: ref.typo.bold,
