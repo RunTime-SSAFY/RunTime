@@ -1,10 +1,10 @@
 {
   "@@locale": "ko",
-  "battleMode": "배틀모드",
+  "battleMode": "대결모드",
   "enter": "입장",
   "running": "달리기",
-  "userMode": "사용자 모드",
-  "practiceMode": "연습 모드",
+  "userMode": "사용자모드",
+  "practiceMode": "연습모드",
   "ranking": "랭킹",
   "home": "홈",
   "achievement": "도전과제",
