@@ -43,7 +43,7 @@ class _CharacterViewState extends State<CharacterView> {
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-              '보유중2/20',
+              '보유중 2/20',
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -59,7 +59,7 @@ class _CharacterViewState extends State<CharacterView> {
               itemCount: characters.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
