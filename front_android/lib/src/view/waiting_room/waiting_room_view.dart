@@ -29,12 +29,11 @@ class WaitingRoom extends ConsumerStatefulWidget {
 
 class _WaitingRoomState extends ConsumerState<WaitingRoom> {
   late WaitingViewModel viewModel;
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      viewModel.getParticipants(widget.roomId, widget.data);
+      viewModel.getParticipants(widget.roomId, widget.data, context);
     });
   }
 
@@ -96,13 +95,17 @@ class _WaitingRoomState extends ConsumerState<WaitingRoom> {
                   participants: viewModel.participants,
                 ),
                 Button(
-                  onPressed: () {},
+                  onPressed: viewModel.onPressButton,
                   text: viewModel.isManager
                       ? S.current.gameStart
-                      : S.current.getReady,
+                      : viewModel.myInfo.isReady
+                          ? S.current.ready
+                          : S.current.getReady,
                   backGroundColor: ref.color.accept,
                   fontColor: ref.color.onAccept,
-                  isInactive: viewModel.isManager ? viewModel.canStart : false,
+                  isInactive: viewModel.myInfo.isManager
+                      ? !viewModel.canStart
+                      : viewModel.myInfo.isReady,
                 )
               ],
             ),

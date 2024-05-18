@@ -12,7 +12,6 @@ import 'package:front_android/src/service/user_service.dart';
 import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/extension.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';
-import 'package:front_android/util/router.dart';
 import 'package:go_router/go_router.dart';
 
 final waitingViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
@@ -24,6 +23,20 @@ final waitingViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
 class WaitingViewModel with ChangeNotifier {
   final BattleDataService _battleData;
   WaitingViewModel(this._battleData);
+
+  bool _disposed = false;
+
+  @override
+  void notifyListeners() {
+    if (_disposed) return;
+    super.notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
 
   final userModeRoomRepository = UserModeRoomRepository();
 
@@ -45,7 +58,8 @@ class WaitingViewModel with ChangeNotifier {
 
   List<Participant> get participants => _battleData.participants;
 
-  void getParticipants(int roomId, Map<String, dynamic> data) async {
+  void getParticipants(
+      int roomId, Map<String, dynamic> data, BuildContext context) async {
     _battleData.roomId = roomId;
     if (data['isManager']) {
       _battleData.participants = [
@@ -62,31 +76,46 @@ class WaitingViewModel with ChangeNotifier {
       _battleData.uuid = room.uuid;
       userModeRoomRepository.setRoomInfo(room);
     } else {
-      _battleData.participants =
+      var response =
           await userModeRoomRepository.enterRoom(_battleData.roomId, null);
+
+      _battleData.participants = (response['data'] as List)
+          .map(
+            (element) => Participant.fromJson(element),
+          )
+          .toList();
+      _battleData.uuid = response['uuid'];
+
+      var room = data['roomData'] as UserModeRoom;
+      userModeRoomRepository.setRoomInfo(room);
     }
     _battleData.stompInstance.subScribe(
       destination: DestinationHelper.getForSub('room', _battleData.uuid),
       callback: (p0) {
         var json = jsonDecode(p0.body!);
-        if (json['action'] == 'member') {
-          _battleData.participants = (json['data'] as List)
-              .map((element) => Participant.fromJson(element))
-              .toList();
-          notifyListeners();
-        } else if (json['action'] == 'start') {
-          router.go(RoutePathHelper.battle);
+        switch (json['action']) {
+          case 'member':
+            _battleData.participants = (json['data'] as List)
+                .map((element) => Participant.fromJson(element))
+                .toList();
+            notifyListeners();
+            break;
+          case 'start':
+            context.go(RoutePathHelper.battle);
+            break;
         }
       },
     );
     notifyListeners();
   }
 
-  bool get canStart => !participants.every(
+  bool get canStart =>
+      participants.every(
         (element) {
           return element.isReady || element.isManager;
         },
-      );
+      ) &&
+      participants.length > 1;
 
   Future<void> roomOut(BuildContext context) async {
     try {
@@ -110,8 +139,15 @@ class WaitingViewModel with ChangeNotifier {
   }
 
   Participant get myInfo => _battleData.participants.firstWhere(
-        (element) => element.nickname == UserService.instance.nickname,
-      );
+      (element) => element.nickname == UserService.instance.nickname,
+      orElse: () => Participant(
+            nickname: '',
+            characterImgUrl: '',
+            isManager: false,
+            isReady: false,
+            distance: 0,
+            lastDateTime: DateTime.now(),
+          ));
 
   Future<void> onPressButton() async {
     if (myInfo.isManager) {

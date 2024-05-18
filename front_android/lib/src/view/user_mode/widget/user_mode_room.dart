@@ -26,6 +26,7 @@ class UserModeRoomCard extends ConsumerWidget {
           RoutePathHelper.waitingRoomWithId(room.roomId),
           extra: {
             'isManager': false,
+            'roomData': room,
           },
         );
       },

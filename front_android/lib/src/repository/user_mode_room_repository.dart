@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:front_android/src/model/battle.dart';
 import 'package:front_android/src/model/user_mode_room.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 
@@ -40,19 +37,19 @@ class UserModeRoomRepository {
     }
   }
 
-  Future<List<Participant>> enterRoom(
+  Future<Map<String, dynamic>> enterRoom(
     int roomId,
     String? password,
   ) async {
     try {
-      final room = await apiInstance.post(
+      final response = await apiInstance.post(
         'api/rooms/$roomId/enter',
         data: {
           'data': password,
         },
       );
-      final data = jsonDecode(room.data);
-      return data['data'].map((element) => Participant.fromJson(element));
+
+      return response.data;
     } catch (error) {
       debugPrint(error.toString());
       throw Error();

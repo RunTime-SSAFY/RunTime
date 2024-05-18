@@ -9,7 +9,8 @@ import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:go_router/go_router.dart';
 
 final userModeViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
-  ref.watch(battleDataServiceProvider);
+  var battleData = ref.watch(battleDataServiceProvider);
+  battleData.stompInstance.activate();
   return UserModeViewModel();
 });
 
