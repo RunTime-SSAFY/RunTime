@@ -1,5 +1,7 @@
 package org.example.back.record.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,4 +18,5 @@ public class StatisticResponseDto {
     private Integer calorie;
     private Float distance;
     private Long duration;
+    private List<Integer> runDateList;
 }

@@ -77,6 +77,8 @@ public class RecordService {
             case MONTH -> {
                 if (selectedDate == null) throw new StatisticBadRequestException();
                 statisticDto = recordRepository.getStatisticByMonth(member, selectedDate);
+                statisticDto.setMonth(selectedDate.getMonthValue());
+                statisticDto.setYear(selectedDate.getYear());
                 yield buildStatisticResponseDto(statisticDto, type);
             }
             case YEAR -> {
@@ -94,9 +96,17 @@ public class RecordService {
 
     // 통계 responseDto 만드는 빌더 함수
     private StatisticResponseDto buildStatisticResponseDto(StatisticDto from, StatisticType type) {
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        List<Integer> runDateList = null;
+        if(type == StatisticType.MONTH){
+            runDateList = recordRepository.findRunDate(memberId,from.getYear(), from.getMonth());
+        }
+
+
         // query의 sum() 로직에서 null이 반환될 수 있음
         return StatisticResponseDto.builder()
                 .type(type)
+                .runDateList(runDateList)
                 .countDay(from.getCountDay() == null ? 0 : from.getCountDay())
                 .calorie(from.getCalorie() == null ? 0 : from.getCalorie())
                 .distance(from.getDistance() == null ? 0.0f : from.getDistance())
