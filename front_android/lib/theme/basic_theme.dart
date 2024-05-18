@@ -46,6 +46,8 @@ class BasicTheme implements AppTheme {
     surface: Color(0xFFf8f8f8),
     text: Colors.black,
     lightText: Color(0xFFCFCFCF),
+    profileEditButtonBackground: Color(0xFFEDF2F7),
+    profileText: Color(0xFFA0AEC0),
   );
 
   @override

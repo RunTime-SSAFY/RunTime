@@ -12,10 +12,11 @@ import 'package:front_android/src/view/matching/matched.dart';
 import 'package:front_android/src/view/matching/waiting_matching_view.dart';
 import 'package:front_android/src/view/practice/practice_view.dart';
 import 'package:front_android/src/view/profile/profile_edit_view.dart';
-import 'package:front_android/src/view/record_detail/record_detail_view.dart';
+import 'package:front_android/src/view/profile/profile_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
-import 'package:front_android/src/view/statistic/statistic_view.dart';
+import 'package:front_android/src/view/record_detail/record_detail_view.dart';
 import 'package:front_android/src/view/run_main/run_main_view.dart';
+import 'package:front_android/src/view/statistic/statistic_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_search_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_view.dart';
 import 'package:front_android/src/view/waiting_room/waiting_room_view.dart';
@@ -157,13 +158,13 @@ final router = GoRouter(
           ],
         ),
         GoRoute(
-          path: '/profile',
+          path: RoutePathHelper.profile,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
-              const NoTransitionPage(child: RunMainView()),
+              const NoTransitionPage(child: ProfileView()),
           routes: [
             GoRoute(
-              path: 'nickname',
+              path: 'edit',
               parentNavigatorKey: _rootNavigatorKey,
               pageBuilder: (context, state) =>
                   const NoTransitionPage(child: ProfileEditView()),

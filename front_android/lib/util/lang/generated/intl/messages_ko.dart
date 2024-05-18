@@ -52,6 +52,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "editProfileDone": MessageLookupByLibrary.simpleMessage("수정 완료"),
         "enter": MessageLookupByLibrary.simpleMessage("입장"),
         "findRoom": MessageLookupByLibrary.simpleMessage("방찾기"),
+        "friendAdd": MessageLookupByLibrary.simpleMessage("친구 추가하기"),
+        "friendList": MessageLookupByLibrary.simpleMessage("친구 목록"),
+        "friendRequest": MessageLookupByLibrary.simpleMessage("친구 요청"),
+        "friendRequest404":
+            MessageLookupByLibrary.simpleMessage("친구 요청이 없습니다."),
         "gameStart": MessageLookupByLibrary.simpleMessage("게임시작"),
         "getReady": MessageLookupByLibrary.simpleMessage("준비하기"),
         "giveUp": MessageLookupByLibrary.simpleMessage("포기하기"),
