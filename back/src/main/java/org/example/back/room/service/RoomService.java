@@ -5,15 +5,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.back.common.CustomException;
 import org.example.back.db.entity.Member;
+import org.example.back.db.entity.Notification;
 import org.example.back.db.entity.Room;
 import org.example.back.db.entity.RoomMember;
+import org.example.back.db.enums.NotificationStatusType;
+import org.example.back.db.enums.NotificationType;
 import org.example.back.db.repository.MemberRepository;
+import org.example.back.db.repository.NotificationRepository;
 import org.example.back.db.repository.RoomMemberRepository;
 import org.example.back.db.repository.RoomRepository;
 import org.example.back.db.enums.Status;
 import org.example.back.exception.*;
 import org.example.back.realtime_record.dto.StompRealtimeReqDto;
 import org.example.back.room.dto.*;
+import org.example.back.util.FcmUtil;
 import org.example.back.util.SecurityUtil;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.redis.core.ListOperations;
@@ -32,10 +37,13 @@ public class RoomService {
     private final MemberRepository memberRepository;
     private final RoomRepository roomRepository;
     private final RoomMemberRepository roomMemberRepository;
+    private final NotificationRepository notificationRepository;
     private final SimpMessagingTemplate messagingTemplate;
     private final PasswordEncoder passwordEncoder;
     private final RedisTemplate<String, String> redisTemplate;
     private final ObjectMapper objectMapper;
+    private final FcmUtil fcmUtil;
+
 
     @Transactional
     public PostRoomResDto postRoom(PostRoomReqDto postRoomReqDto) {
@@ -223,7 +231,7 @@ public class RoomService {
         Optional<RoomMember> roomMember = roomMemberRepository.findByRoom_IdAndMember_Id(roomId, myMemberId);
         // 이미 입장해 있다면 에러 발생
         if (roomMember.isPresent()) {
-            throw new RoomMemberExistsException(HttpStatus.CONFLICT, roomId + "를 방 id로, " + myMemberId +"를 memberId로 지닌 roomMember가 존재합니다");
+            throw new RoomMemberExistsException(roomId, myMemberId);
         }
 
         // 비밀방이라면 비밀번호가 일치해야 한다
@@ -338,6 +346,12 @@ public class RoomService {
         }
 
         List<MemberResDto> memberResDtos = room.getRoomMembers().stream().map(RoomMember::toMemberResDto).toList();
+        // 방장 선택
+        for (MemberResDto m: memberResDtos) {
+            if (m.getMemberId().equals(room.getManager().getId())) {
+                m.setManager();
+            }
+        }
 
         String uuid = redisTemplate.opsForValue().get("uuid_roomId:" + roomId);
 
@@ -466,6 +480,119 @@ public class RoomService {
         return RoomRankingResDto.builder().ranking(ranking).build();
 
     }
+
+    public InviteFriendResDto inviteFriend(Long roomId, String friendNickname) {
+        // 나의 id 가져오기
+        Long myMemberId = SecurityUtil.getCurrentMemberId();
+        Member me = memberRepository.findById(myMemberId).orElseThrow(MemberNotFoundException::new);
+        String myNickname = me.getNickname();
+
+        // 친구가 방에 입장 가능한지 판단한다
+        Member friend = memberRepository.findByNickname(friendNickname).orElseThrow(MemberNotFoundException::new);
+        Long friendId = friend.getId();
+
+        // 입장 가능하다면, 알람을 생성한다
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(roomId));
+        Optional<RoomMember> roomMember = roomMemberRepository.findByRoom_IdAndMember_Id(roomId, friendId);
+        // 이미 입장해 있다면 에러 발생
+        if (roomMember.isPresent()) {
+            throw new RoomMemberExistsException(roomId, friendId);
+        }
+
+        // 방이 꽉 차 있으면 입장할 수 없다
+        int roomMembersNum = room.getRoomMembers().size();
+        if (room.getCapacity() == roomMembersNum) throw new CustomException(HttpStatus.BAD_REQUEST, roomId + "를 아이디로 지닌 방은 정원이 다 차서 입장할 수 없습니다");
+
+        // 게임이 진행 중이면 입장할 수 없다
+        if (room.getStatus().name().equals("IN_PROGRESS")) {
+            throw new CustomException(HttpStatus.NOT_MODIFIED, room.getId() + "방은 게임이 진행 중이므로 입장할 수 없습니다");
+        }
+
+        // 알람을 생성 및 저장
+        String messageBody = myNickname + "님이 " + roomId + "방에 초대했습니다";
+
+        Notification notification = Notification.builder()
+                .member(friend)
+                .type(NotificationType.INVITE)
+                .targetId(roomId)
+                .detail(messageBody)
+                .status(NotificationStatusType.UNREAD)
+                .build();
+        Long notificationId = notificationRepository.save(notification).getId();
+
+        // 알람을 fcm token을 이용해서 친구에게 보낸다.
+        fcmUtil.sendAlert(notificationId, NotificationType.INVITE, "단체전 초대", messageBody, friend, roomId);
+
+        return InviteFriendResDto.builder().notificationId(notificationId).build();
+
+    }
+
+    public EnterRoomResDto acceptInvite(Long notificationId) {
+
+        // 내가 받은 초대가 있는지 확인
+        Notification notification = notificationRepository.findById(notificationId).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, notificationId + "를 id로 지닌 알람이 존재하지 않습니다"));
+
+        // 알림이 삭제된 경우
+        if (notification.getStatus().name().equals("DELETED")) {
+            throw new CustomException(HttpStatus.NOT_FOUND, notificationId +"는 삭제된 알림입니다");
+        }
+
+        if (!notification.getType().name().equals("INVITE")) {
+            throw new CustomException(HttpStatus.BAD_REQUEST, notificationId +"는 친구 초대 알람이 아닙니다");
+        }
+
+        Long myMemberId = SecurityUtil.getCurrentMemberId();
+        Member me =  memberRepository.findById(myMemberId).orElseThrow(MemberNotFoundException::new);
+
+        Long roomId = notification.getTargetId();
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException(roomId));
+        Optional<RoomMember> roomMember = roomMemberRepository.findByRoom_IdAndMember_Id(roomId, myMemberId);
+        // 이미 입장해 있다면 에러 발생
+        if (roomMember.isPresent()) {
+            throw new RoomMemberExistsException(roomId, myMemberId);
+        }
+
+        // 방이 꽉 차 있으면 입장할 수 없다
+        int roomMembersNum = room.getRoomMembers().size();
+        if (room.getCapacity() == roomMembersNum) throw new CustomException(HttpStatus.BAD_REQUEST, roomId + "를 아이디로 지닌 방은 정원이 다 차서 입장할 수 없습니다");
+
+        // 게임이 진행 중이면 입장할 수 없다
+        if (room.getStatus().name().equals("IN_PROGRESS")) {
+            throw new CustomException(HttpStatus.NOT_MODIFIED, room.getId() + "방은 게임이 진행 중이므로 입장할 수 없습니다");
+        }
+
+        // roomMember 만들기
+        RoomMember toSaveRoomMember = RoomMember.builder()
+                .room(room)
+                .member(me)
+                .isReady(false)
+                .build();
+
+        RoomMember savedRoomMember = roomMemberRepository.save(toSaveRoomMember);
+
+        // room 업데이트
+        room.getRoomMembers().add(savedRoomMember);
+
+        // 방의 유저들에게 유저들의 리스트를 보내준다.
+        List<MemberResDto> memberResDtos = room.getRoomMembers().stream().map(RoomMember::toMemberResDto).toList();
+        // 방장 선택
+        for (MemberResDto m: memberResDtos) {
+            if (m.getMemberId().equals(room.getManager().getId())) {
+                m.setManager();
+            }
+        }
+
+        UUID uuid =  UUID.fromString(Objects.requireNonNull(redisTemplate.opsForValue().get("uuid_roomId:" + room.getId())));
+
+        StompResDto stompResDto = StompResDto.builder()
+                .action("member").data(memberResDtos).build();
+        messagingTemplate.convertAndSend("/topic/room/" + uuid, stompResDto);
+
+        return EnterRoomResDto.builder().roomMemberId(savedRoomMember.getId()).uuid(uuid).data(memberResDtos).build();
+
+    }
+
+
 
 
 
