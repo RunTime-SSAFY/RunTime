@@ -28,7 +28,7 @@ class CustomInterceptor extends Interceptor {
     debugPrint(
         '--------요청--------\nREQUEST[${options.method}] => PATH: ${options.uri.toString()}');
     debugPrint('쿼리 파라미터 ${options.queryParameters}');
-    debugPrint('요청 데이터 ${options.data}');
+    debugPrint('요청 데이터 ${options.data.toString()}');
     handler.next(options);
   }
 
@@ -39,6 +39,7 @@ class CustomInterceptor extends Interceptor {
   ) {
     debugPrint(
         '--------응답--------\nRESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}');
+    debugPrint('응답 데이터 ${response.data.toString()}');
     handler.next(response);
   }
 

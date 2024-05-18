@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:front_android/src/model/battle.dart';
 import 'package:front_android/src/model/user_mode_room.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 
@@ -15,7 +12,7 @@ class UserModeRoomRepository {
   double distance = 3;
 
   Future<List<UserModeRoom>> getUserModeRoomList(
-      {int? lastId, String? searchWord, bool? isSecret}) async {
+      {String? searchWord, bool? isSecret}) async {
     if (!hasNext) return [];
     try {
       final response = await apiInstance.get(
@@ -40,19 +37,31 @@ class UserModeRoomRepository {
     }
   }
 
-  Future<List<Participant>> fetchingParticipants(int roomId) async {
+  Future<Map<String, dynamic>> enterRoom(
+    int roomId,
+    String? password,
+  ) async {
     try {
-      final room = await apiInstance.post('api/rooms/$roomId/enter');
-      final data = jsonDecode(room.data);
-      print(data);
-      return data['data'].map((element) => Participant.fromJson(element));
+      final response = await apiInstance.post(
+        'api/rooms/$roomId/enter',
+        data: {
+          'data': password,
+        },
+      );
+
+      return response.data;
     } catch (error) {
       debugPrint(error.toString());
       throw Error();
     }
   }
 
-  Future<List<UserModeRoom>> getMoreRoomList() {
-    return getUserModeRoomList(lastId: lastId);
+  Future<void> roomOut(int roomId) async {
+    await apiInstance.delete('api/rooms/$roomId/exit');
+  }
+
+  void setRoomInfo(UserModeRoom room) {
+    roomTitle = room.name;
+    distance = room.distance;
   }
 }

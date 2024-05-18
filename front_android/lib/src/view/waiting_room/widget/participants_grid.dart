@@ -35,7 +35,7 @@ class ParticipantsCartGrid extends ConsumerWidget {
               children: [
                 Image.network(
                   participants[index].characterImgUrl,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                   height: 110,
                   width: 110,
                 ),

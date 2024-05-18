@@ -6,10 +6,9 @@ import 'package:front_android/src/view/waiting_room/widget/participants_grid.dar
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/theme/components/image_background.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
-import 'package:go_router/go_router.dart';
 
-class WaitingRoomArguments {
-  WaitingRoomArguments({required this.roomId});
+class WaitingRoomView {
+  WaitingRoomView({required this.roomId});
 
   final int roomId;
 }
@@ -17,10 +16,12 @@ class WaitingRoomArguments {
 class WaitingRoom extends ConsumerStatefulWidget {
   const WaitingRoom({
     required this.roomId,
+    required this.data,
     super.key,
   });
 
   final int roomId;
+  final Map<String, dynamic> data;
 
   @override
   ConsumerState<WaitingRoom> createState() => _WaitingRoomState();
@@ -28,12 +29,11 @@ class WaitingRoom extends ConsumerStatefulWidget {
 
 class _WaitingRoomState extends ConsumerState<WaitingRoom> {
   late WaitingViewModel viewModel;
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      viewModel.userModeRoomRepository.fetchingParticipants(widget.roomId);
+      viewModel.getParticipants(widget.roomId, widget.data, context);
     });
   }
 
@@ -43,13 +43,12 @@ class _WaitingRoomState extends ConsumerState<WaitingRoom> {
 
     return BattleImageBackground(
       child: PopScope(
-        canPop: true,
-        onPopInvoked: (didPop) async {
-          if (didPop) return;
-          var response = await viewModel.roomOut();
-          if (!context.mounted) return;
-          if (response) {
-            context.pop();
+        canPop: false,
+        onPopInvoked: (didPop) {
+          try {
+            viewModel.roomOut(context);
+          } catch (error) {
+            debugPrint(error.toString());
           }
         },
         child: Scaffold(
@@ -57,12 +56,8 @@ class _WaitingRoomState extends ConsumerState<WaitingRoom> {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             leading: IconButton(
-              onPressed: () async {
-                var response = await viewModel.roomOut();
-                if (!context.mounted) return;
-                if (response) {
-                  context.pop();
-                }
+              onPressed: () {
+                viewModel.roomOut(context);
               },
               icon: Icon(
                 Icons.arrow_back_ios,
@@ -100,13 +95,17 @@ class _WaitingRoomState extends ConsumerState<WaitingRoom> {
                   participants: viewModel.participants,
                 ),
                 Button(
-                  onPressed: () {},
+                  onPressed: viewModel.onPressButton,
                   text: viewModel.isManager
                       ? S.current.gameStart
-                      : S.current.getReady,
+                      : viewModel.myInfo.isReady
+                          ? S.current.ready
+                          : S.current.getReady,
                   backGroundColor: ref.color.accept,
                   fontColor: ref.color.onAccept,
-                  isInactive: viewModel.canStart,
+                  isInactive: viewModel.myInfo.isManager
+                      ? !viewModel.canStart
+                      : viewModel.myInfo.isReady,
                 )
               ],
             ),

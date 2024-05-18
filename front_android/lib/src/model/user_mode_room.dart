@@ -18,6 +18,7 @@ class UserModeRoom {
   final int headcount;
   //
   final bool isSecret;
+  final String uuid;
 
   UserModeRoom({
     required this.roomId,
@@ -27,6 +28,7 @@ class UserModeRoom {
     required this.status,
     required this.headcount,
     required this.isSecret,
+    required this.uuid,
   });
 
   factory UserModeRoom.fromJson(Map<String, dynamic> json) {
@@ -39,6 +41,7 @@ class UserModeRoom {
       status: json['status'] ?? UserModeRoomStatusHelper.inProgress,
       headcount: json['headcount'] ?? 1,
       isSecret: json['isSecret'] ?? false,
+      uuid: json['uuid'] ?? '',
     );
   }
 }

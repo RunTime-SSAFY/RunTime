@@ -74,11 +74,16 @@ final router = GoRouter(
       builder: (_, __) => const UserModeView(),
     ),
     GoRoute(
-      path: RoutePathHelper.waitingRoom,
-      parentNavigatorKey: _rootNavigatorKey,
-      builder: (_, state) =>
-          WaitingRoom(roomId: int.parse(state.pathParameters['roomId']!)),
-    ),
+        path: RoutePathHelper.waitingRoom,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) {
+          final roomId = state.pathParameters['roomId']!;
+          final data = state.extra as Map<String, dynamic>;
+          return WaitingRoom(
+            roomId: int.parse(roomId),
+            data: data,
+          );
+        }),
     GoRoute(
       path: RoutePathHelper.userModeSearch,
       parentNavigatorKey: _rootNavigatorKey,
