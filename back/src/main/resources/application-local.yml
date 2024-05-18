@@ -48,7 +48,12 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       group-id: gps-group
+cloudfront:
+  url: https://dl06ulexuxmdt.cloudfront.net
 
+s3:
+  bucket:
+    name: ssafyruntime
 logging:
   level:
     org:

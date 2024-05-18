@@ -1,5 +1,6 @@
 package org.example.back.db.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.example.back.db.entity.Friend;
@@ -10,4 +11,5 @@ public interface FriendRepository extends JpaRepository<Friend, Long>, FriendCus
 	Optional<Friend> findByRequesterIdAndAddresseeId(Long requesterId, Long id);
 
 
+	List<Friend> findByAddresseeIdAndStatus(Long memberId, FriendStatusType friendStatusType);
 }
