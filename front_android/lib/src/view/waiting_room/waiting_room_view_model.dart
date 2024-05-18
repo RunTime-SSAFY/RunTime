@@ -60,18 +60,20 @@ class WaitingViewModel with ChangeNotifier {
       ];
       var room = data['roomData'] as UserModeRoom;
       _battleData.uuid = room.uuid;
+      userModeRoomRepository.setRoomInfo(room);
     } else {
       _battleData.participants =
           await userModeRoomRepository.enterRoom(_battleData.roomId, null);
     }
-
     _battleData.stompInstance.subScribe(
       destination: DestinationHelper.getForSub('room', _battleData.uuid),
       callback: (p0) {
         var json = jsonDecode(p0.body!);
         if (json['action'] == 'member') {
-          _battleData.participants =
-              json['data'].map((element) => Participant.fromJson(element));
+          _battleData.participants = (json['data'] as List)
+              .map((element) => Participant.fromJson(element))
+              .toList();
+          notifyListeners();
         } else if (json['action'] == 'start') {
           router.go(RoutePathHelper.battle);
         }
@@ -104,6 +106,26 @@ class WaitingViewModel with ChangeNotifier {
       apiInstance.patch('api/rooms/${_battleData.roomId}/start');
     } catch (error) {
       debugPrint('시작 실패 $error');
+    }
+  }
+
+  Participant get myInfo => _battleData.participants.firstWhere(
+        (element) => element.nickname == UserService.instance.nickname,
+      );
+
+  Future<void> onPressButton() async {
+    if (myInfo.isManager) {
+      try {
+        apiInstance.patch('api/rooms/${_battleData.roomId}/start');
+      } catch (error) {
+        debugPrint(error.toString());
+      }
+    } else {
+      try {
+        apiInstance.patch('api/rooms/${_battleData.roomId}/ready');
+      } catch (error) {
+        debugPrint(error.toString());
+      }
     }
   }
 }

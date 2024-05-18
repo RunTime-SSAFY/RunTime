@@ -102,7 +102,7 @@ class _WaitingRoomState extends ConsumerState<WaitingRoom> {
                       : S.current.getReady,
                   backGroundColor: ref.color.accept,
                   fontColor: ref.color.onAccept,
-                  isInactive: viewModel.canStart,
+                  isInactive: viewModel.isManager ? viewModel.canStart : false,
                 )
               ],
             ),
