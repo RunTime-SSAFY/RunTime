@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FcmUtil {
 
-	public void sendAlert(NotificationType notificationType, String title, String body, Member receiver, Long targetId)
+	public void sendAlert(Long notificationId, NotificationType notificationType, String title, String body, Member receiver, Long targetId)
 		 {
 		try{
 			String fcmToken = receiver.getFcmToken();
@@ -26,6 +26,7 @@ public class FcmUtil {
 			String currentTime = LocalDateTime.now().toString();
 
 			Message message = Message.builder()
+					.putData("notificationId", String.valueOf(notificationId))
 				.putData("targetId", targetId.toString())
 				.putData("time", currentTime)
 				.putData("type", notificationType.toString())
