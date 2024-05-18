@@ -4,7 +4,7 @@ import 'package:front_android/src/service/https_request_service.dart';
 
 class FriendRepository {
   List<Friend> friends = [];
-  List<FriendRequest> friendRequest = [];
+  List<NotFriend> friendRequest = [];
   bool hasNext = true;
 
   int? get lastId {
@@ -36,7 +36,7 @@ class FriendRepository {
     try {
       var response = await apiInstance.get('api/friends/requests');
       friendRequest = (response.data as List<dynamic>)
-          .map((e) => FriendRequest.fromJson(e))
+          .map((e) => NotFriend.fromJson(e))
           .toList();
     } catch (error) {
       debugPrint(error.toString());

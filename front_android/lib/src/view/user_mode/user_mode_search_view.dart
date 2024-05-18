@@ -50,7 +50,6 @@ class UserModeSearchView extends ConsumerWidget {
                   controller: viewModel.textController,
                   onSubmit: viewModel.searchRoomList,
                   textInputFormatter: [
-                    TextInputFormatHelper.englishKoreanNumber,
                     TextInputFormatHelper.maximumLength(20),
                   ],
                   icon: IconButton(

@@ -27,7 +27,7 @@ class FriendListBuilder extends ConsumerWidget {
         itemCount: mergedList.length,
         itemBuilder: (context, index) {
           final item = mergedList[index];
-          if (item is FriendRequest) {
+          if (item is NotFriend) {
             return FriendRequestItem(
               friendRequest: item,
             );
