@@ -71,7 +71,8 @@ class UserModeSearchView extends ConsumerWidget {
             ),
           ),
         ),
-        CircularIndicator(isLoading: viewModel.isLoading),
+        if (viewModel.isLoading)
+          CircularIndicator(isLoading: viewModel.isLoading),
       ],
     );
   }

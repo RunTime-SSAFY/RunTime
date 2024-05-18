@@ -50,7 +50,6 @@ class MakeRoomFullDialog extends ConsumerWidget {
                 controller: viewModel.roomNameTextController,
                 onSubmit: () {},
                 textInputFormatter: [
-                  TextInputFormatHelper.englishKoreanNumber,
                   TextInputFormatHelper.maximumLength(20),
                 ],
               ),

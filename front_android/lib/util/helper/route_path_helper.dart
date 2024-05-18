@@ -18,8 +18,8 @@ interface class RoutePathHelper {
 
   // 유저 모드
   static const String userMode = '/userMode';
-  static const String waitingRoom = '/waitingRoom:roomId';
-  static String waitingRoomWithId(int roomId) => '/waitingRoom$roomId';
+  static const String waitingRoom = '/waitingRoom/:roomId';
+  static String waitingRoomWithId(int roomId) => '/waitingRoom/$roomId';
   static const String userModeSearch = '/userModeSearch';
 
   // 연습 모드

@@ -14,7 +14,11 @@ class UserModeViewModel with ChangeNotifier {
   List<UserModeRoom> _userModeRoomList = [];
 
   List<String> tagList = const ['전체', '공개방', '1km', '3km', '5km'];
-  Map<String, double> distanceMap = const {'1km': 1, '3km': 3, '5km': 5};
+  Map<String, double> distanceMap = const {
+    '1km': 1000.0,
+    '3km': 3000.0,
+    '5km': 5000.0,
+  };
   String tagNow = '전체';
 
   void changeTag(String tag) {

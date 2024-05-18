@@ -40,11 +40,16 @@ class UserModeRoomRepository {
     }
   }
 
-  Future<List<Participant>> fetchingParticipants(int roomId) async {
+  Future<List<Participant>> fetchingParticipants(
+      int roomId, String? password) async {
     try {
-      final room = await apiInstance.post('api/rooms/$roomId/enter');
+      final room = await apiInstance.post(
+        'api/rooms/$roomId/enter',
+        data: {
+          'data': password,
+        },
+      );
       final data = jsonDecode(room.data);
-      print(data);
       return data['data'].map((element) => Participant.fromJson(element));
     } catch (error) {
       debugPrint(error.toString());
@@ -54,5 +59,9 @@ class UserModeRoomRepository {
 
   Future<List<UserModeRoom>> getMoreRoomList() {
     return getUserModeRoomList(lastId: lastId);
+  }
+
+  Future<void> roomOut(int roomId) async {
+    await apiInstance.delete('api/rooms/$roomId/exit');
   }
 }
