@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/statistic/statistic_view_model.dart';
+import 'package:front_android/src/view/statistic/widgets/statistic_calendar.dart';
 import 'package:front_android/src/view/statistic/widgets/statistic_card.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
@@ -19,7 +20,7 @@ class _StatisticViewState extends ConsumerState<StatisticView> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      DateTime date = DateTime.parse("2023-05-07");
+      DateTime date = DateTime.now();
       viewModel.fetchStatistic('ALL', date);
       viewModel.fetchStatistic('YEAR', date);
       viewModel.fetchStatistic('MONTH', date);
@@ -51,7 +52,7 @@ class _StatisticViewState extends ConsumerState<StatisticView> {
           const StatisticCalendar(),
           const SizedBox(height: 20),
           StatisticCard(
-            selectedDate: DateTime.now(),
+            selectedDate: viewModel.focusedDay,
             statistic: viewModel.statistic!['MONTH'],
             backgroundColor1: ref.palette.gray200,
             backgroundColor2: ref.palette.gray200,
@@ -60,7 +61,7 @@ class _StatisticViewState extends ConsumerState<StatisticView> {
           ),
           const SizedBox(height: 20),
           StatisticCard(
-            selectedDate: DateTime.now(),
+            selectedDate: viewModel.focusedDay,
             statistic: viewModel.statistic!['YEAR'],
             backgroundColor1: ref.palette.gray200,
             backgroundColor2: ref.palette.gray200,
@@ -69,7 +70,7 @@ class _StatisticViewState extends ConsumerState<StatisticView> {
           ),
           const SizedBox(height: 20),
           StatisticCard(
-            selectedDate: DateTime.now(),
+            selectedDate: viewModel.focusedDay,
             statistic: viewModel.statistic!['ALL'],
             backgroundColor1: ref.palette.gray900,
             backgroundColor2: ref.palette.gray800,
@@ -80,25 +81,5 @@ class _StatisticViewState extends ConsumerState<StatisticView> {
         ],
       ),
     );
-  }
-}
-
-// 달력
-class StatisticCalendar extends ConsumerWidget {
-  const StatisticCalendar({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // 높이 200의 임시 컨테이너
-    return Container(
-      height: 400,
-      color: ref.palette.gray400,
-    );
-
-    // return Container(
-    //   width:,
-    //   height: 200,
-    //   color: ref.palette.gray300,
-    // );
   }
 }
