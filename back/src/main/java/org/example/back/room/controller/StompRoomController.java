@@ -53,10 +53,11 @@ public class StompRoomController {
         ListOperations<String, String> listOperations = redisTemplate.opsForList();
         listOperations.rightPush("realtime_roomId:" + roomId + "memberId:" + myMemberId, objectMapper.writeValueAsString(stompRealtimeReqDto));
 
-        // stomp로 보내준다
+        // stomp로 방금 내가 보낸 정보를 보내준다
         RealtimeDto dataDto = RealtimeDto.builder().nickname(nickname).distance(distance).idx(idx).currentTime(LocalDateTime.now()).build();
         StompRealtimeResDto stompRealtimeResDto = StompRealtimeResDto.builder().action("realtime").data(dataDto).build();
         messagingTemplate.convertAndSend("/topic/room/" + uuid, stompRealtimeResDto);
+
 
     }
 

@@ -84,10 +84,10 @@ public class RecordCustomImpl implements RecordCustom {
         LocalDate endDate = startDate.plusMonths(1).minusDays(1);
         return query
                 .select(Projections.constructor(StatisticDto.class,
-                        record.count(),
-                        record.calorie.sum(),
-                        record.distance.sum(),
-                        record.duration.sum()))
+                        record.count().intValue(), // Long to Integer 변환
+                        record.calorie.sum().intValue(), // BigDecimal to Integer 변환
+                        record.distance.sum().floatValue(), // BigDecimal to Float 변환
+                        record.duration.sum().longValue())) // BigDecimal to Long 변환
                 .from(record)
                 .where(record.member.eq(member)
                         .and(record.runStartTime.between(startDate.atStartOfDay(), endDate.atTime(23, 59, 59))))
@@ -100,10 +100,10 @@ public class RecordCustomImpl implements RecordCustom {
         LocalDate endDate = startDate.plusYears(1).minusDays(1);
         return query
                 .select(Projections.constructor(StatisticDto.class,
-                        record.count(),
-                        record.calorie.sum(),
-                        record.distance.sum(),
-                        record.duration.sum()))
+                        record.count().intValue(), // Long to Integer 변환
+                        record.calorie.sum().intValue(), // BigDecimal to Integer 변환
+                        record.distance.sum().floatValue(), // BigDecimal to Float 변환
+                        record.duration.sum().longValue())) // BigDecimal to Long 변환
                 .from(record)
                 .where(record.member.eq(member)
                         .and(record.runStartTime.between(startDate.atStartOfDay(), endDate.atTime(23, 59, 59))))
@@ -114,13 +114,21 @@ public class RecordCustomImpl implements RecordCustom {
     public StatisticDto getStatisticByAll(Member member) {
         return query
                 .select(Projections.constructor(StatisticDto.class,
-                        record.count(),
-                        record.calorie.sum(),
-                        record.distance.sum(),
-                        record.duration.sum()))
+                        record.count().intValue(), // Long to Integer 변환
+                        record.calorie.sum().intValue(), // BigDecimal to Integer 변환
+                        record.distance.sum().floatValue(), // BigDecimal to Float 변환
+                        record.duration.sum().longValue())) // BigDecimal to Long 변환
                 .from(record)
                 .where(record.member.eq(member))
                 .fetchOne();
+    }
+
+    @Override
+    public boolean existsDoubleSevenDuration(Long memberId) {
+        return query.selectOne()
+            .from(record)
+            .where(record.duration.mod(100L).eq(77L), record.member.id.eq(memberId))
+            .fetchFirst()!=null;
     }
 
     @Override

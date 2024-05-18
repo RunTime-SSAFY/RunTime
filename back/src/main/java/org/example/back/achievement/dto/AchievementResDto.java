@@ -31,6 +31,7 @@ public class AchievementResDto {
 	private Boolean isFinal;
 	private Boolean isComplete;
 	private Boolean isReceive;
+	private Boolean isHidden;
 
 
 	@Builder
@@ -46,11 +47,12 @@ public class AchievementResDto {
 		this.goal = achievement.getGoal();
 		this.progress = currentAchievement.getProgress();
 		this.characterImgUrl = character.getImgUrl();
-		this. characterName = character.getName();
+		this.characterName = character.getName();
 		this.isFinal = Objects.equals(achievement.getGrade(), achievementType.getFinalGrade());
 		this.isComplete = currentAchievement.getProgress()>=achievement.getGoal();
 		this.isReceive = currentAchievement.getIsReceived();
 		this.prevGoal = prevGoal;
+		this.isHidden = achievementType.getIsHidden();
 	}
 
 

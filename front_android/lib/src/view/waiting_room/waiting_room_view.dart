@@ -16,10 +16,12 @@ class WaitingRoomView {
 class WaitingRoom extends ConsumerStatefulWidget {
   const WaitingRoom({
     required this.roomId,
+    required this.data,
     super.key,
   });
 
   final int roomId;
+  final Map<String, dynamic> data;
 
   @override
   ConsumerState<WaitingRoom> createState() => _WaitingRoomState();
@@ -27,12 +29,11 @@ class WaitingRoom extends ConsumerStatefulWidget {
 
 class _WaitingRoomState extends ConsumerState<WaitingRoom> {
   late WaitingViewModel viewModel;
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      viewModel.fetchRoomInfor(widget.roomId);
+      viewModel.getParticipants(widget.roomId, widget.data, context);
     });
   }
 
@@ -94,13 +95,17 @@ class _WaitingRoomState extends ConsumerState<WaitingRoom> {
                   participants: viewModel.participants,
                 ),
                 Button(
-                  onPressed: () {},
+                  onPressed: viewModel.onPressButton,
                   text: viewModel.isManager
                       ? S.current.gameStart
-                      : S.current.getReady,
+                      : viewModel.myInfo.isReady
+                          ? S.current.ready
+                          : S.current.getReady,
                   backGroundColor: ref.color.accept,
                   fontColor: ref.color.onAccept,
-                  isInactive: viewModel.canStart,
+                  isInactive: viewModel.myInfo.isManager
+                      ? !viewModel.canStart
+                      : viewModel.myInfo.isReady,
                 )
               ],
             ),

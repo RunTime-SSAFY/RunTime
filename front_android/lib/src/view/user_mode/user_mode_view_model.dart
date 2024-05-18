@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/user_mode_room.dart';
 import 'package:front_android/src/repository/user_mode_room_repository.dart';
+import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/src/service/user_mode_room_service.dart';
 import 'package:front_android/src/view/user_mode/widget/make_room_full_dialog.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:go_router/go_router.dart';
 
-final userModeViewModelProvider =
-    ChangeNotifierProvider.autoDispose((ref) => UserModeViewModel());
+final userModeViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
+  var battleData = ref.watch(battleDataServiceProvider);
+  battleData.stompInstance.activate();
+  return UserModeViewModel();
+});
 
 class UserModeViewModel with ChangeNotifier {
   List<UserModeRoom> _userModeRoomList = [];
@@ -41,21 +45,23 @@ class UserModeViewModel with ChangeNotifier {
 
   final userModeRoomRepository = UserModeRoomRepository();
 
-  bool get canFetchMore => !userModeRoomRepository.hasNext;
+  bool get hasNext => userModeRoomRepository.hasNext;
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
   Future<void> getRoomList() async {
+    if (_isLoading) return;
     _isLoading = true;
     notifyListeners();
 
     final results = await Future.wait([
-      userModeRoomRepository.getUserModeRoomList(
-        lastId: userModeRoomRepository.lastId,
-      ),
+      userModeRoomRepository.getUserModeRoomList(),
       Future.delayed(const Duration(milliseconds: 500)),
     ]);
-    _userModeRoomList = results[0];
+    _userModeRoomList = [
+      ..._userModeRoomList,
+      ...(results[0] as List<UserModeRoom>)
+    ];
 
     _isLoading = false;
     notifyListeners();

@@ -63,16 +63,16 @@ public class FriendService {
 		// 아직 친구 요청을 보낸 적이 없다면 새로 생성
 		if (friend == null) {
 			friend = Friend.builder()
-				.requester(requester)
-				.addressee(addressee)
-				.status(FriendStatusType.pending)
-				.build();
+					.requester(requester)
+					.addressee(addressee)
+					.status(FriendStatusType.pending)
+					.build();
 		}else{
 			System.out.println("친구 있음: "+friend.getAddressee().getId()+" "+ friend.getRequester().getId());
 			// 친구요청을 보낸 적이 있고 거절당했다면 새로 신청
 			if(friend.getStatus().equals(FriendStatusType.rejected)){
 				friend.updateStatus(FriendStatusType.pending);
-			// 	현재 진행중인 요청이 있거나 이미 친구인 경우. 이미 요청되었다는 Exception
+				//     현재 진행중인 요청이 있거나 이미 친구인 경우. 이미 요청되었다는 Exception
 			}else{
 				throw new FriendAlreadyExistException();
 			}
@@ -82,17 +82,19 @@ public class FriendService {
 		// FCM 알림 전송
 		String messageBody = requester.getNickname() + "님이 친구요청을 보내셨습니다.";
 
-		fcmUtil.sendAlert(NotificationType.FRIEND, "친구 요청", messageBody, addressee, requesterId);
-
 		// 알림 정보 저장
 		Notification notification = Notification.builder()
-			.member(addressee)
-			.type(NotificationType.FRIEND)
-			.targetId(requesterId)
-			.detail(messageBody)
-			.status(NotificationStatusType.UNREAD)
-			.build();
-		notificationRepository.save(notification);
+				.member(addressee)
+				.type(NotificationType.FRIEND)
+				.targetId(requesterId)
+				.detail(messageBody)
+				.status(NotificationStatusType.UNREAD)
+				.build();
+		long notificationId = notificationRepository.save(notification).getId();
+
+		fcmUtil.sendAlert(notificationId, NotificationType.FRIEND, "친구 요청", messageBody, addressee, requesterId);
+
+
 
 		return addresseeId;
 	}
@@ -112,9 +114,9 @@ public class FriendService {
 		}
 
 		return FriendListResponseDto.builder()
-			.friendList(result.getContent())
-			.hasNext(result.hasNext())
-			.build();
+				.friendList(result.getContent())
+				.hasNext(result.hasNext())
+				.build();
 	}
 
 	@Transactional
@@ -127,24 +129,27 @@ public class FriendService {
 
 		// 해당 친구요청 정보를 찾아 status를 accepted로 변경
 		Friend friend = friendRepository.findByRequesterIdAndAddresseeId(requesterId, id)
-			.orElseThrow(MemberNotFoundException::new);
+				.orElseThrow(MemberNotFoundException::new);
 		friend.updateStatus(FriendStatusType.accepted);
 		friendRepository.save(friend);
 
 		// 친구요청 수락했다는 알림 전송
 		String messageBody = addressee.getNickname() + "님이 친구요청을 수락하셨습니다.";
 
-		fcmUtil.sendAlert(NotificationType.FRIEND, "친구 수락", messageBody, requester, addressee.getId());
-
 		// 알림 정보 저장
 		Notification notification = Notification.builder()
-			.member(requester)
-			.type(NotificationType.FRIEND)
-			.targetId(addressee.getId())
-			.detail(messageBody)
-			.status(NotificationStatusType.UNREAD)
-			.build();
+				.member(requester)
+				.type(NotificationType.FRIEND)
+				.targetId(addressee.getId())
+				.detail(messageBody)
+				.status(NotificationStatusType.UNREAD)
+				.build();
 		notificationRepository.save(notification);
+		long notificationId = notificationRepository.save(notification).getId();
+
+		fcmUtil.sendAlert(notificationId, NotificationType.FRIEND, "친구 수락", messageBody, requester, addressee.getId());
+
+
 
 		return requesterId;
 
@@ -181,8 +186,8 @@ public class FriendService {
 		}
 
 		return FriendListResponseDto.builder()
-			.friendList(result.getContent())
-			.hasNext(result.hasNext())
-			.build();
+				.friendList(result.getContent())
+				.hasNext(result.hasNext())
+				.build();
 	}
 }

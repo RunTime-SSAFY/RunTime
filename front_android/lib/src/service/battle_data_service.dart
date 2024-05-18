@@ -23,8 +23,8 @@ class BattleDataService with ChangeNotifier {
 
   List<Participant> participants = [];
 
-  late String _uuid;
-  String get uuid => _uuid;
+  late String uuid;
+
   double targetDistance = 1000;
 
   String mode = BattleModeHelper.matching;
@@ -85,7 +85,7 @@ class BattleDataService with ChangeNotifier {
           if (json["action"] == ActionHelper.matchingStartAction) {
             var battleData = MatchingRoomData.fromJson(json['data']);
             roomId = battleData.matchingRoomId;
-            _uuid = battleData.uuid;
+            uuid = battleData.uuid;
             try {
               participants = [
                 Participant.fromJson(json['data']),

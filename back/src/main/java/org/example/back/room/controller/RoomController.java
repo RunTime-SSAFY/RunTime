@@ -103,5 +103,23 @@ public class RoomController {
 
     }
 
+    @PostMapping("/{roomId}/invite")
+    public ResponseEntity<InviteFriendResDto> inviteFriend(@PathVariable Long roomId, @RequestBody InviteFriendReqDto inviteFriendReqDto) {
+        String friendNickname = inviteFriendReqDto.getFriendNickname();
+
+        InviteFriendResDto inviteFriendResDto = roomService.inviteFriend(roomId, friendNickname);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(inviteFriendResDto);
+    }
+
+    @PatchMapping("/accept-invitation")
+    public ResponseEntity<EnterRoomResDto> acceptInvitation(@RequestBody AcceptInvitationReqDto acceptInvitationReqDto) {
+        Long notificationId = acceptInvitationReqDto.getNotificationId();
+
+        EnterRoomResDto enterRoomResDto = roomService.acceptInvite(notificationId);
+
+        return ResponseEntity.ok().body(enterRoomResDto);
+    }
+
 
 }

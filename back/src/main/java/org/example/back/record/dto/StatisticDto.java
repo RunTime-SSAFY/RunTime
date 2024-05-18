@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StatisticDto {
-    private int countDay;
-    private int calorie;
-    private float distance;
+    private Integer countDay;
+    private Integer calorie;
+    private Float distance;
     private Long duration;
 }
