@@ -4,9 +4,15 @@ class Statistic {
   int? calorie;
   double? distance;
   int? duration;
+  List<int>? runDateList;
 
   Statistic(
-      {this.type, this.countDay, this.calorie, this.distance, this.duration});
+      {this.type,
+      this.countDay,
+      this.calorie,
+      this.distance,
+      this.duration,
+      this.runDateList});
 
   Statistic.fromJson(Map<String, dynamic> json) {
     if (json["type"] is String) {
@@ -24,6 +30,11 @@ class Statistic {
     if (json["duration"] is int) {
       duration = json["duration"];
     }
+    if (json["runDateList"] is List) {
+      runDateList = json["runDateList"] == null
+          ? null
+          : List<int>.from(json["runDateList"]);
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -33,6 +44,9 @@ class Statistic {
     _data["calorie"] = calorie;
     _data["distance"] = distance;
     _data["duration"] = duration;
+    if (runDateList != null) {
+      _data["runDateList"] = runDateList;
+    }
     return _data;
   }
 }
