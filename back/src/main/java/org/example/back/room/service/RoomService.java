@@ -74,11 +74,11 @@ public class RoomService {
 
         Room savedRoom = roomRepository.save(room);
 
-        // roomMember 만들기
+        // roomMember 만들기: 방장은 항상 준비
         RoomMember roomMember = RoomMember.builder()
                 .room(savedRoom)
                 .member(me)
-                .isReady(false)
+                .isReady(true)
                 .build();
 
         roomMemberRepository.save(roomMember);
@@ -393,6 +393,7 @@ public class RoomService {
             else {
                 roomMembers.sort((r1, r2) -> r1.getCreatedAt().compareTo(r2.getCreatedAt()));
                 room.setManager(roomMembers.get(0).getMember());
+                roomMembers.get(0).setReady();
             }
         }
 
