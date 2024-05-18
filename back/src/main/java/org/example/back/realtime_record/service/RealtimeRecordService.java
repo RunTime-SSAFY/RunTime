@@ -169,7 +169,8 @@ public class RealtimeRecordService {
 
             // 캐싱된 realtime data 삭제
             redisTemplate.delete("realtime_practice_"  + "memberId:" + myMemberId);
-
+            // 캐싱된 고스트의 realtime data 삭제
+            redisTemplate.delete("realtime_practice_ghost:" + myMemberId);
 
         }
 

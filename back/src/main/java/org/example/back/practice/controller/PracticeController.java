@@ -23,10 +23,10 @@ public class PracticeController {
 //    }
 
     @PatchMapping("/reenter")
-    public ResponseEntity<Void> reenter() throws JsonProcessingException {
-        practiceService.reenter();
+    public ResponseEntity<PracticeStartResDto> reenter() throws JsonProcessingException {
+        PracticeStartResDto practiceStartResDto = practiceService.reenter();
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(practiceStartResDto);
 
     }
 
@@ -34,7 +34,7 @@ public class PracticeController {
     public ResponseEntity<PracticeStartResDto> startPractice() throws JsonProcessingException {
         PracticeStartResDto practiceStartResDto = practiceService.startPractice();
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(practiceStartResDto);
     }
 
 }
