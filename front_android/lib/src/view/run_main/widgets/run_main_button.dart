@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/theme/components/svg_icon.dart';
@@ -94,10 +91,9 @@ class RunMainButton extends ConsumerWidget {
                       // 화살표
                       Align(
                         alignment: Alignment.bottomRight,
-                        child: Icon(
-                          Icons.arrow_forward_rounded,
+                        child: SvgIcon(
+                          'arrow_forward_rounded',
                           color: ref.color.onBackground,
-                          weight: 2,
                         ),
                       ),
                     ],
