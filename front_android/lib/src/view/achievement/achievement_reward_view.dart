@@ -62,7 +62,7 @@ class _AchievementRewardViewState extends ConsumerState<AchievementRewardView> {
                     : Row(
                         children: [
                           Text(
-                            viewModel.newAchievement.isFinal!
+                            widget.data.isFinal
                                 ? 'MAX'
                                 : 'LV.${viewModel.newAchievement.grade.toString()}',
                             style: ref.typo.headline1
