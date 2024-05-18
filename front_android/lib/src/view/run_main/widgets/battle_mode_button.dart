@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/run_main/widgets/battle_mode_view_model.dart';
+import 'package:front_android/theme/components/svg_icon.dart';
 import 'package:front_android/theme/components/text_clip_horizontal.dart';
 import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
-import 'package:geolocator/geolocator.dart';
 
 class BattleModeButton extends ConsumerWidget {
   const BattleModeButton({super.key});
@@ -36,11 +34,11 @@ class BattleModeButton extends ConsumerWidget {
             children: [
               // 티어 이미지
               Positioned(
-                bottom: -50,
-                left: 10,
+                bottom: -158,
+                left: -87,
                 child: PngImage(
                   'tier/${viewModel.tierImage}',
-                  size: MediaQuery.of(context).size.width * 0.5,
+                  size: MediaQuery.of(context).size.width,
                 ),
               ),
               // 텍스트 박스
@@ -100,112 +98,15 @@ class BattleModeButton extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(width: 5),
-                        Icon(
-                          Icons.arrow_forward_rounded,
+                        SvgIcon(
+                          'arrow_forward_rounded',
                           color: ref.color.onBackground,
-                          weight: 2,
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(20),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: [
-              //       Expanded(
-              //         child: ClipRect(
-              //           child: Container(
-              //             // decoration: BoxDecoration(
-              //             //   borderRadius: BorderRadius.circular(20),
-              //             //   gradient: LinearGradient(
-              //             //     begin: Alignment.centerLeft,
-              //             //     end: Alignment.centerRight,
-              //             //     colors: [
-              //             //       ref.color.battleMode1,
-              //             //       ref.color.battleMode2,
-              //             //     ],
-              //             //   ),
-              //             // ),
-              //             child: Column(
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               children: [
-              //                 Text(
-              //                   S.current.battleMode,
-              //                   style: ref.typo.headline1.copyWith(
-              //                     color: ref.color.onBackground,
-              //                   ),
-              //                 ),
-              //                 Row(
-              //                   children: [
-              //                     // SizedBox(
-              //                     //   height: 150,
-              //                     //   child: Transform.scale(
-              //                     //     scale: 1.4,
-              //                     //     child: Transform.translate(
-              //                     //       offset: const Offset(0, 25),
-              //                     //       child: PngImage(
-              //                     //         'tier/${viewModel.tierImage}',
-              //                     //         size: 200,
-              //                     //       ),
-              //                     //     ),
-              //                     //   ),
-              //                     // ),
-              //                     const Spacer(),
-              //                     Column(
-              //                       crossAxisAlignment: CrossAxisAlignment.end,
-              //                       children: [
-              //                         Padding(
-              //                           padding:
-              //                               const EdgeInsets.only(right: 40),
-              //                           child: Column(
-              //                             crossAxisAlignment:
-              //                                 CrossAxisAlignment.center,
-              //                             children: [
-              //                               Text(
-              //                                 viewModel.tier,
-              //                                 style:
-              //                                     ref.typo.headline2.copyWith(
-              //                                   color: ref.color.onBackground,
-              //                                 ),
-              //                               ),
-              //                               Text(
-              //                                 viewModel.score,
-              //                                 style:
-              //                                     ref.typo.subTitle2.copyWith(
-              //                                   color: ref.color.onBackground,
-              //                                 ),
-              //                               ),
-              //                               const SizedBox(height: 15),
-              //                               // Text(
-              //                               //   '상위 ${viewModel.percent} %',
-              //                               //   style: ref.typo.body2.copyWith(
-              //                               //     color: ref.color.lightText,
-              //                               //   ),
-              //                               // )
-              //                             ],
-              //                           ),
-              //                         ),
-              //                         Text(
-              //                           '${S.current.enter} →',
-              //                           style: ref.typo.headline1.copyWith(
-              //                             color: ref.color.onBackground,
-              //                           ),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                   ],
-              //                 )
-              //               ],
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),
