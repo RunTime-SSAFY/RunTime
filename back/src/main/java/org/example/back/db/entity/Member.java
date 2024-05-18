@@ -46,7 +46,7 @@ public class Member extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private RoleType role;
 
-	@Column(name = "nickname", length = 30)
+	@Column(name = "nickname", length = 30, unique = true)
 	private String nickname;
 
 	@ManyToOne(fetch = FetchType.EAGER)
