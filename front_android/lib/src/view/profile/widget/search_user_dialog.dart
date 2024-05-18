@@ -26,6 +26,8 @@ class SearchUserDialog extends ConsumerWidget {
         children: [
           TextInput(
             textColor: ref.color.text,
+            enabledBorderColor: ref.color.accept,
+            focusedBorderColor: ref.color.profileText,
             title: S.current.EnterSearchTerm,
             controller: viewModel.textController,
             onSubmit: viewModel.searchFriend,
