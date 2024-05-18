@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/achievement/achievement_view_model.dart';
 import 'package:front_android/src/view/achievement/widgets/achievement_list.dart';
-import 'package:front_android/theme/components/svg_icon.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
 class AchievementView extends ConsumerStatefulWidget {

@@ -8,7 +8,6 @@ import 'package:front_android/src/view/run_main/widgets/battle_mode_button.dart'
 import 'package:front_android/src/view/run_main/widgets/run_main_button.dart';
 import 'package:front_android/theme/components/keyboard_hiding.dart';
 import 'package:front_android/theme/components/png_image.dart';
-import 'package:front_android/theme/components/svg_icon.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
