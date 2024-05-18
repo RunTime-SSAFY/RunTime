@@ -24,6 +24,9 @@ class UserModeRoomCard extends ConsumerWidget {
       onTapUp: (details) {
         context.push(
           RoutePathHelper.waitingRoomWithId(room.roomId),
+          extra: {
+            'isManager': false,
+          },
         );
       },
       child: Container(
@@ -105,8 +108,7 @@ class UserModeRoomList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
-        if (notification is ScrollUpdateNotification &&
-            notification.metrics.pixels >=
+        if (notification.metrics.pixels >=
                 notification.metrics.maxScrollExtent &&
             canFetchMore) {
           getRoomList();

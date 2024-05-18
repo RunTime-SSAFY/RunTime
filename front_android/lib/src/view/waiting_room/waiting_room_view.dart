@@ -16,10 +16,12 @@ class WaitingRoomView {
 class WaitingRoom extends ConsumerStatefulWidget {
   const WaitingRoom({
     required this.roomId,
+    required this.data,
     super.key,
   });
 
   final int roomId;
+  final Map<String, dynamic> data;
 
   @override
   ConsumerState<WaitingRoom> createState() => _WaitingRoomState();
@@ -32,7 +34,7 @@ class _WaitingRoomState extends ConsumerState<WaitingRoom> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      viewModel.getParticipants(widget.roomId);
+      viewModel.getParticipants(widget.roomId, widget.data);
     });
   }
 

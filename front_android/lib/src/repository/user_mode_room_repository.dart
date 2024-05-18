@@ -15,7 +15,7 @@ class UserModeRoomRepository {
   double distance = 3;
 
   Future<List<UserModeRoom>> getUserModeRoomList(
-      {int? lastId, String? searchWord, bool? isSecret}) async {
+      {String? searchWord, bool? isSecret}) async {
     if (!hasNext) return [];
     try {
       final response = await apiInstance.get(
@@ -40,8 +40,10 @@ class UserModeRoomRepository {
     }
   }
 
-  Future<List<Participant>> fetchingParticipants(
-      int roomId, String? password) async {
+  Future<List<Participant>> enterRoom(
+    int roomId,
+    String? password,
+  ) async {
     try {
       final room = await apiInstance.post(
         'api/rooms/$roomId/enter',
@@ -57,11 +59,12 @@ class UserModeRoomRepository {
     }
   }
 
-  Future<List<UserModeRoom>> getMoreRoomList() {
-    return getUserModeRoomList(lastId: lastId);
-  }
-
   Future<void> roomOut(int roomId) async {
     await apiInstance.delete('api/rooms/$roomId/exit');
+  }
+
+  void setRoomInfo(UserModeRoom room) {
+    roomTitle = room.name;
+    distance = room.distance;
   }
 }

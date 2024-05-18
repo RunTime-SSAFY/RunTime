@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/battle.dart';
+import 'package:front_android/src/model/user_mode_room.dart';
 import 'package:front_android/src/repository/user_mode_room_repository.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
@@ -16,6 +17,7 @@ import 'package:go_router/go_router.dart';
 
 final waitingViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
   var battleData = ref.watch(battleDataServiceProvider);
+  battleData.stompInstance.activate();
   return WaitingViewModel(battleData);
 });
 
@@ -43,10 +45,26 @@ class WaitingViewModel with ChangeNotifier {
 
   List<Participant> get participants => _battleData.participants;
 
-  void getParticipants(int roomId) async {
+  void getParticipants(int roomId, Map<String, dynamic> data) async {
     _battleData.roomId = roomId;
-    _battleData.participants = await userModeRoomRepository
-        .fetchingParticipants(_battleData.roomId, null);
+    if (data['isManager']) {
+      _battleData.participants = [
+        Participant(
+          nickname: UserService.instance.nickname,
+          characterImgUrl: UserService.instance.characterImgUrl,
+          isManager: true,
+          isReady: true,
+          distance: 0,
+          lastDateTime: DateTime.now(),
+        ),
+      ];
+      var room = data['roomData'] as UserModeRoom;
+      _battleData.uuid = room.uuid;
+    } else {
+      _battleData.participants =
+          await userModeRoomRepository.enterRoom(_battleData.roomId, null);
+    }
+
     _battleData.stompInstance.subScribe(
       destination: DestinationHelper.getForSub('room', _battleData.uuid),
       callback: (p0) {

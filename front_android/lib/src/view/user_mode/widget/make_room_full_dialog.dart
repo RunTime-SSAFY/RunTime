@@ -116,6 +116,7 @@ class MakeRoomFullDialog extends ConsumerWidget {
                       if (!context.mounted) return;
                       context.pushReplacement(
                         RoutePathHelper.waitingRoomWithId(room.roomId),
+                        extra: {'isManager': true, 'roomData': room},
                       );
                     }
                   },

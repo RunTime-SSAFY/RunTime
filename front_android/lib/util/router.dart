@@ -77,7 +77,11 @@ final router = GoRouter(
         parentNavigatorKey: _rootNavigatorKey,
         builder: (_, state) {
           final roomId = state.pathParameters['roomId']!;
-          return WaitingRoom(roomId: int.parse(roomId));
+          final data = state.extra as Map<String, dynamic>;
+          return WaitingRoom(
+            roomId: int.parse(roomId),
+            data: data,
+          );
         }),
     GoRoute(
       path: RoutePathHelper.userModeSearch,
