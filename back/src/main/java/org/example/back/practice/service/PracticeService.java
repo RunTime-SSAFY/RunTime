@@ -43,7 +43,7 @@ public class PracticeService {
 //
 //    }
 
-    public void reenter() throws JsonProcessingException { // TODO 수정해야 한다
+    public PracticeStartResDto reenter() throws JsonProcessingException {
         // 나의 id 가져오기
         Long myMemberId = SecurityUtil.getCurrentMemberId();
 
@@ -55,16 +55,21 @@ public class PracticeService {
         redisTemplate.opsForValue().set("lastIdx_memberId:" + myMemberId, String.valueOf(lastIdx));
         redisTemplate.opsForValue().set("lastDistance_memberId:" + myMemberId, String.valueOf(lastDistance));
 
+        UUID uuid = UUID.fromString(redisTemplate.opsForValue().get("uuid_practice_memberId:" + myMemberId));
+
+        return PracticeStartResDto.builder().uuid(uuid).build();
+
     }
 
     public PracticeStartResDto startPractice() throws JsonProcessingException {
-        // stomp 통신을 위한 uuid
-        UUID uuid = UUID.randomUUID();
-        redisTemplate.opsForValue().set("uuid_practice", uuid.toString()); // redis에 uuid 저장
-
-        // redis에 고스트의 실시간 기록들을 저장한다
         // 나의 id 가져오기
         Long myMemberId = SecurityUtil.getCurrentMemberId();
+
+        // stomp 통신을 위한 uuid
+        UUID uuid = UUID.randomUUID();
+        redisTemplate.opsForValue().set("uuid_practice_memberId:" + myMemberId, uuid.toString()); // redis에 uuid 저장
+
+        // redis에 고스트의 실시간 기록들을 저장한다
 
         // 최근 10개의 매칭전 기록 중 페이스가 가장 낮은 기록의 id 가져오기
         Long recordId = recordRepository.getBestRecordFromLastTenRecords(myMemberId);
@@ -73,7 +78,7 @@ public class PracticeService {
         Record record = recordRepository.findById(recordId).orElseThrow(RecordNotFoundException::new);
         List<PracticeRealtimeDto> realtimeRecords = record.getRealtimeRecords().stream().map(RealtimeRecord::toPracticeRealtimeDto).toList();
 
-        redisTemplate.opsForValue().set("realtime_practice_ghost", objectMapper.writeValueAsString(realtimeRecords));
+        redisTemplate.opsForValue().set("realtime_practice_ghost:" + myMemberId, objectMapper.writeValueAsString(realtimeRecords));
 
         return PracticeStartResDto.builder().uuid(uuid).build();
 

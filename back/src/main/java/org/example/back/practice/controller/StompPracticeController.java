@@ -58,7 +58,7 @@ public class StompPracticeController {
         messagingTemplate.convertAndSend("/topic/practice/" + uuid, stompRealtimeResDto);
 
         // stomp로 고스트의 정보를 보내준다
-        List<PracticeRealtimeDto> practiceRealtimeDtos = objectMapper.readValue(redisTemplate.opsForValue().get("realtime_practice_ghost"), new TypeReference<>() {
+        List<PracticeRealtimeDto> practiceRealtimeDtos = objectMapper.readValue(redisTemplate.opsForValue().get("realtime_practice_ghost:" + myMemberId), new TypeReference<>() {
         }) ;
 
         if (idx < practiceRealtimeDtos.size()) {
