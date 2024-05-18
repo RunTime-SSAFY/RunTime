@@ -450,9 +450,11 @@ public class RoomService {
         room.startGame();
 
         // socket으로 모든 유저들에게 단체전이 시작되었음을 알려준다
+        String uuid = redisTemplate.opsForValue().get("uuid_roomId:" + roomId);
+
         StompResDto stompResDto = StompResDto.builder()
                         .action("start").data(null).build();
-        messagingTemplate.convertAndSend("/topic/room/" + roomId, stompResDto);
+        messagingTemplate.convertAndSend("/topic/room/" + uuid, stompResDto);
 
     }
 
