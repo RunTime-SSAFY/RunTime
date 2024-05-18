@@ -35,12 +35,12 @@ class _AchievementViewState extends ConsumerState<AchievementView> {
           S.current.achievement,
           style: ref.typo.appBarMainTitle,
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 20),
-            child: SvgIcon('bell'),
-          ),
-        ],
+        // actions: const [
+        //   Padding(
+        //     padding: EdgeInsets.only(right: 20),
+        //     child: SvgIcon('bell'),
+        //   ),
+        // ],
       ),
       body: AchievementList(
         achievementList: viewModel.achievementList,

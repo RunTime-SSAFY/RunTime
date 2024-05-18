@@ -43,12 +43,12 @@ class _RecordViewState extends ConsumerState<RecordView> {
           S.current.record,
           style: ref.typo.appBarMainTitle,
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 20),
-            child: SvgIcon('bell'),
-          ),
-        ],
+        // actions: const [
+        //   Padding(
+        //     padding: EdgeInsets.only(right: 20),
+        //     child: SvgIcon('bell'),
+        //   ),
+        // ],
       ),
       body: Stack(
         children: [

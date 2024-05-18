@@ -39,7 +39,7 @@ class RecordTop extends ConsumerWidget {
                     // const SizedBox(width: 1),
                     // 텍스트
                     Text(
-                      '통계정보',
+                      '통계보기',
                       style: ref.typo.headline3.copyWith(
                         color: ref.color.accept,
                       ),
@@ -50,6 +50,7 @@ class RecordTop extends ConsumerWidget {
             ],
           ),
         ),
+        const SizedBox(height: 10),
         // const Padding(
         //   padding: EdgeInsets.only(top: 10),
         //   child: Expanded(child: DayCarousel()),
