@@ -34,7 +34,7 @@ class BattleModeButton extends ConsumerWidget {
             children: [
               // 티어 이미지
               Positioned(
-                bottom: -158,
+                bottom: -154,
                 left: -87,
                 child: PngImage(
                   'tier/${viewModel.tierImage}',
