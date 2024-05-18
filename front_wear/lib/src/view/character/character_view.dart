@@ -11,18 +11,18 @@ class CharacterView extends StatefulWidget {
 class _CharacterViewState extends State<CharacterView> {
   // 임시 캐릭터 데이터 리스트
   List<Map<String, String>> characters = [
-    {"image": "assets/icons/lock.svg", "name": "고슴도치"},
-    {"image": "assets/icons/lock.svg", "name": "여우"},
-    {"image": "assets/icons/lock.svg", "name": "토끼"},
-    {"image": "assets/icons/lock.svg", "name": "곰"},
-    {"image": "assets/icons/lock.svg", "name": "사슴"},
-    {"image": "assets/icons/lock.svg", "name": "호랑이"},
-    {"image": "assets/icons/lock.svg", "name": "사자"},
-    {"image": "assets/icons/lock.svg", "name": "기린"},
-    {"image": "assets/icons/lock.svg", "name": "코끼리"},
-    {"image": "assets/icons/lock.svg", "name": "판다"},
-    {"image": "assets/icons/lock.svg", "name": "늑대"},
-    {"image": "assets/icons/lock.svg", "name": "하마"}
+    {"image": "assets/images/characters/lockOwl.png", "name": "올빼미"},
+    {"image": "assets/images/characters/lockCat.png", "name": "고양이"},
+    {"image": "assets/images/characters/lockMoose.png", "name": "무스"},
+    {"image": "assets/images/characters/lockBeluga.png", "name": "벨루가"},
+    {"image": "assets/images/characters/lockDeer.png", "name": "사슴"},
+    //{"image": "assets/images/characters/lockPantheraUncia.png", "name": "설표"},
+    {"image": "assets/images/characters/lockLynx.png", "name": "스라소니"},
+    {"image": "assets/images/characters/lockSnake.png", "name": "뱀"},
+    {"image": "assets/images/characters/lockAlpaca.png", "name": "알파카"},
+    {"image": "assets/images/characters/lockGoat.png", "name": "염소"},
+    {"image": "assets/images/characters/lockMonkey.png", "name": "원숭이"},
+    //{"image": "assets/images/characters", "name": "하마"}
   ];
 
   @override
@@ -31,24 +31,47 @@ class _CharacterViewState extends State<CharacterView> {
       appBar: AppBar(
         title: const Text('캐릭터 선택'),
       ),
-      body: GridView.count(
-        crossAxisCount: 4,  // 한 줄에 4개의 캐릭터
-        childAspectRatio: (1 / 1.5), // 캐릭터의 가로 세로 비율
-        children: characters.map((character) {
+      body: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          childAspectRatio: 0.75,
+        ),
+        itemCount: characters.length,
+        itemBuilder: (context, index) {
           return Card(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(character["image"]!, height: 60),
-                Text(character["name"]!),
+              children: <Widget>[
+                Expanded(
+                  child: Image.asset(characters[index]['image']!),
+                ),
+                Text(characters[index]['name']!),
               ],
             ),
           );
-        }).toList(),
+        },
       ),
     );
   }
 }
+//       body: GridView.count(
+//         crossAxisCount: 3, // 한 줄에 4개의 캐릭터
+//         childAspectRatio: (1 / 1.5), // 캐릭터의 가로 세로 비율
+//         children: characters.map((character) {
+//           return Card(
+//             child: Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 Image.asset(character["image"]!, height: 60),
+//                 Text(character["name"]!),
+//               ],
+//             ),
+//           );
+//         }).toList(),
+//       ),
+//     );
+//   }
+// }
 // import 'package:flutter/material.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
