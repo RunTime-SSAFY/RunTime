@@ -22,20 +22,20 @@ class Friend {
       );
 }
 
-class FriendRequest {
+class NotFriend {
   int id;
   String name;
   String characterImgUrl;
   String tierImgUrl;
 
-  FriendRequest({
+  NotFriend({
     required this.id,
     required this.name,
     required this.characterImgUrl,
     required this.tierImgUrl,
   });
 
-  factory FriendRequest.fromJson(Map<String, dynamic> json) => FriendRequest(
+  factory NotFriend.fromJson(Map<String, dynamic> json) => NotFriend(
         id: json['id'],
         name: json['name'],
         characterImgUrl: json['characterImgUrl'],

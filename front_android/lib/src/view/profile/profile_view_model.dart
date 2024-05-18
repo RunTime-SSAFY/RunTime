@@ -4,6 +4,7 @@ import 'package:front_android/src/model/friend.dart';
 import 'package:front_android/src/repository/friend_repository.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/src/service/user_service.dart';
+import 'package:front_android/src/view/profile/widget/search_user_dialog.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:go_router/go_router.dart';
 
@@ -32,8 +33,11 @@ class ProfileViewModel with ChangeNotifier {
     }
   }
 
+  // 친구
+
   FriendRepository friendRepository = FriendRepository();
 
+  // 친구 목록
   List<Friend> get friendList => friendRepository.friends;
 
   void getFriendList() async {
@@ -47,7 +51,8 @@ class ProfileViewModel with ChangeNotifier {
 
   Future<void> deleteFriend() async {}
 
-  List<FriendRequest> get friendRequestList => friendRepository.friendRequest;
+  // 친구 요청 받은 목록
+  List<NotFriend> get friendRequestList => friendRepository.friendRequest;
 
   Future<void> responseToFriendRequest(int requesterId, bool isAccept) async {
     var url = 'api/friends/$requesterId';
@@ -57,6 +62,47 @@ class ProfileViewModel with ChangeNotifier {
       } else {
         apiInstance.delete(url);
       }
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+  }
+
+  // 검색
+  void showSearchModal(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const SearchUserDialog();
+      },
+    );
+  }
+
+  TextEditingController textController = TextEditingController();
+
+  List<NotFriend> searchResult = [];
+
+  void searchFriend() async {
+    if (textController.text.isEmpty) return;
+    try {
+      var response = await apiInstance.get(
+        'api/friends/others',
+        queryParameters: {
+          'searchWord': textController.text,
+          'size': 5,
+        },
+      );
+      searchResult = (response.data['friendList'] as List)
+          .map((e) => NotFriend.fromJson(e))
+          .toList();
+      notifyListeners();
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+  }
+
+  void requestFriend(int id) {
+    try {
+      apiInstance.post('api/friends/$id');
     } catch (error) {
       debugPrint(error.toString());
     }

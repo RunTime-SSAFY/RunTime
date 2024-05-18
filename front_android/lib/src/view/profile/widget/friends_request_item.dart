@@ -13,7 +13,7 @@ class FriendRequestItem extends ConsumerWidget {
     required this.friendRequest,
   });
 
-  final FriendRequest friendRequest;
+  final NotFriend friendRequest;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
