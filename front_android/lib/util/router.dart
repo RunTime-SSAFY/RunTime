@@ -150,13 +150,13 @@ final router = GoRouter(
           ],
         ),
         GoRoute(
-          path: '/profile',
+          path: RoutePathHelper.profile,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
-              const NoTransitionPage(child: RunMainView()),
+              const NoTransitionPage(child: ProfileView()),
           routes: [
             GoRoute(
-              path: 'nickname',
+              path: 'edit',
               parentNavigatorKey: _rootNavigatorKey,
               pageBuilder: (context, state) =>
                   const NoTransitionPage(child: ProfileEditView()),

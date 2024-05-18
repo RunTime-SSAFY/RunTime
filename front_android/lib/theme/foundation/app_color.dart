@@ -40,6 +40,8 @@ class AppColor {
     required this.surface,
     required this.text,
     required this.lightText,
+    required this.profileEditButtonBackground,
+    required this.profileText,
   });
 
   // Button
@@ -101,4 +103,7 @@ class AppColor {
   // Basic Text
   final Color text;
   final Color lightText;
+
+  final Color profileEditButtonBackground;
+  final Color profileText;
 }
