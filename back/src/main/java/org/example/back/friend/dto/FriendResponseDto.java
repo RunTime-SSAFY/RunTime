@@ -17,13 +17,15 @@ public class FriendResponseDto {
 	private String characterImgUrl;
 	private int tierScore;
 	private String tierImgUrl;
+	private boolean isAlreadyRequest;
 
 	@Builder
-	public FriendResponseDto(Member member) {
+	public FriendResponseDto(Member member, boolean isAlreadyRequest) {
 		this.id = member.getId();
 		this.name = member.getNickname();
 		this.characterImgUrl = member.getCharacter().getImgUrl();
 		this.tierScore = member.getTierScore();
+		this.isAlreadyRequest = isAlreadyRequest;
 	}
 
 

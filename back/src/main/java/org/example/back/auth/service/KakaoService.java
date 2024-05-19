@@ -30,7 +30,6 @@ public class KakaoService {
 	private final RestTemplate restTemplate;
 
 	public String getToken(String code) {
-		System.out.println("code : " + code);
 		String access_token = "";
 		String refresh_token = "";
 		String requestURL = "https://kauth.kakao.com/oauth/token";

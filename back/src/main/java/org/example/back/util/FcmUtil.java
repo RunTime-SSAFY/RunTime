@@ -32,7 +32,6 @@ public class FcmUtil {
 				.putData("type", notificationType.toString())
 				.setToken(fcmToken)
 				.build();
-			System.out.println("?????머고");
 			String response = FirebaseMessaging.getInstance().send(message);
 			log.info("FCM send: {}",response);
 		}catch (FirebaseMessagingException e){
