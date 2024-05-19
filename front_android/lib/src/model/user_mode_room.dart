@@ -32,7 +32,6 @@ class UserModeRoom {
   });
 
   factory UserModeRoom.fromJson(Map<String, dynamic> json) {
-    print(json);
     return UserModeRoom(
       roomId: json['roomId'] ?? 0,
       name: json['name'] ?? '',

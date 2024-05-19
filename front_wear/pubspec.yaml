@@ -39,6 +39,9 @@ dependencies:
   flutter_riverpod: ^2.5.1
   flutter_svg: ^2.0.10+1
   watch_connectivity: ^0.1.6
+  permission_handler: ^11.3.1
+  flutter_blue_plus: ^1.32.6
+  timer_count_down: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -57,7 +60,7 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/images/
+    - assets/images/characters/
     - assets/icons/
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
