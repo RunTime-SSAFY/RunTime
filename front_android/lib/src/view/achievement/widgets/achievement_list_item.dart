@@ -176,10 +176,11 @@ class AchievementListItem extends ConsumerWidget {
 
                                 Image.network(
                                   characterImgUrl,
-                                  width: 80,
-                                  height: 80,
+                                  height: 60,
                                   fit: BoxFit.cover,
                                 ),
+
+                                const SizedBox(height: 20),
 
                                 // 캐릭터 이름
                                 Row(
@@ -202,6 +203,7 @@ class AchievementListItem extends ConsumerWidget {
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 5),
                               ],
                             ),
                     ),

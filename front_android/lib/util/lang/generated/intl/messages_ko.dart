@@ -31,7 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "achievement": MessageLookupByLibrary.simpleMessage("도전과제"),
         "amateur": MessageLookupByLibrary.simpleMessage("아마추어"),
         "avgPace": MessageLookupByLibrary.simpleMessage("평균페이스"),
-        "battleMode": MessageLookupByLibrary.simpleMessage("배틀모드"),
+        "battleMode": MessageLookupByLibrary.simpleMessage("대결모드"),
         "beforeMatching":
             MessageLookupByLibrary.simpleMessage("나와 실력이 비슷한 사람과\n대전해보세요"),
         "beforeMatchingButton":
@@ -52,6 +52,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "editProfileDone": MessageLookupByLibrary.simpleMessage("수정 완료"),
         "enter": MessageLookupByLibrary.simpleMessage("입장"),
         "findRoom": MessageLookupByLibrary.simpleMessage("방찾기"),
+        "friendAdd": MessageLookupByLibrary.simpleMessage("친구 추가하기"),
+        "friendList": MessageLookupByLibrary.simpleMessage("친구 목록"),
+        "friendRequest": MessageLookupByLibrary.simpleMessage("친구 요청"),
+        "friendRequest404":
+            MessageLookupByLibrary.simpleMessage("친구 요청이 없습니다."),
         "gameStart": MessageLookupByLibrary.simpleMessage("게임시작"),
         "getReady": MessageLookupByLibrary.simpleMessage("준비하기"),
         "giveUp": MessageLookupByLibrary.simpleMessage("포기하기"),
@@ -78,7 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("선택한 기록으로 연습을 시작합니다"),
         "practiceExplanation":
             MessageLookupByLibrary.simpleMessage("연습모드는 나의 최고기록과 대결합니다"),
-        "practiceMode": MessageLookupByLibrary.simpleMessage("연습 모드"),
+        "practiceMode": MessageLookupByLibrary.simpleMessage("연습모드"),
         "practiceStart": MessageLookupByLibrary.simpleMessage("연습시작"),
         "privateRoom": MessageLookupByLibrary.simpleMessage("비밀방"),
         "pro": MessageLookupByLibrary.simpleMessage("프로"),
@@ -100,7 +105,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "search": MessageLookupByLibrary.simpleMessage("검색"),
         "semanticsButton": MessageLookupByLibrary.simpleMessage("버튼"),
         "statistic": MessageLookupByLibrary.simpleMessage("통계"),
-        "userMode": MessageLookupByLibrary.simpleMessage("사용자 모드"),
+        "userMode": MessageLookupByLibrary.simpleMessage("사용자모드"),
         "waiting": MessageLookupByLibrary.simpleMessage("대기중"),
         "waitingOthers":
             MessageLookupByLibrary.simpleMessage("상대방의 응답을 기다리고 있습니다."),

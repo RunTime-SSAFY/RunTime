@@ -9,13 +9,15 @@ class CharacterRepository {
     int page = 1,
   }) async {
     try {
-      final response = await apiInstance.get('/api/characters');
+      var response = await apiInstance.get(
+        'api/characters',
+      );
       var charactersJson = response.data['characterDtoList'];
       characters =
           (charactersJson as List).map((e) => Character.fromJson(e)).toList();
       return;
-    } catch (error, stackTrace) {
-      debugPrint('$error, $stackTrace');
+    } catch (error) {
+      debugPrint(error.toString());
       return;
     }
   }

@@ -1,5 +1,6 @@
 package org.example.back.friend.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -67,13 +68,13 @@ public class FriendService {
 				.addressee(addressee)
 				.status(FriendStatusType.pending)
 				.build();
-		}else{
-			System.out.println("친구 있음: "+friend.getAddressee().getId()+" "+ friend.getRequester().getId());
+		} else {
+			System.out.println("친구 있음: " + friend.getAddressee().getId() + " " + friend.getRequester().getId());
 			// 친구요청을 보낸 적이 있고 거절당했다면 새로 신청
-			if(friend.getStatus().equals(FriendStatusType.rejected)){
+			if (friend.getStatus().equals(FriendStatusType.rejected)) {
 				friend.updateStatus(FriendStatusType.pending);
-			// 	현재 진행중인 요청이 있거나 이미 친구인 경우. 이미 요청되었다는 Exception
-			}else{
+				//     현재 진행중인 요청이 있거나 이미 친구인 경우. 이미 요청되었다는 Exception
+			} else {
 				throw new FriendAlreadyExistException();
 			}
 		}
@@ -81,8 +82,6 @@ public class FriendService {
 
 		// FCM 알림 전송
 		String messageBody = requester.getNickname() + "님이 친구요청을 보내셨습니다.";
-
-		fcmUtil.sendAlert(NotificationType.FRIEND, "친구 요청", messageBody, addressee, requesterId);
 
 		// 알림 정보 저장
 		Notification notification = Notification.builder()
@@ -92,7 +91,9 @@ public class FriendService {
 			.detail(messageBody)
 			.status(NotificationStatusType.UNREAD)
 			.build();
-		notificationRepository.save(notification);
+		long notificationId = notificationRepository.save(notification).getId();
+
+		fcmUtil.sendAlert(notificationId, NotificationType.FRIEND, "친구 요청", messageBody, addressee, requesterId);
 
 		return addresseeId;
 	}
@@ -134,8 +135,6 @@ public class FriendService {
 		// 친구요청 수락했다는 알림 전송
 		String messageBody = addressee.getNickname() + "님이 친구요청을 수락하셨습니다.";
 
-		fcmUtil.sendAlert(NotificationType.FRIEND, "친구 수락", messageBody, requester, addressee.getId());
-
 		// 알림 정보 저장
 		Notification notification = Notification.builder()
 			.member(requester)
@@ -145,6 +144,9 @@ public class FriendService {
 			.status(NotificationStatusType.UNREAD)
 			.build();
 		notificationRepository.save(notification);
+		long notificationId = notificationRepository.save(notification).getId();
+
+		fcmUtil.sendAlert(notificationId, NotificationType.FRIEND, "친구 수락", messageBody, requester, addressee.getId());
 
 		return requesterId;
 
@@ -184,5 +186,31 @@ public class FriendService {
 			.friendList(result.getContent())
 			.hasNext(result.hasNext())
 			.build();
+	}
+
+	public List<FriendResponseDto> getFriendsRequests() {
+		Long memberId = SecurityUtil.getCurrentMemberId();
+
+		List<Friend> friendList = friendRepository.findByAddresseeIdAndStatus(memberId, FriendStatusType.pending);
+		List<FriendResponseDto> friendResponseDtoList = new ArrayList<>();
+
+		List<Tier> tierList = tierRepository.findAll();
+		for (Friend friend : friendList) {
+
+			FriendResponseDto friendResponseDto = FriendResponseDto.builder()
+				.member(friend.getRequester())
+				.build();
+
+			int score = friend.getRequester().getTierScore();
+			for (Tier tier : tierList) {
+				if (score >= tier.getScoreMin() && score <= tier.getScoreMax()) {
+					friendResponseDto.setTierImgUrl(tier.getImgUrl());
+				}
+			}
+
+			friendResponseDtoList.add(friendResponseDto);
+		}
+		return friendResponseDtoList;
+
 	}
 }

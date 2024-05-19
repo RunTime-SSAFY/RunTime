@@ -73,5 +73,9 @@
   "amateur": "Amateur",
   "beginner": "Beginner",
   "pro": "Pro",
-  "worldClass": "World Class"
+  "worldClass": "World Class",
+  "friendRequest": "Friend Request",
+  "friendList": "Friend List",
+  "friendAdd": "Add Friend",
+  "friendRequest404": "There are no Friend Request."
 }

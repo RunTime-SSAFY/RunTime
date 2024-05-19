@@ -16,10 +16,10 @@ class RecordTop extends ConsumerWidget {
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Row(
             // 하위요소 양 끝으로 정렬
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // 2024년 5월 표시
-              Text('2024년 5월', style: ref.typo.headline2),
+              // Text('2024년 5월', style: ref.typo.headline2),
               // 통계정보 버튼 추가
               CupertinoButton(
                 padding: EdgeInsets.zero,
@@ -39,7 +39,7 @@ class RecordTop extends ConsumerWidget {
                     // const SizedBox(width: 1),
                     // 텍스트
                     Text(
-                      '통계정보',
+                      '통계보기',
                       style: ref.typo.headline3.copyWith(
                         color: ref.color.accept,
                       ),
@@ -50,6 +50,7 @@ class RecordTop extends ConsumerWidget {
             ],
           ),
         ),
+        const SizedBox(height: 10),
         // const Padding(
         //   padding: EdgeInsets.only(top: 10),
         //   child: Expanded(child: DayCarousel()),

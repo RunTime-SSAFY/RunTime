@@ -50,7 +50,6 @@ class MakeRoomFullDialog extends ConsumerWidget {
                 controller: viewModel.roomNameTextController,
                 onSubmit: () {},
                 textInputFormatter: [
-                  TextInputFormatHelper.englishKoreanNumber,
                   TextInputFormatHelper.maximumLength(20),
                 ],
               ),
@@ -117,6 +116,7 @@ class MakeRoomFullDialog extends ConsumerWidget {
                       if (!context.mounted) return;
                       context.pushReplacement(
                         RoutePathHelper.waitingRoomWithId(room.roomId),
+                        extra: {'isManager': true, 'roomData': room},
                       );
                     }
                   },

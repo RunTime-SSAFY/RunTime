@@ -2,19 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/user_mode_room.dart';
 import 'package:front_android/src/repository/user_mode_room_repository.dart';
+import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/src/service/user_mode_room_service.dart';
 import 'package:front_android/src/view/user_mode/widget/make_room_full_dialog.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:go_router/go_router.dart';
 
-final userModeViewModelProvider =
-    ChangeNotifierProvider.autoDispose((ref) => UserModeViewModel());
+final userModeViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
+  var battleData = ref.watch(battleDataServiceProvider);
+  battleData.stompInstance.activate();
+  return UserModeViewModel();
+});
 
 class UserModeViewModel with ChangeNotifier {
   List<UserModeRoom> _userModeRoomList = [];
 
   List<String> tagList = const ['전체', '공개방', '1km', '3km', '5km'];
-  Map<String, double> distanceMap = const {'1km': 1, '3km': 3, '5km': 5};
+  Map<String, double> distanceMap = const {
+    '1km': 1000.0,
+    '3km': 3000.0,
+    '5km': 5000.0,
+  };
   String tagNow = '전체';
 
   void changeTag(String tag) {
@@ -37,21 +45,23 @@ class UserModeViewModel with ChangeNotifier {
 
   final userModeRoomRepository = UserModeRoomRepository();
 
-  bool get canFetchMore => !userModeRoomRepository.hasNext;
+  bool get hasNext => userModeRoomRepository.hasNext;
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
   Future<void> getRoomList() async {
+    if (_isLoading) return;
     _isLoading = true;
     notifyListeners();
 
     final results = await Future.wait([
-      userModeRoomRepository.getUserModeRoomList(
-        lastId: userModeRoomRepository.lastId,
-      ),
+      userModeRoomRepository.getUserModeRoomList(),
       Future.delayed(const Duration(milliseconds: 500)),
     ]);
-    _userModeRoomList = results[0];
+    _userModeRoomList = [
+      ..._userModeRoomList,
+      ...(results[0] as List<UserModeRoom>)
+    ];
 
     _isLoading = false;
     notifyListeners();

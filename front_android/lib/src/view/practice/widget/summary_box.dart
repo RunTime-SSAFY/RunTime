@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/src/view/practice/practice_view_model.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
+import 'package:intl/intl.dart';
 
 class SummaryBox extends ConsumerWidget {
   const SummaryBox({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    PracticeViewModel viewModel = ref.read(practiceViewModelProvider);
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -23,14 +27,16 @@ class SummaryBox extends ConsumerWidget {
               Column(
                 children: [
                   Text(
-                    'Distance',
+                    viewModel.distance,
                     style: ref.typo.subTitle1.copyWith(
                       color: ref.color.onBattleBox,
                       fontSize: 45,
                     ),
                   ),
                   Text(
-                    'viewModel.date',
+                    DateFormat.yMMMMEEEEd(
+                            Localizations.localeOf(context).toString())
+                        .format(viewModel.date),
                     style: ref.typo.body1.copyWith(
                       color: ref.color.inactive,
                     ),
@@ -47,7 +53,7 @@ class SummaryBox extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    'avgPace',
+                    viewModel.pace,
                     style: ref.typo.subTitle1.copyWith(
                       color: ref.color.onBattleBox,
                       fontSize: 35,
@@ -65,7 +71,7 @@ class SummaryBox extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    'calorie',
+                    viewModel.calorie,
                     style: ref.typo.subTitle1.copyWith(
                       color: ref.color.onBattleBox,
                       fontSize: 35,
@@ -82,7 +88,7 @@ class SummaryBox extends ConsumerWidget {
             ),
           ),
           Text(
-            'runningTime',
+            viewModel.runningTime,
             style: ref.typo.headline1.copyWith(
               color: ref.color.onBattleBox,
               fontSize: 60,

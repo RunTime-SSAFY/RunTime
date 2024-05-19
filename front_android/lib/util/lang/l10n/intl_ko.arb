@@ -1,10 +1,10 @@
 {
   "@@locale": "ko",
-  "battleMode": "배틀모드",
+  "battleMode": "대결모드",
   "enter": "입장",
   "running": "달리기",
-  "userMode": "사용자 모드",
-  "practiceMode": "연습 모드",
+  "userMode": "사용자모드",
+  "practiceMode": "연습모드",
   "ranking": "랭킹",
   "home": "홈",
   "achievement": "도전과제",
@@ -73,5 +73,9 @@
   "amateur": "아마추어",
   "beginner": "비기너",
   "pro": "프로",
-  "worldClass": "월드 클래스"
+  "worldClass": "월드 클래스",
+  "friendRequest": "친구 요청",
+  "friendList": "친구 목록",
+  "friendAdd": "친구 추가하기",
+  "friendRequest404": "친구 요청이 없습니다."
 }

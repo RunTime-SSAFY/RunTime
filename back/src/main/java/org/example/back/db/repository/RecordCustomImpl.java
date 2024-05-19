@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.example.back.achievement.dto.RecordSummaryResDto;
 import org.example.back.db.entity.Member;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class RecordCustomImpl implements RecordCustom {
 
     private final JPAQueryFactory query;
@@ -129,6 +131,16 @@ public class RecordCustomImpl implements RecordCustom {
             .from(record)
             .where(record.duration.mod(100L).eq(77L), record.member.id.eq(memberId))
             .fetchFirst()!=null;
+    }
+
+    @Override
+    public List<Integer> findRunDate(Long memberId,int year, int month) {
+        log.info("runDate : {}", month);
+        return query
+            .select(record.runStartTime.dayOfMonth())
+            .from(record)
+            .where(record.member.id.eq(memberId), record.runStartTime.month().eq(month), record.runStartTime.year().eq(year))
+            .fetch();
     }
 
     @Override

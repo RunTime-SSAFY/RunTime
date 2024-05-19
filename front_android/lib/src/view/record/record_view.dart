@@ -5,7 +5,6 @@ import 'package:front_android/src/view/record/widgets/record_list.dart';
 import 'package:front_android/src/view/record/widgets/record_top.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/theme/components/circular_indicator.dart';
-import 'package:front_android/theme/components/svg_icon.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
 class RecordView extends ConsumerStatefulWidget {
@@ -43,12 +42,12 @@ class _RecordViewState extends ConsumerState<RecordView> {
           S.current.record,
           style: ref.typo.appBarMainTitle,
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 20),
-            child: SvgIcon('bell'),
-          ),
-        ],
+        // actions: const [
+        //   Padding(
+        //     padding: EdgeInsets.only(right: 20),
+        //     child: SvgIcon('bell'),
+        //   ),
+        // ],
       ),
       body: Stack(
         children: [

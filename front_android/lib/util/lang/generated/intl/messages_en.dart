@@ -53,6 +53,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "editProfileDone": MessageLookupByLibrary.simpleMessage("Done"),
         "enter": MessageLookupByLibrary.simpleMessage("Enter"),
         "findRoom": MessageLookupByLibrary.simpleMessage("Finding Room"),
+        "friendAdd": MessageLookupByLibrary.simpleMessage("Add Friend"),
+        "friendList": MessageLookupByLibrary.simpleMessage("Friend List"),
+        "friendRequest": MessageLookupByLibrary.simpleMessage("Friend Request"),
+        "friendRequest404": MessageLookupByLibrary.simpleMessage(
+            "There are no Friend Request."),
         "gameStart": MessageLookupByLibrary.simpleMessage("Game Start"),
         "getReady": MessageLookupByLibrary.simpleMessage("get Ready"),
         "giveUp": MessageLookupByLibrary.simpleMessage("giving up"),

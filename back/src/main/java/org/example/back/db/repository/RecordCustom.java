@@ -8,6 +8,7 @@ import org.example.back.record.dto.StatisticDto;
 import org.springframework.data.domain.Slice;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface RecordCustom {
     Slice<RecordDto> findAll(Long lastId, int pageSize, Member member, GameMode gameMode);
@@ -21,4 +22,6 @@ public interface RecordCustom {
     StatisticDto getStatisticByAll(Member member);
 
     boolean existsDoubleSevenDuration(Long memberId);
+
+    List<Integer> findRunDate(Long memberId,int year, int month);
 }

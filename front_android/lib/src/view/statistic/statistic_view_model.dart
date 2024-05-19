@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front_android/src/model/record.dart';
 import 'package:front_android/src/model/statistic.dart';
 import 'package:front_android/src/repository/record_repository.dart';
 
@@ -10,18 +9,18 @@ final statisticViewModelProvider =
 class StatisticViewModel extends ChangeNotifier {
   var recordRepository = RecordRepository();
 
-  // 게임모드 getter, setter
-  String? _gameMode;
-  String? get gameMode => _gameMode;
-  set gameMode(String? gameMode) {
-    recordRepository.clearRecordList();
-    _gameMode = gameMode;
+  // field, getter, setter
+  DateTime? _focusedDay = DateTime.now();
+  DateTime? get focusedDay => _focusedDay;
+  set focusedDay(DateTime? focusedDay) {
+    _focusedDay = focusedDay;
     notifyListeners();
   }
 
   // 받은 데이터
   Map<String, Statistic>? get statistic => recordRepository.statisticMap;
-  List<Record> get recordList => recordRepository.recordList;
+  List<int>? get runDateList =>
+      recordRepository.statisticMap?['MONTH']?.runDateList;
 
   // 로딩
   bool _isLoading = false;

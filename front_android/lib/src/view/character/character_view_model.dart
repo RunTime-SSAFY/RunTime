@@ -8,11 +8,18 @@ final characterViewModelProvider =
     ChangeNotifierProvider.autoDispose((ref) => CharacterViewModel());
 
 class CharacterViewModel with ChangeNotifier {
-  List<Character> _characterList = [];
+  
 
-  final characterRepository = CharacterRepository();
+  CharacterRepository characterRepository = CharacterRepository();
+  List<Character> get characterList => characterRepository.characters;
+  
+  void getCharacterList() async{
+    await Future.wait([characterRepository.getCharacterList(),],
+    );
+    notifyListeners();
+  }
+  
 
-  Future<void>
 
 
 

@@ -1,5 +1,7 @@
 package org.example.back.friend.controller;
 
+import java.util.List;
+
 import org.example.back.friend.dto.FriendListResponseDto;
 import org.example.back.friend.dto.FriendResponseDto;
 import org.example.back.friend.service.FriendService;
@@ -55,5 +57,12 @@ public class FriendController {
 	public ResponseEntity<Long> rejectFriend(@PathVariable Long requesterId) {
 		Long id = friendService.reject(requesterId);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(id);
+	}
+
+	@GetMapping("/requests")
+	public ResponseEntity<List<FriendResponseDto>> getFriendsRequests(){
+		List<FriendResponseDto> friendListResponseDto = friendService.getFriendsRequests();
+		return ResponseEntity.ok(friendListResponseDto);
+
 	}
 }
