@@ -17,7 +17,7 @@ public class DeleteRoomScheduler {
         List<Room> rooms = roomRepository.findAll();
 
         for (Room r: rooms) {
-            if (r.getRoomMembers().isEmpty()) {
+            if (r.getRoomMembers() == null || r.getRoomMembers().isEmpty()) {
                 roomRepository.deleteById(r.getId());
             }
         }
