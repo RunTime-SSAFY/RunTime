@@ -37,7 +37,16 @@ public class CharacterService {
 
 	public List<CharacterResDto> getCharacterList() {
 		Long memberId = getMember().getId();
-		return characterRepository.findAll(memberId);  // 페이지 엔티티 조회
+		List<CharacterResDto> list = characterRepository.findAll(memberId);
+
+		Long mainCharacterId = getMember().getCharacter().getId();
+
+		for (CharacterResDto characterResDto : list) {
+			if(characterResDto.getId().equals(mainCharacterId)){
+				characterResDto.setIsMain(true);
+			}
+		}
+		return list;  // 페이지 엔티티 조회
 
 	}
 

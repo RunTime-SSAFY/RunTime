@@ -17,7 +17,7 @@ public interface CharacterRepository extends JpaRepository<Character, Long>, Cha
 		+ "CASE WHEN uc.id.memberId IS NOT NULL "
 		+ "THEN TRUE "
 		+ "ELSE FALSE "
-		+ "END) "
+		+ "END, false) "
 		+ "FROM Character c "
 		+ "LEFT JOIN UnlockedCharacter uc "
 		+ "ON c.id = uc.id.characterId AND uc.id.memberId = :memberId")
@@ -31,7 +31,7 @@ public interface CharacterRepository extends JpaRepository<Character, Long>, Cha
 		+ "CASE WHEN uc.id.memberId IS NOT NULL "
 		+ "THEN TRUE "
 		+ "ELSE FALSE "
-		+ "END) "
+		+ "END, false) "
 		+ "FROM Character c "
 		+ "LEFT JOIN UnlockedCharacter uc "
 		+ "ON c.id = uc.id.characterId AND uc.id.memberId = :memberId "

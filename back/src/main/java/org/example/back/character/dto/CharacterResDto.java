@@ -18,5 +18,6 @@ public class CharacterResDto {
 	private String imgUrl;
 	private Boolean isCheck;
 	private Boolean unlockStatus;
+	private Boolean isMain;
 
 }
