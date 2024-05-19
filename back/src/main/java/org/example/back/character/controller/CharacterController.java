@@ -1,5 +1,7 @@
 package org.example.back.character.controller;
 
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,10 +27,10 @@ public class CharacterController {
     private final CharacterService characterService;
 
     @GetMapping
-    public ResponseEntity<CharacterListResDto>
-    getCharacterList(@PageableDefault(size = 9) Pageable pageable) {  // 페이지 기본값
+    public ResponseEntity<List<CharacterResDto>>
+    getCharacterList() {  // 페이지 기본값
         // TODO 멤버 정보 받아서 캐릭터 리스트 전부 가져옴 -> 열린 캐릭터, 안 열린 캐릭터 구분
-        CharacterListResDto characterListResDto = characterService.getCharacterList(pageable);
+        List<CharacterResDto> characterListResDto = characterService.getCharacterList();
         return ResponseEntity.ok(characterListResDto);
     }
 
