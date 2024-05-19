@@ -33,15 +33,15 @@ class PaceCalorie extends ConsumerWidget {
                     fontSize: 55,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    ' min/km',
-                    style: ref.typo.body1.copyWith(
-                      color: ref.color.inactive,
-                    ),
-                  ),
-                )
+                // Padding(
+                //   padding: const EdgeInsets.only(bottom: 12),
+                //   child: Text(
+                //     ' min/km',
+                //     style: ref.typo.body1.copyWith(
+                //       color: ref.color.inactive,
+                //     ),
+                //   ),
+                // )
               ],
             )
           ],

@@ -89,7 +89,7 @@ class BattleViewModel with ChangeNotifier {
   double get targetDistance => _battleData.targetDistance;
 
   double _avgPace = 0;
-  double get avgPace => _avgPace;
+  int get avgPace => (_avgPace * 100).toInt();
 
   double _calorie = 0;
 
@@ -235,7 +235,7 @@ class BattleViewModel with ChangeNotifier {
           'distance': double.parse((currentDistance / 1000).toStringAsFixed(2)),
           'runStartTime': _startTime.toIso8601String(),
           'runEndTime': _currentTime.toIso8601String(),
-          'pace': avgPace.toInt(),
+          'pace': avgPace,
           'calorie': double.parse(calorie).toInt(),
           'file': multipartFile,
         },
