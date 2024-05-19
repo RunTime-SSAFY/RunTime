@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/character.dart';
 import 'package:front_android/src/repository/character_repository.dart';
 import 'package:front_android/src/service/https_request_service.dart';
+import 'package:front_android/src/service/user_service.dart';
 
 final characterViewModelProvider =
     ChangeNotifierProvider.autoDispose((ref) => CharacterViewModel());
@@ -36,7 +37,7 @@ class CharacterViewModel with ChangeNotifier {
     try {
       var response = await apiInstance
           .patch('api/characters/$characterId/profile-characters');
-
+      UserService.instance.characterId = characterId;
       characterRepository.characters
           .firstWhere(
             (element) => element.id == characterId,
