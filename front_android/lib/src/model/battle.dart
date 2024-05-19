@@ -64,8 +64,8 @@ class Participant {
   factory Participant.fromJson(Map<String, dynamic> json) => Participant(
         nickname: json['nickname'] ?? '',
         characterImgUrl: json['characterImgUrl'] ?? '',
-        isManager: json['isManager'] ?? false,
-        isReady: json['isReady'] ?? false,
+        isManager: json['manager'] ?? false,
+        isReady: json['ready'] ?? false,
         distance: json['distance'] ?? 0,
         lastDateTime: json['lastDateTime'] ?? DateTime.now(),
       );

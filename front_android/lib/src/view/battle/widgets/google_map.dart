@@ -13,39 +13,17 @@ class Map extends ConsumerStatefulWidget {
 
 class _MapState extends ConsumerState<Map> {
   late BattleViewModel viewModel;
-  late GoogleMapController mapController;
-  WidgetsToImageController widgetsToImageController =
-      WidgetsToImageController();
 
   void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
+    viewModel.mapController = controller;
   }
 
   @override
-  void dispose() async {
-    if (viewModel.points.length < 2) return;
-    LatLng point1 = viewModel.points.first;
-    LatLng point2 = viewModel.points.last;
-
-    LatLngBounds bounds = LatLngBounds(
-      southwest: LatLng(
-        point1.latitude < point2.latitude ? point1.latitude : point2.latitude,
-        point1.longitude < point2.longitude
-            ? point1.longitude
-            : point2.longitude,
-      ),
-      northeast: LatLng(
-        point1.latitude > point2.latitude ? point1.latitude : point2.latitude,
-        point1.longitude > point2.longitude
-            ? point1.longitude
-            : point2.longitude,
-      ),
-    );
-
-    mapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
-    viewModel.imageBytes = await widgetsToImageController.capture();
-
-    super.dispose();
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      viewModel.stopCamera = false;
+    });
+    super.initState();
   }
 
   @override
@@ -53,35 +31,42 @@ class _MapState extends ConsumerState<Map> {
     viewModel = ref.watch(battleViewModelProvider);
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
-        mapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: LatLng(
-                viewModel.distanceService.lastPosition?.latitude ?? 37.5642135,
-                viewModel.distanceService.lastPosition?.longitude ??
-                    127.0016985,
+        if (viewModel.stopCamera) {
+          return;
+        }
+        try {
+          viewModel.mapController.animateCamera(
+            CameraUpdate.newCameraPosition(
+              CameraPosition(
+                target: LatLng(
+                  viewModel.distanceService.lastPosition?.latitude ??
+                      37.5642135,
+                  viewModel.distanceService.lastPosition?.longitude ??
+                      127.0016985,
+                ),
+                zoom: 17,
               ),
-              zoom: 17,
             ),
-          ),
-        );
+          );
+        } catch (error) {
+          debugPrint('이 로그는 한 번 무시하세요. 단, 한 번에 여러 개 뜨면 문제임');
+        }
       },
     );
 
     return Expanded(
       child: WidgetsToImage(
-        controller: widgetsToImageController,
+        controller: viewModel.widgetsToImageController,
         child: Center(
           child: GoogleMap(
             mapType: MapType.normal,
             mapToolbarEnabled: false,
             zoomGesturesEnabled: false,
             zoomControlsEnabled: false,
-            myLocationEnabled: true,
+            myLocationEnabled: !viewModel.stopCamera,
             compassEnabled: false,
             indoorViewEnabled: false,
             myLocationButtonEnabled: false,
-            liteModeEnabled: true,
             rotateGesturesEnabled: false,
             scrollGesturesEnabled: false,
             tiltGesturesEnabled: false,

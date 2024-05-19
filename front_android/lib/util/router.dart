@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:front_android/src/model/achievement.dart';
+import 'package:front_android/src/model/record_detail.dart';
 import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/view/achievement/achievement_reward_view.dart';
 import 'package:front_android/src/view/achievement/achievement_view.dart';
@@ -12,10 +12,11 @@ import 'package:front_android/src/view/matching/matched.dart';
 import 'package:front_android/src/view/matching/waiting_matching_view.dart';
 import 'package:front_android/src/view/practice/practice_view.dart';
 import 'package:front_android/src/view/profile/profile_edit_view.dart';
-import 'package:front_android/src/view/record/record_detail_view.dart';
+import 'package:front_android/src/view/profile/profile_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
-import 'package:front_android/src/view/record/statistic_view.dart';
+import 'package:front_android/src/view/record_detail/record_detail_view.dart';
 import 'package:front_android/src/view/run_main/run_main_view.dart';
+import 'package:front_android/src/view/statistic/statistic_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_search_view.dart';
 import 'package:front_android/src/view/user_mode/user_mode_view.dart';
 import 'package:front_android/src/view/waiting_room/waiting_room_view.dart';
@@ -74,11 +75,16 @@ final router = GoRouter(
       builder: (_, __) => const UserModeView(),
     ),
     GoRoute(
-      path: RoutePathHelper.waitingRoom,
-      parentNavigatorKey: _rootNavigatorKey,
-      builder: (_, state) =>
-          WaitingRoom(roomId: int.parse(state.pathParameters['roomId']!)),
-    ),
+        path: RoutePathHelper.waitingRoom,
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (_, state) {
+          final roomId = state.pathParameters['roomId']!;
+          final data = state.extra as Map<String, dynamic>;
+          return WaitingRoom(
+            roomId: int.parse(roomId),
+            data: data,
+          );
+        }),
     GoRoute(
       path: RoutePathHelper.userModeSearch,
       parentNavigatorKey: _rootNavigatorKey,
@@ -139,7 +145,9 @@ final router = GoRouter(
               path: 'detail',
               parentNavigatorKey: _rootNavigatorKey,
               pageBuilder: (BuildContext context, GoRouterState state) =>
-                  const CupertinoPage(child: RecordDetailView()),
+                  CupertinoPage(
+                      child: RecordDetailView(
+                          recordDetail: state.extra as RecordDetail)),
             ),
             GoRoute(
               path: 'statistic',
@@ -150,13 +158,13 @@ final router = GoRouter(
           ],
         ),
         GoRoute(
-          path: '/profile',
+          path: RoutePathHelper.profile,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
-              const NoTransitionPage(child: RunMainView()),
+              const NoTransitionPage(child: ProfileView()),
           routes: [
             GoRoute(
-              path: 'nickname',
+              path: 'edit',
               parentNavigatorKey: _rootNavigatorKey,
               pageBuilder: (context, state) =>
                   const NoTransitionPage(child: ProfileEditView()),

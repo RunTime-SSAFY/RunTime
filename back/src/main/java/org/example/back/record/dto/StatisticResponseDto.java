@@ -1,5 +1,7 @@
 package org.example.back.record.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +14,9 @@ import org.example.back.db.enums.StatisticType;
 @AllArgsConstructor
 public class StatisticResponseDto {
     private StatisticType type;
-    private int countDay;
-    private int calorie;
-    private float distance;
+    private Integer countDay;
+    private Integer calorie;
+    private Float distance;
     private Long duration;
+    private List<Integer> runDateList;
 }

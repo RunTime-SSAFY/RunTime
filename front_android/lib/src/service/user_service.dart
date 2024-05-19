@@ -7,12 +7,12 @@ class UserService {
   static final _instance = UserService._();
   static UserService get instance => _instance;
 
-  late String nickname;
-  late String characterImgUrl;
-  late int characterId;
+  String nickname = 'temp';
+  String characterImgUrl = '';
+  int characterId = 1;
   double weight = 65;
-  late int tierScore;
-  late String tierName = 'beginner_1';
+  int tierScore = 0;
+  String tierName = 'beginner_3';
 
   Future<bool> changeUserInfor({
     required String newNickname,

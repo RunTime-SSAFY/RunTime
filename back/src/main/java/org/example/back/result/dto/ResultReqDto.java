@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.example.back.db.enums.GameMode;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,4 +26,5 @@ public class ResultReqDto {
 	private Integer pace;
 	private Integer calorie;
 	private String courseImgUrl;
+	private MultipartFile file;
 }

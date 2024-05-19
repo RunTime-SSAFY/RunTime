@@ -19,13 +19,23 @@ class _LoginViewState extends ConsumerState<LoginView> {
     super.initState();
     _controller =
         VideoPlayerController.asset('assets/videos/login_background.mp4')
-          ..initialize().then((_) {
-            setState(() {
-              _controller.setPlaybackSpeed(0.8);
-              _controller.play();
-              _controller.setLooping(true);
-            });
-          });
+          ..initialize().then(
+            (_) {
+              setState(
+                () {
+                  _controller.setPlaybackSpeed(0.8);
+                  _controller.play();
+                  _controller.setLooping(true);
+                },
+              );
+            },
+          );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -40,64 +50,61 @@ class _LoginViewState extends ConsumerState<LoginView> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        body: SafeArea(
-          child: Stack(
-            children: [
-              // 비디오 재생
-              _controller.value.isInitialized
-                  ? SizedBox.expand(
-                      child: FittedBox(
-                          fit: BoxFit.cover,
-                          child: SizedBox(
-                            width: _controller.value.size.width,
-                            height: _controller.value.size.height,
-                            child: VideoPlayer(_controller),
-                          )),
-                    )
-                  : Container(color: ref.color.black),
+        body: Stack(
+          children: [
+            // 비디오 재생
+            _controller.value.isInitialized
+                ? SizedBox.expand(
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: _controller.value.size.width,
+                        height: _controller.value.size.height,
+                        child: VideoPlayer(_controller),
+                      ),
+                    ),
+                  )
+                : Container(color: ref.color.black),
 
-              // 비디오 위에 검은색 반투명 레이어
-              SizedBox.expand(
-                child: Container(
-                  color: ref.color.black.withOpacity(0.5),
-                ),
+            // 비디오 위에 검은색 반투명 레이어
+            SizedBox.expand(
+              child: Container(
+                color: ref.color.black.withOpacity(0.5),
               ),
+            ),
 
-              // 설정 버튼
-              Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  onPressed: onPressSetting,
-                  icon: const Icon(Icons.settings),
-                  color: ref.color.onBackground,
-                ),
+            // 설정 버튼
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                onPressed: onPressSetting,
+                icon: const Icon(Icons.settings),
+                color: ref.color.onBackground,
               ),
+            ),
 
-              // 로고 및 카카오 로그인 버튼
-              Expanded(
-                child: Center(
-                  child: Column(
-                    children: [
-                      const Spacer(
-                        flex: 4,
-                      ),
-                      Image.asset(
-                        "assets/images/logo/RUNTIME_LOGO_TEXT_WHITE.png",
-                        width: 200,
-                      ),
-                      const Spacer(
-                        flex: 1,
-                      ),
-                      KakaoLoginButton(ref.locale.toString()),
-                      const Spacer(
-                        flex: 4,
-                      )
-                    ],
+            // 로고 및 카카오 로그인 버튼
+            Center(
+              child: Column(
+                children: [
+                  const Spacer(
+                    flex: 4,
                   ),
-                ),
+                  Image.asset(
+                    "assets/images/logo/RUNTIME_LOGO_TEXT_WHITE.png",
+                    width: 200,
+                  ),
+                  const Spacer(
+                    flex: 1,
+                  ),
+                  KakaoLoginButton(ref.locale.toString()),
+                  const Spacer(
+                    flex: 4,
+                  )
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

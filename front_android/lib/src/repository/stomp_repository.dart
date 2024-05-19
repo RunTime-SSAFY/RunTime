@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/auth_service.dart';
 import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 final stompInstanceProvider = Provider.autoDispose((ref) {
-  var stompRepository = StompRepository();
+  var stompRepository = StompRepository()..init();
   ref.onDispose(() {
     print('연결 종료');
     stompRepository.disconnect();
@@ -14,11 +15,13 @@ final stompInstanceProvider = Provider.autoDispose((ref) {
   return stompRepository;
 });
 
-class StompRepository {
+class StompRepository with ChangeNotifier {
   late StompClient _client;
 
-  StompRepository() {
-    print('생성: StompRepository ${dotenv.get('SOCKET_URL')}');
+  StompRepository();
+
+  void init() {
+    debugPrint('생성요청: StompRepository ${dotenv.get('SOCKET_URL')}');
     _client = StompClient(
       config: StompConfig.sockJS(
         url: dotenv.get('SOCKET_URL'),
@@ -30,25 +33,25 @@ class StompRepository {
           'Authorization': AuthService.instance.accessToken!,
         },
         onConnect: (p0) {
-          print('웹 소켓 연결 성공');
+          debugPrint('웹 소켓 연결 성공');
         },
         onDebugMessage: (p0) {
-          print('StompClient 내부 디버그 메세지${p0.toString()}');
+          debugPrint('StompClient 내부 디버그 메세지${p0.toString()}');
         },
         onWebSocketError: (p0) {
-          print('소켓 연결 에러 ${p0.toString()}');
+          debugPrint('소켓 연결 에러 ${p0.toString()}');
         },
         onUnhandledMessage: (p0) {
-          print('핸들러가 없는 이벤트${p0.toString()}');
+          debugPrint('핸들러가 없는 이벤트${p0.toString()}');
         },
         onDisconnect: (p0) {
-          print('웹 소켓 서버 연결 해제 완료');
+          debugPrint('웹 소켓 서버 연결 해제 완료');
         },
       ),
     )..activate();
   }
 
-  void connect() {
+  void activate() {
     _client.activate();
   }
 

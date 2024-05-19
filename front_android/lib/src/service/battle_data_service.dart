@@ -23,8 +23,8 @@ class BattleDataService with ChangeNotifier {
 
   List<Participant> participants = [];
 
-  late String _uuid;
-  String get uuid => _uuid;
+  late String uuid;
+
   double targetDistance = 1000;
 
   String mode = BattleModeHelper.matching;
@@ -56,12 +56,12 @@ class BattleDataService with ChangeNotifier {
           }
         } else if (json['action'] == ActionHelper.battleRealTimeAction) {
           var data = json['data'];
+
           var target = participants
               .firstWhere((element) => element.nickname == data['nickname']);
           var time = DateTime.parse(data['currentTime']);
           if (time.isAfter(target.lastDateTime)) {
-            target.distance = data['distance'];
-            target.lastDateTime = DateTime.parse(data['currentTime']);
+            changeParticipantsDistance(target);
           }
         }
       },
@@ -77,15 +77,13 @@ class BattleDataService with ChangeNotifier {
       destination:
           DestinationHelper.getStartMatching(UserService.instance.nickname),
       callback: (StompFrame data) {
-        // 방의 id와 상대의 id
-        print('stomp 서버 데이터 1번 ${data.body})}');
         // 소켓 인스턴스에 방의 정보를 저장한 뒤 매칭 수락, 거절 화면으로 이동
         if (data.body != null) {
           var json = jsonDecode(data.body!);
           if (json["action"] == ActionHelper.matchingStartAction) {
             var battleData = MatchingRoomData.fromJson(json['data']);
             roomId = battleData.matchingRoomId;
-            _uuid = battleData.uuid;
+            uuid = battleData.uuid;
             try {
               participants = [
                 Participant.fromJson(json['data']),

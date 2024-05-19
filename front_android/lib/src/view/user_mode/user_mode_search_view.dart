@@ -50,7 +50,6 @@ class UserModeSearchView extends ConsumerWidget {
                   controller: viewModel.textController,
                   onSubmit: viewModel.searchRoomList,
                   textInputFormatter: [
-                    TextInputFormatHelper.englishKoreanNumber,
                     TextInputFormatHelper.maximumLength(20),
                   ],
                   icon: IconButton(
@@ -64,14 +63,15 @@ class UserModeSearchView extends ConsumerWidget {
                         child: UserModeRoomList(
                           userModeRoomList: viewModel.userModeSearchedList,
                           getRoomList: viewModel.getRoomList,
-                          canFetchMore: viewModel.canFetchMore,
+                          canFetchMore: viewModel.hasNext,
                         ),
                       ),
               ],
             ),
           ),
         ),
-        CircularIndicator(isLoading: viewModel.isLoading),
+        if (viewModel.isLoading)
+          CircularIndicator(isLoading: viewModel.isLoading),
       ],
     );
   }

@@ -21,6 +21,7 @@ class _BattleResultViewState extends ConsumerState<BattleResultView> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      viewModel.distanceService.cancelListen();
       viewModel.getResult();
     });
     super.initState();

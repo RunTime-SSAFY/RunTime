@@ -49,6 +49,7 @@ public class AchievementService {
 
 		// 해당 사용자가 진행중인 도전과제 리스트.
 		List<AchievementResDto> list = achievementRepository.findOwnAchievement(memberId);
+		list.removeIf(achievementResDto -> achievementResDto.getIsHidden() && !achievementResDto.getIsComplete());
 
 		return list;
 	}
@@ -64,6 +65,10 @@ public class AchievementService {
 		// 친구 정보
 		int countFriends = memberRepository.countFriends(memberId);
 
+		// 히든 과제: Duration 마지막 자리 77
+		boolean isDoubleSevenDuration = recordRepository.existsDoubleSevenDuration(memberId);
+		System.out.println("히든 완료요 "+isDoubleSevenDuration);
+
 		// 수령하지 않은 도전과제가 있는가를 반환하는 dto
 		CheckAchievementResDto resDto = new CheckAchievementResDto(false);
 
@@ -76,6 +81,7 @@ public class AchievementService {
 				.isReceived(achievement.getIsReceive())
 				.currentGrade(achievement.getGrade())
 				.build();
+			System.out.println("진행중 도전과제 ID요 "+ achievement.getType());
 			// 현재 진행중인 도전과제의 기준항목에 따라
 			float progress = 0.0f;
 			switch (achievement.getCriteria()) {
@@ -90,6 +96,9 @@ public class AchievementService {
 				}
 				case COUNT_FRIENDS -> {
 					progress = countFriends;
+				}
+				case DOUBLE_SEVEN_DURATION -> {
+					progress = isDoubleSevenDuration?1:0;
 				}
 			}
 			currentAchievement.updateProgress(progress);
@@ -110,6 +119,7 @@ public class AchievementService {
 		* 도전과제 완료 메소드
 		* 완료를 원하는 도전과제의 타입과 단계를 확인 후 목표를 달성했는 지 확인
 		* 달성했다면 다음 단계의 도전과제 리턴, 마지막 단계라면 받았다고 체크하고 기존 단계 그대로 리턴
+		* 히든과제의 경우 무조건 마지막 단계이므로 갱신 필요 없음
 		* */
 
 		Long memberId = SecurityUtil.getCurrentMemberId();

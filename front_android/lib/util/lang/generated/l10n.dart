@@ -370,11 +370,11 @@ class S {
     );
   }
 
-  /// `Burned Calory`
-  String get caloryBurn {
+  /// `Burned Calorie`
+  String get calorieBurn {
     return Intl.message(
-      'Burned Calory',
-      name: 'caloryBurn',
+      'Burned Calorie',
+      name: 'calorieBurn',
       desc: '',
       args: [],
     );
@@ -785,6 +785,46 @@ class S {
     return Intl.message(
       'World Class',
       name: 'worldClass',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Friend Request`
+  String get friendRequest {
+    return Intl.message(
+      'Friend Request',
+      name: 'friendRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Friend List`
+  String get friendList {
+    return Intl.message(
+      'Friend List',
+      name: 'friendList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Friend`
+  String get friendAdd {
+    return Intl.message(
+      'Add Friend',
+      name: 'friendAdd',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no Friend Request.`
+  String get friendRequest404 {
+    return Intl.message(
+      'There are no Friend Request.',
+      name: 'friendRequest404',
       desc: '',
       args: [],
     );
