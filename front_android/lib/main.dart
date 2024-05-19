@@ -6,12 +6,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front_android/src/repository/secure_storage_repository.dart';
 import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/src/service/lang_service.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/service/user_service.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:front_android/util/router.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
@@ -66,6 +64,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  // 기기에 저장된 토큰 불러오기
+  await AuthService.instance.init();
+
   // 인터셉터
   apiInstance.interceptors.add(CustomInterceptor(
     authService: AuthService.instance,
@@ -73,18 +74,18 @@ void main() async {
   noAuthApi.interceptors.add(CustomInterceptorForNoAuth());
 
   // refreshToken이 있는지 확인
-  try {
-    final refreshToken = await SecureStorageRepository.instance.refreshToken;
-    if (refreshToken != null) {
-      try {
-        await UserService.instance.getUserInfor();
-      } catch (error) {
-        debugPrint(error.toString());
-      }
-    }
-  } catch (error) {
-    debugPrint(error.toString());
-  }
+  // try {
+  //   final refreshToken = await SecureStorageRepository.instance.refreshToken;
+  //   if (refreshToken != null) {
+  //     try {
+  //       await UserService.instance.getUserInfor();
+  //     } catch (error) {
+  //       debugPrint(error.toString());
+  //     }
+  //   }
+  // } catch (error) {
+  //   debugPrint(error.toString());
+  // }
 
   FlutterNativeSplash.remove();
 

@@ -20,10 +20,12 @@ class RunMainView extends ConsumerStatefulWidget {
 
 class _RunMainViewState extends ConsumerState<RunMainView> {
   late RunMainViewModel viewModel;
+  bool _dataFetched = false;
 
   @override
   void initState() {
     super.initState();
+    _dataFetched = false;
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         viewModel.noNickName(context);
@@ -34,6 +36,11 @@ class _RunMainViewState extends ConsumerState<RunMainView> {
   @override
   Widget build(BuildContext context) {
     viewModel = ref.watch(runMainProvider);
+    if (!_dataFetched) {
+      viewModel.fetchingData(context);
+      _dataFetched = true;
+    }
+
     return KeyboardHide(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
