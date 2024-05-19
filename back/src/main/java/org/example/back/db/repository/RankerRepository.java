@@ -15,6 +15,7 @@ public interface RankerRepository extends JpaRepository<Member, Long> {
 			+ "FROM (SELECT * FROM member ORDER BY tier_score DESC LIMIT 10) m "
 			+ "JOIN tier t "
 			+ "ON m.tier_score BETWEEN t.score_min AND t.score_max "
+			+ "WHERE m.nickname IS NOT NULL "
 			+ "ORDER BY tier_score DESC",
 		nativeQuery = true)
 	List<Tuple> getTopMembersWithTierInfo();
