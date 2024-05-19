@@ -100,7 +100,7 @@ class FriendListBuilder extends ConsumerWidget {
               ),
             );
           }
-          return null;
+          return const SizedBox(height: 10);
         },
       ),
     );

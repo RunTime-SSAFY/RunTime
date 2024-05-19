@@ -10,6 +10,7 @@ import 'package:front_android/src/view/battle/widgets/pace_calorie.dart';
 import 'package:front_android/src/view/battle/widgets/run_bar.dart';
 import 'package:front_android/theme/components/battle_background.dart';
 import 'package:front_android/theme/components/button.dart';
+import 'package:front_android/theme/components/circular_indicator.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
 class Battle extends ConsumerStatefulWidget {
@@ -87,23 +88,32 @@ class _BattleState extends ConsumerState<Battle> {
         viewModel.onGiveUp(context);
       },
       child: BattleBackground(
-        child: Column(
+        child: Stack(
           children: [
-            const Distance(),
-            const BattleTime(),
-            const SizedBox(height: 20),
-            const RunBar(),
-            const SizedBox(height: 20),
-            const PaceCalorie(),
-            const SizedBox(height: 20),
-            const Map(),
-            const SizedBox(height: 30),
-            Button(
-              onPressed: () => viewModel.onGiveUp(context),
-              text: S.current.giveUp,
-              backGroundColor: ref.color.deny,
-              fontColor: ref.color.onDeny,
-            )
+            Column(
+              children: [
+                const Distance(),
+                const BattleTime(),
+                const SizedBox(height: 20),
+                const RunBar(),
+                const SizedBox(height: 20),
+                const PaceCalorie(),
+                const SizedBox(height: 20),
+                const Map(),
+                const SizedBox(height: 30),
+                Button(
+                  onPressed: () => viewModel.onGiveUp(context),
+                  text: S.current.giveUp,
+                  backGroundColor: ref.color.deny,
+                  fontColor: ref.color.onDeny,
+                ),
+              ],
+            ),
+            if (viewModel.cameraMoving)
+              CircularIndicator(
+                isLoading: viewModel.cameraMoving,
+                backgroundColor: ref.color.black,
+              ),
           ],
         ),
       ),

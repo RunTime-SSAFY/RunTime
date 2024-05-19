@@ -52,8 +52,11 @@ class Practice extends ConsumerWidget {
                 const SummaryBox(),
                 const Spacer(flex: 2),
                 Button(
-                  onPressed: () {
-                    viewModel.startPractice();
+                  onPressed: () async {
+                    var result = await viewModel.startPractice();
+                    print('========================================$result');
+                    if (!result) return;
+                    if (!context.mounted) return;
                     context.go(RoutePathHelper.battle);
                   },
                   text: S.current.practiceStart,
