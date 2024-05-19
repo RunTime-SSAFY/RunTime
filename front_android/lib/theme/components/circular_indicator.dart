@@ -15,7 +15,7 @@ class CircularIndicator extends ConsumerWidget {
         duration: const Duration(milliseconds: 250),
         opacity: 1,
         child: Container(
-          color: ref.color.black,
+          color: Colors.transparent,
           alignment: Alignment.center,
           child: CircularProgressIndicator(
             color: ref.color.inactive,
