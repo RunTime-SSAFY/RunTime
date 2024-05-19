@@ -79,6 +79,9 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       minimumSize: const Size(100, 162),
+                      backgroundColor: character.unlockStatus
+                          ? ref.color.surface
+                          : ref.color.profileEditButtonBackground,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
