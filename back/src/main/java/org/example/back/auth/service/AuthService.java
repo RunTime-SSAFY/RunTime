@@ -2,10 +2,7 @@ package org.example.back.auth.service;
 
 import java.util.List;
 
-import org.example.back.auth.dto.JoinResponseDto;
-import org.example.back.auth.dto.KakaoInfoResponse;
-import org.example.back.auth.dto.TokenRequestDto;
-import org.example.back.auth.dto.TokenResponseDto;
+import org.example.back.auth.dto.*;
 import org.example.back.db.entity.AchievementType;
 import org.example.back.db.entity.Character;
 import org.example.back.db.entity.CurrentAchievement;
@@ -19,7 +16,6 @@ import org.example.back.db.repository.CurrentAchievementRepository;
 import org.example.back.db.repository.MemberRepository;
 import org.example.back.db.repository.UnlockedCharacterRepository;
 import org.example.back.exception.CharacterNotFoundException;
-import org.example.back.auth.dto.LoginDto;
 import org.example.back.exception.RefreshTokenNotFoundException;
 import org.example.back.redis.entity.BlackList;
 import org.example.back.redis.entity.RefreshToken;
@@ -131,21 +127,24 @@ public class AuthService {
 			.build();
 	}
 
-	public JoinResponseDto join(String email) {
+	public TestJoinResponseDto join(String email, String nickname) {
 		// 기본 캐릭터 지급
 		Character defaultCharacter = characterRepository.findById(1L).orElseThrow(CharacterNotFoundException::new);
 
-		Member member = Member.builder().email(email).character(defaultCharacter).build();
+		Member member = Member.builder().email(email).nickname(nickname).character(defaultCharacter).build();
 		Long id = memberRepository.save(member).getId();
 
 		String accessToken = JWTUtil.createJwt(id, secretKey, expiredMs);
 		String refreshToken = JWTUtil.createRefreshToken(secretKey);
 
-		return JoinResponseDto.builder()
-			.id(id)
-			.email(email)
-			.tokenResponseDto(TokenResponseDto.builder().accessToken(accessToken).refreshToken(refreshToken).build())
-			.build();
+		return TestJoinResponseDto.builder()
+				.id(id)
+				.email(email)
+				.nickname(nickname)
+				.tokenResponseDto(TokenResponseDto.builder().accessToken(accessToken).refreshToken(refreshToken).build())
+				.build();
+
+
 	}
 
 	public boolean isExistMember(String email) {
