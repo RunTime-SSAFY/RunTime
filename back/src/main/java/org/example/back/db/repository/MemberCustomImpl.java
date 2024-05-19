@@ -72,7 +72,7 @@ public class MemberCustomImpl implements MemberCustom {
 		// 나와 친구가 아닌 모든 사용자 반환
 		List<Tuple> results = query.select(member, JPAExpressions.select(friend.count())
 				.from(friend)
-				.where(friend.addressee.id.eq(member.id).and(friend.requester.id.eq(id))).exists()
+				.where(friend.addressee.id.eq(member.id).and(friend.requester.id.eq(id)).and(friend.status.eq(FriendStatusType.pending))).exists()
 				)
 			.from(member)
 			.where(member.id.notIn(

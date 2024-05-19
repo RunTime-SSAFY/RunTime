@@ -71,6 +71,7 @@ public class FriendService {
 		} else {
 			// 친구요청을 보낸 적이 있고 거절당했다면 새로 신청
 			if (friend.getStatus().equals(FriendStatusType.rejected)) {
+				friend.updateRequesterAndAddressee(requester, addressee);
 				friend.updateStatus(FriendStatusType.pending);
 				//     현재 진행중인 요청이 있거나 이미 친구인 경우. 이미 요청되었다는 Exception
 			} else {
