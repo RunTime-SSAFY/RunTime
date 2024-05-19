@@ -75,7 +75,10 @@ class _BattleResultViewState extends ConsumerState<BattleResultView> {
           ),
         ),
         if (viewModel.isLoading)
-          CircularIndicator(isLoading: viewModel.isLoading),
+          CircularIndicator(
+            isLoading: viewModel.isLoading,
+            backgroundColor: ref.color.black,
+          ),
       ],
     );
   }

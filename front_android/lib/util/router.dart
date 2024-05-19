@@ -133,7 +133,7 @@ final router = GoRouter(
           path: RoutePathHelper.character,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
-              const NoTransitionPage(child: RunMainView()),
+              NoTransitionPage(child: RunMainView(key: UniqueKey())),
         ),
         GoRoute(
           path: RoutePathHelper.record,
