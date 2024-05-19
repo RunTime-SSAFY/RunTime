@@ -13,7 +13,7 @@ class CharacterViewModel with ChangeNotifier {
       characterRepository.characters.toList()
         ..sort((a, b) => a.id.compareTo(b.id));
   String get characterCount => characterRepository.characters
-      .where((element) => element.isCheck)
+      .where((element) => element.unlockStatus)
       .length
       .toString();
 

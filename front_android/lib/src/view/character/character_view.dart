@@ -44,91 +44,94 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              '보유중 $cnt/${viewModel.characterList.length}',
-              style: const TextStyle(
-                fontSize: 16,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                '보유중 $cnt/${viewModel.characterList.length}',
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 0.65,
-              ),
-              itemCount: characters.length,
-              itemBuilder: (context, index) {
-                final character = characters[index];
-                return Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: ElevatedButton(
-                    onPressed: () => _showCharacterInfo(
-                      character.name,
-                      character.imgUrl,
-                      character.detail,
-                      character.unlockStatus,
-                      character.id,
-                      character.isMain,
-                      character.achievementName,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 0.65,
+                ),
+                itemCount: characters.length,
+                itemBuilder: (context, index) {
+                  final character = characters[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: ElevatedButton(
+                      onPressed: () => _showCharacterInfo(
+                        character.name,
+                        character.imgUrl,
+                        character.detail,
+                        character.unlockStatus,
+                        character.id,
+                        character.isMain,
+                        character.achievementName,
                       ),
-                      minimumSize: const Size(100, 162),
-                      backgroundColor: character.unlockStatus
-                          ? ref.color.surface
-                          : ref.color.profileEditButtonBackground,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 12.0),
-                          child: Center(
-                            child: character.unlockStatus
-                                ? character.isMain
-                                    ? SvgPicture.asset(
-                                        'assets/icons/unlock.svg',
-                                        height: 20,
-                                      )
-                                    : const SizedBox(height: 20)
-                                : SvgPicture.asset(
-                                    'assets/icons/lock.svg',
-                                    height: 20,
-                                  ),
-                          ),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        Expanded(
-                          child: Image.network(
-                            character.imgUrl,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 12.0),
-                          child: Text(
-                            character.name,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                        minimumSize: const Size(100, 162),
+                        backgroundColor: character.unlockStatus
+                            ? ref.color.surface
+                            : ref.color.profileEditButtonBackground,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12.0),
+                            child: Center(
+                              child: character.unlockStatus
+                                  ? character.isMain
+                                      ? SvgPicture.asset(
+                                          'assets/icons/unlock.svg',
+                                          height: 20,
+                                        )
+                                      : const SizedBox(height: 20)
+                                  : SvgPicture.asset(
+                                      'assets/icons/lock.svg',
+                                      height: 20,
+                                    ),
                             ),
                           ),
-                        )
-                      ],
+                          Expanded(
+                            child: Image.network(
+                              character.imgUrl,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Text(
+                              character.name,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
