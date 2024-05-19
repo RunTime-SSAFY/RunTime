@@ -77,9 +77,10 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                         Padding(
                           padding: const EdgeInsets.only(top: 12.0),
                           child: Center(
-                            child: character.isCheck
-                                ? SvgPicture.asset('assets/icons/unlock.svg')
-                                : SvgPicture.asset('assets/icons/lock.svg'),
+                            child:
+                                //viewModel.profileCharacter
+                                //     ? SvgPicture.asset('assets/icons/unlock.svg'):
+                                SvgPicture.asset('assets/icons/lock.svg'),
                           ),
                         ),
                         Expanded(

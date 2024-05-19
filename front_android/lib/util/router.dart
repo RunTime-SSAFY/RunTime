@@ -14,6 +14,7 @@ import 'package:front_android/src/view/matching/waiting_matching_view.dart';
 import 'package:front_android/src/view/practice/practice_view.dart';
 import 'package:front_android/src/view/profile/profile_edit_view.dart';
 import 'package:front_android/src/view/profile/profile_view.dart';
+import 'package:front_android/src/view/ranking/ranking_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
 import 'package:front_android/src/view/record_detail/record_detail_view.dart';
 import 'package:front_android/src/view/run_main/run_main_view.dart';
@@ -96,6 +97,12 @@ final router = GoRouter(
       path: RoutePathHelper.practiceMode,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (_, __) => const Practice(),
+    ),
+
+    GoRoute(
+      path: RoutePathHelper.ranking,
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (_, __) => const RankingView(),
     ),
 
     // 도전과제 보상 화면
