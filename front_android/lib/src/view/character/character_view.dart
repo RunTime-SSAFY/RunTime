@@ -5,6 +5,7 @@ import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/character/character_view_model.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 
 class CharacterView extends ConsumerStatefulWidget {
   const CharacterView({super.key});
@@ -184,20 +185,9 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                 ),
                 Button(
                   onPressed: () async {
-                    var beforeMain =
-                        await viewModel.setMainCharacter(characterId);
-                    if (beforeMain != -1) {
-                      // 메인 캐릭터 변경
-
-                      setState(() {
-                        viewModel.characterRepository.characters
-                            .firstWhere((element) => element.id == characterId)
-                            .isMain = true;
-                        viewModel.characterRepository.characters
-                            .firstWhere((element) => element.id == beforeMain)
-                            .isMain = false;
-                      });
-                    }
+                    await viewModel.setMainCharacter(characterId);
+                    if (!context.mounted) return;
+                    context.pop();
                   },
                   text: S.current.characterSelect,
                   backGroundColor: ref.color.accept,

@@ -30,14 +30,24 @@ class CharacterViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<int> setMainCharacter(int characterId) async {
+  Future<void> setMainCharacter(int characterId) async {
     try {
       var response = await apiInstance
           .patch('api/characters/$characterId/profile-characters');
-      return response.data['before'];
+
+      characterRepository.characters
+          .firstWhere(
+            (element) => element.id == characterId,
+          )
+          .isMain = true;
+      characterRepository.characters
+          .firstWhere(
+            (element) => element.id == response.data['before'],
+          )
+          .isMain = false;
+      notifyListeners();
     } catch (error) {
       debugPrint(error.toString());
     }
-    return -1;
   }
 }
