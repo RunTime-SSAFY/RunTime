@@ -33,11 +33,12 @@ public class AuthController {
 	}
 
 	@PostMapping("/join")
-	public ResponseEntity<JoinResponseDto> join(@RequestBody TestDto testDto) {
+	public ResponseEntity<TestJoinResponseDto> join(@RequestBody TestDto testDto) {
 		String email = testDto.getEmail();
-		JoinResponseDto joinResponseDto = authService.join(email);
+		String nickname = testDto.getNickname();
+		TestJoinResponseDto testJoinResponseDto = authService.join(email, nickname);
 
-		return ResponseEntity.ok().body(joinResponseDto);
+		return ResponseEntity.ok().body(testJoinResponseDto);
 
 	}
 }
