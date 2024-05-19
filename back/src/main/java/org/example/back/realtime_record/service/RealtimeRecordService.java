@@ -74,6 +74,7 @@ public class RealtimeRecordService {
                         .member(member)
                         .distance(distance)
                         .idx(idx)
+                        .record(record)
                         .build();
 
                 realtimeRecordList.add(realtimeRecord);
@@ -115,6 +116,7 @@ public class RealtimeRecordService {
                         .member(member)
                         .distance(distance)
                         .idx(idx)
+                        .record(record)
                         .build();
 
                 realtimeRecordList.add(realtimeRecord);
@@ -159,6 +161,7 @@ public class RealtimeRecordService {
                         .member(member)
                         .distance(distance)
                         .idx(idx)
+                        .record(record)
                         .build();
 
                 realtimeRecordList.add(realtimeRecord);
