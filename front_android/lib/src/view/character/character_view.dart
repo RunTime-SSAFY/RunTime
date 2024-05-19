@@ -156,7 +156,10 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                     fontSize: 16,
                   ),
                 ),
-                //isCheck?ElevatedButton(onPressed: onPressed, child: child)
+                // isCheck?ElevatedButton(onPressed: viewModel.setProfileCharacter(name);
+                //       Navigator.of(context).pop();, 
+                //       child: viewModel.setProfileCharacter(name);
+                //       Navigator.of(context).pop();)
               ],
             ),
           ),

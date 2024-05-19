@@ -13,10 +13,13 @@ class CharacterViewModel with ChangeNotifier {
       .where((element) => element.isCheck)
       .length
       .toString();
-      
-  // String get profileCharacter{
-  //   if(characterRepository.characters.where((element) => element.isCheck)) 
-  // }
+
+  //String get profileCharacter=>characterRepository.characters
+
+  //String get profileCharacter{
+  //  if(characterRepository.characters.where((element) => element.isCheck)) 
+    
+//}
   void getCharacterList() async {
     await Future.wait(
       [
