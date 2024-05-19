@@ -72,14 +72,15 @@ class ProfileViewModel with ChangeNotifier {
       if (isAccept) {
         await apiInstance.patch(url);
         friendRepository.hasNext = true;
+        await friendRepository.getFriendList();
       } else {
         await apiInstance.delete(url);
-        friendRepository.friendRequest
-            .removeWhere((element) => element.id == requesterId);
       }
     } catch (error) {
       debugPrint(error.toString());
     } finally {
+      friendRepository.friendRequest
+          .removeWhere((element) => element.id == requesterId);
       notifyListeners();
     }
   }
