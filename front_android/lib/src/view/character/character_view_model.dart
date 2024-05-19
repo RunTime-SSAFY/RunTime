@@ -9,7 +9,9 @@ final characterViewModelProvider =
 
 class CharacterViewModel with ChangeNotifier {
   CharacterRepository characterRepository = CharacterRepository();
-  List<CharacterData> get characterList => characterRepository.characters;
+  List<CharacterData> get characterList =>
+      characterRepository.characters.toList()
+        ..sort((a, b) => a.id.compareTo(b.id));
   String get characterCount => characterRepository.characters
       .where((element) => element.isCheck)
       .length
