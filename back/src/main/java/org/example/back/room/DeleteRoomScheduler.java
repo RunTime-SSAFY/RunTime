@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DeleteRoomScheduler {
     private final RoomRepository roomRepository;
-    @Scheduled(fixedDelay = 1000 * 600)
+    @Scheduled(fixedDelay = 1000 * 10)
     public void deleteRoom() {
         List<Room> rooms = roomRepository.findAll();
 
