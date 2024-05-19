@@ -102,13 +102,16 @@ final router = GoRouter(
     // 바텀내비게이션
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
-      builder: (_, __, child) => ScaffoldWithNavBar(child: child),
+      builder: (_, __, child) => ScaffoldWithNavBar(
+        key: UniqueKey(),
+        child: child,
+      ),
       routes: [
         GoRoute(
           path: RoutePathHelper.runMain,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
-              const NoTransitionPage(child: RunMainView()),
+              NoTransitionPage(child: RunMainView(key: UniqueKey())),
         ),
         GoRoute(
           path: RoutePathHelper.achievement,
@@ -133,7 +136,7 @@ final router = GoRouter(
           path: RoutePathHelper.character,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
-              NoTransitionPage(child: RunMainView(key: UniqueKey())),
+              const NoTransitionPage(child: RunMainView()),
         ),
         GoRoute(
           path: RoutePathHelper.record,
