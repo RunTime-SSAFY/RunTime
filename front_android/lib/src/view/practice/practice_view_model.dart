@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
+import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/extension.dart';
 
 final practiceViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
   var battleData = ref.watch(battleDataServiceProvider);
+  battleData.mode = BattleModeHelper.practiceMode;
   return PracticeViewModel(battleData);
 });
 
