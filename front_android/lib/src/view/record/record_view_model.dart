@@ -39,4 +39,10 @@ class RecordViewModel extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
+  // 기록 초기화
+  void clearRecordList() {
+    recordRepository.clearRecordList();
+    notifyListeners();
+  }
 }
