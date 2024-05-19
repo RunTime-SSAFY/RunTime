@@ -203,16 +203,16 @@ class BattleViewModel with ChangeNotifier {
     notifyListeners();
 
     try {
-      final results = await Future.wait([
-        apiInstance.get('api/matchings/${_battleData.roomId}/ranking'),
-        Future.delayed(const Duration(milliseconds: 500)),
-      ]);
-
       try {
+        final results = await Future.wait([
+          apiInstance.get(
+              'api/${BattleModeHelper.getRankingReceive(_battleData.mode)}/${_battleData.roomId}/ranking'),
+          Future.delayed(const Duration(milliseconds: 500)),
+        ]);
+
         _battleData.result = results[0].data['ranking'];
       } catch (error) {
-        debugPrint('올바르지 않은 데이터 형식 ${error.toString()}');
-        rethrow;
+        debugPrint('완주 못했어요');
       }
 
       final directory = await getTemporaryDirectory();
@@ -246,9 +246,20 @@ class BattleViewModel with ChangeNotifier {
         data: formData,
       );
 
-      var tierDto = jsonDecode(response.data)['tierDto'];
+      var recordId = response.data['id'];
+      try {
+        apiInstance.post(
+          'api/realtime-records',
+          data: {
+            'recordId': recordId,
+            'roomId': _battleData.roomId,
+          },
+        );
+      } catch (error) {
+        debugPrint(error.toString());
+      }
 
-      _point = tierDto['afterScore'] - tierDto['beforeScore'];
+      _point = response.data['afterScore'] - response.data['beforeScore'];
     } catch (error) {
       debugPrint(error.toString());
     } finally {

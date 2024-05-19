@@ -28,7 +28,7 @@ class ProfileViewModel with ChangeNotifier {
     var result = await UserService.instance
         .changeUserInfor(newNickname: nickname, newWeight: weight);
 
-    if (result) {
+    if (result && context.mounted) {
       context.go(RoutePathHelper.runMain);
     }
   }
@@ -49,7 +49,14 @@ class ProfileViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteFriend() async {}
+  Future<void> deleteFriend(int friendId) async {
+    try {
+      apiInstance.delete('api/friends/$friendId');
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+    getFriendList();
+  }
 
   // 친구 요청 받은 목록
   List<NotFriend> get friendRequestList => friendRepository.friendRequest;

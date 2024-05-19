@@ -13,12 +13,23 @@ interface class BattleModeHelper {
 
   static String getModeName(String mode) {
     switch (mode) {
-      case 'userMode':
+      case 'room':
         return 'CUSTOM';
-      case 'practiceMode':
+      case 'practice':
         return 'PRACTICE';
       default:
         return 'BATTLE';
+    }
+  }
+
+  static String getRankingReceive(String mode) {
+    switch (mode) {
+      case 'matchingRoom':
+        return 'matchings';
+      case 'room':
+        return 'rooms';
+      default:
+        return 'matchings';
     }
   }
 }
