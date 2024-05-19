@@ -69,8 +69,12 @@ public class MemberCustomImpl implements MemberCustom {
 
 	@Override
 	public Slice<FriendResponseDto> findNotFriendMembers(Pageable pageable, Long id, Long lastId, String searchWord) {
-		// 나와 친구인 모든 사용자 반환
-		List<Tuple> results = query.select(member, friend.addressee.id.eq(member.id)).from(member, friend)
+		// 나와 친구가 아닌 모든 사용자 반환
+		List<Tuple> results = query.select(member, JPAExpressions.select(friend.count())
+				.from(friend)
+				.where(friend.addressee.id.eq(member.id).and(friend.requester.id.eq(id))).exists()
+				)
+			.from(member)
 			.where(member.id.notIn(
 				// 사용자 중 나와 친구 관계가 "accepted"인 모든 사용자
 				JPAExpressions.select(
@@ -83,7 +87,7 @@ public class MemberCustomImpl implements MemberCustom {
 					))
 			)
 			// 마지막 조회된 id부터 조회
-			.where(ltMemberId(lastId), member.id.ne(id), searchWord(searchWord))
+			.where(ltMemberId(lastId), member.id.ne(id), searchWord(searchWord), member.nickname.isNotNull())
 			.orderBy(member.id.desc())
 			.limit(pageable.getPageSize() + 1)
 			.fetch();
@@ -93,7 +97,7 @@ public class MemberCustomImpl implements MemberCustom {
 			log.info("member: {}\nrequest?: {}", data.get(member), Boolean.TRUE.equals(data.get(1, Boolean.class)));
 			list.add(FriendResponseDto.builder()
 				.member(data.get(member))
-				.isAlreadyRequest(Boolean.TRUE.equals(data.get(1, Boolean.class)))
+				.isAlreadyRequest(Boolean.TRUE.equals(data.get(1, boolean.class)))
 				.build());
 		}
 		return checkLastPage(pageable, list);
