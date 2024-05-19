@@ -20,6 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ko';
 
+  static String m0(achievement) => "${achievement} 성공시 획득";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "EnterSearchTerm": MessageLookupByLibrary.simpleMessage("검색어 입력"),
@@ -44,6 +46,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("취소하기"),
         "capacity": MessageLookupByLibrary.simpleMessage("인원 수"),
         "character": MessageLookupByLibrary.simpleMessage("캐릭터"),
+        "characterAchievement": m0,
+        "characterAlreadyMain":
+            MessageLookupByLibrary.simpleMessage("메인 캐릭터입니다"),
+        "characterNotHave": MessageLookupByLibrary.simpleMessage("잠겨있음"),
         "characterSelect": MessageLookupByLibrary.simpleMessage("대표 캐릭터로 선택"),
         "create": MessageLookupByLibrary.simpleMessage("만들기"),
         "currentLanguage": MessageLookupByLibrary.simpleMessage("한국어"),

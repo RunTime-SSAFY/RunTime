@@ -20,6 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(achievement) => "Complete ${achievement} to achieve";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "EnterSearchTerm":
@@ -45,6 +47,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
         "capacity": MessageLookupByLibrary.simpleMessage("capacity"),
         "character": MessageLookupByLibrary.simpleMessage("Character"),
+        "characterAchievement": m0,
+        "characterAlreadyMain":
+            MessageLookupByLibrary.simpleMessage("Main Character"),
+        "characterNotHave": MessageLookupByLibrary.simpleMessage("Locked"),
         "characterSelect":
             MessageLookupByLibrary.simpleMessage("Select as a Main Character"),
         "create": MessageLookupByLibrary.simpleMessage("create"),

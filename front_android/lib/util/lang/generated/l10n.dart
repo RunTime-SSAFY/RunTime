@@ -849,6 +849,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Complete {achievement} to achieve`
+  String characterAchievement(Object achievement) {
+    return Intl.message(
+      'Complete $achievement to achieve',
+      name: 'characterAchievement',
+      desc: '',
+      args: [achievement],
+    );
+  }
+
+  /// `Main Character`
+  String get characterAlreadyMain {
+    return Intl.message(
+      'Main Character',
+      name: 'characterAlreadyMain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Locked`
+  String get characterNotHave {
+    return Intl.message(
+      'Locked',
+      name: 'characterNotHave',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

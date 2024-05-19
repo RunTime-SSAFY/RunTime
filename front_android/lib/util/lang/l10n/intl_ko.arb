@@ -79,5 +79,8 @@
   "friendAdd": "친구 추가하기",
   "friendRequest404": "친구 요청이 없습니다.",
   "friendAlready": "요첨됨",
-  "characterSelect": "대표 캐릭터로 선택"
+  "characterSelect": "대표 캐릭터로 선택",
+  "characterAchievement": "{achievement} 성공시 획득",
+  "characterAlreadyMain": "메인 캐릭터입니다",
+  "characterNotHave": "잠겨있음"
 }

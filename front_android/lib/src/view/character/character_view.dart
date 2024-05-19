@@ -74,6 +74,7 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                       character.unlockStatus,
                       character.id,
                       character.isMain,
+                      character.achievementName,
                     ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -140,6 +141,7 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
     bool isUnlock,
     int characterId,
     bool isMain,
+    String achievementName,
   ) {
     bool canChange = !isMain && isUnlock;
     showDialog(
@@ -170,6 +172,13 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
             child: Column(
               children: [
                 Image.network(image, fit: BoxFit.contain),
+                const SizedBox(height: 10),
+                if (!isUnlock)
+                  SvgPicture.asset(
+                    'assets/icons/lock.svg',
+                    height: 30,
+                  ),
+                const SizedBox(height: 10),
                 Text(
                   name,
                   style: const TextStyle(
@@ -177,19 +186,31 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SizedBox(height: 10),
                 Text(
                   detail,
                   style: const TextStyle(
                     fontSize: 16,
                   ),
                 ),
+                const SizedBox(height: 5),
+                if (!isUnlock)
+                  Text(
+                    S.current.characterAchievement(achievementName),
+                    style: ref.typo.subTitle5,
+                  ),
+                if (!isUnlock) const SizedBox(height: 5),
                 Button(
                   onPressed: () async {
                     await viewModel.setMainCharacter(characterId);
                     if (!context.mounted) return;
                     context.pop();
                   },
-                  text: S.current.characterSelect,
+                  text: isMain
+                      ? S.current.characterAlreadyMain
+                      : isUnlock
+                          ? S.current.characterSelect
+                          : S.current.characterNotHave,
                   backGroundColor: ref.color.accept,
                   fontColor: ref.color.onAccept,
                   isInactive: !canChange,

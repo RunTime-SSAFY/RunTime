@@ -79,5 +79,8 @@
   "friendAdd": "Add Friend",
   "friendRequest404": "There are no Friend Request.",
   "friendAlready": "Requested",
-  "characterSelect": "Select as a Main Character"
+  "characterSelect": "Select as a Main Character",
+  "characterAchievement": "Complete {achievement} to achieve",
+  "characterAlreadyMain": "Main Character",
+  "characterNotHave": "Locked"
 }
