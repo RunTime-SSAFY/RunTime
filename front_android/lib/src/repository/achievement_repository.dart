@@ -45,4 +45,9 @@ class AchievementRepository {
       throw Error();
     }
   }
+
+  // 초기화
+  void clearAchievementList() {
+    achievementList = [];
+  }
 }
