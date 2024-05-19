@@ -55,10 +55,15 @@ class SearchUserDialog extends ConsumerWidget {
                         tierImgUrl: item.tierImgUrl,
                       ),
                       Button(
-                        onPressed: () => viewModel.requestFriend(item.id),
-                        text: S.current.friendRequest,
+                        onPressed: () {
+                          viewModel.requestFriend(item.id);
+                        },
+                        text: item.alreadyRequest
+                            ? S.current.friendAlready
+                            : S.current.friendRequest,
                         backGroundColor: ref.color.accept,
                         fontColor: ref.color.onAccept,
+                        isInactive: item.alreadyRequest,
                       )
                     ],
                   ),

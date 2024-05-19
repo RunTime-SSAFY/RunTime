@@ -27,7 +27,6 @@ public class MemberController {
 
 	@PatchMapping
 	public ResponseEntity<ProfileResponseDto> updateProfile(@RequestBody ProfileUpdateRequestDto profileUpdateRequestDto){
-		System.out.println("?");
 		return ResponseEntity.ok(memberService.updateProfile(profileUpdateRequestDto));
 	}
 

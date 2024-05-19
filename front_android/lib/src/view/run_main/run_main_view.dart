@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front_android/src/service/location_permission_service.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/run_main/run_main_view_model.dart';
 import 'package:front_android/src/view/run_main/widgets/battle_mode_button.dart';
@@ -20,10 +21,25 @@ class RunMainView extends ConsumerStatefulWidget {
 
 class _RunMainViewState extends ConsumerState<RunMainView> {
   late RunMainViewModel viewModel;
+  bool _dataFetched = false;
 
   @override
   void initState() {
     super.initState();
+    _dataFetched = false;
+
+    void init() async {
+      await LocationPermissionService.getPermission();
+
+      if (!mounted) return;
+
+      if (mounted) {
+        setState(() {});
+      }
+    }
+
+    init();
+
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         viewModel.noNickName(context);
@@ -34,6 +50,11 @@ class _RunMainViewState extends ConsumerState<RunMainView> {
   @override
   Widget build(BuildContext context) {
     viewModel = ref.watch(runMainProvider);
+    if (!_dataFetched) {
+      viewModel.fetchingData(context);
+      _dataFetched = true;
+    }
+
     return KeyboardHide(
       child: Scaffold(
         resizeToAvoidBottomInset: false,

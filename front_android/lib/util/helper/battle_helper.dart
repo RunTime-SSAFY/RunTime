@@ -1,35 +1,35 @@
 interface class DestinationHelper {
-  static String _getForSend(String type, String uuid) => '/pub/$type/$uuid';
+  static String getForSend(String type, String uuid) => '/pub/$type/$uuid';
   static String getForSub(String type, String uuid) => '/topic/$type/$uuid';
-
-  static String getBattleDestination(String mode, String uuid) {
-    if (mode == BattleModeHelper.matching) {
-      return _getForSend('matchingRoom', uuid);
-    }
-    if (mode == BattleModeHelper.userMode) {
-      return _getForSend('room', uuid);
-    } else {
-      return _getForSend('practice', uuid);
-    }
-  }
 
   static String getStartMatching(String userId) => '/queue/member/$userId';
   static String getMatchingReady(String uuid) => '/topic/matchingRoom/$uuid';
 }
 
 interface class BattleModeHelper {
-  static String get matching => 'matching';
-  static String get userMode => 'userMode';
-  static String get practiceMode => 'practiceMode';
+  static String get matching => 'matchingRoom';
+  static String get userMode => 'room';
+  static String get practiceMode => 'practice';
 
   static String getModeName(String mode) {
     switch (mode) {
-      case 'userMode':
+      case 'room':
         return 'CUSTOM';
-      case 'practiceMode':
+      case 'practice':
         return 'PRACTICE';
       default:
         return 'BATTLE';
+    }
+  }
+
+  static String getRankingReceive(String mode) {
+    switch (mode) {
+      case 'matchingRoom':
+        return 'matchings';
+      case 'room':
+        return 'rooms';
+      default:
+        return 'matchings';
     }
   }
 }

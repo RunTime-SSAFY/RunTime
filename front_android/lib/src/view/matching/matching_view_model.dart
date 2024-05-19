@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
+import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:go_router/go_router.dart';
 
 final matchingViewModelProvider =
     ChangeNotifierProvider.autoDispose<MatchingViewModel>((ref) {
   var battleData = ref.watch(battleDataServiceProvider);
+  battleData.mode = BattleModeHelper.matching;
   return MatchingViewModel(battleData);
 });
 
@@ -30,7 +32,7 @@ class MatchingViewModel with ChangeNotifier {
   // 매칭을 시작하기
   void onMatchingStart(BuildContext context) async {
     context.pushReplacement(RoutePathHelper.matching);
-    _battleData.targetDistance = 1000;
+    _battleData.targetDistance = 100;
 
     // 매칭 시작하라는 요청
     try {

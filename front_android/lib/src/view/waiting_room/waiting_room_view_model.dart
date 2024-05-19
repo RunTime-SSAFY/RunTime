@@ -16,6 +16,7 @@ import 'package:go_router/go_router.dart';
 
 final waitingViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
   var battleData = ref.watch(battleDataServiceProvider);
+  battleData.mode = BattleModeHelper.userMode;
   battleData.stompInstance.activate();
   return WaitingViewModel(battleData);
 });

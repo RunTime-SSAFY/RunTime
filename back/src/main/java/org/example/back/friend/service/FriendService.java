@@ -69,9 +69,9 @@ public class FriendService {
 				.status(FriendStatusType.pending)
 				.build();
 		} else {
-			System.out.println("친구 있음: " + friend.getAddressee().getId() + " " + friend.getRequester().getId());
 			// 친구요청을 보낸 적이 있고 거절당했다면 새로 신청
 			if (friend.getStatus().equals(FriendStatusType.rejected)) {
+				friend.updateRequesterAndAddressee(requester, addressee);
 				friend.updateStatus(FriendStatusType.pending);
 				//     현재 진행중인 요청이 있거나 이미 친구인 경우. 이미 요청되었다는 Exception
 			} else {
@@ -107,7 +107,6 @@ public class FriendService {
 			for (Tier tier : tierList) {
 				if (score >= tier.getScoreMin() && score <= tier.getScoreMax()) {
 					friendResponseDto.setTierImgUrl(tier.getImgUrl());
-					System.out.println(tier.getImgUrl());
 				}
 			}
 		}
@@ -177,7 +176,6 @@ public class FriendService {
 			for (Tier tier : tierList) {
 				if (score >= tier.getScoreMin() && score <= tier.getScoreMax()) {
 					friendResponseDto.setTierImgUrl(tier.getImgUrl());
-					System.out.println(tier.getImgUrl());
 				}
 			}
 		}
@@ -199,6 +197,7 @@ public class FriendService {
 
 			FriendResponseDto friendResponseDto = FriendResponseDto.builder()
 				.member(friend.getRequester())
+				.isAlreadyRequest(true)
 				.build();
 
 			int score = friend.getRequester().getTierScore();

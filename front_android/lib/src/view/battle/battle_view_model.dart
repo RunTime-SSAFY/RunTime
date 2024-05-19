@@ -39,8 +39,7 @@ class BattleViewModel with ChangeNotifier {
 
     // DistanceRepository 시작 - 거리 측정 및 서버에 보내기 시작
     distanceService = DistanceRepository(
-      sendDestination:
-          DestinationHelper.getBattleDestination(mode, _battleData.uuid),
+      sendDestination: DestinationHelper.getForSend(mode, _battleData.uuid),
       socket: _battleData.stompInstance,
       roomId: _battleData.roomId,
     );
@@ -70,6 +69,8 @@ class BattleViewModel with ChangeNotifier {
       return _battleData.result == 1 ? S.current.win : S.current.lose;
     } else {
       switch (_battleData.result) {
+        case 0:
+          return 'failed';
         case 1:
           return '1st';
         case 2:
@@ -116,7 +117,7 @@ class BattleViewModel with ChangeNotifier {
 
       addPolyLine();
 
-      if (ttsDuration > 10) {
+      if (ttsDuration > 15) {
         ttsService.addMessage(
           '도착까지 ${targetDistance.toInt() - distanceService.currentDistance.toInt()}m 남았습니다.',
         );
@@ -130,9 +131,9 @@ class BattleViewModel with ChangeNotifier {
           1;
       if (lastRank != 0) {
         if (lastRank > newLastRank) {
-          ttsService.addMessage('상대방을 추월하였습니다.');
+          ttsService.addMessage('상대방을 추월하였습니다. 현재$newLastRank등입니다.');
         } else if (lastRank < newLastRank) {
-          ttsService.addMessage('추월 당하였습니다.');
+          ttsService.addMessage('추월 당하였습니다. 현재$newLastRank등입니다.');
         }
       } else {
         lastRank = participants.indexWhere((element) =>
@@ -202,16 +203,16 @@ class BattleViewModel with ChangeNotifier {
     notifyListeners();
 
     try {
-      final results = await Future.wait([
-        apiInstance.get('api/matchings/${_battleData.roomId}/ranking'),
-        Future.delayed(const Duration(milliseconds: 500)),
-      ]);
-
       try {
+        final results = await Future.wait([
+          apiInstance.get(
+              'api/${BattleModeHelper.getRankingReceive(_battleData.mode)}/${_battleData.roomId}/ranking'),
+          Future.delayed(const Duration(milliseconds: 500)),
+        ]);
+
         _battleData.result = results[0].data['ranking'];
       } catch (error) {
-        debugPrint('올바르지 않은 데이터 형식 ${error.toString()}');
-        rethrow;
+        debugPrint('완주 못했어요');
       }
 
       final directory = await getTemporaryDirectory();
@@ -245,9 +246,20 @@ class BattleViewModel with ChangeNotifier {
         data: formData,
       );
 
-      var tierDto = jsonDecode(response.data)['tierDto'];
+      var recordId = response.data['id'];
+      try {
+        apiInstance.post(
+          'api/realtime-records',
+          data: {
+            'recordId': recordId,
+            'roomId': _battleData.roomId,
+          },
+        );
+      } catch (error) {
+        debugPrint(error.toString());
+      }
 
-      _point = tierDto['afterScore'] - tierDto['beforeScore'];
+      _point = response.data['afterScore'] - response.data['beforeScore'];
     } catch (error) {
       debugPrint(error.toString());
     } finally {
@@ -275,6 +287,7 @@ class BattleViewModel with ChangeNotifier {
           polylineId: PolylineId('${polyLines.length}'),
           points: points,
           width: 4,
+          color: Colors.red,
         ),
       };
     }
@@ -283,11 +296,15 @@ class BattleViewModel with ChangeNotifier {
   // widgetsToImage
   Uint8List? imageBytes;
   bool stopCamera = false;
+  bool cameraMoving = false;
 
   WidgetsToImageController widgetsToImageController =
       WidgetsToImageController();
 
   Future<void> captureImage() async {
+    cameraMoving = true;
+    notifyListeners();
+
     if (points.length < 2) return;
 
     // 초기 최소값과 최대값을 첫 번째 점으로 설정
@@ -312,9 +329,12 @@ class BattleViewModel with ChangeNotifier {
     await mapController.moveCamera(CameraUpdate.newLatLngBounds(bounds, 50));
 
     // 카메라 변경 시간
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 300));
 
     imageBytes = await widgetsToImageController.capture();
+
+    cameraMoving = false;
+    notifyListeners();
   }
 
   // TTS

@@ -77,5 +77,6 @@
   "friendRequest": "Friend Request",
   "friendList": "Friend List",
   "friendAdd": "Add Friend",
-  "friendRequest404": "There are no Friend Request."
+  "friendRequest404": "There are no Friend Request.",
+  "friendAlready": "Requested"
 }

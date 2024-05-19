@@ -77,5 +77,6 @@
   "friendRequest": "친구 요청",
   "friendList": "친구 목록",
   "friendAdd": "친구 추가하기",
-  "friendRequest404": "친구 요청이 없습니다."
+  "friendRequest404": "친구 요청이 없습니다.",
+  "friendAlready": "요첨됨"
 }

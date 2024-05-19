@@ -22,17 +22,16 @@ class RunBar extends ConsumerWidget {
             height: 100,
             child: Stack(
               children: List.generate(viewModel.participants.length, (index) {
-                Widget myNickname;
+                Widget myLocation;
                 if (viewModel.participants[index].nickname ==
                     UserService.instance.nickname) {
-                  myNickname = Text(
-                    UserService.instance.nickname,
-                    style: ref.typo.body1.copyWith(
-                      color: ref.color.onBackground,
-                    ),
+                  myLocation = Icon(
+                    Icons.location_on,
+                    size: 20,
+                    color: ref.color.deny,
                   );
                 } else {
-                  myNickname = Container();
+                  myLocation = const SizedBox(height: 20);
                 }
                 return Positioned(
                     left: viewModel.participants[index].distance /
@@ -40,7 +39,7 @@ class RunBar extends ConsumerWidget {
                         (screenWidth - 200),
                     child: Column(
                       children: [
-                        myNickname,
+                        myLocation,
                         Image.network(
                           viewModel.participants[index].characterImgUrl,
                           height: 80,

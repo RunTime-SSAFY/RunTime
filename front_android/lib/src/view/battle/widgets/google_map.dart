@@ -63,7 +63,6 @@ class _MapState extends ConsumerState<Map> {
             mapToolbarEnabled: false,
             zoomGesturesEnabled: false,
             zoomControlsEnabled: false,
-            myLocationEnabled: !viewModel.stopCamera,
             compassEnabled: false,
             indoorViewEnabled: false,
             myLocationButtonEnabled: false,

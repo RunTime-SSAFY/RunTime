@@ -5,12 +5,14 @@ import 'package:front_android/src/repository/user_mode_room_repository.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/src/service/user_mode_room_service.dart';
 import 'package:front_android/src/view/user_mode/widget/make_room_full_dialog.dart';
+import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:go_router/go_router.dart';
 
 final userModeViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
   var battleData = ref.watch(battleDataServiceProvider);
   battleData.stompInstance.activate();
+  battleData.mode = BattleModeHelper.userMode;
   return UserModeViewModel();
 });
 

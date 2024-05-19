@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ResultResDto {
+	private Long id;
 	private Integer beforeScore;
 	private Integer afterScore;
 	private Integer status;  // 승격 여부: -1, 0, 1

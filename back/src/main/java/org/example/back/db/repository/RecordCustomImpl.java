@@ -20,6 +20,7 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -145,12 +146,21 @@ public class RecordCustomImpl implements RecordCustom {
 
     @Override
     public Long getBestRecordFromLastTenRecords(Long myMemberId) {
-        return query
-                .select(record.id)
-                .from(record)
-                .where(record.member.id.eq(myMemberId).and(record.gameMode.eq(GameMode.BATTLE)))
-                .orderBy(record.createdAt.desc(), record.pace.asc())
-                .fetchOne();
+        // 최근 10개
+        List<Record> lastTenRecords = query
+                .selectFrom(record)
+                .where(record.member.id.eq(myMemberId)
+                        .and(record.gameMode.eq(GameMode.BATTLE)))
+                .orderBy(record.createdAt.desc())
+                .limit(10)
+                .fetch();
+
+        // 최근 10개를 pace를 낮은 순서대로 정렬해서 첫 번째 것을 return
+        return lastTenRecords.stream()
+                .sorted(Comparator.comparing(Record::getPace))
+                .findFirst()
+                .map(Record::getId)
+                .orElse(null);
     }
 
 }

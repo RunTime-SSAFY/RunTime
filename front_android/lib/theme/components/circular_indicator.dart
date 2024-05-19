@@ -3,9 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 
 class CircularIndicator extends ConsumerWidget {
-  const CircularIndicator({super.key, required this.isLoading});
+  const CircularIndicator({
+    super.key,
+    required this.isLoading,
+    this.backgroundColor,
+  });
 
   final bool isLoading;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,7 +20,7 @@ class CircularIndicator extends ConsumerWidget {
         duration: const Duration(milliseconds: 250),
         opacity: 1,
         child: Container(
-          color: ref.color.black,
+          color: backgroundColor ?? Colors.transparent,
           alignment: Alignment.center,
           child: CircularProgressIndicator(
             color: ref.color.inactive,

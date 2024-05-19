@@ -59,7 +59,6 @@ class CustomInterceptor extends Interceptor {
       } catch (error) {
         debugPrint('토큰 재발급 실패: $error');
         AuthService.instance.setRefreshToken(null);
-        await SecureStorageRepository.instance.setRefreshToken(null);
         await SecureStorageRepository.instance.setAccessToken(null);
         // 나중에 확인 필수
         router.go(RoutePathHelper.login);

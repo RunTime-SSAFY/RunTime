@@ -28,28 +28,40 @@ class ProfileViewModel with ChangeNotifier {
     var result = await UserService.instance
         .changeUserInfor(newNickname: nickname, newWeight: weight);
 
-    if (result) {
+    if (result && context.mounted) {
       context.go(RoutePathHelper.runMain);
     }
   }
 
   // 친구
-
   FriendRepository friendRepository = FriendRepository();
 
   // 친구 목록
   List<Friend> get friendList => friendRepository.friends;
+
+  void getFriends() {
+    friendRepository.getFriendList();
+  }
 
   void getFriendList() async {
     await Future.wait([
       friendRepository.getFriendList(),
       friendRepository.getFriendRequest(),
     ]);
-
     notifyListeners();
   }
 
-  Future<void> deleteFriend() async {}
+  Future<void> deleteFriend(int friendId) async {
+    try {
+      apiInstance.delete('api/friends/$friendId');
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+    friendRepository.friends.removeWhere(
+      (element) => element.id == friendId,
+    );
+    notifyListeners();
+  }
 
   // 친구 요청 받은 목록
   List<NotFriend> get friendRequestList => friendRepository.friendRequest;
@@ -58,12 +70,17 @@ class ProfileViewModel with ChangeNotifier {
     var url = 'api/friends/$requesterId';
     try {
       if (isAccept) {
-        apiInstance.patch(url);
+        await apiInstance.patch(url);
+        friendRepository.hasNext = true;
       } else {
-        apiInstance.delete(url);
+        await apiInstance.delete(url);
+        friendRepository.friendRequest
+            .removeWhere((element) => element.id == requesterId);
       }
     } catch (error) {
       debugPrint(error.toString());
+    } finally {
+      notifyListeners();
     }
   }
 
@@ -106,5 +123,8 @@ class ProfileViewModel with ChangeNotifier {
     } catch (error) {
       debugPrint(error.toString());
     }
+    searchResult.firstWhere((element) => element.id == id).alreadyRequest =
+        true;
+    notifyListeners();
   }
 }

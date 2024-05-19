@@ -27,12 +27,14 @@ class NotFriend {
   String name;
   String characterImgUrl;
   String tierImgUrl;
+  bool alreadyRequest;
 
   NotFriend({
     required this.id,
     required this.name,
     required this.characterImgUrl,
     required this.tierImgUrl,
+    required this.alreadyRequest,
   });
 
   factory NotFriend.fromJson(Map<String, dynamic> json) => NotFriend(
@@ -40,5 +42,6 @@ class NotFriend {
         name: json['name'],
         characterImgUrl: json['characterImgUrl'],
         tierImgUrl: json['tierImgUrl'],
+        alreadyRequest: json['alreadyRequest'],
       );
 }

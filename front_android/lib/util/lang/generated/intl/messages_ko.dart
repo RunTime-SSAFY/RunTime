@@ -53,6 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "enter": MessageLookupByLibrary.simpleMessage("입장"),
         "findRoom": MessageLookupByLibrary.simpleMessage("방찾기"),
         "friendAdd": MessageLookupByLibrary.simpleMessage("친구 추가하기"),
+        "friendAlready": MessageLookupByLibrary.simpleMessage("요첨됨"),
         "friendList": MessageLookupByLibrary.simpleMessage("친구 목록"),
         "friendRequest": MessageLookupByLibrary.simpleMessage("친구 요청"),
         "friendRequest404":
