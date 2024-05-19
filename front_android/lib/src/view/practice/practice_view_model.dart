@@ -22,7 +22,7 @@ class PracticeViewModel with ChangeNotifier {
   String get calorie => '${100.toString()}kcal';
   String get runningTime => const Duration(seconds: 1000).toHhMmSs();
 
-  void startPractice() async {
+  Future<bool> startPractice() async {
     try {
       var response = await apiInstance.post('api/practice');
 
@@ -30,8 +30,10 @@ class PracticeViewModel with ChangeNotifier {
       var data = jsonDecode(response.data);
 
       _battleData.uuid = data['uuid'];
+      return true;
     } catch (error) {
       debugPrint(error.toString());
+      return false;
     }
   }
 }

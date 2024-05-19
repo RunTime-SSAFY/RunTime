@@ -65,6 +65,7 @@ class ProfileViewModel with ChangeNotifier {
     } catch (error) {
       debugPrint(error.toString());
     }
+    getFriendList();
   }
 
   // 검색
