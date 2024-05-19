@@ -50,4 +50,9 @@ public class Friend extends BaseEntity {
 		this.status = status;
 	}
 
+	public void updateRequesterAndAddressee(Member requester, Member addressee) {
+		this.requester = requester;
+		this.addressee=  addressee;
+	}
+
 }
