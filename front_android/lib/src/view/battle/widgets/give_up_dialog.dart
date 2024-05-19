@@ -31,8 +31,8 @@ class CancelDialog extends ConsumerWidget {
                 context.pop();
               },
               text: S.current.cancel,
-              backGroundColor: ref.color.deny,
-              fontColor: ref.color.onDeny,
+              backGroundColor: ref.color.inactive,
+              fontColor: ref.color.onInactive,
             ),
           ),
           const SizedBox(width: 15),
@@ -43,8 +43,8 @@ class CancelDialog extends ConsumerWidget {
                 onAcceptCancel();
               },
               text: S.current.giveUp,
-              backGroundColor: ref.color.accept,
-              fontColor: ref.color.onAccept,
+              backGroundColor: ref.color.deny,
+              fontColor: ref.color.onDeny,
             ),
           )
         ],
@@ -52,6 +52,7 @@ class CancelDialog extends ConsumerWidget {
       child: Text(
         content ?? S.current.ReallyCancelQuestion,
         style: ref.typo.subTitle4,
+        textAlign: TextAlign.center,
       ),
     );
   }

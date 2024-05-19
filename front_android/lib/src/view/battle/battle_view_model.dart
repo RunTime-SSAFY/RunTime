@@ -12,7 +12,7 @@ import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/src/service/tts_service.dart';
 import 'package:front_android/src/service/user_service.dart';
-import 'package:front_android/theme/components/dialog/cancel_dialog.dart';
+import 'package:front_android/src/view/battle/widgets/give_up_dialog.dart';
 import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/extension.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';

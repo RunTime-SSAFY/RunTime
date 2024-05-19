@@ -30,7 +30,7 @@ class _DistanceTimeState extends ConsumerState<Distance> {
           ),
         ),
         Text(
-          ' / ${viewModel.targetDistance}m',
+          ' / ${viewModel.targetDistance.toInt()}m',
           style: ref.typo.body1.copyWith(
             color: ref.color.onBackground,
             fontSize: 40,

@@ -19,7 +19,7 @@ class FriendRequestItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ProfileViewModel viewModel = ref.watch(profileProvider);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Row(
         children: [
           ImageNameTier(

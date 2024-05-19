@@ -74,8 +74,8 @@
   "beginner": "비기너",
   "pro": "프로",
   "worldClass": "월드 클래스",
-  "friendRequest": "친구 요청",
-  "friendList": "친구 목록",
+  "friendRequest": "친구요청",
+  "friendList": "친구목록",
   "friendAdd": "친구 추가하기",
   "friendRequest404": "친구 요청이 없습니다.",
   "friendAlready": "요첨됨"

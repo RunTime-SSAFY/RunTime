@@ -30,6 +30,7 @@ class BaseDialog extends ConsumerWidget {
           ? Text(
               title!,
               style: ref.typo.headline2,
+              textAlign: TextAlign.center,
             )
           : null,
       children: [

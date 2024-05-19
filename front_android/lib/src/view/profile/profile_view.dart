@@ -44,10 +44,13 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.network(
-            user.characterImgUrl,
-            height: 200,
-            fit: BoxFit.contain,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 60),
+            child: Image.network(
+              user.characterImgUrl,
+              height: 200,
+              fit: BoxFit.contain,
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -58,13 +61,13 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   fontSize: 36,
                 ),
               ),
-              const SizedBox(width: 5),
               PngImage(
                 'tier/${user.tierName}',
-                size: 30,
+                size: 70,
               ),
             ],
           ),
+          const SizedBox(height: 10),
           GestureDetector(
             onTapUp: (details) => context.push(RoutePathHelper.profileEdit),
             child: Container(
@@ -92,6 +95,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
               ),
             ),
           ),
+          const SizedBox(height: 10),
           Divider(
             color: ref.color.profileText,
             height: 20,
@@ -99,6 +103,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             indent: 20,
             endIndent: 20,
           ),
+          const SizedBox(height: 10),
           const FriendListBuilder(),
         ],
       ),

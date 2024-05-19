@@ -57,7 +57,7 @@ class FriendListBuilder extends ConsumerWidget {
               );
             } else if (item == 'request') {
               return Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
                   S.current.friendRequest,
                   style: ref.typo.headline1,
@@ -65,7 +65,7 @@ class FriendListBuilder extends ConsumerWidget {
               );
             } else if (item == 'list') {
               return Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -83,7 +83,7 @@ class FriendListBuilder extends ConsumerWidget {
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: ref.color.profileText,
-                                width: 3,
+                                width: 2.5,
                               ),
                               borderRadius: BorderRadius.circular(13),
                             ),
@@ -92,7 +92,7 @@ class FriendListBuilder extends ConsumerWidget {
                             child: Icon(
                               Icons.add,
                               color: ref.color.profileText,
-                              size: 40,
+                              size: 30,
                             ),
                           ),
                           Text(
