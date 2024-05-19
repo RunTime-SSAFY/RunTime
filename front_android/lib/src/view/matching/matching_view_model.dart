@@ -30,7 +30,7 @@ class MatchingViewModel with ChangeNotifier {
   // 매칭을 시작하기
   void onMatchingStart(BuildContext context) async {
     context.pushReplacement(RoutePathHelper.matching);
-    _battleData.targetDistance = 1000;
+    _battleData.targetDistance = 100;
 
     // 매칭 시작하라는 요청
     try {
