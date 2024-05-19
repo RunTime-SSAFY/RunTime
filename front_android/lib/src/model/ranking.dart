@@ -13,9 +13,9 @@ class Ranking {
   factory Ranking.fromJson(Map<String, dynamic> json) {
     return Ranking(
       nickname: json['nickname'] ?? 'null',
-      tierScore: json['tierScore'] ?? 0,
-      tierName: json['tierName'] ?? 'null',
-      tierImage: json['tierImage'] ?? 'null',
+      tierScore: json['tierScore'],
+      tierName: json['tierName'],
+      tierImage: json['tierImage'],
     );
   }
 }
