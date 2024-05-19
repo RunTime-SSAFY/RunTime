@@ -116,7 +116,7 @@ class BattleViewModel with ChangeNotifier {
 
       addPolyLine();
 
-      if (ttsDuration > 10) {
+      if (ttsDuration > 15) {
         ttsService.addMessage(
           '도착까지 ${targetDistance.toInt() - distanceService.currentDistance.toInt()}m 남았습니다.',
         );
@@ -130,9 +130,9 @@ class BattleViewModel with ChangeNotifier {
           1;
       if (lastRank != 0) {
         if (lastRank > newLastRank) {
-          ttsService.addMessage('상대방을 추월하였습니다.');
+          ttsService.addMessage('상대방을 추월하였습니다. 현재$newLastRank등입니다.');
         } else if (lastRank < newLastRank) {
-          ttsService.addMessage('추월 당하였습니다.');
+          ttsService.addMessage('추월 당하였습니다. 현재$newLastRank등입니다.');
         }
       } else {
         lastRank = participants.indexWhere((element) =>
