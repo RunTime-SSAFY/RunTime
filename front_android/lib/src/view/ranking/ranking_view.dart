@@ -61,7 +61,7 @@ class _RankingViewState extends ConsumerState<RankingView> {
           } else if (rank == 3) {
             color = const Color(0xff4A5568);
           } else {
-            color = Colors.grey.shade300; // 기본 색상
+            color = const Color(0xffffffff); // 기본 색상
             fontColor = const Color(0xff718096);
             nameColor = const Color(0xff000000);
             fontWeight = FontWeight.normal;
@@ -109,36 +109,42 @@ class _RankingViewState extends ConsumerState<RankingView> {
                 // 티어 이미지
                 Stack(
                   children: [
-                    Image.network(
-                      ranking.tierImage,
-                      fit: BoxFit.cover,
-                      height: 100.0,
-                      width: 150.0,
+                    Positioned(
+                        child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Image.network(
+                        ranking.tierImage,
+                        fit: BoxFit.cover,
+                        height: 100.0,
+                        width: 150.0,
+                      ),
+                    )),
+                    Positioned(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              ranking.tierName,
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                                color: nameColor,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              ranking.tierScore.toString(),
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                                color: nameColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    Column(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            ranking.tierName,
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: nameColor,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            ranking.tierScore.toString(),
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: nameColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
                     //const SizedBox(width: 20),
                   ],
                 ),
