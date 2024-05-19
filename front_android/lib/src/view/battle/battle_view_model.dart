@@ -39,8 +39,7 @@ class BattleViewModel with ChangeNotifier {
 
     // DistanceRepository 시작 - 거리 측정 및 서버에 보내기 시작
     distanceService = DistanceRepository(
-      sendDestination:
-          DestinationHelper.getBattleDestination(mode, _battleData.uuid),
+      sendDestination: DestinationHelper.getForSend(mode, _battleData.uuid),
       socket: _battleData.stompInstance,
       roomId: _battleData.roomId,
     );
@@ -70,6 +69,8 @@ class BattleViewModel with ChangeNotifier {
       return _battleData.result == 1 ? S.current.win : S.current.lose;
     } else {
       switch (_battleData.result) {
+        case 0:
+          return 'failed';
         case 1:
           return '1st';
         case 2:

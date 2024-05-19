@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
+import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/extension.dart';
 
 final practiceViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
   var battleData = ref.watch(battleDataServiceProvider);
+  battleData.mode = BattleModeHelper.practiceMode;
   return PracticeViewModel(battleData);
 });
 
@@ -22,7 +24,7 @@ class PracticeViewModel with ChangeNotifier {
   String get calorie => '${100.toString()}kcal';
   String get runningTime => const Duration(seconds: 1000).toHhMmSs();
 
-  void startPractice() async {
+  Future<bool> startPractice() async {
     try {
       var response = await apiInstance.post('api/practice');
 
@@ -30,8 +32,10 @@ class PracticeViewModel with ChangeNotifier {
       var data = jsonDecode(response.data);
 
       _battleData.uuid = data['uuid'];
+      return true;
     } catch (error) {
       debugPrint(error.toString());
+      return false;
     }
   }
 }
