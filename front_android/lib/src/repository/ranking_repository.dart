@@ -3,7 +3,6 @@ import 'package:front_android/src/model/ranking.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 
 class RankingRepository {
-
   List<Ranking> rankings = [];
   Future<void> getRankingList() async {
     try {
@@ -18,5 +17,10 @@ class RankingRepository {
       debugPrint(error.toString());
       return;
     }
+  }
+
+  // 초기화
+  void clearRankingList() {
+    rankings = [];
   }
 }

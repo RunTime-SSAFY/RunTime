@@ -22,7 +22,11 @@ class RunMainButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void onPressed() {
-      context.push(modeRoute);
+      if (modeRoute == '/ranking') {
+        context.push('/main/ranking');
+      } else {
+        context.push(modeRoute);
+      }
     }
 
     return GestureDetector(

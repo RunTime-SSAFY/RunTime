@@ -18,4 +18,10 @@ class RankingViewModel with ChangeNotifier {
     );
     notifyListeners();
   }
+
+  // 초기화
+  void clearRankingList() {
+    rankingRepository.clearRankingList();
+    notifyListeners();
+  }
 }

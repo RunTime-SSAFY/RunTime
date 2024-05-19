@@ -122,6 +122,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "weightRule":
             MessageLookupByLibrary.simpleMessage("입력한 몸무게는 칼로리 계산에만 사용됩니다."),
         "win": MessageLookupByLibrary.simpleMessage("승리"),
-        "worldClass": MessageLookupByLibrary.simpleMessage("월드 클래스")
+        "worldClass": MessageLookupByLibrary.simpleMessage("월드클래스")
       };
 }

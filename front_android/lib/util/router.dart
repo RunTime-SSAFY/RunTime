@@ -99,12 +99,6 @@ final router = GoRouter(
       builder: (_, __) => const Practice(),
     ),
 
-    GoRoute(
-      path: RoutePathHelper.ranking,
-      parentNavigatorKey: _rootNavigatorKey,
-      builder: (_, __) => const RankingView(),
-    ),
-
     // 도전과제 보상 화면
 
     // 바텀내비게이션
@@ -120,6 +114,14 @@ final router = GoRouter(
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               NoTransitionPage(child: RunMainView(key: UniqueKey())),
+          routes: [
+            GoRoute(
+              path: 'ranking',
+              parentNavigatorKey: _rootNavigatorKey,
+              pageBuilder: (BuildContext context, GoRouterState state) =>
+                  const CupertinoPage(child: RankingView()),
+            ),
+          ],
         ),
         GoRoute(
           path: RoutePathHelper.achievement,
