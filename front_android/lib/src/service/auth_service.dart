@@ -3,9 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:front_android/src/repository/secure_storage_repository.dart';
 
 class AuthService with ChangeNotifier {
-  AuthService._() {
-    _init();
-  }
+  AuthService._();
 
   static final _instance = AuthService._();
   static AuthService get instance => _instance;
@@ -14,7 +12,7 @@ class AuthService with ChangeNotifier {
   String? _refreshToken;
   DateTime? _expireDate;
 
-  Future<void> _init() async {
+  Future<void> init() async {
     const storage = FlutterSecureStorage(
       aOptions: AndroidOptions(encryptedSharedPreferences: true),
     );
