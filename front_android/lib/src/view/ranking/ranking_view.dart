@@ -69,7 +69,7 @@ class _RankingViewState extends ConsumerState<RankingView> {
                         width: 40,
                         alignment: Alignment.center,
                         child: const Text(
-                          '',
+                          'a',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
