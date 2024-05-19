@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
+import 'package:front_android/util/lang/generated/l10n.dart';
 
 class NumberButton extends ConsumerWidget {
   const NumberButton({
@@ -31,7 +32,11 @@ class NumberButton extends ConsumerWidget {
               flex: 10,
               child: GestureDetector(
                 onTapUp: (details) {
-                  if (number > 0) changeNum(number - 1);
+                  if (number > 1) {
+                    changeNum(number - 1);
+                  } else if (title == S.current.distance && number == 1) {
+                    changeNum(0.5);
+                  }
                 },
                 child: NumberButtonBox(
                   color: ref.color.userModeBackground,
@@ -48,7 +53,7 @@ class NumberButton extends ConsumerWidget {
               child: NumberButtonBox(
                 color: ref.color.battleMode2,
                 child: Text(
-                  number.toStringAsFixed(0),
+                  '${number == 0.5 ? number : number.toStringAsFixed(0)}',
                   style: ref.typo.headline2.copyWith(
                     color: ref.color.onBackground,
                   ),
@@ -61,7 +66,11 @@ class NumberButton extends ConsumerWidget {
               flex: 10,
               child: GestureDetector(
                 onTapUp: (details) {
-                  if (number < 5) changeNum(number + 1);
+                  if (title == S.current.distance && number == 0.5) {
+                    changeNum(1);
+                  } else if (number < 5) {
+                    changeNum(number + 1);
+                  }
                 },
                 child: NumberButtonBox(
                   color: ref.color.userModeBackground,

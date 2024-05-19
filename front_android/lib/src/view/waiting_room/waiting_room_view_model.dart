@@ -75,6 +75,7 @@ class WaitingViewModel with ChangeNotifier {
       ];
       var room = data['roomData'] as UserModeRoom;
       _battleData.uuid = room.uuid;
+      _battleData.targetDistance = room.distance;
       userModeRoomRepository.setRoomInfo(room);
     } else {
       var response =
@@ -88,6 +89,7 @@ class WaitingViewModel with ChangeNotifier {
       _battleData.uuid = response['uuid'];
 
       var room = data['roomData'] as UserModeRoom;
+      _battleData.targetDistance = room.distance;
       userModeRoomRepository.setRoomInfo(room);
     }
     _battleData.stompInstance.subScribe(
