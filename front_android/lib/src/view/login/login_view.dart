@@ -74,12 +74,14 @@ class _LoginViewState extends ConsumerState<LoginView> {
             ),
 
             // 설정 버튼
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                onPressed: onPressSetting,
-                icon: const Icon(Icons.settings),
-                color: ref.color.onBackground,
+            SafeArea(
+              child: Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  onPressed: onPressSetting,
+                  icon: const Icon(Icons.settings),
+                  color: ref.color.onBackground,
+                ),
               ),
             ),
 
