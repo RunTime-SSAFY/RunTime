@@ -37,13 +37,6 @@ class _RecordViewState extends ConsumerState<RecordView> {
   @override
   Widget build(BuildContext context) {
     viewModel = ref.watch(recordViewModelProvider); // 뷰 모델 가져오기
-    if (viewModel.recordList.isEmpty) {
-      viewModel.fetchRecordList(
-        gameMode: viewModel.gameMode,
-        pageSize: 10,
-        lastId: viewModel.lastId,
-      );
-    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
