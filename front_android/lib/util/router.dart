@@ -6,6 +6,7 @@ import 'package:front_android/src/view/achievement/achievement_reward_view.dart'
 import 'package:front_android/src/view/achievement/achievement_view.dart';
 import 'package:front_android/src/view/battle/battle_result_view.dart';
 import 'package:front_android/src/view/battle/battle_view.dart';
+import 'package:front_android/src/view/character/character_view.dart';
 import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';
@@ -13,6 +14,7 @@ import 'package:front_android/src/view/matching/waiting_matching_view.dart';
 import 'package:front_android/src/view/practice/practice_view.dart';
 import 'package:front_android/src/view/profile/profile_edit_view.dart';
 import 'package:front_android/src/view/profile/profile_view.dart';
+import 'package:front_android/src/view/ranking/ranking_view.dart';
 import 'package:front_android/src/view/record/record_view.dart';
 import 'package:front_android/src/view/record_detail/record_detail_view.dart';
 import 'package:front_android/src/view/run_main/run_main_view.dart';
@@ -97,6 +99,12 @@ final router = GoRouter(
       builder: (_, __) => const Practice(),
     ),
 
+    GoRoute(
+      path: RoutePathHelper.ranking,
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (_, __) => const RankingView(),
+    ),
+
     // 도전과제 보상 화면
 
     // 바텀내비게이션
@@ -136,7 +144,7 @@ final router = GoRouter(
           path: RoutePathHelper.character,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
-              const NoTransitionPage(child: RunMainView()),
+              const NoTransitionPage(child: CharacterView()),
         ),
         GoRoute(
           path: RoutePathHelper.record,

@@ -143,4 +143,18 @@ class AppTypo {
     fontSize: 14,
     color: fontColor,
   );
+  late final TextStyle wSubTitle = TextStyle(
+    height: 1.3,
+    fontFamily: _typo.name,
+    fontWeight: _typo.semiBold,
+    fontSize: 14,
+    color: fontColor,
+  );
+  late final TextStyle wCounter = TextStyle(
+    height: 1.3,
+    fontFamily: _typo.name,
+    fontWeight: _typo.bold,
+    fontSize: 50,
+    color: fontColor,
+  );
 }

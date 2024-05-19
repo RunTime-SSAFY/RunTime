@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:front_wear/src/service/theme_service.dart';
+import 'package:front_wear/src/view/wearable/battle/battle_wait.dart';
 
 class ButtonScreen extends ConsumerWidget {
   const ButtonScreen({
@@ -9,11 +10,13 @@ class ButtonScreen extends ConsumerWidget {
     required this.title,
     required this.color,
     required this.btn,
+    required this.nextPage,
   });
 
   final String title;
   final Color color;
   final String btn;
+  final void Function() nextPage;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,7 +74,8 @@ class ButtonScreen extends ConsumerWidget {
             alignment: Alignment.topCenter, // 버튼 위치
             child: ElevatedButton(
               onPressed: () {
-                // 버튼 클릭시 수행할 액션
+                nextPage();
+                
               }, // 버튼 클릭 이벤트
 
               style: ElevatedButton.styleFrom(

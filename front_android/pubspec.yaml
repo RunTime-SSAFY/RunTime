@@ -58,6 +58,8 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   confetti: ^0.7.0
   overflow_text_animated: ^0.0.6
+  flutter_blue_plus: ^1.32.6
+
   video_player: ^2.8.6
   widgets_to_image: ^0.0.3
   path_provider: ^2.1.3
