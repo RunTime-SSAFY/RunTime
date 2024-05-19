@@ -6,6 +6,7 @@ import 'package:front_android/src/view/achievement/achievement_reward_view.dart'
 import 'package:front_android/src/view/achievement/achievement_view.dart';
 import 'package:front_android/src/view/battle/battle_result_view.dart';
 import 'package:front_android/src/view/battle/battle_view.dart';
+import 'package:front_android/src/view/character/character_view.dart';
 import 'package:front_android/src/view/login/login_view.dart';
 import 'package:front_android/src/view/matching/before_matching_view.dart';
 import 'package:front_android/src/view/matching/matched.dart';
@@ -133,7 +134,7 @@ final router = GoRouter(
           path: RoutePathHelper.character,
           parentNavigatorKey: _shellNavigatorKey,
           pageBuilder: (BuildContext context, GoRouterState state) =>
-              const NoTransitionPage(child: RunMainView()),
+              const NoTransitionPage(child: CharacterView()),
         ),
         GoRoute(
           path: RoutePathHelper.record,

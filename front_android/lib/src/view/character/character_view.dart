@@ -28,7 +28,7 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
   Widget build(BuildContext context) {
     viewModel = ref.watch(characterViewModelProvider);
     final characters = viewModel.characterList; // viewModel에서 characters 가져오기
-
+    //final cnt = viewModel.characterCount;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -41,11 +41,11 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
       ),
       body: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Text(
-              '보유중 2/20',
-              style: TextStyle(
+              '보유중 ${viewModel.characterCount}/20',
+              style: const TextStyle(
                 fontSize: 16,
               ),
             ),
@@ -82,7 +82,7 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                         Expanded(
                           child: Image.network(
                             character.imgUrl,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                         Padding(

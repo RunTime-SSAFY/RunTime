@@ -6,7 +6,7 @@ class CharacterRepository {
   List<Character> characters = [];
 
   Future<void> getCharacterList({
-    int page = 1,
+    int page = 0,
   }) async {
     try {
       var response = await apiInstance.get(
