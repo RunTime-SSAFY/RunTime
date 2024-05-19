@@ -3,6 +3,7 @@ package org.example.back.practice.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.example.back.common.CustomException;
 import org.example.back.db.entity.RealtimeRecord;
 import org.example.back.db.entity.Record;
 import org.example.back.db.repository.RecordRepository;
@@ -12,6 +13,7 @@ import org.example.back.practice.dto.PracticeStartResDto;
 import org.example.back.realtime_record.dto.StompRealtimeReqDto;
 import org.example.back.util.SecurityUtil;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,6 +75,9 @@ public class PracticeService {
 
         // 최근 10개의 매칭전 기록 중 페이스가 가장 낮은 기록의 id 가져오기
         Long recordId = recordRepository.getBestRecordFromLastTenRecords(myMemberId);
+        if (recordId == null) {
+            throw new CustomException(HttpStatus.NOT_FOUND, "매칭전의 기록이 없어서 연습전을 진행할 수 없습니다");
+        }
 
         // 그 기록의 실시간 정보들을 모두 가져오기
         Record record = recordRepository.findById(recordId).orElseThrow(RecordNotFoundException::new);
