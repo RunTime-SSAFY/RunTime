@@ -3,7 +3,7 @@ import 'package:front_android/src/model/character.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 
 class CharacterRepository {
-  List<Character> characters = [];
+  List<CharacterData> characters = [];
 
   Future<void> getCharacterList({
     int page = 1,
@@ -12,9 +12,9 @@ class CharacterRepository {
       var response = await apiInstance.get(
         'api/characters',
       );
-      var charactersJson = response.data['characterDtoList'];
-      characters =
-          (charactersJson as List).map((e) => Character.fromJson(e)).toList();
+      characters = (response.data as List)
+          .map((e) => CharacterData.fromJson(e))
+          .toList();
       return;
     } catch (error) {
       debugPrint(error.toString());

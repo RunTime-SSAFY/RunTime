@@ -8,7 +8,7 @@ final characterViewModelProvider =
 
 class CharacterViewModel with ChangeNotifier {
   CharacterRepository characterRepository = CharacterRepository();
-  List<Character> get characterList => characterRepository.characters;
+  List<CharacterData> get characterList => characterRepository.characters;
   String get characterCount => characterRepository.characters
       .where((element) => element.isCheck)
       .length
@@ -17,8 +17,8 @@ class CharacterViewModel with ChangeNotifier {
   //String get profileCharacter=>characterRepository.characters
 
   //String get profileCharacter{
-  //  if(characterRepository.characters.where((element) => element.isCheck)) 
-    
+  //  if(characterRepository.characters.where((element) => element.isCheck))
+
 //}
   void getCharacterList() async {
     await Future.wait(

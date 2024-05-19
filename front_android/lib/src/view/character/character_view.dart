@@ -45,7 +45,7 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              '보유중 $cnt/20',
+              '보유중 $cnt/${viewModel.characterList.length}',
               style: const TextStyle(
                 fontSize: 16,
               ),
@@ -77,10 +77,9 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                         Padding(
                           padding: const EdgeInsets.only(top: 12.0),
                           child: Center(
-                            child:
-                                //viewModel.profileCharacter
-                                //     ? SvgPicture.asset('assets/icons/unlock.svg'):
-                                SvgPicture.asset('assets/icons/lock.svg'),
+                            child: character.unlockStatus
+                                ? SvgPicture.asset('assets/icons/unlock.svg')
+                                : SvgPicture.asset('assets/icons/lock.svg'),
                           ),
                         ),
                         Expanded(
@@ -157,7 +156,7 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                   ),
                 ),
                 // isCheck?ElevatedButton(onPressed: viewModel.setProfileCharacter(name);
-                //       Navigator.of(context).pop();, 
+                //       Navigator.of(context).pop();,
                 //       child: viewModel.setProfileCharacter(name);
                 //       Navigator.of(context).pop();)
               ],
