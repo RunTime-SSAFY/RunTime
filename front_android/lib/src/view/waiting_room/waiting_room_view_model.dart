@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/battle.dart';
 import 'package:front_android/src/model/user_mode_room.dart';
 import 'package:front_android/src/repository/user_mode_room_repository.dart';
+import 'package:front_android/src/service/auth_service.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
 import 'package:front_android/src/service/https_request_service.dart';
 import 'package:front_android/src/service/user_service.dart';
@@ -93,6 +94,10 @@ class WaitingViewModel with ChangeNotifier {
       userModeRoomRepository.setRoomInfo(room);
     }
     _battleData.stompInstance.subScribe(
+      headers: {
+        'roomId': _battleData.roomId.toString(),
+        'Authorization': 'Bearer ${AuthService.instance.accessToken}'
+      },
       destination: DestinationHelper.getForSub('room', _battleData.uuid),
       callback: (p0) {
         var json = jsonDecode(p0.body!);

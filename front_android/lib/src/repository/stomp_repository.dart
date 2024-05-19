@@ -60,8 +60,10 @@ class StompRepository with ChangeNotifier {
   void subScribe({
     required String destination,
     required void Function(StompFrame) callback,
+    Map<String, String>? headers,
   }) {
     _client.subscribe(
+      headers: headers,
       destination: destination,
       callback: callback,
     );
