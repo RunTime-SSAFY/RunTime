@@ -54,6 +54,7 @@ class Practice extends ConsumerWidget {
                 Button(
                   onPressed: () async {
                     var result = await viewModel.startPractice();
+                    print('========================================$result');
                     if (!result) return;
                     if (!context.mounted) return;
                     context.go(RoutePathHelper.battle);
