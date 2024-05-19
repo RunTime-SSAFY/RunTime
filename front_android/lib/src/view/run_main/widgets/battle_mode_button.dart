@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
-import 'package:front_android/src/view/run_main/widgets/battle_mode_view_model.dart';
+import 'package:front_android/src/view/run_main/run_main_view_model.dart';
 import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 
@@ -12,7 +12,7 @@ class BattleModeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final BattleModeViewModel viewModel = ref.watch(battleModeProvider);
+    final RunMainViewModel viewModel = ref.watch(runMainProvider);
 
     return GestureDetector(
       onTap: () => viewModel.onPress(context),
