@@ -1,10 +1,7 @@
 package org.example.back.db.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.back.common.BaseEntity;
 import org.example.back.room.dto.MemberResDto;
 
@@ -27,6 +24,9 @@ public class RoomMember extends BaseEntity {
     private Member member; // 방에 참가한 사용자의 id
 
     private Boolean isReady; // 방에 참가한 사용자가 게임을 시작할 준비가 되었으면 true, 그렇지 않으면 false
+
+    @Setter
+    private String sessionId;
 
     public void setReady() {
         this.isReady = true;
