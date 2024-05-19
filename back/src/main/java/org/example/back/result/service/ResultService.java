@@ -36,16 +36,16 @@ public class ResultService {
 		Member member = getMember();
 
 		// 경기 결과 저장
-		saveRecord(member, record, uploadFile(file));
+		Long id = saveRecord(member, record, uploadFile(file));
 
 		// 사용자 점수 갱신 및 저장, 갱신되기 전 점수 반환
-		int beforeScore = updateMemberScores(member, record);
+		Integer beforeScore = updateMemberScores(member, record);
 
 		// 갱신되기 전 점수를 이용해 갱신된 점수 반환
-		return createResultResDto(member, beforeScore);
+		return createResultResDto(id, member, beforeScore);
 	}
 
-	private void saveRecord(Member member, ResultReqDto record, String url) {
+	private Long saveRecord(Member member, ResultReqDto record, String url) {
 		Record result =  Record.builder()
 			.member(member)
 			.gameMode(record.getGameMode())
@@ -60,9 +60,11 @@ public class ResultService {
 		result.updateDuration();
 
 		recordRepository.save(result);
+
+		return result.getId();
 	}
 
-	private int updateMemberScores(Member member, ResultReqDto record) {
+	private Integer updateMemberScores(Member member, ResultReqDto record) {
 		int consecutive = record.getRanking().equals(1) ? member.getConsecutiveGames() + 1 : 0; // 연승 기록 갱신
 		int beforeScore = member.getTierScore() != null ? member.getTierScore() : 0;  // 갱신 전 점수
 		int updateScore = beforeScore + (record.getRanking().equals(1) ? 30 * consecutive : -30);  // 점수 갱신
@@ -75,9 +77,9 @@ public class ResultService {
 		return beforeScore;
 	}
 
-	private ResultResDto createResultResDto(Member member, int beforeScore) {
+	private ResultResDto createResultResDto(Long id, Member member, int beforeScore) {
 		int status = Integer.compare(member.getTierScore() / 100, beforeScore / 100);
-		return new ResultResDto(beforeScore, member.getTierScore(), status, member.getConsecutiveGames());
+		return new ResultResDto(id, beforeScore, member.getTierScore(), status, member.getConsecutiveGames());
 	}
 
 	private Member getMember() {  // 현재 사용 유저의 id 조회
