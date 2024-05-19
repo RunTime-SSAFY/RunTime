@@ -839,6 +839,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Select as a Main Character`
+  String get characterSelect {
+    return Intl.message(
+      'Select as a Main Character',
+      name: 'characterSelect',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

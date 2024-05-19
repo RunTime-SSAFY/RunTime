@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/character/character_view_model.dart';
+import 'package:front_android/theme/components/button.dart';
+import 'package:front_android/util/lang/generated/l10n.dart';
 
 class CharacterView extends ConsumerStatefulWidget {
   const CharacterView({super.key});
@@ -63,8 +66,14 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                 return Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: ElevatedButton(
-                    onPressed: () => _showCharacterInfo(character.name,
-                        character.imgUrl, character.detail, character.isCheck),
+                    onPressed: () => _showCharacterInfo(
+                      character.name,
+                      character.imgUrl,
+                      character.detail,
+                      character.unlockStatus,
+                      character.id,
+                      character.isMain,
+                    ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -78,8 +87,16 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                           padding: const EdgeInsets.only(top: 12.0),
                           child: Center(
                             child: character.unlockStatus
-                                ? SvgPicture.asset('assets/icons/unlock.svg')
-                                : SvgPicture.asset('assets/icons/lock.svg'),
+                                ? character.isMain
+                                    ? SvgPicture.asset(
+                                        'assets/icons/unlock.svg',
+                                        height: 20,
+                                      )
+                                    : const SizedBox(height: 20)
+                                : SvgPicture.asset(
+                                    'assets/icons/lock.svg',
+                                    height: 20,
+                                  ),
                           ),
                         ),
                         Expanded(
@@ -113,7 +130,14 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
 
 //캐릭터 상세조회
   void _showCharacterInfo(
-      String name, String image, String detail, bool isCheck) {
+    String name,
+    String image,
+    String detail,
+    bool isUnlock,
+    int characterId,
+    bool isMain,
+  ) {
+    bool canChange = !isMain && isUnlock;
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -155,6 +179,28 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                     fontSize: 16,
                   ),
                 ),
+                Button(
+                  onPressed: () async {
+                    var beforeMain =
+                        await viewModel.setMainCharacter(characterId);
+                    if (beforeMain != -1) {
+                      // 메인 캐릭터 변경
+
+                      setState(() {
+                        viewModel.characterRepository.characters
+                            .firstWhere((element) => element.id == characterId)
+                            .isMain = true;
+                        viewModel.characterRepository.characters
+                            .firstWhere((element) => element.id == beforeMain)
+                            .isMain = false;
+                      });
+                    }
+                  },
+                  text: S.current.characterSelect,
+                  backGroundColor: ref.color.accept,
+                  fontColor: ref.color.onAccept,
+                  isInactive: !canChange,
+                )
                 // isCheck?ElevatedButton(onPressed: viewModel.setProfileCharacter(name);
                 //       Navigator.of(context).pop();,
                 //       child: viewModel.setProfileCharacter(name);

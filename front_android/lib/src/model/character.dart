@@ -39,6 +39,7 @@ class CharacterData {
   String imgUrl;
   bool isCheck;
   bool unlockStatus;
+  bool isMain;
 
   CharacterData({
     required this.id,
@@ -49,6 +50,7 @@ class CharacterData {
     required this.imgUrl,
     required this.isCheck,
     required this.unlockStatus,
+    required this.isMain,
   });
 
   factory CharacterData.fromJson(Map<String, dynamic> json) {
@@ -61,6 +63,7 @@ class CharacterData {
       imgUrl: json['imgUrl'],
       isCheck: json['isCheck'],
       unlockStatus: json['unlockStatus'],
+      isMain: json['isMain'],
     );
   }
 }

@@ -44,6 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("취소하기"),
         "capacity": MessageLookupByLibrary.simpleMessage("인원 수"),
         "character": MessageLookupByLibrary.simpleMessage("캐릭터"),
+        "characterSelect": MessageLookupByLibrary.simpleMessage("대표 캐릭터로 선택"),
         "create": MessageLookupByLibrary.simpleMessage("만들기"),
         "currentLanguage": MessageLookupByLibrary.simpleMessage("한국어"),
         "deny": MessageLookupByLibrary.simpleMessage("거절"),

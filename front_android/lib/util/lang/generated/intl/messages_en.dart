@@ -45,6 +45,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("cancel"),
         "capacity": MessageLookupByLibrary.simpleMessage("capacity"),
         "character": MessageLookupByLibrary.simpleMessage("Character"),
+        "characterSelect":
+            MessageLookupByLibrary.simpleMessage("Select as a Main Character"),
         "create": MessageLookupByLibrary.simpleMessage("create"),
         "currentLanguage": MessageLookupByLibrary.simpleMessage("English"),
         "deny": MessageLookupByLibrary.simpleMessage("deny"),

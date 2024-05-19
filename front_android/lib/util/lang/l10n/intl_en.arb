@@ -78,5 +78,6 @@
   "friendList": "Friend List",
   "friendAdd": "Add Friend",
   "friendRequest404": "There are no Friend Request.",
-  "friendAlready": "Requested"
+  "friendAlready": "Requested",
+  "characterSelect": "Select as a Main Character"
 }

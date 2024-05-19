@@ -78,5 +78,6 @@
   "friendList": "친구목록",
   "friendAdd": "친구 추가하기",
   "friendRequest404": "친구 요청이 없습니다.",
-  "friendAlready": "요첨됨"
+  "friendAlready": "요첨됨",
+  "characterSelect": "대표 캐릭터로 선택"
 }
