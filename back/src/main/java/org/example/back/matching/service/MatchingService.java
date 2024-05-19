@@ -244,7 +244,7 @@ public class MatchingService {
         if (stompRealtimeReqDtoList == null || stompRealtimeReqDtoList.isEmpty()) throw new CustomException(HttpStatus.BAD_REQUEST, myMemberId + "는 " + matchingRoomId + "매칭전을 완주하지 못했습니다");
 
         StompRealtimeReqDto stompRealtimeReqDto = objectMapper.readValue(stompRealtimeReqDtoList.get(0), StompRealtimeReqDto.class);
-        if (stompRealtimeReqDto.getDistance() < 1000) throw new CustomException(HttpStatus.BAD_REQUEST, matchingRoomId + "매칭전을 완주하지 못했습니다"); // 매칭전은 1KM 고정
+        if (stompRealtimeReqDto.getDistance() < 100) throw new CustomException(HttpStatus.BAD_REQUEST, matchingRoomId + "매칭전을 완주하지 못했습니다"); // 매칭전은 1KM 고정
 
         // 멤버를 완주한 목록에 추가한다
         redisTemplate.opsForList().rightPush("ranking_matchingRoomId:" + matchingRoomId, String.valueOf(myMemberId));
