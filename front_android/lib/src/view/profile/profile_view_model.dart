@@ -34,18 +34,20 @@ class ProfileViewModel with ChangeNotifier {
   }
 
   // 친구
-
   FriendRepository friendRepository = FriendRepository();
 
   // 친구 목록
   List<Friend> get friendList => friendRepository.friends;
+
+  void getFriends() {
+    friendRepository.getFriendList();
+  }
 
   void getFriendList() async {
     await Future.wait([
       friendRepository.getFriendList(),
       friendRepository.getFriendRequest(),
     ]);
-
     notifyListeners();
   }
 
@@ -55,7 +57,10 @@ class ProfileViewModel with ChangeNotifier {
     } catch (error) {
       debugPrint(error.toString());
     }
-    getFriendList();
+    friendRepository.friends.removeWhere(
+      (element) => element.id == friendId,
+    );
+    notifyListeners();
   }
 
   // 친구 요청 받은 목록
@@ -65,14 +70,18 @@ class ProfileViewModel with ChangeNotifier {
     var url = 'api/friends/$requesterId';
     try {
       if (isAccept) {
-        apiInstance.patch(url);
+        await apiInstance.patch(url);
+        friendRepository.hasNext = true;
       } else {
-        apiInstance.delete(url);
+        await apiInstance.delete(url);
+        friendRepository.friendRequest
+            .removeWhere((element) => element.id == requesterId);
       }
     } catch (error) {
       debugPrint(error.toString());
+    } finally {
+      notifyListeners();
     }
-    getFriendList();
   }
 
   // 검색
@@ -114,5 +123,8 @@ class ProfileViewModel with ChangeNotifier {
     } catch (error) {
       debugPrint(error.toString());
     }
+    searchResult.firstWhere((element) => element.id == id).alreadyRequest =
+        true;
+    notifyListeners();
   }
 }

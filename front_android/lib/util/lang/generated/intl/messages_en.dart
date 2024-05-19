@@ -54,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "enter": MessageLookupByLibrary.simpleMessage("Enter"),
         "findRoom": MessageLookupByLibrary.simpleMessage("Finding Room"),
         "friendAdd": MessageLookupByLibrary.simpleMessage("Add Friend"),
+        "friendAlready": MessageLookupByLibrary.simpleMessage("Requested"),
         "friendList": MessageLookupByLibrary.simpleMessage("Friend List"),
         "friendRequest": MessageLookupByLibrary.simpleMessage("Friend Request"),
         "friendRequest404": MessageLookupByLibrary.simpleMessage(

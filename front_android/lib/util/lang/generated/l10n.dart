@@ -829,6 +829,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Requested`
+  String get friendAlready {
+    return Intl.message(
+      'Requested',
+      name: 'friendAlready',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

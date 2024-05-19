@@ -26,7 +26,7 @@ class FriendListItem extends ConsumerWidget {
               name: friend.name,
               tierImgUrl: friend.tierImgUrl),
           IconButton(
-            onPressed: viewModel.deleteFriend,
+            onPressed: () => viewModel.deleteFriend(friend.id),
             icon: Icon(
               Icons.close,
               color: ref.color.profileText,
