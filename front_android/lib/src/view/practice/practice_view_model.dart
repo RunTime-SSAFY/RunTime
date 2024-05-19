@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/battle_data_service.dart';
@@ -29,9 +27,8 @@ class PracticeViewModel with ChangeNotifier {
       var response = await apiInstance.post('api/practice');
 
       assert(response.data.isNotEmpty, '응답이 비어있습니다.');
-      var data = jsonDecode(response.data);
-
-      _battleData.uuid = data['uuid'];
+      _battleData.roomId = 0;
+      _battleData.uuid = response.data['uuid'];
       return true;
     } catch (error) {
       debugPrint(error.toString());

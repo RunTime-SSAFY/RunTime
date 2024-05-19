@@ -276,6 +276,7 @@ class BattleViewModel with ChangeNotifier {
           polylineId: PolylineId('${polyLines.length}'),
           points: points,
           width: 4,
+          color: Colors.red,
         ),
       };
     }
@@ -284,11 +285,15 @@ class BattleViewModel with ChangeNotifier {
   // widgetsToImage
   Uint8List? imageBytes;
   bool stopCamera = false;
+  bool cameraMoving = false;
 
   WidgetsToImageController widgetsToImageController =
       WidgetsToImageController();
 
   Future<void> captureImage() async {
+    cameraMoving = true;
+    notifyListeners();
+
     if (points.length < 2) return;
 
     // 초기 최소값과 최대값을 첫 번째 점으로 설정
@@ -313,9 +318,12 @@ class BattleViewModel with ChangeNotifier {
     await mapController.moveCamera(CameraUpdate.newLatLngBounds(bounds, 50));
 
     // 카메라 변경 시간
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 300));
 
     imageBytes = await widgetsToImageController.capture();
+
+    cameraMoving = false;
+    notifyListeners();
   }
 
   // TTS
