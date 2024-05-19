@@ -21,6 +21,7 @@ class CharacterRepository {
       return;
     }
   }
+  
 }
 // class CharacterRepository {
 //   List<CharacterView> characterList = [];
