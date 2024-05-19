@@ -152,7 +152,6 @@ public class AuthService {
 	}
 
 	public TokenResponseDto reissueToken(String refreshToken) {
-		System.out.println(refreshToken);
 		RefreshToken redisToken = refreshTokenRepository.findById(refreshToken)
 			.orElseThrow(RefreshTokenNotFoundException::new);
 		String accessToken = JWTUtil.createJwt(redisToken.getMemberId(), secretKey, expiredMs);

@@ -14,15 +14,20 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class MemberCustomImpl implements MemberCustom {
 
 	private final JPAQueryFactory query;
@@ -49,13 +54,14 @@ public class MemberCustomImpl implements MemberCustom {
 			// 마지막 조회된 id부터 조회
 			.where(ltMemberId(lastId), member.id.ne(id))
 			.orderBy(member.id.desc())
-			.limit(pageable.getPageSize()+1)
+			.limit(pageable.getPageSize() + 1)
 			.fetch();
 		// dto로 매핑
 		List<FriendResponseDto> list = new ArrayList<>();
 		for (Member member : results) {
 			list.add(FriendResponseDto.builder()
 				.member(member)
+					.isAlreadyRequest(true)
 				.build());
 		}
 		return checkLastPage(pageable, list);
@@ -64,7 +70,7 @@ public class MemberCustomImpl implements MemberCustom {
 	@Override
 	public Slice<FriendResponseDto> findNotFriendMembers(Pageable pageable, Long id, Long lastId, String searchWord) {
 		// 나와 친구인 모든 사용자 반환
-		List<Member> results = query.selectFrom(member)
+		List<Tuple> results = query.select(member, friend.addressee.id.eq(member.id)).from(member, friend)
 			.where(member.id.notIn(
 				// 사용자 중 나와 친구 관계가 "accepted"인 모든 사용자
 				JPAExpressions.select(
@@ -79,13 +85,15 @@ public class MemberCustomImpl implements MemberCustom {
 			// 마지막 조회된 id부터 조회
 			.where(ltMemberId(lastId), member.id.ne(id), searchWord(searchWord))
 			.orderBy(member.id.desc())
-			.limit(pageable.getPageSize()+1)
+			.limit(pageable.getPageSize() + 1)
 			.fetch();
 		// dto로 매핑
 		List<FriendResponseDto> list = new ArrayList<>();
-		for (Member member : results) {
+		for (Tuple data : results) {
+			log.info("member: {}\nrequest?: {}", data.get(member), Boolean.TRUE.equals(data.get(1, Boolean.class)));
 			list.add(FriendResponseDto.builder()
-				.member(member)
+				.member(data.get(member))
+				.isAlreadyRequest(Boolean.TRUE.equals(data.get(1, Boolean.class)))
 				.build());
 		}
 		return checkLastPage(pageable, list);
@@ -118,9 +126,8 @@ public class MemberCustomImpl implements MemberCustom {
 		return new SliceImpl<>(results, pageable, hasNext);
 	}
 
-
 	@Override
-	public int countFriends(Long memberId){
+	public int countFriends(Long memberId) {
 		return query.select(member.id.count()).
 			from(member)
 			.where(member.id.in(
@@ -136,6 +143,5 @@ public class MemberCustomImpl implements MemberCustom {
 			)
 			.fetchFirst().intValue();
 	}
-
 
 }
