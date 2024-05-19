@@ -41,6 +41,7 @@ class _AchievementRewardViewState extends ConsumerState<AchievementRewardView> {
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,23 +84,23 @@ class _AchievementRewardViewState extends ConsumerState<AchievementRewardView> {
               child: Column(
                 children: [
                   // '캐릭터 잠금 해제' 텍스트
-                  Text(
-                    '캐릭터 잠금 해제',
-                    style:
-                        ref.typo.subTitle2.copyWith(color: ref.palette.gray600),
-                  ),
+                  const SizedBox(height: 40),
                   // 캐릭터 이미지
                   Image.network(
                     widget.data.characterImgUrl,
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.cover,
+                    height: 180,
+                    fit: BoxFit.contain,
                   ),
+                  const SizedBox(height: 40),
                   // 캐릭터 이름
                   Text(
                     widget.data.characterName,
                     style: ref.typo.headline1
                         .copyWith(fontSize: 36, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '캐릭터 잠금 해제',
+                    style: ref.typo.subTitle2.copyWith(color: ref.color.accept),
                   ),
                   // 아래 공간 만들기
                   const SizedBox(height: 50),
