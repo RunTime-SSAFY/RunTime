@@ -24,7 +24,7 @@ class AchievementAnimatedProgressBar extends ConsumerWidget {
     } else if (current >= goal) {
       percentage = 100;
     } else {
-      percentage = current / (goal - prevGoal) * 100;
+      percentage = (current - prevGoal) / (goal - prevGoal) * 100;
     }
 
     return TweenAnimationBuilder<double>(

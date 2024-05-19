@@ -32,4 +32,10 @@ final class AchievementViewModel with ChangeNotifier {
     await achievementRepository.updateAchievement();
     notifyListeners();
   }
+
+  // 초기화
+  void clearAchievementList() {
+    achievementRepository.clearAchievementList();
+    notifyListeners();
+  }
 }
