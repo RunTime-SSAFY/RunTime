@@ -35,7 +35,7 @@ class NumberButton extends ConsumerWidget {
                   if (number > 1) {
                     changeNum(number - 1);
                   } else if (title == S.current.distance && number == 1) {
-                    changeNum(0.5);
+                    changeNum(0.1);
                   }
                 },
                 child: NumberButtonBox(
@@ -53,7 +53,7 @@ class NumberButton extends ConsumerWidget {
               child: NumberButtonBox(
                 color: ref.color.battleMode2,
                 child: Text(
-                  '${number == 0.5 ? number : number.toStringAsFixed(0)}',
+                  '${number == 0.1 ? number : number.toStringAsFixed(0)}',
                   style: ref.typo.headline2.copyWith(
                     color: ref.color.onBackground,
                   ),
@@ -66,7 +66,7 @@ class NumberButton extends ConsumerWidget {
               flex: 10,
               child: GestureDetector(
                 onTapUp: (details) {
-                  if (title == S.current.distance && number == 0.5) {
+                  if (title == S.current.distance && number == 0.1) {
                     changeNum(1);
                   } else if (number < 5) {
                     changeNum(number + 1);

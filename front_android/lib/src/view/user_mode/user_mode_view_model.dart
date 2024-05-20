@@ -109,7 +109,7 @@ class UserModeViewModel with ChangeNotifier {
   void setDistance(double value) {
     print(value);
     switch (value) {
-      case 0.5:
+      case 0.1:
       case 1:
       case 3:
       case 5:
