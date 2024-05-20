@@ -6,6 +6,7 @@ import 'package:front_android/src/view/character/character_view_model.dart';
 import 'package:front_android/theme/components/button.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
+import 'package:overflow_text_animated/overflow_text_animated.dart';
 
 class CharacterView extends ConsumerStatefulWidget {
   const CharacterView({super.key});
@@ -45,15 +46,17 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 '보유중 $cnt/${viewModel.characterList.length}',
-                style: const TextStyle(
-                  fontSize: 16,
+                style: TextStyle(
+                  color: ref.palette.gray500,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
                 ),
               ),
             ),
@@ -84,8 +87,21 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                         ),
                         minimumSize: const Size(100, 162),
                         backgroundColor: character.unlockStatus
-                            ? ref.color.surface
+                            ? ref.color.white
                             : ref.color.profileEditButtonBackground,
+                        // inline border
+                        side: character.isMain
+                            ? const BorderSide(
+                                color: Color(0xFF6563FF),
+                                width: 1,
+                              )
+                            : BorderSide(
+                                color: ref.color.black.withOpacity(0),
+                                width: 0,
+                              ),
+
+                        // 그림자
+                        elevation: 3,
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -114,13 +130,20 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 12.0),
-                            child: Text(
-                              character.name,
-                              style: const TextStyle(
-                                color: Colors.black,
+                            child: OverflowTextAnimated(
+                              text: character.name,
+                              style: TextStyle(
+                                color: character.unlockStatus
+                                    ? Colors.black
+                                    : ref.palette.gray500,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
                               ),
+                              curve: Curves.fastEaseInToSlowEaseOut,
+                              animation: OverFlowTextAnimations.scrollOpposite,
+                              animateDuration:
+                                  const Duration(milliseconds: 1500),
+                              delay: const Duration(milliseconds: 500),
                             ),
                           )
                         ],
@@ -160,8 +183,8 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                 child: IconButton(
                   icon: SvgPicture.asset(
                     'assets/icons/cancel.svg',
-                    width: 22,
-                    height: 22,
+                    width: 20,
+                    height: 20,
                   ),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
