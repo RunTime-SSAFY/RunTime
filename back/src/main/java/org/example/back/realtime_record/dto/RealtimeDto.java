@@ -16,4 +16,5 @@ public class RealtimeDto {
     private double distance; // 총 이동거리
     private int idx;
     private LocalDateTime currentTime; // 현재 시간
+    private String characterImgUrl;
 }
