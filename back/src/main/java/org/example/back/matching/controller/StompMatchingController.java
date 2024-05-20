@@ -64,7 +64,8 @@ public class StompMatchingController {
 //        }
 
         // stomp로 보내준다
-        RealtimeDto dataDto = RealtimeDto.builder().nickname(nickname).distance(distance).idx(idx).currentTime(LocalDateTime.now()).build();
+        String characterImgUrl = member.getCharacter().getImgUrl();
+        RealtimeDto dataDto = RealtimeDto.builder().nickname(nickname).distance(distance).idx(idx).currentTime(LocalDateTime.now()).characterImgUrl(characterImgUrl).build();
         StompRealtimeResDto stompRealtimeResDto = StompRealtimeResDto.builder().action("realtime").data(dataDto).build();
         messagingTemplate.convertAndSend("/topic/matchingRoom/" + uuid, stompRealtimeResDto);
 
