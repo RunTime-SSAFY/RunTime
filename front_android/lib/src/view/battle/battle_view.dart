@@ -92,15 +92,17 @@ class _BattleState extends ConsumerState<Battle> {
           children: [
             Column(
               children: [
+                const SizedBox(height: 50),
                 const Distance(),
+                const SizedBox(height: 10),
                 const BattleTime(),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 const RunBar(),
-                const SizedBox(height: 20),
+                const SizedBox(height: 60),
                 const PaceCalorie(),
                 const SizedBox(height: 20),
                 const Map(),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 Button(
                   onPressed: () => viewModel.onGiveUp(context),
                   text: S.current.giveUp,

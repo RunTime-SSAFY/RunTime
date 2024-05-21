@@ -19,7 +19,9 @@ class _BattleTimeState extends ConsumerState<BattleTime> {
       viewModel.runningTime,
       style: ref.typo.subTitle1.copyWith(
         color: ref.color.onBackground,
-        fontSize: 80,
+        // fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.w200,
+        fontSize: 70,
       ),
     );
   }

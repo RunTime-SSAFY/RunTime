@@ -18,9 +18,9 @@ class PracticeViewModel with ChangeNotifier {
 
   String distance = 3000.0.toKilometer();
   DateTime date = DateTime.now();
-  String get pace => 8.toString();
-  String get calorie => '${100.toString()}kcal';
-  String get runningTime => const Duration(seconds: 1000).toHhMmSs();
+  String get pace => 650.toString();
+  String get calorie => '${128}kcal';
+  String get runningTime => "16분 43초";
 
   Future<bool> startPractice() async {
     try {

@@ -36,7 +36,7 @@ class BasicTheme implements AppTheme {
     list4Sub: Color(0xFFf687b3),
     list5Sub: Color(0xFFfc8181),
     battleBackground1: Color(0xFF000000),
-    battleBackground2: Color(0xFF2C363F),
+    battleBackground2: Color(0xFF1A202C),
     onBackground: Color(0xFFf8f8f8),
     userModeBackground: Color(0x9F1A202C),
     achievementRewardButtonGradient1: Color(0xFFF8B633),

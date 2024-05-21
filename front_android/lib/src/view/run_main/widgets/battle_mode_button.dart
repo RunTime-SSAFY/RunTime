@@ -29,6 +29,14 @@ class BattleModeButton extends ConsumerWidget {
                 ref.color.battleMode2,
               ],
             ),
+            // 그림자
+            boxShadow: [
+              BoxShadow(
+                color: ref.color.black.withOpacity(0.25),
+                offset: const Offset(1, 2),
+                blurRadius: 2,
+              ),
+            ],
           ),
           child: Stack(
             children: [

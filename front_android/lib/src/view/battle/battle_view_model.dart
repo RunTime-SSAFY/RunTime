@@ -15,6 +15,7 @@ import 'package:front_android/src/service/user_service.dart';
 import 'package:front_android/src/view/battle/widgets/give_up_dialog.dart';
 import 'package:front_android/util/helper/battle_helper.dart';
 import 'package:front_android/util/helper/extension.dart';
+import 'package:front_android/util/helper/number_format_helper.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
@@ -93,11 +94,12 @@ class BattleViewModel with ChangeNotifier {
 
   double _calorie = 0;
 
-  String get calorie => _calorie.toStringAsFixed(2);
+  String get calorie => NumberFormatHelper.floatTrunk(_calorie);
 
   final DateTime _date = DateTime.now();
 
   String get date => DateFormat(DateFormat.YEAR_MONTH_DAY).format(_date);
+  get dateOriginal => _date;
 
   // GPS 초기 설정을 위해 로딩 시간 제외
   final DateTime _startTime = DateTime.now().add(const Duration(seconds: 4));

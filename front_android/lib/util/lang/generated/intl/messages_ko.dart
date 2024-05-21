@@ -32,7 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accept": MessageLookupByLibrary.simpleMessage("수락"),
         "achievement": MessageLookupByLibrary.simpleMessage("도전과제"),
         "amateur": MessageLookupByLibrary.simpleMessage("아마추어"),
-        "avgPace": MessageLookupByLibrary.simpleMessage("평균페이스"),
+        "avgPace": MessageLookupByLibrary.simpleMessage("평균 페이스"),
         "battleMode": MessageLookupByLibrary.simpleMessage("대결모드"),
         "beforeMatching":
             MessageLookupByLibrary.simpleMessage("나와 실력이 비슷한 사람과\n대전해보세요"),
@@ -42,7 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("지금 바로 실시간으로 대결할 상대를 찾습니다"),
         "beginner": MessageLookupByLibrary.simpleMessage("비기너"),
         "bestRecord": MessageLookupByLibrary.simpleMessage("최고 기록"),
-        "calorieBurn": MessageLookupByLibrary.simpleMessage("소모칼로리"),
+        "calorieBurn": MessageLookupByLibrary.simpleMessage("소모 칼로리"),
         "cancel": MessageLookupByLibrary.simpleMessage("취소하기"),
         "capacity": MessageLookupByLibrary.simpleMessage("인원 수"),
         "character": MessageLookupByLibrary.simpleMessage("캐릭터"),

@@ -19,7 +19,7 @@ class BattleBackground extends ConsumerWidget {
           end: Alignment.centerRight,
           colors: [
             ref.color.battleBackground1,
-            ref.color.battleBackground2,
+            ref.palette.gray900,
           ],
         ),
       ),

@@ -13,59 +13,63 @@ class RunBar extends ConsumerWidget {
     BattleViewModel viewModel = ref.watch(battleViewModelProvider);
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 100,
-            child: Stack(
-              children: List.generate(viewModel.participants.length, (index) {
-                Widget myLocation;
-                if (viewModel.participants[index].nickname ==
-                    UserService.instance.nickname) {
-                  myLocation = Icon(
-                    Icons.location_on,
-                    size: 20,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 100,
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: List.generate(viewModel.participants.length, (index) {
+              Widget myLocation;
+              if (viewModel.participants[index].nickname ==
+                  UserService.instance.nickname) {
+                myLocation = Transform.flip(
+                  flipY: true,
+                  child: Icon(
+                    Icons.navigation_rounded,
+                    size: 24,
                     color: ref.color.deny,
-                  );
-                } else {
-                  myLocation = const SizedBox(height: 20);
-                }
-                return Positioned(
-                    left: viewModel.participants[index].distance /
-                        viewModel.targetDistance *
-                        (screenWidth - 200),
-                    child: Column(
-                      children: [
-                        myLocation,
-                        Image.network(
-                          viewModel.participants[index].characterImgUrl,
-                          height: 80,
-                          fit: BoxFit.contain,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Image.asset(
-                              'assets/images/mainCharacter.gif',
-                              fit: BoxFit.contain,
-                              height: 80,
-                              width: 100,
-                            );
-                          },
-                        ),
-                      ],
-                    ));
-              }),
-            ),
+                  ),
+                );
+              } else {
+                myLocation = const SizedBox(height: 20);
+              }
+              return Positioned(
+                  left: viewModel.participants[index].distance /
+                      viewModel.targetDistance *
+                      (screenWidth - 200),
+                  child: Column(
+                    children: [
+                      myLocation,
+                      Image.network(
+                        viewModel.participants[index].characterImgUrl,
+                        height: viewModel.participants[index].nickname ==
+                                UserService.instance.nickname
+                            ? 80
+                            : 60,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            'assets/images/mainCharacter.gif',
+                            fit: BoxFit.contain,
+                            height: 80,
+                            width: 100,
+                          );
+                        },
+                      ),
+                    ],
+                  ));
+            }),
           ),
-          ProgressBar(
-            currentProgress: viewModel.currentDistance,
-            fullProgress: viewModel.targetDistance,
-            valueColor: ref.color.trace,
-            backgroundColor: ref.color.traceBackground,
-          ),
-        ],
-      ),
+        ),
+        ProgressBar(
+          currentProgress: viewModel.currentDistance,
+          fullProgress: viewModel.targetDistance,
+          valueColor: ref.color.trace,
+          backgroundColor: ref.color.traceBackground,
+        ),
+      ],
     );
   }
 }

@@ -55,32 +55,39 @@ class _MapState extends ConsumerState<Map> {
     );
 
     return Expanded(
-      child: WidgetsToImage(
-        controller: viewModel.widgetsToImageController,
-        child: Center(
-          child: GoogleMap(
-            mapType: MapType.normal,
-            mapToolbarEnabled: false,
-            zoomGesturesEnabled: false,
-            zoomControlsEnabled: false,
-            compassEnabled: false,
-            indoorViewEnabled: false,
-            myLocationButtonEnabled: false,
-            rotateGesturesEnabled: false,
-            scrollGesturesEnabled: false,
-            tiltGesturesEnabled: false,
-            buildingsEnabled: false,
-            polylines: viewModel.polyLines,
-            onTap: (argument) {
-              return;
-            },
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: const CameraPosition(
-              target: LatLng(
-                37.5642135,
-                127.0016985,
+      child: Container(
+        // radius 20으로 주고 넘치는 부분 자르기
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: WidgetsToImage(
+          controller: viewModel.widgetsToImageController,
+          child: Center(
+            child: GoogleMap(
+              mapType: MapType.normal,
+              mapToolbarEnabled: false,
+              zoomGesturesEnabled: false,
+              zoomControlsEnabled: false,
+              compassEnabled: false,
+              indoorViewEnabled: false,
+              myLocationButtonEnabled: false,
+              rotateGesturesEnabled: false,
+              scrollGesturesEnabled: false,
+              tiltGesturesEnabled: false,
+              buildingsEnabled: false,
+              polylines: viewModel.polyLines,
+              onTap: (argument) {
+                return;
+              },
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: const CameraPosition(
+                target: LatLng(
+                  37.5642135,
+                  127.0016985,
+                ),
+                zoom: 17,
               ),
-              zoom: 17,
             ),
           ),
         ),

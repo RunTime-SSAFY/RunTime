@@ -65,6 +65,7 @@ dependencies:
   path_provider: ^2.1.3
   flutter_tts: ^4.0.2
   table_calendar: ^3.0.9
+  wrapped_korean_text: ^0.0.3
 
 dev_dependencies:
   flutter_test:
@@ -118,12 +119,24 @@ flutter:
   fonts:
     - family: Pretendard
       fonts:
+        - asset: assets/fonts/Pretendard-Thin.otf
+          weight: 100
+        - asset: assets/fonts/Pretendard-ExtraLight.otf
+          weight: 200
+        - asset: assets/fonts/Pretendard-Light.otf
+          weight: 300
         - asset: assets/fonts/Pretendard-Regular.otf
           weight: 400
+        - asset: assets/fonts/Pretendard-Medium.otf
+          weight: 500
         - asset: assets/fonts/Pretendard-SemiBold.otf
           weight: 600
         - asset: assets/fonts/Pretendard-Bold.otf
           weight: 700
+        - asset: assets/fonts/Pretendard-ExtraBold.otf
+          weight: 800
+        - asset: assets/fonts/Pretendard-Black.otf
+          weight: 900
   assets:
     - assets/icons/
     - assets/icons/matching/

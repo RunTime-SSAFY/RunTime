@@ -9,6 +9,7 @@ import 'package:front_android/theme/components/png_image.dart';
 import 'package:front_android/util/helper/route_path_helper.dart';
 import 'package:front_android/util/lang/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wrapped_korean_text/wrapped_korean_text.dart';
 
 class Practice extends ConsumerWidget {
   const Practice({super.key});
@@ -23,7 +24,7 @@ class Practice extends ConsumerWidget {
           backgroundColor: Colors.transparent,
           leading: IconButton(
             icon: Icon(
-              Icons.clear,
+              Icons.clear_rounded,
               color: ref.color.onBackground,
             ),
             onPressed: () {
@@ -40,15 +41,21 @@ class Practice extends ConsumerWidget {
               children: [
                 const PngImage(
                   'matching/practiceMode',
-                  size: 200,
+                  size: 180,
                 ),
-                Text(
+                const Spacer(flex: 1),
+
+                // 연습모드 설명 텍스트
+                WrappedKoreanText(
                   S.current.practiceExplanation,
-                  style: ref.typo.headline1.copyWith(
+                  style: ref.typo.bigRegular.copyWith(
+                    fontSize: 28,
                     color: ref.color.onBackground,
+                    // wordSpacing: 1.0,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-                const Spacer(flex: 5),
+                const Spacer(flex: 8),
                 const SummaryBox(),
                 const Spacer(flex: 2),
                 Button(
@@ -63,11 +70,12 @@ class Practice extends ConsumerWidget {
                   backGroundColor: ref.color.accept,
                   fontColor: ref.color.onAccept,
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 10),
                 Text(
                   S.current.practiceAdditionalExplanation,
                   style: ref.typo.body1.copyWith(
-                    color: ref.color.inactive,
+                    fontSize: 12,
+                    color: ref.palette.gray400,
                   ),
                 ),
                 const Spacer(flex: 7)
