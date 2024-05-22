@@ -12,6 +12,7 @@ class Button extends ConsumerStatefulWidget {
     required this.fontColor,
     this.width,
     bool? isInactive,
+    this.fontSize,
   }) : isInactive = isInactive ?? false;
 
   final void Function() onPressed;
@@ -20,6 +21,7 @@ class Button extends ConsumerStatefulWidget {
   final Color fontColor;
   final double? width;
   final bool isInactive;
+  final double? fontSize;
 
   @override
   ConsumerState<Button> createState() => _ButtonState();
@@ -40,9 +42,9 @@ class _ButtonState extends ConsumerState<Button> {
   bool get isInactive => isPressed || widget.isInactive;
 
   Color get backgroundColor =>
-      isInactive ? ref.color.inactive : widget.backGroundColor;
+      isInactive ? ref.palette.gray200 : widget.backGroundColor;
 
-  Color get color => widget.fontColor;
+  Color get color => isInactive ? ref.palette.gray400 : widget.fontColor;
 
   @override
   Widget build(BuildContext context) {
@@ -75,9 +77,14 @@ class _ButtonState extends ConsumerState<Button> {
           child: Center(
             child: Text(
               widget.text,
-              style: ref.typo.headline2.copyWith(
-                color: color,
-              ),
+              style: widget.fontSize == null
+                  ? ref.typo.headline2.copyWith(
+                      color: color,
+                    )
+                  : ref.typo.headline2.copyWith(
+                      fontSize: widget.fontSize!,
+                      color: color,
+                    ),
             ),
           ),
         ),

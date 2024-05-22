@@ -175,77 +175,113 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Stack(
-            children: <Widget>[
-              Positioned(
-                left: 1.0,
-                top: 1.0,
-                child: IconButton(
-                  icon: SvgPicture.asset(
-                    'assets/icons/cancel.svg',
-                    width: 20,
-                    height: 20,
-                  ),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
+          titlePadding: EdgeInsets.zero,
+          backgroundColor: ref.color.white,
+          surfaceTintColor: Colors.transparent,
+          // 타이틀 (닫기 버튼)
+          title: Align(
+            alignment: Alignment.centerLeft,
+            child: IconButton(
+              icon: Icon(
+                Icons.close_rounded,
+                color: ref.palette.gray500,
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 40.0, left: 40),
-              ),
-            ],
+              onPressed: () => Navigator.of(context).pop(),
+            ),
           ),
+          // 내용
           content: SingleChildScrollView(
-            child: Column(
-              children: [
-                Image.network(image, fit: BoxFit.contain),
-                const SizedBox(height: 10),
-                if (!isUnlock)
-                  SvgPicture.asset(
-                    'assets/icons/lock.svg',
-                    height: 30,
-                  ),
-                const SizedBox(height: 10),
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  detail,
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                if (!isUnlock)
+            child: SizedBox(
+              // padding: const EdgeInsets.all(20),
+              width: MediaQuery.of(context).size.width - 40,
+              child: Column(
+                children: [
+                  const SizedBox(height: 30),
+
+                  // 캐릭터 이미지
+                  Image.network(
+                      // image 변수를 가져와서 끝 3글자만 잘라서 이미지 경로로 사용
+                      '${image.substring(0, image.length - 3)}gif',
+                      fit: BoxFit.contain,
+                      height: 160,
+                      loadingBuilder: (context, child, loadingProgress) =>
+                          loadingProgress == null
+                              ? child
+                              : Image.network(
+                                  image,
+                                  height: 160,
+                                )),
+                  // : const SizedBox(
+                  //     height: 160,
+                  //     child: Center(
+                  //       child: CircularProgressIndicator(),
+                  //     ),
+                  //   )),
+                  const SizedBox(height: 10),
+
+                  // 잠금 상태 표시
+                  !isUnlock
+                      ? SvgPicture.asset(
+                          'assets/icons/lock.svg',
+                          height: 24,
+                        )
+                      : const SizedBox(
+                          height: 24,
+                        ),
+                  const SizedBox(height: 6),
+                  // 캐릭터 이름
+                  Text(name,
+                      style: ref.typo.headline1.copyWith(
+                        color: ref.color.black,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w700,
+                      )),
+                  // 잠금 해제 조건
+                  if (!isUnlock)
+                    Text(
+                      S.current.characterAchievement(achievementName),
+                      style: ref.typo.subTitle5.copyWith(
+                        color: ref.palette.gray400,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  if (!isUnlock) const SizedBox(height: 5),
+
+                  const SizedBox(height: 20),
+                  // 캐릭터 설명
                   Text(
-                    S.current.characterAchievement(achievementName),
-                    style: ref.typo.subTitle5,
+                    detail,
+                    style: ref.typo.body1.copyWith(
+                      color: ref.palette.gray600,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                if (!isUnlock) const SizedBox(height: 5),
-                Button(
-                  onPressed: () async {
-                    await viewModel.setMainCharacter(characterId);
-                    if (!context.mounted) return;
-                    context.pop();
-                  },
-                  text: isMain
-                      ? S.current.characterAlreadyMain
-                      : isUnlock
-                          ? S.current.characterSelect
-                          : S.current.characterNotHave,
-                  backGroundColor: ref.color.accept,
-                  fontColor: ref.color.onAccept,
-                  isInactive: !canChange,
-                )
-                // isCheck?ElevatedButton(onPressed: viewModel.setProfileCharacter(name);
-                //       Navigator.of(context).pop();,
-                //       child: viewModel.setProfileCharacter(name);
-                //       Navigator.of(context).pop();)
-              ],
+                  const SizedBox(height: 20),
+                  // 캐릭터 선택 버튼
+                  Button(
+                    onPressed: () async {
+                      await viewModel.setMainCharacter(characterId);
+                      if (!context.mounted) return;
+                      context.pop();
+                    },
+                    text: isMain
+                        ? S.current.characterAlreadyMain
+                        : isUnlock
+                            ? S.current.characterSelect
+                            : S.current.characterNotHave,
+                    backGroundColor: ref.color.accept,
+                    fontSize: 18,
+                    fontColor: ref.color.onAccept,
+                    isInactive: !canChange,
+                  )
+                  // isCheck?ElevatedButton(onPressed: viewModel.setProfileCharacter(name);
+                  //       Navigator.of(context).pop();,
+                  //       child: viewModel.setProfileCharacter(name);
+                  //       Navigator.of(context).pop();)
+                ],
+              ),
             ),
           ),
         );
