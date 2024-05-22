@@ -16,7 +16,7 @@ public class MatchingController {
 
     private final MatchingService matchingService;
     @PatchMapping("")
-    public ResponseEntity<Void> matchingRequest(@RequestBody MatchingReqDto matchingReqDto){
+    public ResponseEntity<Void> matchingRequest(@RequestBody MatchingReqDto matchingReqDto) throws InterruptedException {
         int difference = matchingReqDto.getDifference();
         matchingService.match(difference);
 
