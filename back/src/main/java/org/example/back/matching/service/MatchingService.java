@@ -17,6 +17,8 @@ import org.example.back.realtime_record.dto.StompRealtimeReqDto;
 import org.example.back.redis.entity.MatchingRoom;
 import org.example.back.redis.repository.MatchingRoomRepository;
 import org.example.back.util.SecurityUtil;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -24,7 +26,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -35,8 +39,18 @@ public class MatchingService {
     private final MemberRepository memberRepository;
     private final SimpMessagingTemplate messagingTemplate;
     private final ObjectMapper objectMapper;
+    private final RedissonClient redissonClient;
 
-    public void match(int difference) { // 매칭 대기열에 나를 추가한다
+    public void match(int difference) throws InterruptedException { // 매칭 대기열에 나를 추가한다
+        RLock lock = redissonClient.getLock("matchingLock");
+        boolean acquireLock = lock.tryLock(10, 1, TimeUnit.SECONDS);
+
+        if (!acquireLock) {
+            redisTemplate.opsForValue().set("fail", "fail");
+            return;
+        }
+
+
         // 로그인 된 멤버 가져오기
         Long myMemberId = SecurityUtil.getCurrentMemberId();
         Member me = memberRepository.findById(myMemberId).orElseThrow(MemberNotFoundException::new);
@@ -127,6 +141,7 @@ public class MatchingService {
             redisTemplate.opsForZSet().add("matching", String.valueOf(myMemberId), tierScore);
         }
 
+        lock.unlock();
 
 
     }
