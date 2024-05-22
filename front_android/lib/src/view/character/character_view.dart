@@ -207,16 +207,16 @@ class _CharacterViewState extends ConsumerState<CharacterView> {
                       loadingBuilder: (context, child, loadingProgress) =>
                           loadingProgress == null
                               ? child
-                              : Image.network(
-                                  image,
+                              // : Image.network(
+                              //     image,
+                              //     height: 160,
+                              //   )),
+                              : const SizedBox(
                                   height: 160,
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
                                 )),
-                  // : const SizedBox(
-                  //     height: 160,
-                  //     child: Center(
-                  //       child: CircularProgressIndicator(),
-                  //     ),
-                  //   )),
                   const SizedBox(height: 10),
 
                   // 잠금 상태 표시
