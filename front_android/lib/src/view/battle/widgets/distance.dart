@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/service/theme_service.dart';
 import 'package:front_android/src/view/battle/battle_view_model.dart';
 import 'package:front_android/theme/components/text_clip_horizontal.dart';
-import 'package:front_android/util/helper/extension.dart';
 import 'package:front_android/util/helper/number_format_helper.dart';
 
 class Distance extends ConsumerStatefulWidget {

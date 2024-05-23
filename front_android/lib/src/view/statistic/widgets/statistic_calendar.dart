@@ -9,7 +9,7 @@ class StatisticCalendar extends ConsumerStatefulWidget {
   const StatisticCalendar({super.key});
 
   @override
-  _StatisticCalendarState createState() => _StatisticCalendarState();
+  ConsumerState<StatisticCalendar> createState() => _StatisticCalendarState();
 }
 
 class _StatisticCalendarState extends ConsumerState<StatisticCalendar> {
@@ -68,6 +68,14 @@ class _StatisticCalendarState extends ConsumerState<StatisticCalendar> {
                   style: TextStyle(color: ref.palette.blue400),
                 ),
               );
+            } else {
+              final text = DateFormat.E().format(day);
+              return Center(
+                child: Text(
+                  text,
+                  style: ref.typo.body1,
+                ),
+              );
             }
           },
           defaultBuilder: (context, day, focusedDay) {
@@ -83,6 +91,13 @@ class _StatisticCalendarState extends ConsumerState<StatisticCalendar> {
                 child: Text(
                   '${day.day}',
                   style: ref.typo.body1.copyWith(color: ref.palette.blue400),
+                ),
+              );
+            } else {
+              return Center(
+                child: Text(
+                  '${day.day}',
+                  style: ref.typo.body1,
                 ),
               );
             }
@@ -108,7 +123,7 @@ class _StatisticCalendarState extends ConsumerState<StatisticCalendar> {
         onPageChanged: (focusedDay) {
           viewModel.focusedDay = focusedDay;
           // 연도와 달을 콘솔에 출력
-          print('현재 보고 있는 연도: ${focusedDay.year}, 달: ${focusedDay.month}');
+          // print('현재 보고 있는 연도: ${focusedDay.year}, 달: ${focusedDay.month}');
 
           // 연도와 달을 이용해 통계 데이터를 업데이트함
           viewModel.fetchStatistic("MONTH", viewModel.focusedDay!);
