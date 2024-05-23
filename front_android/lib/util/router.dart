@@ -180,7 +180,7 @@ final router = GoRouter(
               path: 'edit',
               parentNavigatorKey: _rootNavigatorKey,
               pageBuilder: (context, state) =>
-                  const NoTransitionPage(child: ProfileEditView()),
+                  const CupertinoPage(child: ProfileEditView()),
             )
           ],
         ),

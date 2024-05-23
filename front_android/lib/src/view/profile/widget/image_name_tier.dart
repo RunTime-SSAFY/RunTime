@@ -19,30 +19,43 @@ class ImageNameTier extends ConsumerWidget {
     return Expanded(
       child: Row(
         children: [
-          const SizedBox(width: 5),
           Container(
             decoration: BoxDecoration(
-              color: ref.color.profileEditButtonBackground,
+              color: ref.palette.gray200,
               borderRadius: BorderRadius.circular(10),
             ),
             padding: const EdgeInsets.all(5),
             child: Image.network(
               characterImgUrl,
-              height: 50,
-              width: 50,
+              height: 45,
+              width: 45,
               fit: BoxFit.contain,
             ),
           ),
           const SizedBox(width: 10),
-          Text(
-            name,
-            style: ref.typo.headline2,
-          ),
-          Image.network(
-            tierImgUrl,
-            height: 50,
-            width: 50,
-            fit: BoxFit.contain,
+          Stack(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            alignment: Alignment.centerRight,
+            children: [
+              // 티어 이미지
+              Image.network(
+                tierImgUrl,
+                height: 50,
+                width: 50,
+                fit: BoxFit.contain,
+              ),
+              // 닉네임
+              Padding(
+                padding: const EdgeInsets.only(right: 44),
+                child: Text(
+                  textAlign: TextAlign.right,
+                  name,
+                  style: ref.typo.headline1.copyWith(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

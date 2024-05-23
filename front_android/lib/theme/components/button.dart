@@ -10,6 +10,8 @@ class Button extends ConsumerStatefulWidget {
     required this.text,
     required this.backGroundColor,
     required this.fontColor,
+    this.radius,
+    this.height,
     this.width,
     bool? isInactive,
     this.fontSize,
@@ -19,6 +21,11 @@ class Button extends ConsumerStatefulWidget {
   final String text;
   final Color backGroundColor;
   final Color fontColor;
+  final double? radius;
+  BorderRadius? get borderRadius => radius != null
+      ? BorderRadius.circular(radius!)
+      : BorderRadius.circular(10);
+  final double? height;
   final double? width;
   final bool isInactive;
   final double? fontSize;
@@ -64,15 +71,15 @@ class _ButtonState extends ConsumerState<Button> {
         label: S.current.semanticsButton,
         hint: widget.text,
         child: AnimatedContainer(
-          height: 48,
+          height: widget.height ?? 48,
           duration: const Duration(
             milliseconds: 500,
           ),
           width: widget.width,
-          padding: const EdgeInsets.all(8),
+          // padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: backgroundColor,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
           ),
           child: Center(
             child: Text(

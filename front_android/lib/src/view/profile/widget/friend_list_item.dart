@@ -15,9 +15,10 @@ class FriendListItem extends ConsumerWidget {
     ProfileViewModel viewModel = ref.watch(profileProvider);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 10,
-        horizontal: 20,
+      padding: const EdgeInsets.only(
+        left: 20,
+        right: 20,
+        bottom: 10,
       ),
       child: Row(
         children: [

@@ -19,14 +19,16 @@ class FriendRequestItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ProfileViewModel viewModel = ref.watch(profileProvider);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
       child: Row(
         children: [
+          // 닉네임 및 티어
           ImageNameTier(
             characterImgUrl: friendRequest.characterImgUrl,
             name: friendRequest.name,
             tierImgUrl: friendRequest.tierImgUrl,
           ),
+          // 수락 버튼
           Button(
             onPressed: () {
               viewModel.responseToFriendRequest(friendRequest.id, true);
@@ -34,9 +36,13 @@ class FriendRequestItem extends ConsumerWidget {
             text: S.current.accept,
             backGroundColor: ref.color.accept,
             fontColor: ref.color.onAccept,
-            width: 60,
+            radius: 5,
+            fontSize: 18,
+            height: 38,
+            width: 56,
           ),
           const SizedBox(width: 10),
+          // 거절 버튼
           Button(
             onPressed: () {
               viewModel.responseToFriendRequest(friendRequest.id, false);
@@ -44,7 +50,10 @@ class FriendRequestItem extends ConsumerWidget {
             text: S.current.deny,
             backGroundColor: Colors.transparent,
             fontColor: ref.color.deny,
-            width: 60,
+            radius: 5,
+            fontSize: 18,
+            height: 38,
+            width: 56,
           ),
         ],
       ),

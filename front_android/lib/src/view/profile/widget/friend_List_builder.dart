@@ -22,95 +22,108 @@ class FriendListBuilder extends ConsumerWidget {
       ...viewModel.friendList,
     ];
 
-    return Expanded(
-      child: NotificationListener<ScrollNotification>(
-        onNotification: (notification) {
-          if (notification.metrics.pixels >=
-              notification.metrics.maxScrollExtent) {
-            viewModel.getFriends();
-          }
-          return false;
-        },
-        child: ListView.builder(
-          itemCount: mergedList.length,
-          itemBuilder: (context, index) {
-            final item = mergedList[index];
-            if (item is NotFriend) {
-              return FriendRequestItem(
-                friendRequest: item,
-              );
-            } else if (item is Friend) {
-              return FriendListItem(
-                friend: item,
-              );
-            } else if (item == 'noRequest') {
-              return Padding(
-                padding: const EdgeInsets.all(20),
-                child: Center(
-                  child: Text(
-                    S.current.friendRequest404,
-                    style: ref.typo.subTitle1.copyWith(
-                      color: ref.color.profileText,
-                    ),
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (notification.metrics.pixels >=
+            notification.metrics.maxScrollExtent) {
+          viewModel.getFriends();
+        }
+        return false;
+      },
+      child: ListView.builder(
+        shrinkWrap: true, // <==== limit height. 리스트뷰 크기 고정
+        primary: false, // <====  disable scrolling. 리스트뷰 내부는 스크롤 안할거임
+        itemCount: mergedList.length,
+        itemBuilder: (context, index) {
+          final item = mergedList[index];
+          if (item is NotFriend) {
+            // 친구 요청 목록 나타내기
+            return FriendRequestItem(
+              friendRequest: item,
+            );
+          } else if (item is Friend) {
+            // 친구 목록 나타내기
+            return FriendListItem(
+              friend: item,
+            );
+          } else if (item == 'noRequest') {
+            // 친구요청이 없습니다. 텍스트
+            return Padding(
+              padding: const EdgeInsets.all(20),
+              child: Center(
+                child: Text(
+                  S.current.friendRequest404,
+                  style: ref.typo.subTitle1.copyWith(
+                    color: ref.palette.gray400,
                   ),
                 ),
-              );
-            } else if (item == 'request') {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  S.current.friendRequest,
-                  style: ref.typo.headline1,
+              ),
+            );
+          } else if (item == 'request') {
+            // 친구 요청 제목
+            return Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(
+                S.current.friendRequest,
+                style: ref.typo.headline1.copyWith(
+                  fontWeight: FontWeight.w800,
                 ),
-              );
-            } else if (item == 'list') {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      S.current.friendList,
-                      style: ref.typo.headline1,
+              ),
+            );
+          } else if (item == 'list') {
+            // 친구목록 제목 및 친구 추가하기 버튼
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 친구 목록 제목
+                  Text(
+                    S.current.friendList,
+                    style: ref.typo.headline1.copyWith(
+                      fontWeight: FontWeight.w800,
                     ),
-                    GestureDetector(
-                      onTapUp: (details) {
-                        viewModel.showSearchModal(context);
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: ref.color.profileText,
-                                width: 2.5,
-                              ),
-                              borderRadius: BorderRadius.circular(13),
+                  ),
+                  const SizedBox(height: 20),
+                  // 친구 추가하기 버튼
+                  GestureDetector(
+                    onTapUp: (details) {
+                      viewModel.showSearchModal(context);
+                    },
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: ref.palette.gray400,
+                              width: 2.5,
                             ),
-                            padding: const EdgeInsets.all(10),
-                            margin: const EdgeInsets.all(10),
-                            child: Icon(
-                              Icons.add,
-                              color: ref.color.profileText,
-                              size: 30,
-                            ),
+                            borderRadius: BorderRadius.circular(13),
                           ),
-                          Text(
-                            S.current.friendAdd,
-                            style: ref.typo.headline2.copyWith(
-                              color: ref.color.profileText,
-                            ),
-                          )
-                        ],
-                      ),
+                          padding: const EdgeInsets.all(10),
+                          child: Icon(
+                            Icons.add_rounded,
+                            color: ref.palette.gray400,
+                            size: 30,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          S.current.friendAdd,
+                          style: ref.typo.headline2.copyWith(
+                            color: ref.palette.gray400,
+                          ),
+                        )
+                      ],
                     ),
-                  ],
-                ),
-              );
-            }
-            return const SizedBox(height: 10);
-          },
-        ),
+                  ),
+                  const SizedBox(height: 10)
+                ],
+              ),
+            );
+          }
+          return const SizedBox(height: 10);
+        },
       ),
     );
   }
