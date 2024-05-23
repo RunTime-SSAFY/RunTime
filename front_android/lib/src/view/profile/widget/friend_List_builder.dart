@@ -73,7 +73,7 @@ class FriendListBuilder extends ConsumerWidget {
           } else if (item == 'list') {
             // 친구목록 제목 및 친구 추가하기 버튼
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

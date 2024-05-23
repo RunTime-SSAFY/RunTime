@@ -121,7 +121,6 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
               indent: 20,
               endIndent: 20,
             ),
-            const SizedBox(height: 10),
 
             // 친구 관리
             const FriendListBuilder(),
