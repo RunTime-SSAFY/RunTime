@@ -77,7 +77,7 @@ interface class KakaoService {
   }
 
   static Future<String> _getOurToken(OAuthToken token) async {
-    var fcmToken = await FirebaseMessaging.instance.getToken();
+    var fcmToken = "heheTokeneopda";
     try {
       var response = await noAuthApi.post(
         'api/auth/login',
