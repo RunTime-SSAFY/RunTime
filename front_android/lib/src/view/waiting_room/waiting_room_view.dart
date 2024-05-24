@@ -62,35 +62,40 @@ class _WaitingRoomState extends ConsumerState<WaitingRoom> {
               icon: Icon(
                 Icons.arrow_back_ios,
                 color: ref.color.onBackground,
-                size: 30,
               ),
             ),
             centerTitle: true,
             title: Text(
               S.current.waitingRoom,
-              style: ref.typo.appBarMainTitle.copyWith(
+              style: ref.typo.appBarSubTitle.copyWith(
                 color: ref.color.onBackground,
               ),
             ),
           ),
           body: Padding(
-            padding: const EdgeInsets.all(15),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // 방제목
                 Text(
                   viewModel.title,
                   style: ref.typo.bigRegular.copyWith(
                     color: ref.color.onBackground,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 28,
                   ),
                 ),
-                const SizedBox(height: 10),
+
+                // 거리
                 Text(
                   viewModel.distance,
                   style: ref.typo.headline1.copyWith(
                     color: ref.color.onBackground,
                   ),
                 ),
+                const SizedBox(height: 20),
+
                 ParticipantsCartGrid(
                   participants: viewModel.participants,
                 ),
@@ -106,7 +111,7 @@ class _WaitingRoomState extends ConsumerState<WaitingRoom> {
                   isInactive: viewModel.myInfo.isManager
                       ? !viewModel.canStart
                       : viewModel.myInfo.isReady,
-                )
+                ),
               ],
             ),
           ),

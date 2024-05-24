@@ -33,7 +33,6 @@ class MakeRoomFullDialog extends ConsumerWidget {
               icon: Icon(
                 Icons.arrow_back_ios,
                 color: ref.color.onBackground,
-                size: 30,
               ),
             ),
             centerTitle: true,
@@ -45,6 +44,8 @@ class MakeRoomFullDialog extends ConsumerWidget {
           body: Column(
             children: [
               const Spacer(flex: 1),
+
+              // 방제목 입력
               TextInput(
                 title: S.current.roomName,
                 controller: viewModel.roomNameTextController,
@@ -53,39 +54,27 @@ class MakeRoomFullDialog extends ConsumerWidget {
                   TextInputFormatHelper.maximumLength(20),
                 ],
               ),
-              const SizedBox(height: 15),
-              ToggleButton(
-                isPublic: viewModel.password == null
-                    ? true
-                    : viewModel.password!.isEmpty,
-              ),
-              const SizedBox(height: 15),
-              Row(
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                    child: Text(
-                      S.current.password,
-                      style: ref.typo.headline4.copyWith(
-                        color: ref.color.onBackground,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: TextInput(
-                        controller: viewModel.passwordController,
-                        onChanged: viewModel.onChangeText,
-                        textInputFormatter: [
-                          TextInputFormatHelper.englishNumber,
-                          TextInputFormatHelper.maximumLength(20),
-                        ]),
-                  ),
+              const SizedBox(height: 30),
+
+              // 공개 비공개 토글 버튼
+              const ToggleButton(),
+              const SizedBox(height: 10),
+
+              // 비밀번호 입력
+              TextInput(
+                title: S.current.password,
+                controller: viewModel.passwordController,
+                onChanged: viewModel.onChangeText,
+                textInputFormatter: [
+                  TextInputFormatHelper.englishNumber,
+                  TextInputFormatHelper.maximumLength(20),
                 ],
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 30),
+
+              // 인원수, 거리 입력
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   children: [
                     Expanded(
@@ -106,7 +95,7 @@ class MakeRoomFullDialog extends ConsumerWidget {
                   ],
                 ),
               ),
-              const Spacer(flex: 2),
+              const Spacer(flex: 4),
               Padding(
                 padding: const EdgeInsets.all(15),
                 child: Button(

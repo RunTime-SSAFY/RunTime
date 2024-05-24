@@ -46,7 +46,7 @@ class TextInput extends ConsumerWidget {
             Text(
               title!,
               style: ref.typo.body2.copyWith(
-                color: ref.color.inactive,
+                color: ref.palette.gray400,
               ),
             ),
           TextField(

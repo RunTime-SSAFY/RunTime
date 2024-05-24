@@ -23,9 +23,10 @@ class NumberButton extends ConsumerWidget {
         Text(
           title,
           style: ref.typo.body2.copyWith(
-            color: ref.color.inactive,
+            color: ref.palette.gray400,
           ),
         ),
+        const SizedBox(height: 5),
         Row(
           children: [
             Expanded(
@@ -41,7 +42,7 @@ class NumberButton extends ConsumerWidget {
                 child: NumberButtonBox(
                   color: ref.color.userModeBackground,
                   child: Icon(
-                    Icons.horizontal_rule,
+                    Icons.horizontal_rule_rounded,
                     color: ref.color.onBackground,
                   ),
                 ),
@@ -75,14 +76,39 @@ class NumberButton extends ConsumerWidget {
                 child: NumberButtonBox(
                   color: ref.color.userModeBackground,
                   child: Icon(
-                    Icons.add,
+                    Icons.add_rounded,
                     color: ref.color.onBackground,
                   ),
                 ),
               ),
             )
           ],
-        )
+        ),
+        const SizedBox(height: 5),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Expanded(
+              flex: 10,
+              child: SizedBox(),
+            ),
+            const Spacer(flex: 1),
+            Expanded(
+              flex: 10,
+              child: Center(
+                child: Text(
+                  title == '인원 수' ? '명' : 'km',
+                  style: ref.typo.body2.copyWith(color: ref.palette.gray400),
+                ),
+              ),
+            ),
+            const Spacer(flex: 1),
+            const Expanded(
+              flex: 10,
+              child: SizedBox(),
+            )
+          ],
+        ),
       ],
     );
   }

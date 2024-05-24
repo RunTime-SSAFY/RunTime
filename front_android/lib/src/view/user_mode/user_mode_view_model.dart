@@ -47,6 +47,14 @@ class UserModeViewModel with ChangeNotifier {
 
   final userModeRoomRepository = UserModeRoomRepository();
 
+  // 비밀방 여부
+  bool _isPrivateRoom = false;
+  bool get isPrivateRoom => _isPrivateRoom;
+  void setIsPrivateRoom(bool value) {
+    _isPrivateRoom = value;
+    notifyListeners();
+  }
+
   bool get hasNext => userModeRoomRepository.hasNext;
   bool _isLoading = false;
   bool get isLoading => _isLoading;

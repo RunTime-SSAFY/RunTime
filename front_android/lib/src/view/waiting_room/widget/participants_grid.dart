@@ -20,62 +20,71 @@ class ParticipantsCartGrid extends ConsumerWidget {
           crossAxisCount: 2,
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
-          childAspectRatio: 0.8,
+          childAspectRatio: 0.6,
         ),
-        itemCount: participants.length,
+        itemCount: 4,
         itemBuilder: (context, index) {
-          return Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: ref.color.userModeBackground,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Image.network(
-                  participants[index].characterImgUrl,
-                  fit: BoxFit.contain,
-                  height: 110,
-                  width: 110,
-                ),
-                Text(
-                  participants[index].nickname,
-                  style: participants[index].nickname.length <= 5
-                      ? ref.typo.headline1.copyWith(
-                          color: ref.color.onBackground,
-                        )
-                      : ref.typo.headline4.copyWith(
-                          color: ref.color.onBackground,
-                        ),
-                ),
-                Container(
-                  width: 100,
+          return (participants.length <= index)
+              ? Container(
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: participants[index].isManager
-                        ? ref.color.onBackground
-                        : participants[index].isReady
-                            ? ref.color.battleBackground2
-                            : Colors.transparent,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Text(
-                    participants[index].isManager
-                        ? S.current.manager
-                        : participants[index].isReady
-                            ? S.current.ready
-                            : '',
-                    style: ref.typo.headline4.copyWith(
-                      color: participants[index].isManager
-                          ? ref.color.text
-                          : ref.color.onBackground,
-                    ),
-                    textAlign: TextAlign.center,
+                    color: ref.color.userModeBackground,
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 )
-              ],
-            ),
-          );
+              : Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: ref.color.userModeBackground,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Image.network(
+                        participants[index].characterImgUrl,
+                        fit: BoxFit.contain,
+                        height: 110,
+                        width: 110,
+                      ),
+                      Text(
+                        participants[index].nickname,
+                        style: participants[index].nickname.length <= 5
+                            ? ref.typo.headline1.copyWith(
+                                color: ref.color.onBackground,
+                              )
+                            : ref.typo.headline4.copyWith(
+                                color: ref.color.onBackground,
+                              ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: participants[index].isManager
+                              ? ref.palette.gray400
+                              : participants[index].isReady
+                                  ? ref.color.battleBackground2
+                                  : Colors.transparent,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Text(
+                          participants[index].isManager
+                              ? S.current.manager
+                              : participants[index].isReady
+                                  ? S.current.ready
+                                  : '',
+                          style: ref.typo.headline4.copyWith(
+                            color: participants[index].isManager
+                                ? ref.color.text
+                                : ref.color.onBackground,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
+                );
         },
       ),
     );

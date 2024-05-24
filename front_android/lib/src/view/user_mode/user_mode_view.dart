@@ -38,24 +38,20 @@ class _UserModeViewState extends ConsumerState<UserModeView> {
           child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
+              backgroundColor: Colors.transparent,
               leading: IconButton(
                 onPressed: () {
                   context.pop();
                 },
-                icon: Icon(
-                  Icons.close,
-                  color: ref.color.onBackground,
-                  size: 30,
-                ),
+                color: ref.color.black,
+                icon: Icon(Icons.close_rounded, color: ref.color.onBackground),
               ),
               centerTitle: true,
               title: Text(
                 S.current.userMode,
-                style: ref.typo.appBarMainTitle.copyWith(
-                  color: ref.color.onBackground,
-                ),
+                style: ref.typo.appBarSubTitle
+                    .copyWith(color: ref.color.onBackground),
               ),
-              backgroundColor: Colors.transparent,
               actions: [
                 IconButton(
                   onPressed: () {
@@ -64,13 +60,13 @@ class _UserModeViewState extends ConsumerState<UserModeView> {
                   icon: Icon(
                     Icons.search,
                     color: ref.color.onBackground,
-                    size: 30,
                   ),
                 )
               ],
             ),
             body: Column(
               children: [
+                const SizedBox(height: 10),
                 TagButtonList(tagNameList: viewModel.tagList),
                 viewModel.userModeRoomList.isEmpty
                     ? const RoomEmpty()

@@ -25,19 +25,20 @@ class TagButton extends ConsumerWidget {
         hint: '$tagName ${S.current.search}',
         child: AnimatedContainer(
           duration: const Duration(
-            milliseconds: 500,
+            milliseconds: 100,
           ),
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 22),
           decoration: BoxDecoration(
             color: viewModel.tagNow == tagName
                 ? ref.color.accept
-                : ref.color.inactive,
+                : ref.palette.gray700,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Center(
             child: Text(
               tagName,
               style: ref.typo.headline2.copyWith(
+                fontSize: 18,
                 color: viewModel.tagNow == tagName
                     ? ref.color.onAccept
                     : ref.color.onInactive,
