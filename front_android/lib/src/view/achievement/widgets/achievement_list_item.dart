@@ -56,11 +56,11 @@ class AchievementListItem extends ConsumerWidget {
 
   bool get isShowRewardButton => isComplete && !isReceive;
 
-  final ConfettiController confettiController;
+  final ConfettiController? confettiController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    confettiController.play();
+    confettiController?.play();
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
@@ -323,20 +323,21 @@ class AchievementListItem extends ConsumerWidget {
                                 ),
                               ),
                             ),
-                            Align(
-                              child: ConfettiWidget(
-                                confettiController: confettiController,
-                                shouldLoop: true,
-                                blastDirection: 3.14,
-                                blastDirectionality:
-                                    BlastDirectionality.explosive,
-                                maxBlastForce: 2,
-                                minBlastForce: 1,
-                                emissionFrequency: 0.005,
-                                numberOfParticles: 4,
-                                gravity: 0.1,
+                            if(confettiController != null)
+                              Align(
+                                child: ConfettiWidget(
+                                  confettiController: confettiController!,
+                                  shouldLoop: true,
+                                  blastDirection: 3.14,
+                                  blastDirectionality:
+                                      BlastDirectionality.explosive,
+                                  maxBlastForce: 2,
+                                  minBlastForce: 1,
+                                  emissionFrequency: 0.005,
+                                  numberOfParticles: 4,
+                                  gravity: 0.1,
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       )),

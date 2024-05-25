@@ -34,7 +34,7 @@ class AchievementList extends ConsumerWidget {
   final List<Achievement> achievementList;
   final int achievementCount;
 
-  final ConfettiController confettiController;
+  final ConfettiController? confettiController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

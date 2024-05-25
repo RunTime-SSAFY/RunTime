@@ -29,13 +29,13 @@ class _AchievementRewardViewState extends ConsumerState<AchievementRewardView> {
   @override
   void initState() {
     super.initState();
+    _confettiController = ConfettiController(
+      duration: const Duration(seconds: 3),
+    );
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       viewModel.getReward(widget.data.typeId);
       print(viewModel.achievementList);
 
-      _confettiController = ConfettiController(
-        duration: const Duration(seconds: 3),
-      );
     });
   }
 

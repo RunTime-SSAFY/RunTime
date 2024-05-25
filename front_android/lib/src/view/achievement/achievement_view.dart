@@ -21,6 +21,9 @@ class _AchievementViewState extends ConsumerState<AchievementView> {
     super.initState();
     // 위젯 빌드 후 실행(viewModel 받와야 사용 가능)
 
+    _confettiController = ConfettiController(
+      duration: const Duration(seconds: 10),
+    );
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       viewModel.clearAchievementList();
       viewModel.fetchAchievementList();
