@@ -1,3 +1,4 @@
+import 'package:confetti/confetti.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,6 +28,7 @@ class AchievementListItem extends ConsumerWidget {
     required this.cardBackgroundGradient1,
     required this.cardBackgroundGradient2,
     required this.cardTextColor,
+    required this.confettiController,
     super.key,
   });
 
@@ -54,8 +56,12 @@ class AchievementListItem extends ConsumerWidget {
 
   bool get isShowRewardButton => isComplete && !isReceive;
 
+  final ConfettiController confettiController;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    confettiController.play();
+
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
       // 실제 보이는 카드 모양 시작
@@ -306,14 +312,32 @@ class AchievementListItem extends ConsumerWidget {
                             ],
                           ),
                         ),
-                        child: Center(
-                          child: Text(
-                            '보상받기',
-                            style: ref.typo.subTitle3.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: Text(
+                                '보상받기',
+                                style: ref.typo.subTitle3.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
-                          ),
+                            Align(
+                              child: ConfettiWidget(
+                                confettiController: confettiController,
+                                shouldLoop: true,
+                                blastDirection: 3.14,
+                                blastDirectionality:
+                                    BlastDirectionality.explosive,
+                                maxBlastForce: 2,
+                                minBlastForce: 1,
+                                emissionFrequency: 0.005,
+                                numberOfParticles: 4,
+                                gravity: 0.1,
+                              ),
+                            ),
+                          ],
                         ),
                       )),
                 ),

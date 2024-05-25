@@ -1,3 +1,4 @@
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front_android/src/model/achievement.dart';
@@ -24,6 +25,7 @@ String getUnit(String criteria) {
 
 class AchievementList extends ConsumerWidget {
   const AchievementList({
+    required this.confettiController,
     required this.achievementList,
     required this.achievementCount,
     super.key,
@@ -31,6 +33,8 @@ class AchievementList extends ConsumerWidget {
 
   final List<Achievement> achievementList;
   final int achievementCount;
+
+  final ConfettiController confettiController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,6 +75,7 @@ class AchievementList extends ConsumerWidget {
           cardBackgroundGradient1: cardColors[cardColorsIndex][0],
           cardBackgroundGradient2: cardColors[cardColorsIndex][1],
           cardTextColor: cardColors[cardColorsIndex][2],
+          confettiController: confettiController,
         );
       },
     );
