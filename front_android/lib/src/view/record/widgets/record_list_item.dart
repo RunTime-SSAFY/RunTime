@@ -100,8 +100,8 @@ class RecordListItemCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Map<String, Color> rankingColors = {
-      "WIN": ref.palette.red500,
-      "LOSE": ref.palette.indigo600,
+      "WIN": ref.palette.indigo600,
+      "LOSE": ref.palette.red500,
       "CUSTOM": ref.palette.gray900,
       "PRACTICE": ref.palette.gray900,
     };
