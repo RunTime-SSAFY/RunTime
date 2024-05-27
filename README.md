@@ -1,16 +1,13 @@
 # RunTime
-달릴 시간이야!
 
-
-
-
-<br/><br/><br/><br/>
-
-
+<br/><br/>
 
 
 ## 개요
-> 런태기에 빠진 당신, 새로운 사람과 함께 달려 보세요!
+
+혼자 달리는 것보다는 함께 달리는 것이 더 좋습니다. 실제로 마라톤의 참여도 계속해서 증가하고 있습니다. 하지만 시간과 공간의 제약이 있는데 RunTime 통해서 언제 어디서든 재미있게 달려볼 수 있어요!
+
+런태기에 빠진 당신, 새로운 사람과 함께 달려 보세요!
 
 
 
@@ -78,11 +75,39 @@
 
 ## 주요 기능
 
+### 페이지 개요
+
+
+
+|**메인화면**|**도전과제**|**캐릭터**|**기록**|**프로필**|
+| :---: | :---: | :---: | :---: | :---: | 
+| <img src="assets/png/홈화면.png"> | <img src="assets/png/도전과제화면.png"> | <img src="assets/png/캐릭터화면.png"> | <img src="assets/png/기록화면.png"> | <img src="assets/png/프로필화면.png"> |
+
+
+<br/><br/><br/><br/>
+
+
+
+### 스플래시 및 로그인화면
+
+|**스플래시**|**로그인**|
+| :---: | :---: | 
+|<img src="assets/gif/스플래시화면.gif">|<img src="assets/gif/로그인 및 위치정보 활용 동의.gif">|
+
+
+
+<br/><br/><br/><br/>
+
+
 ### 대결모드
 
 |**대결상대 찾기**|**매칭 성공**|
 | :---: | :---: | 
-|<img src="assets/대결모드 상대찾기.gif">|<img src="assets/대결모드 - 매칭성공.gif">|
+|<img src="assets/gif/대결모드 상대찾기.gif">|<img src="assets/gif/대결모드 - 매칭성공.gif">|
+
+
+
+<br/><br/><br/><br/>
 
 
 
@@ -90,7 +115,13 @@
 
 |**방 입장**|**방 만들기**|
 | :---: | :---: | 
-|<img src="assets/사용자모드 - 방입장.gif">|<img src="assets/사용자모드 - 방만들기.gif">|
+|<img src="assets/gif/사용자모드 - 방입장.gif">|<img src="assets/gif/사용자모드 - 방만들기.gif">|
+
+
+
+
+<br/><br/><br/><br/>
+
 
 
 
@@ -98,7 +129,13 @@
 
 |**연습모드 입장**|**랭킹보기**|
 | :---: | :---: | 
-|<img src="assets/연습모드 입장.gif">|<img src="assets/랭킹보기.gif">|
+|<img src="assets/gif/연습모드 입장.gif">|<img src="assets/gif/랭킹보기.gif">|
+
+
+
+
+<br/><br/><br/><br/>
+
 
 
 
@@ -106,7 +143,13 @@
 
 |**도전과제 보상받기**|**대표캐릭터 변경**|
 | :---: | :---: | 
-|<img src="assets/도전과제 보상받기.gif">|<img src="assets/캐릭터 - 구경 및 대표캐릭터 선택.gif">|
+|<img src="assets/gif/도전과제 보상받기.gif">|<img src="assets/gif/캐릭터 - 구경 및 대표캐릭터 선택.gif">|
+
+
+
+
+<br/><br/><br/><br/>
+
 
 
 
@@ -114,14 +157,30 @@
 
 |**기록보기**|**통계보기**|
 | :---: | :---: | 
-|<img src="assets/기록보기.gif">|<img src="assets/통계보기.gif">|
+|<img src="assets/gif/기록보기.gif">|<img src="assets/gif/통계보기.gif">|
 
 
 
 
 
 
-<!-- ![image](https://github.com/cuzzzu1318/cuzzzu1318.github.io/assets/77597885/da715e77-7369-4ea5-8ddc-0fb91d14d677) -->
+<br/><br/><br/><br/>
+
+
+
+
+### 프로필 및 친구
+
+|**프로필 수정**|**친구수락 및 친구추가**|
+| :---: | :---: | 
+|<img src="assets/gif/프로필 - 닉네임변경.gif">|<img src="assets/gif/친구 수락 및 친구 요청.gif">|
+
+
+
+
+
+
+<!-- ![image](https://github.com/cuzzzu1318/cuzzzu1318.github.io/assets/gif/77597885/da715e77-7369-4ea5-8ddc-0fb91d14d677) -->
 - 실시간 매칭을 통한 상대방과의 3km 달리기 배틀!
 - 티어별 매칭 시스템을 통해 나와 비슷한 상대와 뛰어 보세요!
 - 화면을 보지 않아도 음성 중계 기능을 통해 달리기 상황을 실시간으로 들어 보세요!
@@ -136,17 +195,17 @@
 
 ### 티어 및 랭킹
 
-![image](assets/랭크표1.png)
+![image](assets/png/랭크표1.png)
 
-![image](assets/랭크표2.png)
+![image](assets/png/랭크표2.png)
 
-<!-- ![image](https://github.com/cuzzzu1318/cuzzzu1318.github.io/assets/77597885/029b4b43-197e-4ef4-a06d-f2fd6034d2a0) -->
+<!-- ![image](https://github.com/cuzzzu1318/cuzzzu1318.github.io/assets/gif/77597885/029b4b43-197e-4ef4-a06d-f2fd6034d2a0) -->
 - 티어를 올리기 위해 더 열심히 달려 보세요!
 - 상위 랭킹에 도전!
 
 <!-- 
 ### 도전과제 및 캐릭터
-![image](https://github.com/cuzzzu1318/cuzzzu1318.github.io/assets/77597885/7320886f-8557-4815-a79e-23955aafb44d)
+![image](https://github.com/cuzzzu1318/cuzzzu1318.github.io/assets/gif/77597885/7320886f-8557-4815-a79e-23955aafb44d)
 - 약 20 종의 귀여운 캐릭터!
 - 도전과제를 완료해 캐릭터를 얻어 보세요!
 - 획득 방법이 알려지지 않은 히든 캐릭터도..? -->
@@ -163,7 +222,7 @@
 
 ## 아키텍처
 
-![Architecture](https://github.com/cuzzzu1318/cuzzzu1318.github.io/assets/77597885/9b8aa8af-4966-45c3-bc50-93ad36dbb683)
+![Architecture](assets/png/아키텍처.jpg)
 
 
 
