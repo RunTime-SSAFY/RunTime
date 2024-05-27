@@ -178,7 +178,7 @@
 
 | [박정호](https://github.com/cuzzzu1318) | [박예지](https://github.com/yeji0517) | [이현민](https://github.com/hyunmin2667) | [조우재](https://github.com/Jo-dv) | [조창래](https://github.com/crcho5133) | [최도훈](https://github.com/Dohun-choi) |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-|<img src="https://avatars.githubusercontent.com/u/77597885" width="160px" object-fit="cover">|<img src="https://avatars.githubusercontent.com/u/90388620" width="160px" object-fit="cover">|<img src="https://avatars.githubusercontent.com/u/45263877" width="160px" object-fit="cover">|<img src="https://avatars.githubusercontent.com/u/63555689" width="160px" object-fit="cover">|<img src="https://avatars.githubusercontent.com/u/140131170" width="160px" object-fit="cover">|<img src="https://avatars.githubusercontent.com/u/139415969" width="160px" object-fit="cover">|
+|<img src="https://avatars.githubusercontent.com/u/77597885" height="120px">|<img src="https://avatars.githubusercontent.com/u/90388620" height="120px">|<img src="https://avatars.githubusercontent.com/u/45263877" height="120px">|<img src="https://avatars.githubusercontent.com/u/63555689" height="120px">|<img src="https://avatars.githubusercontent.com/u/140131170" height="120px">|<img src="https://avatars.githubusercontent.com/u/139415969" height="120px">|
 | Leader<br>BE<br>Infra | Full Stack | Full Stack<br> | BE | BE | FE |
 | API<br>Security<br>CI/CD | Flutter<br>wearOS | API<br>Flutter<br>Design<br>Presentation | API<br>Assets&Resource<br>Landing Site | API<br>Socket<br>Game | Flutter<br>Socket<br>Game |
 
