@@ -46,7 +46,10 @@
 ### Back-End
 <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=black">
 <img src="https://img.shields.io/badge/JPA-6DB33F?style=for-the-badge&logo=JPA&logoColor=black">
+<img src = "https://img.shields.io/badge/spring%20security-6DB33F?style=for-the-badge&logo=spring%20security&logoColor=black">
 <img src="https://img.shields.io/badge/stomp-000000?style=for-the-badge&logo=stomp&logoColor=black">
+
+
 
 ### DB
 <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=black">
