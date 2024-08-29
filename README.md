@@ -222,6 +222,18 @@
 
 
 
+## ⚙️ ERD
+
+![Architecture](assets/png/RunTime_ERD.png)
+
+
+
+
+<br/><br/><br/><br/>
+
+
+
+
 
 ## 👥 팀원소개
 
